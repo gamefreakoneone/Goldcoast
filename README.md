@@ -1,0 +1,2 @@
+# Goldcoast
+Dynamic Ad generation
