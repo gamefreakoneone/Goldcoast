@@ -1,0 +1,47 @@
+[
+  {
+    "id": "electric-finish",
+    "name": "Electric Finish",
+    "description": "High-energy celebration with sharp contrast, diagonal motion, and a stadium-light glow.",
+    "mood_keywords": ["electric", "celebratory", "bold"],
+    "palette": ["#FFD60A", "#003566", "#FFFFFF"],
+    "typography_guidance": "Use condensed uppercase display type with a short, oversized headline.",
+    "layout_notes": {
+      "landscape": "Place the athlete on the left, headline and offer on the right, and logo in the lower-right safe area.",
+      "portrait": "Stack the athlete above the headline, with offer and call to action in the lower third."
+    },
+    "required_elements": ["business logo", "offer text", "athlete hero frame", "call to action"],
+    "use_when": ["victory", "crowd_roar", "sprint_finish"],
+    "reference_images": []
+  },
+  {
+    "id": "precision-pulse",
+    "name": "Precision Pulse",
+    "description": "Focused, geometric composition inspired by targets, score lines, and controlled motion.",
+    "mood_keywords": ["precise", "focused", "modern"],
+    "palette": ["#E63946", "#F1FAEE", "#1D3557"],
+    "typography_guidance": "Use clean sans-serif type with measured spacing and one emphasized numeric detail.",
+    "layout_notes": {
+      "landscape": "Use concentric graphic accents behind the athlete and align copy in a compact left-side grid.",
+      "portrait": "Center the athlete inside a target-inspired frame and keep copy in two concise bands."
+    },
+    "required_elements": ["business logo", "offer text", "athlete hero frame", "call to action"],
+    "use_when": ["precision_sport", "bullseye", "decisive_moment"],
+    "reference_images": []
+  },
+  {
+    "id": "street-surge",
+    "name": "Street Surge",
+    "description": "Expressive urban collage using layered color, hand-drawn accents, and a sense of upward movement.",
+    "mood_keywords": ["youthful", "creative", "kinetic"],
+    "palette": ["#FF4D6D", "#6A4C93", "#00BBF9"],
+    "typography_guidance": "Mix heavy sans-serif headlines with one handwritten accent, while preserving readability.",
+    "layout_notes": {
+      "landscape": "Crop the athlete dynamically across the center and anchor the logo and offer in opposite corners.",
+      "portrait": "Use a full-height action crop, with headline above and a sticker-like offer panel below."
+    },
+    "required_elements": ["business logo", "offer text", "athlete hero frame", "call to action"],
+    "use_when": ["skateboarding", "street_style", "creative_trick"],
+    "reference_images": []
+  }
+]

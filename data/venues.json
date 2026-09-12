@@ -1,0 +1,26 @@
+[
+  {
+    "id": "expo-archery-field",
+    "name": "Expo Archery Field",
+    "sport": "archery",
+    "lat": 34.0139,
+    "lng": -118.285,
+    "neighborhood": "University Park"
+  },
+  {
+    "id": "downtown-skate-plaza",
+    "name": "Downtown Skate Plaza",
+    "sport": "skateboarding",
+    "lat": 34.0407,
+    "lng": -118.2468,
+    "neighborhood": "Downtown"
+  },
+  {
+    "id": "memorial-track",
+    "name": "Memorial Track",
+    "sport": "athletics",
+    "lat": 34.0141,
+    "lng": -118.2879,
+    "neighborhood": "Exposition Park"
+  }
+]

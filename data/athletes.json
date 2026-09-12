@@ -1,0 +1,95 @@
+[
+  {
+    "id": "hana-mori",
+    "name": "Hana Mori",
+    "aliases": ["H. Mori", "Hana"],
+    "country": "Japan",
+    "sport": "archery",
+    "discipline": "recurve",
+    "event": "women's individual",
+    "home_city": "Yokohama",
+    "favorite_foods": [
+      {
+        "cuisine": "japanese",
+        "dishes": ["salmon nigiri", "udon"]
+      },
+      {
+        "cuisine": "korean",
+        "dishes": ["bibimbap", "tteokbokki"]
+      }
+    ],
+    "interests": ["archery", "tea"],
+    "identification": {
+      "kit_colors": ["white", "red"],
+      "bib_number": "17",
+      "distinguishing_features": ["left-handed", "red wrist guard"]
+    },
+    "headshot": null,
+    "social_handles": {
+      "instagram": "@hana_mori_demo"
+    },
+    "fun_facts": ["Collects handmade tea cups", "Practices breathing exercises before finals"]
+  },
+  {
+    "id": "lucia-vega",
+    "name": "Lucia Vega",
+    "aliases": ["L. Vega", "Luce"],
+    "country": "Mexico",
+    "sport": "skateboarding",
+    "discipline": "street",
+    "event": "women's street",
+    "home_city": "Guadalajara",
+    "favorite_foods": [
+      {
+        "cuisine": "mexican",
+        "dishes": ["mushroom tacos", "elote"]
+      },
+      {
+        "cuisine": "plant_based",
+        "dishes": ["jackfruit torta", "avocado tostada"]
+      }
+    ],
+    "interests": ["skateboarding", "street_art"],
+    "identification": {
+      "kit_colors": ["green", "black"],
+      "bib_number": null,
+      "distinguishing_features": ["green helmet", "sunburst board graphic"]
+    },
+    "headshot": null,
+    "social_handles": {
+      "instagram": "@lucia_vega_demo"
+    },
+    "fun_facts": ["Sketches mural ideas while traveling", "Learned to skate at a neighborhood plaza"]
+  },
+  {
+    "id": "darius-cole",
+    "name": "Darius Cole",
+    "aliases": ["D. Cole", "DC"],
+    "country": "United States",
+    "sport": "athletics",
+    "discipline": "sprint",
+    "event": "men's 200 metres",
+    "home_city": "Atlanta",
+    "favorite_foods": [
+      {
+        "cuisine": "southern",
+        "dishes": ["shrimp and grits", "peach cobbler"]
+      },
+      {
+        "cuisine": "caribbean",
+        "dishes": ["jerk chicken", "rice and peas"]
+      }
+    ],
+    "interests": ["running", "live_music"],
+    "identification": {
+      "kit_colors": ["navy", "white"],
+      "bib_number": "204",
+      "distinguishing_features": ["blue headband", "white arm sleeve"]
+    },
+    "headshot": null,
+    "social_handles": {
+      "instagram": "@darius_cole_demo"
+    },
+    "fun_facts": ["Builds race-day playlists", "Volunteers with a youth running club"]
+  }
+]
