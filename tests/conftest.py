@@ -1,4 +1,5 @@
 import socket
+import sys
 from pathlib import Path
 
 import pytest
@@ -6,7 +7,12 @@ import pytest
 
 @pytest.fixture(autouse=True)
 def deny_network(monkeypatch):
+    original_connect = socket.socket.connect
+    socketpair_code = getattr(socket.socketpair, "__code__", None)
+
     def denied(*args, **kwargs):
+        if socketpair_code is not None and sys._getframe(1).f_code is socketpair_code:
+            return original_connect(*args, **kwargs)
         raise AssertionError("Tests must not access the network; use recorded responses")
 
     monkeypatch.setattr(socket.socket, "connect", denied)

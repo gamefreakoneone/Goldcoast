@@ -1,0 +1,25 @@
+{
+  "id": "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo-portrait-attempt-1-verdict",
+  "run_id": "20260912-230559-0d2470",
+  "ad_id": "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo-portrait-attempt-1",
+  "attempt": 1,
+  "scores": {
+    "image_quality": 6,
+    "style_adherence": 6,
+    "business_accuracy": 7,
+    "format_compliance": 7,
+    "brand_safety": 7,
+    "overall": 7
+  },
+  "passed": true,
+  "issues": [
+    "Middle composite band has an abrupt white box cutout behind the athlete and pizza rather than a seamless background integration.",
+    "Face was already visible in the hero frame, making the secondary portrait cutout redundant and cluttering the composition."
+  ],
+  "regeneration_hints": [
+    "Blend the athlete portrait and pizza cleanly into the stadium background without a harsh white rectangular patch.",
+    "Remove redundant duplicate athlete depictions by relying primarily on the hero frame celebration."
+  ],
+  "model_id": "gemini-3.8-flash",
+  "created_at": "2026-09-12T23:07:41.001790Z"
+}

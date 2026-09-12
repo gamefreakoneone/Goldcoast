@@ -139,6 +139,7 @@ class PipelineEventType(StrEnum):
     CLIP_LOADED = "clip_loaded"
     CLIP_MANIFEST_HIT = "clip_manifest_hit"
     MOMENT_DETECTED = "moment_detected"
+    MOMENT_SKIPPED = "moment_skipped"
     FRAME_EXTRACTED = "frame_extracted"
     ATHLETE_RESOLVED = "athlete_resolved"
     BUSINESS_MATCHED = "business_matched"
@@ -167,6 +168,14 @@ class RunStatus(StrEnum):
     FAILED = "failed"
 
 
+class RunFailure(ContractModel):
+    stage: str
+    message: str
+    moment_id: str | None = None
+    brief_id: str | None = None
+    format: AdFormat | None = None
+
+
 class Run(ContractModel):
     id: str
     clip_path: Path
@@ -177,3 +186,5 @@ class Run(ContractModel):
     moment_ids: list[str] = Field(default_factory=list)
     brief_ids: list[str] = Field(default_factory=list)
     ad_ids: list[str] = Field(default_factory=list)
+    failures: list[RunFailure] = Field(default_factory=list)
+    replay_from: str | None = None

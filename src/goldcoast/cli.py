@@ -29,11 +29,6 @@ def validate_seed(
         typer.echo(f"warning: {warning}", err=True)
 
 
-def _not_implemented() -> None:
-    typer.echo("not implemented", err=True)
-    raise typer.Exit(code=1)
-
-
 @app.command()
 def detect(
     clip: Path,
@@ -246,5 +241,36 @@ def judge_loop_command(
 
 
 @app.command()
-def run(clip: Path) -> None:
-    _not_implemented()
+def run(
+    clip: Path, replay_from: Annotated[str | None, typer.Option("--replay-from")] = None
+) -> None:
+    from goldcoast.pipeline.orchestrator import Pipeline
+    from goldcoast.pipeline.run_store import RunStore
+    from goldcoast.settings import Settings
+
+    try:
+        settings = Settings.from_env()
+        result = Pipeline(
+            settings, load_seed(settings.data_dir), RunStore(settings.output_dir)
+        ).run(clip, replay_from)
+        typer.echo(result.model_dump_json(indent=2))
+        if result.status == "failed":
+            raise typer.Exit(code=1)
+    except typer.Exit:
+        raise
+    except Exception as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command()
+def runs() -> None:
+    from goldcoast.pipeline.run_store import RunStore
+    from goldcoast.settings import Settings
+
+    for run in RunStore(Settings.from_env().output_dir).list_runs():
+        typer.echo(
+            f"{run.id}\t{run.status}\tmoments={len(run.moment_ids)} "
+            f"briefs={len(run.brief_ids)} ads={len(run.ad_ids)} "
+            f"failures={len(run.failures)} replay={run.replay}"
+        )

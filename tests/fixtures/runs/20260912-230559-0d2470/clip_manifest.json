@@ -1,0 +1,73 @@
+[
+  {
+    "file": "gymnastics_simone.mp4",
+    "sport": "gymnastics",
+    "athlete_id": "simone-biles",
+    "analyzed": true,
+    "analyzed_by": "gemini",
+    "analyzed_at": "2026-09-12T22:11:50.241975Z",
+    "notes": "Floor routine, final tumbling pass. Replace the file name with your real clip name.",
+    "moments": [
+      {
+        "start_s": 106.0,
+        "end_s": 125.0,
+        "best_frame_s": 122.5,
+        "hype_score": 7.8,
+        "description": "Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.",
+        "event_context": "Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.",
+        "athlete_hints": {
+          "name": "Simone Biles",
+          "country": "USA",
+          "kit_colors": [
+            "blue",
+            "purple",
+            "white"
+          ],
+          "bib_number": "391",
+          "crowd_reaction": "standing ovation and loud cheering",
+          "source": "gemini"
+        }
+      },
+      {
+        "start_s": 36.5,
+        "end_s": 43.0,
+        "best_frame_s": 41.0,
+        "hype_score": 7.2,
+        "description": "Biles opens her routine with an explosive, high-amplitude tumbling pass and sticks the landing, eliciting an immediate roar from spectators.",
+        "event_context": "Opening pass of the women's floor final at Paris 2024.",
+        "athlete_hints": {
+          "name": "Simone Biles",
+          "country": "USA",
+          "kit_colors": [
+            "blue",
+            "purple",
+            "white"
+          ],
+          "bib_number": "391",
+          "crowd_reaction": "enthusiastic applause and cheering",
+          "source": "gemini"
+        }
+      },
+      {
+        "start_s": 87.5,
+        "end_s": 94.0,
+        "best_frame_s": 91.5,
+        "hype_score": 6.8,
+        "description": "Biles lands another acrobatic tumbling series with precision and breaks into a smile as the arena audience applauds.",
+        "event_context": "Third tumbling pass during the floor exercise routine.",
+        "athlete_hints": {
+          "name": "Simone Biles",
+          "country": "USA",
+          "kit_colors": [
+            "blue",
+            "purple",
+            "white"
+          ],
+          "bib_number": "391",
+          "crowd_reaction": "loud cheering and applause",
+          "source": "gemini"
+        }
+      }
+    ]
+  }
+]

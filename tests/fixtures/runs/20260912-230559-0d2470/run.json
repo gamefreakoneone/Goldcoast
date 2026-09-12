@@ -1,0 +1,37 @@
+{
+  "id": "20260912-230559-0d2470",
+  "clip_path": "sample_clips\\gymnastics_simone.mp4",
+  "status": "completed",
+  "started_at": "2026-09-12T23:05:59.939419Z",
+  "finished_at": "2026-09-12T23:10:47.237277Z",
+  "replay": false,
+  "moment_ids": [
+    "20260912-230559-0d2470-moment-1",
+    "20260912-230559-0d2470-moment-2",
+    "20260912-230559-0d2470-moment-3"
+  ],
+  "brief_ids": [
+    "20260912-230559-0d2470-moment-1-brief-yama-sushi-marketplace-koreatown",
+    "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo",
+    "20260912-230559-0d2470-moment-2-brief-yama-sushi-marketplace-koreatown",
+    "20260912-230559-0d2470-moment-2-brief-prime-pizza-little-tokyo",
+    "20260912-230559-0d2470-moment-3-brief-yama-sushi-marketplace-koreatown",
+    "20260912-230559-0d2470-moment-3-brief-prime-pizza-little-tokyo"
+  ],
+  "ad_ids": [
+    "20260912-230559-0d2470-moment-1-brief-yama-sushi-marketplace-koreatown-landscape-attempt-1",
+    "20260912-230559-0d2470-moment-1-brief-yama-sushi-marketplace-koreatown-portrait-attempt-2",
+    "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo-landscape-attempt-2",
+    "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo-portrait-attempt-1",
+    "20260912-230559-0d2470-moment-2-brief-yama-sushi-marketplace-koreatown-landscape-attempt-2",
+    "20260912-230559-0d2470-moment-2-brief-yama-sushi-marketplace-koreatown-portrait-attempt-1",
+    "20260912-230559-0d2470-moment-2-brief-prime-pizza-little-tokyo-landscape-attempt-1",
+    "20260912-230559-0d2470-moment-2-brief-prime-pizza-little-tokyo-portrait-attempt-1",
+    "20260912-230559-0d2470-moment-3-brief-yama-sushi-marketplace-koreatown-landscape-attempt-2",
+    "20260912-230559-0d2470-moment-3-brief-yama-sushi-marketplace-koreatown-portrait-attempt-1",
+    "20260912-230559-0d2470-moment-3-brief-prime-pizza-little-tokyo-landscape-attempt-1",
+    "20260912-230559-0d2470-moment-3-brief-prime-pizza-little-tokyo-portrait-attempt-2"
+  ],
+  "failures": [],
+  "replay_from": null
+}

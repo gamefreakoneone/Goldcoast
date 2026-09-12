@@ -1,0 +1,27 @@
+{
+  "id": "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo-landscape-attempt-1-verdict",
+  "run_id": "20260912-230559-0d2470",
+  "ad_id": "20260912-230559-0d2470-moment-1-brief-prime-pizza-little-tokyo-landscape-attempt-1",
+  "attempt": 1,
+  "scores": {
+    "image_quality": 5,
+    "style_adherence": 6,
+    "business_accuracy": 5,
+    "format_compliance": 7,
+    "brand_safety": 6,
+    "overall": 5
+  },
+  "passed": false,
+  "issues": [
+    "Duplicate representation of the athlete creates visual clutter.",
+    "Supporting copy contains truncated text ('Re to explore').",
+    "Unnecessary portrait cutout added despite athlete face being clearly visible in hero frame."
+  ],
+  "regeneration_hints": [
+    "Remove the secondary athlete cutout and let the full-bleed hero frame lead.",
+    "Correct subheadline text to read 'Ready to explore your next favorite local slice?'.",
+    "Integrate the pizza visual more naturally without awkward layered cutouts."
+  ],
+  "model_id": "gemini-3.8-flash",
+  "created_at": "2026-09-12T23:07:11.576455Z"
+}

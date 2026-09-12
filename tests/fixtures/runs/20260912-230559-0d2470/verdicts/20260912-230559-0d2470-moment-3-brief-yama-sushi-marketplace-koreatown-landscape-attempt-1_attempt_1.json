@@ -1,0 +1,27 @@
+{
+  "id": "20260912-230559-0d2470-moment-3-brief-yama-sushi-marketplace-koreatown-landscape-attempt-1-verdict",
+  "run_id": "20260912-230559-0d2470",
+  "ad_id": "20260912-230559-0d2470-moment-3-brief-yama-sushi-marketplace-koreatown-landscape-attempt-1",
+  "attempt": 1,
+  "scores": {
+    "image_quality": 6,
+    "style_adherence": 5,
+    "business_accuracy": 7,
+    "format_compliance": 6,
+    "brand_safety": 7,
+    "overall": 6
+  },
+  "passed": false,
+  "issues": [
+    "Headline is placed on the top left rather than stacked on the right per landscape layout guidance",
+    "Sticker outline around cutout athlete looks unnatural and clashes with the dynamic background",
+    "Dark diagonal wash is heavy, obscuring background details"
+  ],
+  "regeneration_hints": [
+    "Move primary headline and offer block to the right side to align with style rules",
+    "Remove white outline sticker effect around portrait cutout for seamless blending",
+    "Improve text hierarchy and spacing across the canvas"
+  ],
+  "model_id": "gemini-3.8-flash",
+  "created_at": "2026-09-12T23:09:32.568787Z"
+}

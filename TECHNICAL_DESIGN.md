@@ -86,13 +86,16 @@ Seed files are JSON arrays of the corresponding model with unknown fields reject
 - `QualityVerdict`: `id`, `run_id`, `ad_id`, `attempt`, `scores: VerdictScores` with integer fields 0 to 10 for `image_quality`, `style_adherence`, `business_accuracy`, `format_compliance`, `brand_safety`, `overall` 0 to 10, `passed: bool`, `issues: list[str]`, `regeneration_hints: list[str]`, `model_id`, `created_at`.
 - `ApprovalDecision`: `ad_id`, `decision` (`approved` or `rejected`), `reviewer`, `note`, `decided_at`.
 - `PipelineEvent`: `id`, `run_id`, `type`, `timestamp`, `payload: dict`. Event types: `run_started`, `clip_loaded`, `clip_manifest_hit`, `moment_detected`, `frame_extracted`, `athlete_resolved`, `business_matched`, `brief_created`, `ad_generating`, `ad_generated`, `ad_judged`, `ad_regenerating`, `ad_final`, `run_completed`, `run_failed`, `ad_decided`.
-- `Run`: `id`, `clip_path`, `status` (`running`, `completed`, `failed`), `started_at`, `finished_at`, `replay: bool`, `moment_ids`, `brief_ids`, `ad_ids`.
+- `Run`: `id`, `clip_path`, `status` (`running`, `completed`, `failed`), `started_at`, `finished_at`, `replay: bool`, `moment_ids`, `brief_ids`, `ad_ids` (final judged ads only), `replay_from: str | None`, `failures: list[RunFailure]`. RunFailure has stage, message, optional moment_id, brief_id, and format. `moment_skipped` is an explicit event type for a failed match.
 
 ### Run directory layout
 
 ```
 output/runs/<run_id>/
   run.json
+  settings.json
+  clip_manifest.json
+  seed/
   events.jsonl
   frames/<moment_id>.png
   moments/<moment_id>.json
@@ -167,6 +170,8 @@ Rules:
 - Judge `scores.overall` is the minimum of business accuracy and the rounded five-criterion mean, computed in code. Wrong observed dimensions cap format compliance at 4. Judge-loop emission uses `emit(PipelineEventType, payload)` to match EventBus; `JudgedAd` contains final_ad, final_verdict, all (ad, verdict) attempts, and generation errors.
 - Regeneration is bounded by `GOLDCOAST_JUDGE_MAX_RETRIES`. If every attempt fails, the highest-scoring attempt is kept, marked `passed: false`, and shown to the reviewer with its issues.
 - Replay mode never touches the network. Tests run in replay mode by default.
+- Full-run replay loads recorded moments/frames and seed/settings snapshots, creates new run-scoped IDs with deterministic child suffixes, and copies original model images into the new recording directory. It needs no source MP4 or mutable manifest for detection. Seed assets and normalized final images are run-local. Secrets are excluded from settings snapshots. The replayed clip path must match the source run.
+- EventBus persists a complete JSONL event before notifying subscribers across threads. Subscription captures backlog and registers live delivery under one lock; `subscribe(after)` resumes after a zero-based event ID. API callers may pre-create a Run/EventBus and pass them to Pipeline.run, avoiding duplicate run IDs.
 - Video analysis is never repeated for a clip whose manifest entry is already `analyzed: true`, unless the caller passes `--force-analysis`. A manifest hit emits `clip_manifest_hit` so the UI can show that the clip was recognized and whether its moments were hand-edited.
 - The manifest is written atomically and only by the video agent and the matching agent's athlete write-back. No other code modifies it.
 - Ad formats are exactly the two in `AdFormat`. Generated images are verified against the target dimensions and resized only if the model returns the correct aspect ratio at a different size.

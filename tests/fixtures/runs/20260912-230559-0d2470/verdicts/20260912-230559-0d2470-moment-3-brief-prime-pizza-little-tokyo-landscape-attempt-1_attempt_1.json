@@ -1,0 +1,19 @@
+{
+  "id": "20260912-230559-0d2470-moment-3-brief-prime-pizza-little-tokyo-landscape-attempt-1-verdict",
+  "run_id": "20260912-230559-0d2470",
+  "ad_id": "20260912-230559-0d2470-moment-3-brief-prime-pizza-little-tokyo-landscape-attempt-1",
+  "attempt": 1,
+  "scores": {
+    "image_quality": 7,
+    "style_adherence": 7,
+    "business_accuracy": 7,
+    "format_compliance": 7,
+    "brand_safety": 7,
+    "overall": 7
+  },
+  "passed": true,
+  "issues": [],
+  "regeneration_hints": [],
+  "model_id": "gemini-3.8-flash",
+  "created_at": "2026-09-12T23:10:15.902817Z"
+}

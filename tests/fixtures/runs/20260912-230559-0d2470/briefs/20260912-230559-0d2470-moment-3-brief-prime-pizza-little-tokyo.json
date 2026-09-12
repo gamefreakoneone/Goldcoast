@@ -1,0 +1,17 @@
+{
+  "id": "20260912-230559-0d2470-moment-3-brief-prime-pizza-little-tokyo",
+  "run_id": "20260912-230559-0d2470",
+  "moment_id": "20260912-230559-0d2470-moment-3",
+  "athlete_id": "simone-biles",
+  "business_id": "prime-pizza-little-tokyo",
+  "ad_style_id": "electric-finish",
+  "match_reason": "Prime Pizza Little Tokyo connects to Simone's documented interest in Italian dining and pepperoni pizza.",
+  "match_score": 0.74,
+  "headline_direction": "Precision landing. Hot slices. Simone loves pepperoni pizza. Ready to explore a classic slice nearby?",
+  "offer_text": "Demo offer: bring your Olympics ticket for 15% off",
+  "cta": "Discover Prime Pizza in Little Tokyo",
+  "formats": [
+    "landscape",
+    "portrait"
+  ]
+}

@@ -39,6 +39,8 @@ class RecordedResponseClient:
         record = RecordedCall.model_validate_json(path.read_text(encoding="utf-8"))
         for image in record.response_raw.get("images", []):
             source = self.source_dir / image
+            if not source.resolve().is_relative_to(self.source_dir.resolve()):
+                raise ReplayMissError(f"Replay image escapes recording directory: {image}")
             if not source.is_file():
                 raise ReplayMissError(f"Missing replay image: {source}")
             write_bytes(self.record_dir / image, source.read_bytes())

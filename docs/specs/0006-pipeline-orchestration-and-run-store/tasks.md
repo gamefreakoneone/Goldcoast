@@ -2,15 +2,15 @@
 
 ## Task List
 
-- [ ] Implement run and child id generation in `src/goldcoast/pipeline/ids.py`.
-- [ ] Implement `RunStore` in `src/goldcoast/pipeline/run_store.py` with atomic writes.
-- [ ] Implement `EventBus` in `src/goldcoast/pipeline/events.py` with JSONL append and async subscription.
-- [ ] Implement `ReplayClient` in `src/goldcoast/llm/replay.py` and a client factory that picks real or replay from settings.
-- [ ] Implement `Pipeline.run` in `src/goldcoast/pipeline/orchestrator.py` with per-brief failure isolation.
-- [ ] Wire the `run` and `runs` CLI commands.
-- [ ] Execute one real end-to-end run and copy its directory to `tests/fixtures/runs/<fixture_run_id>/`, scrubbing nothing but confirming no secrets are present.
-- [ ] Write `tests/test_pipeline.py` that replays the fixture run and asserts the event sequence, file layout, and `Run` contents.
-- [ ] Update `README.md` with the `run` command and replay instructions.
+- [x] Implement run and child id generation in `src/goldcoast/pipeline/ids.py`.
+- [x] Implement `RunStore` in `src/goldcoast/pipeline/run_store.py` with atomic writes.
+- [x] Implement `EventBus` in `src/goldcoast/pipeline/events.py` with JSONL append and async subscription.
+- [x] Implement `ReplayClient` in `src/goldcoast/llm/replay.py` and a client factory that picks real or replay from settings.
+- [x] Implement `Pipeline.run` in `src/goldcoast/pipeline/orchestrator.py` with per-brief failure isolation.
+- [x] Wire the `run` and `runs` CLI commands.
+- [x] Execute one real end-to-end run and copy its directory to `tests/fixtures/runs/<fixture_run_id>/`, scrubbing nothing but confirming no secrets are present.
+- [x] Write `tests/test_pipeline.py` that replays the fixture run and asserts the event sequence, file layout, and `Run` contents.
+- [x] Update `README.md` with the `run` command and replay instructions.
 
 ## Validation Steps
 

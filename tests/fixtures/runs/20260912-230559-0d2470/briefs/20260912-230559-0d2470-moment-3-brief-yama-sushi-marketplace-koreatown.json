@@ -1,0 +1,17 @@
+{
+  "id": "20260912-230559-0d2470-moment-3-brief-yama-sushi-marketplace-koreatown",
+  "run_id": "20260912-230559-0d2470",
+  "moment_id": "20260912-230559-0d2470-moment-3",
+  "athlete_id": "simone-biles",
+  "business_id": "yama-sushi-marketplace-koreatown",
+  "ad_style_id": "electric-finish",
+  "match_reason": "Yama Sushi Marketplace connects to Simone's documented interest in Japanese cuisine, sushi, and salmon.",
+  "match_score": 0.88,
+  "headline_direction": "Applause echoes. Fresh flavors. Simone loves sushi. Ready to explore your next favorite roll nearby?",
+  "offer_text": "Demo offer: bring your Olympics ticket for 15% off",
+  "cta": "Explore Yama Sushi Marketplace",
+  "formats": [
+    "landscape",
+    "portrait"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "b2ba2b2f7ae040f69112ad1e60216fd9",
+  "method": "POST",
+  "path": "/v1beta/models/gemini-3.8-flash:generateContent",
+  "timestamp": "2026-09-12T23:07:35.375581+00:00",
+  "status_code": 200,
+  "latency_ms": 5607
+}

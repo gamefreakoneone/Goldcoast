@@ -1,0 +1,27 @@
+{
+  "id": "20260912-230559-0d2470-moment-1",
+  "run_id": "20260912-230559-0d2470",
+  "clip_path": "sample_clips\\gymnastics_simone.mp4",
+  "start_s": 106.0,
+  "end_s": 125.0,
+  "best_frame_s": 122.5,
+  "best_frame_path": "output\\runs\\20260912-230559-0d2470\\frames\\20260912-230559-0d2470-moment-1.png",
+  "hype_score": 7.8,
+  "description": "Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.",
+  "sport": "gymnastics",
+  "event_context": "Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.",
+  "athlete_id": "simone-biles",
+  "athlete_hints": {
+    "name": "Simone Biles",
+    "country": "USA",
+    "kit_colors": [
+      "blue",
+      "purple",
+      "white"
+    ],
+    "bib_number": "391",
+    "crowd_reaction": "standing ovation and loud cheering",
+    "source": "gemini"
+  },
+  "source": "gemini"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "20260912-230559-0d2470-moment-2-brief-yama-sushi-marketplace-koreatown",
+  "run_id": "20260912-230559-0d2470",
+  "moment_id": "20260912-230559-0d2470-moment-2",
+  "athlete_id": "simone-biles",
+  "business_id": "yama-sushi-marketplace-koreatown",
+  "ad_style_id": "electric-finish",
+  "match_reason": "Simone Biles lists sushi, spicy tuna rolls, and salmon among her favorite foods, matching Yama Sushi Marketplace's Japanese seafood and grab-and-go rolls.",
+  "match_score": 0.9,
+  "headline_direction": "Big cheers. Fresh flavors. Simone loves sushi. Ready to explore your next favorite nearby? Demo offer: bring your Olympics ticket for 15% off.",
+  "offer_text": "Demo offer: bring your Olympics ticket for 15% off",
+  "cta": "Explore Yama Sushi Marketplace",
+  "formats": [
+    "landscape",
+    "portrait"
+  ]
+}

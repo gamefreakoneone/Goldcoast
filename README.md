@@ -24,7 +24,7 @@ python -m goldcoast detect sample_clips/<clip>.mp4
 python -m goldcoast run sample_clips/<clip>.mp4
 ```
 
-`run` is a command stub until pipeline orchestration is implemented.
+All CLI pipeline stages are implemented.
 
 ### Video detection
 
@@ -80,6 +80,23 @@ The judge scores five criteria and supplies regeneration hints. The loop makes
 at most `GOLDCOAST_JUDGE_MAX_RETRIES + 1` attempts (default 3), keeping the first
 passing ad or the best failing attempt. Verdicts are advisory; they never approve
 an ad. Threshold defaults are overall 7 and every criterion at least 5.
+
+### Full pipeline and replay
+
+```powershell
+$env:GOLDCOAST_REPLAY = "0"
+python -m goldcoast run sample_clips/gymnastics_simone.mp4
+python -m goldcoast runs
+$env:GOLDCOAST_REPLAY = "1"
+python -m goldcoast run sample_clips/gymnastics_simone.mp4 --replay-from <recorded-run-id>
+```
+
+The live run uses the analyzed clip manifest and makes no new video-analysis
+request. Run directories contain all moments, frames, briefs, generation attempts,
+verdicts, events, model-call images, and seed/settings snapshots. Replays are
+independent of the original output directory after creation and do not need to
+reanalyze or decode the video. `GOLDCOAST_REPLAY_RUN` supplies the default source
+when replay mode is enabled. An unavailable recording fails explicitly.
 
 ## Validation
 

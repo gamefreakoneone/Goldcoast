@@ -11,7 +11,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 | 0003 | Context matching | Completed | [Evidence](specs/0003-context-matching/status.md#evidence) | Creative athlete-led discovery and labeled 15% restaurant demo offers; fresh real fixtures |
 | 0004 | Ad generation | Completed | [Evidence](specs/0004-ad-generation/status.md#evidence) | Creative discovery ads and visible 15% demo offer in both formats; fresh real fixtures |
 | 0005 | Ad quality judge | Completed | [Evidence](specs/0005-ad-quality-judge/status.md#evidence) | Real typo rejection and 6→5→7 regeneration; all 63 Python tests pass |
-| 0006 | Pipeline orchestration and run store | Not started | | Stage chaining, event bus, run directory, replay mode |
+| 0006 | Pipeline orchestration and run store | Completed | [Evidence](specs/0006-pipeline-orchestration-and-run-store/status.md#evidence) | Real run 20260912-230559-0d2470: 12 passing final ads; independent replay; 73 tests pass |
 | 0007 | API and live events | Not started | | FastAPI runs, SSE events, media, decisions, export |
 | 0008 | Web UI and approval | Not started | | React/Vite player, timeline, gallery with scores, approve/reject |
 

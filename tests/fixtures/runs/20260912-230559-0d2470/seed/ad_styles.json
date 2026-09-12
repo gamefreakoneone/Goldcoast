@@ -1,0 +1,32 @@
+[
+  {
+    "id": "electric-finish",
+    "name": "Electric Finish",
+    "description": "High-energy celebration with sharp contrast, diagonal motion streaks, and a stadium-light glow behind the athlete.",
+    "mood_keywords": ["electric", "celebratory", "bold", "loud"],
+    "palette": ["#FFD60A", "#003566", "#FFFFFF"],
+    "typography_guidance": "Condensed uppercase display type, one oversized headline of five words or fewer, offer text in a contrasting pill.",
+    "layout_notes": {
+      "landscape": "Hero frame as full-bleed background with a dark diagonal wash on the right. If the face is not visible in the hero frame, athlete portrait cutout on the left third with the product visual beside it. Headline and offer stacked on the right, business logo in the lower-right safe area.",
+      "portrait": "Hero frame as full-bleed background. If the face is not visible, athlete portrait cutout in the middle band with the product visual to its side. Headline across the upper third, offer and call to action in the lower third, logo bottom-center."
+    },
+    "required_elements": ["athlete hero frame", "product or offering visual", "business logo", "business name", "offer text or tagline", "call to action"],
+    "use_when": ["victory", "crowd_roar", "stuck_landing", "gymnastics"],
+    "reference_images": []
+  },
+  {
+    "id": "golden-hour-la",
+    "name": "Golden Hour LA",
+    "description": "Warm, cinematic Los Angeles sunset treatment with soft light leaks, palm silhouettes, and a relaxed premium feel.",
+    "mood_keywords": ["warm", "cinematic", "aspirational", "relaxed"],
+    "palette": ["#F4A261", "#E76F51", "#264653", "#FFF3E0"],
+    "typography_guidance": "Elegant high-contrast serif headline in sentence case, small clean sans-serif for offer and address, generous margins.",
+    "layout_notes": {
+      "landscape": "Hero frame as the background with a warm gradient fade to the right. If the face is not visible, athlete portrait cutout center-left with the product visual on a small table or plate beside it. Headline and offer on the right third, logo top-left.",
+      "portrait": "Hero frame full-bleed with a sunset gradient at the bottom. If the face is not visible, athlete portrait cutout in the lower-middle with the product visual beside it. Headline and offer over the gradient, logo top-center."
+    },
+    "required_elements": ["athlete hero frame", "product or offering visual", "business logo", "business name", "offer text or tagline", "call to action"],
+    "use_when": ["victory", "podium", "gymnastics", "evening_session"],
+    "reference_images": []
+  }
+]

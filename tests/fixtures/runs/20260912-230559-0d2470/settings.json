@@ -1,0 +1,12 @@
+{
+  "video_model": "gemini-3.8-flash",
+  "image_model": "gemini-3.1-flash-image",
+  "judge_model": "gemini-3.8-flash",
+  "judge_max_retries": 2,
+  "judge_pass_threshold": 7,
+  "judge_min_criterion": 5,
+  "hype_threshold": 6,
+  "frame_candidate_window_s": 1.0,
+  "athlete_confidence_threshold": 0.6,
+  "max_businesses": 2
+}

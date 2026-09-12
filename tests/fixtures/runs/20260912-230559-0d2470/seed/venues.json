@@ -1,0 +1,18 @@
+[
+  {
+    "id": "crypto-com-arena",
+    "name": "Crypto.com Arena",
+    "sport": "gymnastics",
+    "lat": 34.043,
+    "lng": -118.2673,
+    "neighborhood": "Downtown"
+  },
+  {
+    "id": "intuit-dome",
+    "name": "Intuit Dome",
+    "sport": "basketball",
+    "lat": 33.9453,
+    "lng": -118.3418,
+    "neighborhood": "Inglewood"
+  }
+]

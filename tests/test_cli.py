@@ -17,8 +17,8 @@ def test_validate_seed_prints_counts() -> None:
     assert "venues: 2" in result.output
 
 
-def test_stage_stubs_exit_nonzero() -> None:
-    for command in ("run",):
-        result = runner.invoke(app, [command, "input.json"])
-        assert result.exit_code != 0
-        assert "not implemented" in result.output
+def test_stage_commands_are_available() -> None:
+    result = runner.invoke(app, ["--help"])
+    assert result.exit_code == 0
+    for command in ("detect", "match", "generate", "judge", "judge-loop", "run", "runs"):
+        assert command in result.output
