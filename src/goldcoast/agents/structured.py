@@ -7,6 +7,10 @@ class AgentParseError(RuntimeError):
     pass
 
 
+class ModelSafetyError(RuntimeError):
+    pass
+
+
 def response_schema(schema: type[BaseModel]) -> dict[str, Any]:
     root = schema.model_json_schema()
 
@@ -46,6 +50,19 @@ def structured_call[T: BaseModel](
     }
     for attempt in range(2):
         call = client.generate(stage, model, contents, config, input_refs=input_refs)
+        raw = getattr(call, "response_raw", {}).get("response", {})
+        feedback = raw.get("prompt_feedback") or {}
+        blocked = feedback.get("block_reason")
+        for candidate in raw.get("candidates", []) or []:
+            if candidate.get("finish_reason") in {
+                "SAFETY",
+                "BLOCKLIST",
+                "PROHIBITED_CONTENT",
+                "IMAGE_SAFETY",
+            }:
+                blocked = candidate.get("finish_message") or candidate["finish_reason"]
+        if blocked:
+            raise ModelSafetyError(f"{stage} blocked: {blocked}")
         try:
             return schema.model_validate_json(call.response_text)
         except ValidationError as exc:

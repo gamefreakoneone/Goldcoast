@@ -32,6 +32,7 @@ class Settings(BaseModel):
     judge_model: str = "replace-with-judge-model-id"
     judge_max_retries: int = Field(default=2, ge=0)
     judge_pass_threshold: int = Field(default=7, ge=0, le=10)
+    judge_min_criterion: int = Field(default=5, ge=0, le=10)
     replay: bool = False
     replay_run: str | None = None
     output_dir: Path = Path("output")
@@ -72,6 +73,7 @@ class Settings(BaseModel):
             "judge_model": os.getenv("GOLDCOAST_JUDGE_MODEL", "replace-with-judge-model-id"),
             "judge_max_retries": os.getenv("GOLDCOAST_JUDGE_MAX_RETRIES", "2"),
             "judge_pass_threshold": os.getenv("GOLDCOAST_JUDGE_PASS_THRESHOLD", "7"),
+            "judge_min_criterion": os.getenv("GOLDCOAST_JUDGE_MIN_CRITERION", "5"),
             "replay": os.getenv("GOLDCOAST_REPLAY", "0"),
             "replay_run": os.getenv("GOLDCOAST_REPLAY_RUN") or None,
             "output_dir": os.getenv("GOLDCOAST_OUTPUT_DIR", "output"),

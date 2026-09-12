@@ -30,6 +30,7 @@ Layers in `src/goldcoast/`: `models/`, `data/`, `agents/`, `pipeline/`, `api/`, 
   - `GOLDCOAST_JUDGE_MODEL`: Gemini model id used for judging ads.
   - `GOLDCOAST_JUDGE_MAX_RETRIES`: integer retry cap for regeneration, default 2.
   - `GOLDCOAST_JUDGE_PASS_THRESHOLD`: overall score required to pass, default 7.
+  - `GOLDCOAST_JUDGE_MIN_CRITERION`: minimum score for every criterion, default 5.
   - `GOLDCOAST_REPLAY`: set to `1` to serve cached model outputs instead of calling Gemini.
   - `GOLDCOAST_REPLAY_RUN`: run id whose cached outputs replay mode reads from.
   - `GOLDCOAST_OUTPUT_DIR`: default `output`.
@@ -163,6 +164,7 @@ Rules:
 - Every Gemini call is logged to `model_calls/` before its result is used.
 - Each stage is runnable on its own through the CLI with a JSON file as input.
 - The judge is a separate model call from generation and never edits an image. Its verdict is advisory to the human; it never auto-approves.
+- Judge `scores.overall` is the minimum of business accuracy and the rounded five-criterion mean, computed in code. Wrong observed dimensions cap format compliance at 4. Judge-loop emission uses `emit(PipelineEventType, payload)` to match EventBus; `JudgedAd` contains final_ad, final_verdict, all (ad, verdict) attempts, and generation errors.
 - Regeneration is bounded by `GOLDCOAST_JUDGE_MAX_RETRIES`. If every attempt fails, the highest-scoring attempt is kept, marked `passed: false`, and shown to the reviewer with its issues.
 - Replay mode never touches the network. Tests run in replay mode by default.
 - Video analysis is never repeated for a clip whose manifest entry is already `analyzed: true`, unless the caller passes `--force-analysis`. A manifest hit emits `clip_manifest_hit` so the UI can show that the clip was recognized and whether its moments were hand-edited.

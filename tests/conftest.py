@@ -39,3 +39,14 @@ def moment():
 
     entry = ClipManifest.load(Path("sample_clips/manifest.json")).get("gymnastics_simone.mp4")
     return entry.to_hype_moments("fixture", Path("sample_clips/gymnastics_simone.mp4"))[0]
+
+
+@pytest.fixture
+def creative_inputs():
+    from goldcoast.models.pipeline import AdBrief, HypeMoment
+
+    root = Path(__file__).parent / "fixtures/model_calls/ad/creative/inputs"
+    brief = AdBrief.model_validate_json((root / "brief.json").read_text())
+    moment = HypeMoment.model_validate_json((root / "moment.json").read_text())
+    moment.best_frame_path = root / "hero.png"
+    return brief, moment

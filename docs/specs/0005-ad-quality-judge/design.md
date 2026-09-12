@@ -23,7 +23,7 @@ The judge closes the generation loop. It compares each ad image against the grou
 ## Interfaces
 
 - `JudgeAgent.judge(ad: GeneratedAd, brief: AdBrief, moment: HypeMoment) -> QualityVerdict`.
-- `judge_loop(ad_agent: AdAgent, judge_agent: JudgeAgent, brief: AdBrief, moment: HypeMoment, fmt: AdFormat, emit: Callable[[PipelineEvent], None] | None = None) -> JudgedAd`.
+- `judge_loop(ad_agent: AdAgent, judge_agent: JudgeAgent, brief: AdBrief, moment: HypeMoment, fmt: AdFormat, emit: Callable[[PipelineEventType, dict], Any] | None = None) -> JudgedAd`. The hook matches EventBus.emit; JudgedAd also records generation errors when a retry fails.
 - CLI: `goldcoast judge <ad.json> --brief <brief.json> --moment <moment.json> [--out DIR]` and `goldcoast judge-loop --brief <brief.json> --moment <moment.json> --format landscape|portrait [--out DIR]`.
 - Settings additions: `judge_min_criterion: int = 5`. Existing: `judge_model`, `judge_max_retries`, `judge_pass_threshold`.
 - Model call stage: `judge_score`.

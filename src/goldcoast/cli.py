@@ -184,8 +184,65 @@ def generate(
 
 
 @app.command()
-def judge(ad: Path) -> None:
-    _not_implemented()
+def judge(
+    ad: Path,
+    brief: Annotated[Path, typer.Option("--brief")],
+    moment: Annotated[Path, typer.Option("--moment")],
+    out: Annotated[Path | None, typer.Option("--out")] = None,
+) -> None:
+    from goldcoast.agents.judge_agent import JudgeAgent
+    from goldcoast.models.pipeline import AdBrief, GeneratedAd, HypeMoment
+    from goldcoast.settings import Settings
+
+    try:
+        settings = Settings.from_env()
+        destination = out or settings.output_dir / "manual" / f"judge-{uuid4().hex[:8]}"
+        agent = JudgeAgent(
+            _stage_client(settings, destination),
+            load_seed(settings.data_dir),
+            settings,
+            destination,
+        )
+        result = agent.judge(
+            GeneratedAd.model_validate_json(ad.read_text(encoding="utf-8")),
+            AdBrief.model_validate_json(brief.read_text(encoding="utf-8")),
+            HypeMoment.model_validate_json(moment.read_text(encoding="utf-8")),
+        )
+        typer.echo(result.model_dump_json(indent=2))
+    except Exception as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@app.command("judge-loop")
+def judge_loop_command(
+    brief: Annotated[Path, typer.Option("--brief")],
+    moment: Annotated[Path, typer.Option("--moment")],
+    format: Annotated[str, typer.Option("--format")],
+    out: Annotated[Path | None, typer.Option("--out")] = None,
+) -> None:
+    from goldcoast.agents.ad_agent import AdAgent
+    from goldcoast.agents.judge_agent import JudgeAgent
+    from goldcoast.models.pipeline import AdBrief, AdFormat, HypeMoment
+    from goldcoast.pipeline.judge_loop import judge_loop
+    from goldcoast.settings import Settings
+
+    try:
+        settings = Settings.from_env()
+        destination = out or settings.output_dir / "manual" / f"judge-loop-{uuid4().hex[:8]}"
+        client = _stage_client(settings, destination)
+        seed = load_seed(settings.data_dir)
+        result = judge_loop(
+            AdAgent(client, seed, settings, destination),
+            JudgeAgent(client, seed, settings, destination),
+            AdBrief.model_validate_json(brief.read_text(encoding="utf-8")),
+            HypeMoment.model_validate_json(moment.read_text(encoding="utf-8")),
+            AdFormat(format),
+        )
+        typer.echo(result.model_dump_json(indent=2))
+    except Exception as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
 
 
 @app.command()

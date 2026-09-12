@@ -24,7 +24,7 @@ python -m goldcoast detect sample_clips/<clip>.mp4
 python -m goldcoast run sample_clips/<clip>.mp4
 ```
 
-`judge` and `run` are command stubs until their corresponding specs are implemented.
+`run` is a command stub until pipeline orchestration is implemented.
 
 ### Video detection
 
@@ -68,6 +68,18 @@ moments never overwrite each other. Original model image bytes are retained unde
 Restaurant demo offers are explicitly fictional: `Demo offer: bring your Olympics
 ticket for 15% off`. Creative copy connects the observed moment to Simone's
 documented tastes and invites local discovery without implying endorsement.
+
+### Quality judging
+
+```powershell
+python -m goldcoast judge <ad.json> --brief <brief.json> --moment <moment.json> --out output/manual/0005
+python -m goldcoast judge-loop --brief <brief.json> --moment <moment.json> --format portrait --out output/manual/0005
+```
+
+The judge scores five criteria and supplies regeneration hints. The loop makes
+at most `GOLDCOAST_JUDGE_MAX_RETRIES + 1` attempts (default 3), keeping the first
+passing ad or the best failing attempt. Verdicts are advisory; they never approve
+an ad. Threshold defaults are overall 7 and every criterion at least 5.
 
 ## Validation
 
