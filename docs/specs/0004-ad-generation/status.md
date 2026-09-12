@@ -6,6 +6,40 @@ Completed
 
 ## Evidence
 
+### Owner-directed creative refinement
+
+After 0003 refinement commit f303b81, refreshing ad prompts with a five-word hook,
+a short athlete-interest discovery sentence, and a prominent, explicitly labeled
+15% ticket-holder demo offer. Real baseline images and recordings remain intact.
+
+```powershell
+conda activate goldcoast
+$env:GOLDCOAST_REPLAY = "0"
+python -m goldcoast generate output/manual/0003-creative/briefs/0002-moment-1-brief-yama-sushi-marketplace-koreatown.json --moment output/manual/0002/moments/0002-moment-1.json --out output/manual/0004-creative
+$env:GOLDCOAST_REPLAY = "1"
+python C:/Users/amogh/AppData/Local/Temp/opencode/goldcoast_capture_ad.py
+pytest tests/test_ad_agent.py -p no:cacheprovider --basetemp output/pytest-tmp
+pytest -p no:cacheprovider --basetemp output/pytest-tmp
+ruff check .
+ruff format --check .
+```
+
+All exited 0: `5 passed in 2.99s`, `51 passed in 8.11s`, lint passes, 102 files
+formatted including paused 0005 work. Exactly two real image calls, no retries,
+refusals, or video calls. The helper now captures the two creative recordings
+unchanged under `tests/fixtures/model_calls/ad/creative/` and replays them into
+`output/manual/0004-creative-replay/`. Both live and replay outputs have exact
+1920x1080/1080x1920 sizes after native-canvas normalization.
+
+Opened both live PNGs at
+`output/manual/0004-creative/ads/yama-sushi-marketplace-koreatown/brief_783f5055d830/{landscape,portrait}/attempt_1.png`.
+Both use “Big cheers. Fresh flavors.” and a Simone/sushi discovery line with a
+prominent, complete “Demo offer: bring your Olympics ticket for 15% off” badge.
+Logo, business identity, and CTA are visible. The landscape cleanly connects the
+hero frame to local discovery. The portrait misspells Biles as “Billes” and adds
+an unnecessary portrait cutout despite a visible face. These are concrete judge
+issues for 0005, not hidden or manually retouched; the real images are retained.
+
 ### Validation — 2026-09-12
 
 ```powershell
@@ -88,3 +122,4 @@ None.
 
 - 2026-09-12: Spec created.
 - 2026-09-12: Implemented after 0003 commit 953f62f, verified SDK through Context7, recorded both formats, documented native-dimension normalization and collision-free paths, and completed all checks.
+- 2026-09-12: Completed the owner's creative refresh, recorded two new images, verified the visible demo offer, and retained the portrait's name typo for the quality judge to evaluate.

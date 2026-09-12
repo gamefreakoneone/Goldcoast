@@ -55,7 +55,7 @@ and the business tagline when no actual promotion exists.
 ### Ad generation
 
 ```powershell
-python -m goldcoast generate output/manual/0003/briefs/0002-moment-1-brief-yama-sushi-marketplace-koreatown.json --moment output/manual/0002/moments/0002-moment-1.json --out output/manual/0004
+python -m goldcoast generate output/manual/0003-creative/briefs/0002-moment-1-brief-yama-sushi-marketplace-koreatown.json --moment output/manual/0002/moments/0002-moment-1.json --out output/manual/0004-creative
 ```
 
 One call per format generates the entire ad from the real frame, portrait, logo,
@@ -64,6 +64,10 @@ single-format regeneration. Images and sidecars live under
 `ads/<business_id>/brief_<12-character-brief-hash>/<format>/attempt_<n>.*` so multiple
 moments never overwrite each other. Original model image bytes are retained under
 `model_calls/images/` independently of dimension normalization.
+
+Restaurant demo offers are explicitly fictional: `Demo offer: bring your Olympics
+ticket for 15% off`. Creative copy connects the observed moment to Simone's
+documented tastes and invites local discovery without implying endorsement.
 
 ## Validation
 

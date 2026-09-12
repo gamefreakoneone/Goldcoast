@@ -1,0 +1,17 @@
+{
+  "id": "0002-moment-1-brief-yama-sushi-marketplace-koreatown",
+  "run_id": "0002",
+  "moment_id": "0002-moment-1",
+  "athlete_id": "simone-biles",
+  "business_id": "yama-sushi-marketplace-koreatown",
+  "ad_style_id": "electric-finish",
+  "match_reason": "Simone Biles' documented affinity for Japanese cuisine and sushi directly aligns with the fresh sushi and salmon offerings at Yama Sushi Marketplace.",
+  "match_score": 0.92,
+  "headline_direction": "Big cheers. Fresh flavors. Simone Biles loves sushi; explore delicious rolls and fresh flavors nearby. Demo offer: bring your Olympics ticket for 15% off.",
+  "offer_text": "Demo offer: bring your Olympics ticket for 15% off",
+  "cta": "Explore Yama Sushi Marketplace",
+  "formats": [
+    "landscape",
+    "portrait"
+  ]
+}

@@ -10,7 +10,7 @@ from goldcoast.llm.recordings import RecordedResponseClient
 from goldcoast.media.images import AssetMissingError, save_png
 from goldcoast.models.pipeline import AD_FORMAT_SIZES, AdBrief, AdFormat, HypeMoment
 
-FIXTURES = Path(__file__).parent / "fixtures/model_calls/ad"
+FIXTURES = Path(__file__).parent / "fixtures/model_calls/ad/creative"
 
 
 @pytest.fixture
@@ -34,7 +34,8 @@ def test_real_images_both_formats_resize_and_metadata(seed, agent_settings, ad_i
         sidecar = json.loads(ad.image_path.with_suffix(".json").read_text())
         assert sidecar["id"] == ad.id
         assert "never redraw" in ad.prompt_used
-        assert "No offer language" in ad.prompt_used
+        assert "fictional demo copy" in ad.prompt_used
+        assert "at most five" in ad.prompt_used
     assert client.sequences["ad_generate"] == 2
 
 

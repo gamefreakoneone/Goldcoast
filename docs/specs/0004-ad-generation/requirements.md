@@ -16,6 +16,7 @@ Turn each `AdBrief` into a landscape ad and a portrait ad using the Gemini image
 - Dimension check: if the returned image has the correct aspect ratio but a different size, resize to the target; if the aspect ratio is wrong, retry once with a stronger instruction, then record the ad with `format_mismatch: true` in its metadata for the judge.
 - `hints` from a judge verdict are appended to the prompt on regeneration attempts, and `attempt` is incremented.
 - Every model call is recorded and replayable, including the image bytes reference.
+- Owner refinement: use a concise creative hook plus an athlete-interest discovery sentence and a prominent offer badge. The fictional ticket-holder offer must visibly retain `Demo offer:` and its exact ticket condition and 15% amount; it does not imply athlete sponsorship or an unsupported medal result.
 - CLI `generate` command and tests in replay mode that verify file layout, metadata, and dimension handling using recorded responses.
 
 ## Inputs and Outputs

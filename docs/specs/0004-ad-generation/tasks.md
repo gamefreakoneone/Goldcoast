@@ -2,6 +2,8 @@
 
 ## Task List
 
+- [x] Generate and inspect both formats using the owner's creative discovery and labeled demo-offer direction; retain fresh real replay fixtures.
+
 - [x] Extend `GeminiClient` with `generate_image` and image call recording.
 - [x] Implement `check_dimensions`, `resize_to_format`, and `load_image_part` in `src/goldcoast/media/images.py`.
 - [x] Write `build_ad_prompt` in `src/goldcoast/agents/prompts/ad_generate.py`, including the athlete portrait as a reference part and the instruction not to redraw the athlete.

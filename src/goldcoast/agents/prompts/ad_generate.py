@@ -30,6 +30,14 @@ def build_ad_prompt(
         "do not turn it into an endorsement. Keep the business name, tagline/offer, and CTA "
         "verbatim and legible, and preserve the supplied logo. Render all text in the image. "
         "Leave safe margins for critical text and keep the athlete and product visible. "
+        "Make the story creative and curiosity-led: the observed sporting moment leads to a "
+        "documented taste and then a local discovery. Use a punchy headline of at most five "
+        "words from the brief's direction, followed by one short discovery sentence naming "
+        "the athlete and the documented taste. Example: 'Big cheers. Fresh flavors.' then "
+        "'Simone Biles loves sushi. Ready to explore your next favorite?' Never imply she "
+        "likes this specific business. Do not invent a medal win from a crowd celebration. "
+        "Use a clear visual hierarchy: short hook, athlete-interest discovery line, prominent "
+        "offer badge, logo and CTA. Do not print the whole headline_direction as one headline. "
     )
     if without_portrait:
         instruction += (
@@ -39,6 +47,12 @@ def build_ad_prompt(
     if business.offer_text is None:
         instruction += (
             "There is no promotion: the supplied offer_text is a tagline. No offer language. "
+        )
+    elif business.offer_text.startswith("Demo offer:"):
+        instruction += (
+            "This ticket promotion is fictional demo copy. Print the entire supplied offer "
+            "verbatim, including a clearly visible 'Demo offer:' qualifier, ticket condition, "
+            "and 15% amount. Make the offer prominent without implying athlete sponsorship. "
         )
     return (
         instruction
