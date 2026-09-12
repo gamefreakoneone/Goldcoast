@@ -2,7 +2,9 @@
 
 Dynamic ad generation for the LA 2028 Olympics: an AI video agent spots hype moments in Olympics footage, and an ad-generation agent turns each moment into landscape and portrait ads for nearby local businesses, judged for quality and approved by a human through a web UI.
 
-The first scaffold includes the shared data contracts, Simone Biles's profile, three real LA businesses, clip-manifest persistence, Gemini call recording, and command-line entry points. Pipeline stages are added by the later numbered specs.
+The full agent pipeline and HTTP API are implemented, with Simone Biles's profile,
+three LA businesses, recorded replay, live events, human decisions, and approved
+exports. The browser UI is the remaining spec (0008).
 
 ## Setup
 
@@ -98,16 +100,68 @@ independent of the original output directory after creation and do not need to
 reanalyze or decode the video. `GOLDCOAST_REPLAY_RUN` supplies the default source
 when replay mode is enabled. An unavailable recording fails explicitly.
 
+### API demo
+
+From the repository root:
+
+```powershell
+(& conda shell.powershell hook) | Out-String | Invoke-Expression
+conda activate goldcoast
+$env:GOLDCOAST_REPLAY = "1"
+$env:GOLDCOAST_REPLAY_RUN = "20260912-230559-0d2470"
+uvicorn goldcoast.api.app:app --reload
+```
+
+Open `http://localhost:8000/docs` for the interactive API. In another terminal:
+
+```powershell
+$run = Invoke-RestMethod -Method Post -Uri "http://localhost:8000/runs" -ContentType "application/json" -Body '{"clip_path":"sample_clips/gymnastics_simone.mp4","replay_from":"20260912-230559-0d2470"}'
+curl.exe -N "http://localhost:8000/runs/$($run.id)/events"
+$ads = Invoke-RestMethod "http://localhost:8000/runs/$($run.id)/ads"
+Invoke-RestMethod -Method Post -Uri "http://localhost:8000/ads/$($ads[0].id)/decision" -ContentType "application/json" -Body '{"decision":"approved","reviewer":"demo","note":""}'
+Invoke-RestMethod "http://localhost:8000/runs/$($run.id)/export"
+```
+
+The source run is the actual completed demo: 3 moments, 6 briefs, and 12 passing
+final ads. It exists locally under `output/runs/20260912-230559-0d2470/`. On a fresh
+checkout, install the committed fixture first:
+
+```powershell
+New-Item -ItemType Directory -Force output/runs
+Copy-Item -Recurse tests/fixtures/runs/20260912-230559-0d2470 output/runs/20260912-230559-0d2470
+```
+
+Replay does not require the MP4; browser playback requires
+`sample_clips/gymnastics_simone.mp4`. Replay never analyzes or regenerates inputs
+through Gemini. The same demo also runs through the CLI:
+
+```powershell
+python -m goldcoast run sample_clips/gymnastics_simone.mp4 --replay-from 20260912-230559-0d2470
+```
+
+`GET /clips` provides clip metadata and playback URLs. Moment/ad responses include
+media URLs; final ads include their verdict, attempt history, and current decision.
+SSE resumes strictly after `Last-Event-ID` and closes on completion/failure; consumers
+should close EventSource on those terminal events. Export returns a manifest with
+download URLs and writes `approved/` under the run, using brief-specific filenames.
+Changing an approval and exporting again refreshes that directory.
+
+This is a single-process demo server. CORS defaults to `http://localhost:5173`;
+configure `GOLDCOAST_API_CORS_ORIGINS` as a JSON array and
+`GOLDCOAST_SAMPLE_CLIPS_DIR` to change the clip directory. The planned frontend
+command, `pnpm --dir web dev`, becomes available in spec 0008.
+
 ## Validation
 
 ```powershell
 ffmpeg -version
 python -m goldcoast validate-seed
-pytest
+pytest -p no:cacheprovider --basetemp output/pytest-tmp
 ruff check .
 ruff format --check .
 ```
 
-If pytest cannot create its Windows temporary directory, create `output/` if needed and run `pytest -p no:cacheprovider --basetemp output/pytest-tmp`.
+Create `output/` first if needed. The pytest flags avoid Windows temporary-directory
+permission issues; do not run concurrent pytest processes sharing that directory.
 
 See [AGENTS.md](AGENTS.md) for working rules, [docs/FEATURE_STATUS.md](docs/FEATURE_STATUS.md) for feature progress, and [docs/DATA_REQUIREMENTS.md](docs/DATA_REQUIREMENTS.md) for production data requirements.

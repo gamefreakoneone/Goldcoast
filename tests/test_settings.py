@@ -24,6 +24,8 @@ def _clear_environment(monkeypatch: pytest.MonkeyPatch) -> None:
         "GOLDCOAST_REPLAY_RUN",
         "GOLDCOAST_OUTPUT_DIR",
         "GOLDCOAST_CLIP_MANIFEST",
+        "GOLDCOAST_API_CORS_ORIGINS",
+        "GOLDCOAST_SAMPLE_CLIPS_DIR",
     ):
         monkeypatch.delenv(name, raising=False)
 
@@ -57,6 +59,23 @@ def test_google_api_key_takes_precedence(monkeypatch: pytest.MonkeyPatch, tmp_pa
     monkeypatch.setenv("GEMINI_API_KEY", "gemini-key")
     monkeypatch.setenv("GOOGLE_API_KEY", "google-key")
     assert Settings.from_env(tmp_path / "missing.env").gemini_api_key == "google-key"
+
+
+def test_api_settings(monkeypatch, tmp_path):
+    _clear_environment(monkeypatch)
+    for name, value in MODEL_ENV.items():
+        monkeypatch.setenv(name, value)
+    monkeypatch.setenv("GOLDCOAST_REPLAY", "1")
+    monkeypatch.setenv(
+        "GOLDCOAST_API_CORS_ORIGINS", '["http://localhost:5173","http://127.0.0.1:5173"]'
+    )
+    monkeypatch.setenv("GOLDCOAST_SAMPLE_CLIPS_DIR", str(tmp_path / "clips"))
+    settings = Settings.from_env(tmp_path / "missing.env")
+    assert settings.api_cors_origins == ["http://localhost:5173", "http://127.0.0.1:5173"]
+    assert settings.sample_clips_dir == tmp_path / "clips"
+    monkeypatch.setenv("GOLDCOAST_API_CORS_ORIGINS", "not-json")
+    with pytest.raises(SettingsError, match="JSON array"):
+        Settings.from_env(tmp_path / "missing.env")
 
 
 def test_placeholder_models_are_rejected(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:

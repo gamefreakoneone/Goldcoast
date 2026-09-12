@@ -139,17 +139,20 @@ Rules:
 
 ### API shapes (`api/`)
 
-- `POST /runs` body `{ "clip_path": str, "replay": bool }` returns `Run`.
+- `POST /runs` body `{ "clip_path": str, "replay": bool | null, "replay_from": str | null }` returns a `running` `Run` with HTTP 201. Omitted/null `replay` inherits settings; an explicit source enables replay. Replay requires a source (body or configured default) and a matching confined clip path, but no MP4. Explicit live selection overrides the environment and requires an existing MP4. Execution runs off the event loop with the pre-created Run/EventBus.
 - `GET /runs` returns `list[Run]`.
 - `GET /runs/{run_id}` returns `Run`.
-- `GET /runs/{run_id}/events` is an SSE stream of `PipelineEvent`, replaying the backlog then live events.
-- `GET /runs/{run_id}/moments` returns `list[HypeMoment]`.
+- `GET /runs/{run_id}/events` streams `PipelineEvent` backlog then live events using an atomic subscription. `Last-Event-ID` resumes strictly after the zero-based string ID; invalid cursors return 400. Stream closes at `run_completed`/`run_failed`; a cursor at/past terminal returns 204. Inactive runs return finite backlog. HTTP payloads add `image_url` to generated ads and `best_frame_url`/`clip_url` to moments, including nested `ad_final` attempts; stored recordings are unchanged. Consumers close EventSource on terminal events and refetch decisions over HTTP.
+- `GET /runs/{run_id}/moments` returns HypeMoment fields plus `best_frame_url: str | None` and `clip_url: str`.
 - `GET /runs/{run_id}/briefs` returns `list[AdBrief]`.
-- `GET /runs/{run_id}/ads` returns `list[AdWithVerdict]` where `AdWithVerdict` is `GeneratedAd` plus `verdict: QualityVerdict | None` plus `decision: ApprovalDecision | None`.
-- `POST /ads/{ad_id}/decision` body `ApprovalDecision` without `decided_at` returns `ApprovalDecision`.
-- `GET /runs/{run_id}/export` returns a manifest of approved ads and copies them to `output/runs/<run_id>/approved/`.
+- `GET /runs/{run_id}/ads` returns only `Run.ad_ids` as `list[AdWithVerdict]`: GeneratedAd fields plus `image_url`, required `verdict`, nullable `decision`, `attempts: list[AdAttempt]`, and `errors: list[str]`. AdAttempt has `ad` (GeneratedAd plus image_url), nullable `verdict`, and `is_final`. Attempts group by brief/format and sort numerically; a final without a matching verdict is a 409 integrity error. Overall is `verdict.scores.overall`.
+- `POST /ads/{ad_id}/decision` body `{ "ad_id": str | null, "decision": "approved" | "rejected", "reviewer": str, "note": str | null }` returns `ApprovalDecision` with server UTC `decided_at`. Body ID, when supplied, must match the URL. Missing verdict is 409. Latest decision is persisted atomically; every decision emits a durable `ad_decided` event.
+- `GET /runs/{run_id}/export` returns `{run_id, exported_at, ads: [{ad_id, brief_id, business_id, format, path, image_url, decision}]}` and copies approved final ads to `approved/<business_id>_brief_<12-character-brief-hash>_<format>.png`. Writes `approved/manifest.json`; subsequent exports remove stale exported PNGs. `path` is relative to the run directory. No zip.
+- `GET /clips` returns `list[ClipInfo]`: ClipEntry fields plus `clip_path`, `clip_url`, and `available`. Lists the union of manifest entries and local MP4 files; no analysis or decoding occurs.
 - `GET /media/{run_id}/{path}` serves files from the run directory. `GET /clips/{name}` serves files from `sample_clips/`.
 - `GET /seed/athletes`, `GET /seed/businesses`, `GET /seed/ad-styles` return the seed data.
+
+API configuration: `GOLDCOAST_API_CORS_ORIGINS` is a JSON array, default `["http://localhost:5173"]`; `GOLDCOAST_SAMPLE_CLIPS_DIR` defaults to `sample_clips`. Media paths are confined, traversal is rejected, and clip responses support HTTP byte ranges for video seeking. Run IDs and ad IDs are validated before lookup or writing.
 
 ### CLI (`cli.py`)
 
@@ -178,6 +181,7 @@ Rules:
 - Secrets live only in `.env`. `output/`, `sample_clips/*.mp4`, and `.env` are gitignored.
 - The web UI reads and writes only through the API. It never touches the filesystem or Gemini directly.
 - Files are written atomically (write to a temp file, then rename) so the SSE stream never reads a partial artifact.
+- On Windows, atomic replacement retries sharing/access violations (WinError 5/32) up to six attempts with bounded backoff (310 ms total). API validation exposed readers briefly preventing replacement of `run.json`; other errors still fail immediately and a persistent sharing failure remains an error.
 
 ## Intentional Design Decisions — Preserve During Rebuild
 

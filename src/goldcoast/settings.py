@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from functools import lru_cache
 from pathlib import Path
@@ -42,6 +43,8 @@ class Settings(BaseModel):
     frame_candidate_window_s: float = Field(default=1.0, gt=0)
     athlete_confidence_threshold: float = Field(default=0.6, ge=0, le=1)
     max_businesses: int = Field(default=2, ge=1)
+    api_cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
+    sample_clips_dir: Path = Path("sample_clips")
 
     @model_validator(mode="after")
     def validate_configuration(self) -> Settings:
@@ -85,9 +88,15 @@ class Settings(BaseModel):
                 "GOLDCOAST_ATHLETE_CONFIDENCE_THRESHOLD", ".6"
             ),
             "max_businesses": os.getenv("GOLDCOAST_MAX_BUSINESSES", "2"),
+            "sample_clips_dir": os.getenv("GOLDCOAST_SAMPLE_CLIPS_DIR", "sample_clips"),
         }
         try:
+            values["api_cors_origins"] = json.loads(
+                os.getenv("GOLDCOAST_API_CORS_ORIGINS", '["http://localhost:5173"]')
+            )
             return cls.model_validate(values)
+        except json.JSONDecodeError as exc:
+            raise SettingsError("GOLDCOAST_API_CORS_ORIGINS must be a JSON array") from exc
         except ValidationError as exc:
             messages = "; ".join(
                 str(error["msg"]).removeprefix("Value error, ") for error in exc.errors()
