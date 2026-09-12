@@ -14,6 +14,7 @@ from goldcoast.matching.business_candidates import (
     NoBusinessMatchError,
     athlete_tags,
     candidate_businesses,
+    tag,
 )
 from goldcoast.matching.style_selector import eligible_styles
 from goldcoast.models.manifest import ClipEntry, ClipManifest
@@ -84,9 +85,18 @@ class MatchingAgent:
                 match_reason="Shared tags: " + ", ".join(c.overlap_tags),
                 score=c.base_score,
                 headline_direction=(
-                    f"Inspired by {athlete.name}'s interest in "
-                    f"{c.overlap_tags[0].replace('_', ' ')}, "
-                    f"explore {self.seed.businesses[c.business_id].name} nearby."
+                    f"Cheer {athlete.name.split()[0]}. Discover her tastes. "
+                    f"{athlete.name} enjoys "
+                    + next(
+                        (
+                            dish
+                            for food in athlete.favorite_foods
+                            for dish in food.dishes
+                            if tag(dish) in c.overlap_tags
+                        ),
+                        c.overlap_tags[0].replace("_", " "),
+                    )
+                    + f"; explore {self.seed.businesses[c.business_id].name} nearby."
                 ),
             )
             for c in candidates
@@ -126,7 +136,11 @@ class MatchingAgent:
         for ranked in list(selected.values())[: self.settings.max_businesses]:
             business = self.seed.businesses[ranked.business_id]
             headline = ranked.headline_direction
-            if not headline or ENDORSEMENT.search(headline):
+            if (
+                not headline
+                or ENDORSEMENT.search(headline)
+                or athlete.name.split()[0].casefold() not in headline.casefold()
+            ):
                 headline = fallback[business.id].headline_direction
             brief = AdBrief(
                 id=f"{moment.id}-brief-{business.id}",

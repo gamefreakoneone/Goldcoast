@@ -15,6 +15,7 @@ Turn a `HypeMoment` into one `AdBrief` per relevant local business by resolving 
 - Each `AdBrief` carries `headline_direction`, `offer_text` and `cta` from the business, `match_reason`, `match_score`, and both formats.
 - `headline_direction` follows the discovery framing: it invites the visitor to explore something the athlete is known to like, using only facts from the athlete's seed profile, and never states or implies that the athlete endorses, recommends, or visits the business. The re-rank prompt includes this rule and an example of acceptable and unacceptable phrasing, and the agent rejects a headline direction containing endorsement verbs (`endorses`, `recommends`, `loves eating at`, `visits`) and falls back to a template built from the overlap tag.
 - Every model call is recorded and replayable.
+- Owner refinement (2026-09-12): headline directions connect the observed moment to the athlete's documented tastes with a short creative hook and curiosity-led discovery line. Include the athlete's name, avoid unsupported medal/result claims, and preserve the explicit `Demo offer` qualifier on the requested fictional 15% ticket-holder promotion for the two restaurants.
 - CLI `match` command and tests in replay mode covering a confident match, an ambiguous athlete, and an athlete with no matching businesses.
 
 ## Inputs and Outputs

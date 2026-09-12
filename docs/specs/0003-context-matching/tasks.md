@@ -2,6 +2,8 @@
 
 ## Task List
 
+- [x] Apply the owner's creative discovery and clearly labeled ticket-holder demo-offer refinement, record fresh matching outputs, and revalidate.
+
 - [x] Implement `resolve_athlete` in `src/goldcoast/matching/athlete_resolver.py`, plus the direct lookup path when `moment.athlete_id` is set and the manifest write-back on resolution.
 - [x] Implement `candidate_businesses` in `src/goldcoast/matching/business_candidates.py` with tag normalization.
 - [x] Implement `eligible_styles` in `src/goldcoast/matching/style_selector.py`.

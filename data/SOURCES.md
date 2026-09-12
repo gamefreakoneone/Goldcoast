@@ -39,4 +39,6 @@ Provenance and copy guidance for the records in this folder. This file is not lo
 ## Tagline and offer notes
 
 - All taglines are demo copy written for this project, not the businesses' own slogans.
-- `offer_text` is null for every real business because no real promotion exists. The ad agent uses the tagline in place of an offer when `offer_text` is null. Do not invent offers for real businesses.
+- On 2026-09-12 the owner requested a ticket-holder promotion for the demo. Yama and Prime Pizza now carry `Demo offer: bring your Olympics ticket for 15% off`. This is explicitly fictional demonstration copy, not a verified or redeemable promotion from either business. Preserve the visible `Demo offer` qualifier in generated ads and judging.
+- The sports venue retains null `offer_text`; the ad agent uses its tagline instead. Do not introduce additional promotions.
+- Creative direction: connect the observed athletic moment to a documented taste, then invite the visitor to discover it nearby. Example: "Big cheers. Fresh discoveries. Simone loves sushi. Ready to explore your next favorite?" Use Simone Biles's correct name. This clip shows a routine and crowd reaction; do not claim it shows a gold-medal win.

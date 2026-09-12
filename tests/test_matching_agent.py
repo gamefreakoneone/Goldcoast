@@ -12,7 +12,7 @@ from goldcoast.matching.business_candidates import NoBusinessMatchError, candida
 from goldcoast.models.manifest import ClipEntry, ClipManifest
 from goldcoast.models.pipeline import AdFormat, AthleteHints
 
-FIXTURES = Path(__file__).parent / "fixtures/model_calls/match"
+FIXTURES = Path(__file__).parent / "fixtures/model_calls/match/creative"
 
 
 def test_real_match_and_curated_shortcut(seed, agent_settings, moment, tmp_path):
@@ -27,7 +27,11 @@ def test_real_match_and_curated_shortcut(seed, agent_settings, moment, tmp_path)
     for brief in briefs:
         assert brief.business_id in eligible
         assert brief.formats == [AdFormat.LANDSCAPE, AdFormat.PORTRAIT]
-        assert brief.offer_text == seed.businesses[brief.business_id].tagline
+        business = seed.businesses[brief.business_id]
+        assert brief.offer_text == (business.offer_text or business.tagline)
+        assert "Simone" in brief.headline_direction
+        if business.category == "restaurant":
+            assert brief.offer_text == "Demo offer: bring your Olympics ticket for 15% off"
         assert not ENDORSEMENT.search(brief.headline_direction)
         assert (tmp_path / "briefs" / f"{brief.id}.json").is_file()
 

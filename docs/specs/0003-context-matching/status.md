@@ -6,6 +6,47 @@ Completed
 
 ## Evidence
 
+### Owner-directed creative refinement
+
+Reopened after the owner requested more creative, athlete-interest-led discovery
+and a ticket-holder 15% demo promotion. 0005 implementation is paused while this
+upstream copy is refreshed. Yama and Prime Pizza explicitly label their fictional
+promotion `Demo offer`; the sports venue remains unchanged. Updated the reranker
+to connect the actual moment to known tastes, use a short headline and curiosity
+line, and avoid unsupported gold-medal or result claims. No video analysis is needed.
+
+Refinement validation commands:
+
+```powershell
+conda activate goldcoast
+$env:GOLDCOAST_REPLAY = "0"
+python -m goldcoast match output/manual/0002/moments/0002-moment-1.json --out output/manual/0003-creative
+$env:GOLDCOAST_REPLAY = "1"; pytest tests/test_athlete_resolver.py tests/test_matching_agent.py -p no:cacheprovider --basetemp output/pytest-tmp
+python -m goldcoast validate-seed
+ruff check .
+ruff format --check .
+```
+
+All exited 0. `10 passed in 1.06s`; seed counts 1 athlete, 3 businesses, 2 styles,
+2 venues, with only the existing unused-tag warning. Lint passes; 101 files
+formatted (includes the paused, uncommitted 0005 work). Two fresh matching calls,
+zero video calls. Preserved unchanged recordings under
+`tests/fixtures/model_calls/match/creative/`; original baseline records remain.
+
+Printed output is persisted in `output/manual/0003-creative/briefs/` with the same
+brief IDs, athlete, moment, formats, and electric-finish style as the baseline:
+
+| Business | Score | Headline direction |
+|---|---|---|
+| yama-sushi-marketplace-koreatown | 0.92 | Big cheers. Fresh flavors. Simone Biles loves sushi; explore delicious rolls and fresh flavors nearby. Demo offer: bring your Olympics ticket for 15% off. |
+| prime-pizza-little-tokyo | 0.82 | Big routine. Warm slices. Simone Biles loves pepperoni pizza; explore a crisp New York-style slice nearby. Demo offer: bring your Olympics ticket for 15% off. |
+
+Both printed offer_text fields are exactly `Demo offer: bring your Olympics ticket
+for 15% off`. CTAs remain `Explore Yama Sushi Marketplace` and `Discover Prime Pizza
+in Little Tokyo`. Match reasons explicitly connect Simone's documented cuisine and
+dish preferences to each business. The source-data note records these offers as
+owner-requested fictional demo copy rather than verified business promotions.
+
 ### Completed validation — 2026-09-12
 
 Reviewed the checkpoint implementation against the full requirements/design/tasks
@@ -108,3 +149,4 @@ None.
 - 2026-09-12: Started after completed 0002 commit 9f16fdc; read requirements, design, tasks and shared contracts.
 - 2026-09-12: User requested a fresh context window. Paused with implementation uncommitted, eight offline tests passing, and live matching/fixture validation still pending.
 - 2026-09-12: Reviewed checkpoint, recorded the two successful matching calls, passed all validations and 45 regression tests, and marked Completed.
+- 2026-09-12: Completed the owner's creative discovery/demo-offer refinement with two new real recordings and all matching validations passing; resumed downstream work.

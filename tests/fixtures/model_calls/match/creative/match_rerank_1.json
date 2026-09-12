@@ -1,0 +1,168 @@
+{
+  "stage": "match_rerank",
+  "sequence": 1,
+  "model_id": "gemini-3.8-flash",
+  "prompt": "Rank only the supplied eligible local businesses for this hype\nmoment and athlete. Return each supplied business once, in best-first order, with\na one-sentence match reason grounded in the overlap tags, score from 0 to 1, and\na concise headline direction. You cannot add businesses. Use only facts in the\nathlete's supplied profile. This is interest-based local discovery, not endorsement.\nNever imply the athlete endorses, recommends, loves eating at, visits, or has a\nrelationship with a business. Acceptable: 'Inspired by a love of sushi, discover\nfresh flavors nearby.' Unacceptable: 'Simone recommends Yama' or 'She visits Prime\nPizza after every meet'. Do not invent offers, promotions, visits, or favorites.\nMake the headline direction creative and athlete-led rather than generic restaurant\nadvertising: connect the observed moment to a documented taste, then invite the\nvisitor's curiosity. Include the athlete's name and the overlapping interest.\nPropose a punchy headline of at most five words plus a short discovery line.\nExample: 'Big cheers. Fresh discoveries. Simone loves sushi. Ready to explore your\nnext favorite nearby?' For pizza, connect her documented pepperoni-pizza interest\nto exploring a local slice. Her interest is not a recommendation of the business.\nNever infer a gold medal, victory, record, or competition result from celebration\nalone. Only describe the supplied moment. Any supplied 'Demo offer' is fictional\ndemo copy; preserve that qualifier, amount, and ticket condition verbatim.\n{\"moment\": {\"id\": \"0002-moment-1\", \"run_id\": \"0002\", \"clip_path\": \"sample_clips\\\\gymnastics_simone.mp4\", \"start_s\": 106.0, \"end_s\": 125.0, \"best_frame_s\": 122.5, \"best_frame_path\": \"output\\\\manual\\\\0002\\\\frames\\\\0002-moment-1.png\", \"hype_score\": 7.8, \"description\": \"Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.\", \"sport\": \"gymnastics\", \"event_context\": \"Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.\", \"athlete_id\": \"simone-biles\", \"athlete_hints\": {\"name\": \"Simone Biles\", \"country\": \"USA\", \"kit_colors\": [\"blue\", \"purple\", \"white\"], \"bib_number\": \"391\", \"crowd_reaction\": \"standing ovation and loud cheering\", \"source\": \"gemini\"}, \"source\": \"gemini\"}, \"athlete\": {\"id\": \"simone-biles\", \"name\": \"Simone Biles\", \"aliases\": [\"Simone\", \"Biles\", \"S. Biles\", \"the GOAT\"], \"country\": \"United States\", \"sport\": \"gymnastics\", \"discipline\": \"artistic\", \"event\": \"women's artistic gymnastics\", \"home_city\": \"Spring, Texas\", \"favorite_foods\": [{\"cuisine\": \"italian\", \"dishes\": [\"pepperoni pizza\", \"fettuccine alfredo with chicken\", \"carbonara\", \"pasta\"]}, {\"cuisine\": \"japanese\", \"dishes\": [\"sushi\", \"spicy tuna rolls\"]}, {\"cuisine\": \"seafood\", \"dishes\": [\"salmon\"]}, {\"cuisine\": \"dessert\", \"dishes\": [\"cookies\", \"cookies and cream ice cream\", \"cinnamon rolls\"]}, {\"cuisine\": \"american\", \"dishes\": [\"sweet and tangy chicken nuggets\", \"potatoes\"]}], \"interests\": [\"gymnastics\", \"horseback_riding\", \"ice_skating\", \"dogs\", \"walking\", \"shopping\", \"fashion\", \"wellness\", \"spa\", \"tennis\"], \"identification\": {\"kit_colors\": [\"red\", \"white\", \"blue\"], \"bib_number\": null, \"distinguishing_features\": [\"Team USA competition leotards at international events\", \"has worn rhinestone goat motifs on competition leotards\", \"4 ft 8 in height\"]}, \"headshot\": \"athletes/simone-biles/portrait.png\", \"social_handles\": {\"instagram\": \"@simonebiles\"}, \"fun_facts\": [\"Has five gymnastics elements named after her in the FIG Code of Points\", \"Has won 41 Olympic and World Championship medals combined\", \"Has won 11 Olympic medals: 7 gold, 2 silver and 2 bronze\", \"Has won 30 World Championship medals\", \"Received the Presidential Medal of Freedom in 2022\", \"Was born in Columbus, Ohio and raised in Spring, Texas\"]}, \"candidates\": [{\"business_id\": \"yama-sushi-marketplace-koreatown\", \"overlap_tags\": [\"japanese\", \"salmon\", \"seafood\", \"sushi\"], \"base_score\": 0.406, \"business\": {\"id\": \"yama-sushi-marketplace-koreatown\", \"name\": \"Yama Sushi Marketplace\", \"category\": \"restaurant\", \"tags\": [\"japanese\", \"seafood\", \"sushi\", \"salmon\", \"spicy_tuna\", \"grab_and_go\"], \"address\": \"3178 W Olympic Blvd, Los Angeles, CA 90006\", \"neighborhood\": \"Koreatown\", \"nearest_venue\": \"crypto-com-arena\", \"short_description\": \"A neighborhood Japanese marketplace known for fresh grab-and-go sushi, sashimi, bento, hot bites and a large selection of sake and Japanese pantry goods.\", \"offerings\": [\"salmon avocado roll\", \"spicy tuna roll\", \"sushi and sashimi platters\"], \"logo\": \"yama-sushi-marketplace-koreatown/logo.png\", \"brand_colors\": [\"#E94B35\", \"#F5E9D3\", \"#171717\"], \"tagline\": \"Fresh sushi, discovered in Koreatown\", \"offer_text\": \"Demo offer: bring your Olympics ticket for 15% off\", \"cta\": \"Explore Yama Sushi Marketplace\", \"website\": \"https://www.yamasushimarketplace.com/\", \"instagram\": \"@yamasushimarketplace\", \"hours\": \"Daily 11:00-20:00\", \"price_range\": \"$$\", \"reference_photos\": [\"yama-sushi-marketplace-koreatown/signature-sushi.png\"]}}, {\"business_id\": \"prime-pizza-little-tokyo\", \"overlap_tags\": [\"italian\", \"pepperoni_pizza\"], \"base_score\": 0.20600000000000002, \"business\": {\"id\": \"prime-pizza-little-tokyo\", \"name\": \"Prime Pizza Little Tokyo\", \"category\": \"restaurant\", \"tags\": [\"italian\", \"pizza\", \"pepperoni_pizza\", \"new_york_style\", \"late_night\"], \"address\": \"141 S Central Ave, Los Angeles, CA 90012\", \"neighborhood\": \"Little Tokyo\", \"nearest_venue\": \"crypto-com-arena\", \"short_description\": \"A Los Angeles pizzeria serving New York-style round pies, square pies, slices and garlic knots, with late-night hours on Fridays and Saturdays.\", \"offerings\": [\"pepperoni pizza\", \"spicy pepperoni square pizza\", \"garlic knots\"], \"logo\": \"prime-pizza-little-tokyo/logo.png\", \"brand_colors\": [\"#E1251B\", \"#FFFFFF\", \"#111111\"], \"tagline\": \"A classic LA slice after a big routine\", \"offer_text\": \"Demo offer: bring your Olympics ticket for 15% off\", \"cta\": \"Discover Prime Pizza in Little Tokyo\", \"website\": \"https://primepizza.com/locations\", \"instagram\": \"@primepizzala\", \"hours\": \"Sun-Thu 11:00-22:00; Fri-Sat 11:00-00:00\", \"price_range\": \"$$\", \"reference_photos\": [\"prime-pizza-little-tokyo/pepperoni-pizza.jpg\"]}}, {\"business_id\": \"toyota-sports-performance-center\", \"overlap_tags\": [\"ice_skating\"], \"base_score\": 0.10300000000000001, \"business\": {\"id\": \"toyota-sports-performance-center\", \"name\": \"Toyota Sports Performance Center\", \"category\": \"sports_venue\", \"tags\": [\"ice_skating\", \"sports_venue\", \"learn_to_skate\", \"figure_skating\", \"family_activity\"], \"address\": \"555 N Nash St, El Segundo, CA 90245\", \"neighborhood\": \"El Segundo\", \"nearest_venue\": \"intuit-dome\", \"short_description\": \"A three-rink sports facility and LA Kings practice center offering public skating, figure-skating programs and learn-to-skate classes for children and adults.\", \"offerings\": [\"public skating sessions\", \"learn-to-skate classes\", \"figure-skating programs\"], \"logo\": \"toyota-sports-performance-center/logo.png\", \"brand_colors\": [\"#EB0A1E\", \"#111111\", \"#FFFFFF\"], \"tagline\": \"Try a different kind of rotation\", \"offer_text\": null, \"cta\": \"Check the public-skating schedule\", \"website\": \"https://www.toyotasportsperformancecenter.com/\", \"instagram\": \"@lakingstspc\", \"hours\": \"Public-skating sessions vary; check the current schedule before visiting\", \"price_range\": \"$$\", \"reference_photos\": [\"toyota-sports-performance-center/rink.jpg\"]}}]}",
+  "input_refs": [],
+  "response_text": "{\"businesses\":[{\"business_id\":\"yama-sushi-marketplace-koreatown\",\"match_reason\":\"Simone Biles' documented affinity for Japanese cuisine and sushi directly aligns with the fresh sushi and salmon offerings at Yama Sushi Marketplace.\",\"score\":0.92,\"headline_direction\":\"Big cheers. Fresh flavors. Simone Biles loves sushi; explore delicious rolls and fresh flavors nearby. Demo offer: bring your Olympics ticket for 15% off.\"},{\"business_id\":\"prime-pizza-little-tokyo\",\"match_reason\":\"Simone Biles' documented taste for Italian food and pepperoni pizza connects directly with the pepperoni pies crafted at Prime Pizza.\",\"score\":0.82,\"headline_direction\":\"Big routine. Warm slices. Simone Biles loves pepperoni pizza; explore a crisp New York-style slice nearby. Demo offer: bring your Olympics ticket for 15% off.\"},{\"business_id\":\"toyota-sports-performance-center\",\"match_reason\":\"Simone Biles' documented personal interest in ice skating matches the public skating sessions and rinks available at Toyota Sports Performance Center.\",\"score\":0.65,\"headline_direction\":\"High energy. Hit the ice. Simone Biles enjoys ice skating; lace up your skates and explore public rink sessions nearby.\"}]}",
+  "response_raw": {
+    "request": {
+      "contents": "Rank only the supplied eligible local businesses for this hype\nmoment and athlete. Return each supplied business once, in best-first order, with\na one-sentence match reason grounded in the overlap tags, score from 0 to 1, and\na concise headline direction. You cannot add businesses. Use only facts in the\nathlete's supplied profile. This is interest-based local discovery, not endorsement.\nNever imply the athlete endorses, recommends, loves eating at, visits, or has a\nrelationship with a business. Acceptable: 'Inspired by a love of sushi, discover\nfresh flavors nearby.' Unacceptable: 'Simone recommends Yama' or 'She visits Prime\nPizza after every meet'. Do not invent offers, promotions, visits, or favorites.\nMake the headline direction creative and athlete-led rather than generic restaurant\nadvertising: connect the observed moment to a documented taste, then invite the\nvisitor's curiosity. Include the athlete's name and the overlapping interest.\nPropose a punchy headline of at most five words plus a short discovery line.\nExample: 'Big cheers. Fresh discoveries. Simone loves sushi. Ready to explore your\nnext favorite nearby?' For pizza, connect her documented pepperoni-pizza interest\nto exploring a local slice. Her interest is not a recommendation of the business.\nNever infer a gold medal, victory, record, or competition result from celebration\nalone. Only describe the supplied moment. Any supplied 'Demo offer' is fictional\ndemo copy; preserve that qualifier, amount, and ticket condition verbatim.\n{\"moment\": {\"id\": \"0002-moment-1\", \"run_id\": \"0002\", \"clip_path\": \"sample_clips\\\\gymnastics_simone.mp4\", \"start_s\": 106.0, \"end_s\": 125.0, \"best_frame_s\": 122.5, \"best_frame_path\": \"output\\\\manual\\\\0002\\\\frames\\\\0002-moment-1.png\", \"hype_score\": 7.8, \"description\": \"Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.\", \"sport\": \"gymnastics\", \"event_context\": \"Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.\", \"athlete_id\": \"simone-biles\", \"athlete_hints\": {\"name\": \"Simone Biles\", \"country\": \"USA\", \"kit_colors\": [\"blue\", \"purple\", \"white\"], \"bib_number\": \"391\", \"crowd_reaction\": \"standing ovation and loud cheering\", \"source\": \"gemini\"}, \"source\": \"gemini\"}, \"athlete\": {\"id\": \"simone-biles\", \"name\": \"Simone Biles\", \"aliases\": [\"Simone\", \"Biles\", \"S. Biles\", \"the GOAT\"], \"country\": \"United States\", \"sport\": \"gymnastics\", \"discipline\": \"artistic\", \"event\": \"women's artistic gymnastics\", \"home_city\": \"Spring, Texas\", \"favorite_foods\": [{\"cuisine\": \"italian\", \"dishes\": [\"pepperoni pizza\", \"fettuccine alfredo with chicken\", \"carbonara\", \"pasta\"]}, {\"cuisine\": \"japanese\", \"dishes\": [\"sushi\", \"spicy tuna rolls\"]}, {\"cuisine\": \"seafood\", \"dishes\": [\"salmon\"]}, {\"cuisine\": \"dessert\", \"dishes\": [\"cookies\", \"cookies and cream ice cream\", \"cinnamon rolls\"]}, {\"cuisine\": \"american\", \"dishes\": [\"sweet and tangy chicken nuggets\", \"potatoes\"]}], \"interests\": [\"gymnastics\", \"horseback_riding\", \"ice_skating\", \"dogs\", \"walking\", \"shopping\", \"fashion\", \"wellness\", \"spa\", \"tennis\"], \"identification\": {\"kit_colors\": [\"red\", \"white\", \"blue\"], \"bib_number\": null, \"distinguishing_features\": [\"Team USA competition leotards at international events\", \"has worn rhinestone goat motifs on competition leotards\", \"4 ft 8 in height\"]}, \"headshot\": \"athletes/simone-biles/portrait.png\", \"social_handles\": {\"instagram\": \"@simonebiles\"}, \"fun_facts\": [\"Has five gymnastics elements named after her in the FIG Code of Points\", \"Has won 41 Olympic and World Championship medals combined\", \"Has won 11 Olympic medals: 7 gold, 2 silver and 2 bronze\", \"Has won 30 World Championship medals\", \"Received the Presidential Medal of Freedom in 2022\", \"Was born in Columbus, Ohio and raised in Spring, Texas\"]}, \"candidates\": [{\"business_id\": \"yama-sushi-marketplace-koreatown\", \"overlap_tags\": [\"japanese\", \"salmon\", \"seafood\", \"sushi\"], \"base_score\": 0.406, \"business\": {\"id\": \"yama-sushi-marketplace-koreatown\", \"name\": \"Yama Sushi Marketplace\", \"category\": \"restaurant\", \"tags\": [\"japanese\", \"seafood\", \"sushi\", \"salmon\", \"spicy_tuna\", \"grab_and_go\"], \"address\": \"3178 W Olympic Blvd, Los Angeles, CA 90006\", \"neighborhood\": \"Koreatown\", \"nearest_venue\": \"crypto-com-arena\", \"short_description\": \"A neighborhood Japanese marketplace known for fresh grab-and-go sushi, sashimi, bento, hot bites and a large selection of sake and Japanese pantry goods.\", \"offerings\": [\"salmon avocado roll\", \"spicy tuna roll\", \"sushi and sashimi platters\"], \"logo\": \"yama-sushi-marketplace-koreatown/logo.png\", \"brand_colors\": [\"#E94B35\", \"#F5E9D3\", \"#171717\"], \"tagline\": \"Fresh sushi, discovered in Koreatown\", \"offer_text\": \"Demo offer: bring your Olympics ticket for 15% off\", \"cta\": \"Explore Yama Sushi Marketplace\", \"website\": \"https://www.yamasushimarketplace.com/\", \"instagram\": \"@yamasushimarketplace\", \"hours\": \"Daily 11:00-20:00\", \"price_range\": \"$$\", \"reference_photos\": [\"yama-sushi-marketplace-koreatown/signature-sushi.png\"]}}, {\"business_id\": \"prime-pizza-little-tokyo\", \"overlap_tags\": [\"italian\", \"pepperoni_pizza\"], \"base_score\": 0.20600000000000002, \"business\": {\"id\": \"prime-pizza-little-tokyo\", \"name\": \"Prime Pizza Little Tokyo\", \"category\": \"restaurant\", \"tags\": [\"italian\", \"pizza\", \"pepperoni_pizza\", \"new_york_style\", \"late_night\"], \"address\": \"141 S Central Ave, Los Angeles, CA 90012\", \"neighborhood\": \"Little Tokyo\", \"nearest_venue\": \"crypto-com-arena\", \"short_description\": \"A Los Angeles pizzeria serving New York-style round pies, square pies, slices and garlic knots, with late-night hours on Fridays and Saturdays.\", \"offerings\": [\"pepperoni pizza\", \"spicy pepperoni square pizza\", \"garlic knots\"], \"logo\": \"prime-pizza-little-tokyo/logo.png\", \"brand_colors\": [\"#E1251B\", \"#FFFFFF\", \"#111111\"], \"tagline\": \"A classic LA slice after a big routine\", \"offer_text\": \"Demo offer: bring your Olympics ticket for 15% off\", \"cta\": \"Discover Prime Pizza in Little Tokyo\", \"website\": \"https://primepizza.com/locations\", \"instagram\": \"@primepizzala\", \"hours\": \"Sun-Thu 11:00-22:00; Fri-Sat 11:00-00:00\", \"price_range\": \"$$\", \"reference_photos\": [\"prime-pizza-little-tokyo/pepperoni-pizza.jpg\"]}}, {\"business_id\": \"toyota-sports-performance-center\", \"overlap_tags\": [\"ice_skating\"], \"base_score\": 0.10300000000000001, \"business\": {\"id\": \"toyota-sports-performance-center\", \"name\": \"Toyota Sports Performance Center\", \"category\": \"sports_venue\", \"tags\": [\"ice_skating\", \"sports_venue\", \"learn_to_skate\", \"figure_skating\", \"family_activity\"], \"address\": \"555 N Nash St, El Segundo, CA 90245\", \"neighborhood\": \"El Segundo\", \"nearest_venue\": \"intuit-dome\", \"short_description\": \"A three-rink sports facility and LA Kings practice center offering public skating, figure-skating programs and learn-to-skate classes for children and adults.\", \"offerings\": [\"public skating sessions\", \"learn-to-skate classes\", \"figure-skating programs\"], \"logo\": \"toyota-sports-performance-center/logo.png\", \"brand_colors\": [\"#EB0A1E\", \"#111111\", \"#FFFFFF\"], \"tagline\": \"Try a different kind of rotation\", \"offer_text\": null, \"cta\": \"Check the public-skating schedule\", \"website\": \"https://www.toyotasportsperformancecenter.com/\", \"instagram\": \"@lakingstspc\", \"hours\": \"Public-skating sessions vary; check the current schedule before visiting\", \"price_range\": \"$$\", \"reference_photos\": [\"toyota-sports-performance-center/rink.jpg\"]}}]}",
+      "config": {
+        "response_mime_type": "application/json",
+        "response_schema": {
+          "properties": {
+            "businesses": {
+              "items": {
+                "properties": {
+                  "business_id": {
+                    "type": "string"
+                  },
+                  "match_reason": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "headline_direction": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "business_id",
+                  "match_reason",
+                  "score",
+                  "headline_direction"
+                ],
+                "type": "object",
+                "property_ordering": [
+                  "business_id",
+                  "match_reason",
+                  "score",
+                  "headline_direction"
+                ]
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "businesses"
+          ],
+          "type": "object"
+        },
+        "automatic_function_calling": {
+          "disable": true
+        }
+      }
+    },
+    "response": {
+      "sdk_http_response": {
+        "headers": {
+          "x-gemini-service-tier": "standard",
+          "content-type": "application/json; charset=UTF-8",
+          "vary": "Origin, X-Origin, Referer",
+          "content-encoding": "gzip",
+          "date": "Sat, 12 Sep 2026 22:45:38 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=7196",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+          "transfer-encoding": "chunked"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "{\"businesses\":[{\"business_id\":\"yama-sushi-marketplace-koreatown\",\"match_reason\":\"Simone Biles' documented affinity for Japanese cuisine and sushi directly aligns with the fresh sushi and salmon offerings at Yama Sushi Marketplace.\",\"score\":0.92,\"headline_direction\":\"Big cheers. Fresh flavors. Simone Biles loves sushi; explore delicious rolls and fresh flavors nearby. Demo offer: bring your Olympics ticket for 15% off.\"},{\"business_id\":\"prime-pizza-little-tokyo\",\"match_reason\":\"Simone Biles' documented taste for Italian food and pepperoni pizza connects directly with the pepperoni pies crafted at Prime Pizza.\",\"score\":0.82,\"headline_direction\":\"Big routine. Warm slices. Simone Biles loves pepperoni pizza; explore a crisp New York-style slice nearby. Demo offer: bring your Olympics ticket for 15% off.\"},{\"business_id\":\"toyota-sports-performance-center\",\"match_reason\":\"Simone Biles' documented personal interest in ice skating matches the public skating sessions and rinks available at Toyota Sports Performance Center.\",\"score\":0.65,\"headline_direction\":\"High energy. Hit the ice. Simone Biles enjoys ice skating; lace up your skates and explore public rink sessions nearby.\"}]}",
+                "thought": null,
+                "thought_signature": {
+                  "type": "bytes",
+                  "length": 8866
+                },
+                "video_metadata": null,
+                "tool_call": null,
+                "tool_response": null,
+                "part_metadata": null,
+                "audio_transcription": null,
+                "media_processing": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "grounding_metadata": null,
+          "avg_logprobs": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.8-flash",
+      "prompt_feedback": null,
+      "response_id": "C9alatWqCvmjqtsP07m10Ak",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 264,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 2161,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 2161
+          }
+        ],
+        "thoughts_token_count": 2167,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 4592,
+        "traffic_type": null
+      },
+      "model_status": null,
+      "automatic_function_calling_history": null,
+      "parsed": {
+        "businesses": [
+          {
+            "business_id": "yama-sushi-marketplace-koreatown",
+            "match_reason": "Simone Biles' documented affinity for Japanese cuisine and sushi directly aligns with the fresh sushi and salmon offerings at Yama Sushi Marketplace.",
+            "score": 0.92,
+            "headline_direction": "Big cheers. Fresh flavors. Simone Biles loves sushi; explore delicious rolls and fresh flavors nearby. Demo offer: bring your Olympics ticket for 15% off."
+          },
+          {
+            "business_id": "prime-pizza-little-tokyo",
+            "match_reason": "Simone Biles' documented taste for Italian food and pepperoni pizza connects directly with the pepperoni pies crafted at Prime Pizza.",
+            "score": 0.82,
+            "headline_direction": "Big routine. Warm slices. Simone Biles loves pepperoni pizza; explore a crisp New York-style slice nearby. Demo offer: bring your Olympics ticket for 15% off."
+          },
+          {
+            "business_id": "toyota-sports-performance-center",
+            "match_reason": "Simone Biles' documented personal interest in ice skating matches the public skating sessions and rinks available at Toyota Sports Performance Center.",
+            "score": 0.65,
+            "headline_direction": "High energy. Hit the ice. Simone Biles enjoys ice skating; lace up your skates and explore public rink sessions nearby."
+          }
+        ]
+      }
+    }
+  },
+  "latency_ms": 7352,
+  "timestamp": "2026-09-12T22:45:29.809757Z"
+}
