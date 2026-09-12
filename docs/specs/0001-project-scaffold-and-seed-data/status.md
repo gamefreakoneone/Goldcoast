@@ -58,6 +58,26 @@ ruff format --check .
 
 Result: `63 files already formatted`.
 
+### Housekeeping revalidation — 2026-09-12
+
+The non-interactive PowerShell session needed its Conda hook loaded before activation. Commands used:
+
+```powershell
+(& conda shell.powershell hook) | Out-String | Invoke-Expression
+conda activate goldcoast
+python -m goldcoast validate-seed
+pytest
+pytest -p no:cacheprovider --basetemp output/pytest-tmp
+ruff check .
+ruff format --check .
+```
+
+`validate-seed` exited 0: `athletes: 1`, `businesses: 3`, `ad_styles: 2`, `venues: 2`. Expected warning: unmatched tags `american, dessert, dogs, fashion, gymnastics, horseback_riding, shopping, spa, tennis, walking, wellness`.
+
+Initial `pytest`: `1 failed, 8 passed, 13 errors`. Temporary-directory errors were `PermissionError: [WinError 5] Access is denied: ...\\Temp\\pytest-of-amogh`. The failing assertion required both logo dimensions to be 512, whereas `docs/DATA_REQUIREMENTS.md` requires 512 on the long side. Corrected the assertion to `max(image.size) >= 512`, preserving the supplied logos. The first fallback invocation found the `output/` parent missing; created it and reran the exact fallback command.
+
+Final results: `22 passed in 1.30s`; `ruff check .`: `All checks passed!`; `ruff format --check .`: `65 files already formatted`.
+
 ## Blockers
 
 None.
@@ -67,3 +87,5 @@ None.
 - 2026-09-12: Spec created.
 - 2026-09-12: Implemented the project scaffold, shared contracts, seed validation, fictional demo data and logos, manifest persistence, Gemini call recording, CLI commands, and tests.
 - 2026-09-12: Completed all validation steps and marked the spec Completed.
+- 2026-09-12: Post-completion data change. Replaced fictional seed data with the Simone Biles MVP set (one athlete, three real LA businesses, two styles, two venues). Made `Business.offer_text` optional, relaxed the unmatched-tag check from error to warning (zero overlap is still an error), and added warning output to `validate-seed`. Tests updated and passing.
+- 2026-09-12: Revalidated planning and MVP seed changes, aligned the logo test with the documented long-side requirement, and documented the Windows pytest fallback in README.

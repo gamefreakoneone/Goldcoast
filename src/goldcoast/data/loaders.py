@@ -21,6 +21,7 @@ class SeedData:
     businesses: dict[str, Business]
     ad_styles: dict[str, AdStyle]
     venues: dict[str, Venue]
+    warnings: tuple[str, ...] = ()
 
 
 def _load_records[SeedModelT: BaseModel](
@@ -80,6 +81,7 @@ def _validate_asset_path(
 def load_seed(data_dir: Path) -> SeedData:
     data_dir = Path(data_dir)
     errors: list[str] = []
+    warnings: list[str] = []
     athletes, _ = _load_records(data_dir / "athletes.json", Athlete, errors, required=True)
     businesses, _ = _load_records(data_dir / "businesses.json", Business, errors, required=True)
     ad_styles, _ = _load_records(data_dir / "ad_styles.json", AdStyle, errors, required=True)
@@ -88,8 +90,17 @@ def load_seed(data_dir: Path) -> SeedData:
     business_tags = {tag for business in businesses.values() for tag in business.tags}
     for athlete in athletes.values():
         athlete_tags = {food.cuisine for food in athlete.favorite_foods} | set(athlete.interests)
-        for tag in sorted(athlete_tags - business_tags):
-            errors.append(f"athletes.json id={athlete.id}: tag '{tag}' is not used by any business")
+        unmatched_tags = sorted(athlete_tags - business_tags)
+        if businesses and not (athlete_tags & business_tags):
+            errors.append(
+                f"athletes.json id={athlete.id}: no business shares any of the athlete's tags "
+                f"({', '.join(sorted(athlete_tags))}); the athlete can never be matched"
+            )
+        elif unmatched_tags:
+            warnings.append(
+                f"athletes.json id={athlete.id}: tags not used by any business, "
+                f"so they will never match: {', '.join(unmatched_tags)}"
+            )
         if athlete.headshot:
             _validate_asset_path(
                 athlete.headshot,
@@ -123,4 +134,5 @@ def load_seed(data_dir: Path) -> SeedData:
         businesses=businesses,
         ad_styles=ad_styles,
         venues=venues,
+        warnings=tuple(warnings),
     )

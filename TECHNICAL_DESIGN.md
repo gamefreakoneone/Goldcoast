@@ -1,0 +1,169 @@
+# TECHNICAL_DESIGN.md
+
+## Architecture Summary
+
+Goldcoast is a staged pipeline of agents that turns a hype moment in Olympics footage into approved local-business ads. Each stage consumes and produces typed Pydantic models, emits events to a run-scoped event bus, and persists its artifacts to the run directory.
+
+1. Clip Source. Reads MP4 files from `sample_clips/`. The interface is a `ClipSource` protocol so a live-stream source can be added later without touching the agents.
+2. Video Agent (`agents/video_agent.py`). Sends the clip to a Gemini video-capable model, asks for hype moments with timestamps, context, sport, and athlete hints, then extracts the best frame with ffmpeg. Produces a list of `HypeMoment`.
+3. Matching Agent (`agents/matching_agent.py`). Resolves the athlete from seed data using the hints, ranks businesses by tag overlap and an LLM re-rank, selects an `AdStyle`. Produces one `AdBrief` per matched business.
+4. Ad Generation Agent (`agents/ad_agent.py`). For each `AdBrief` and each format (landscape, portrait), calls a Gemini image model with the hype frame as the hero image, the athlete portrait as an identity reference, the business logo, business details, and style guidance. Produces `GeneratedAd` records and PNG files.
+5. Judge Agent (`agents/judge_agent.py`). Scores every `GeneratedAd` against its `AdBrief` and `AdStyle` on a fixed rubric using a Gemini vision model, with the hero frame and athlete portrait as references. Produces a `QualityVerdict`. Failing ads are regenerated with the verdict's hints up to a retry cap.
+6. Run Store and Event Bus (`pipeline/`). The orchestrator runs stages 2 to 5 in order, appends `PipelineEvent` records to `events.jsonl`, writes artifacts under `output/runs/<run_id>/`, and supports replay mode that serves cached model outputs.
+7. API (`api/`). FastAPI exposes runs, an SSE event stream, media files, ads with verdicts, and approval decisions.
+8. Web UI (`web/`). React and Vite. Plays the clip, shows the agent timeline as events arrive, displays ads with judge scores, and records approve or reject decisions.
+
+Layers in `src/goldcoast/`: `models/`, `data/`, `agents/`, `pipeline/`, `api/`, `cli.py`. The frontend lives in `web/`.
+
+## Development Environment
+
+- OS: Windows 11 Pro. Primary shell PowerShell. Paths in code use `pathlib` and are never hard-coded with a drive letter.
+- Conda environment `goldcoast` from `environment.yml`:
+  - conda dependencies: `python=3.12`, `ffmpeg`.
+  - pip dependencies come from `pyproject.toml`: `google-genai`, `pydantic>=2`, `fastapi`, `uvicorn[standard]`, `sse-starlette`, `python-dotenv`, `pillow`, `typer`, `httpx`. Dev extras: `pytest`, `pytest-asyncio`, `ruff`.
+- Frontend: Node 20 LTS, `pnpm`, Vite, React, TypeScript. Tests with Vitest.
+- Setup: `conda env create -f environment.yml`, `conda activate goldcoast`, `pip install -e ".[dev]"`, `pnpm --dir web install`.
+- Environment variables (loaded from `.env` with `python-dotenv`):
+  - `GEMINI_API_KEY`: Google AI Studio key. The `google-genai` client also accepts `GOOGLE_API_KEY`, which takes precedence if both are set.
+  - `GOLDCOAST_VIDEO_MODEL`: Gemini model id used for video analysis.
+  - `GOLDCOAST_IMAGE_MODEL`: Gemini model id used for image generation.
+  - `GOLDCOAST_JUDGE_MODEL`: Gemini model id used for judging ads.
+  - `GOLDCOAST_JUDGE_MAX_RETRIES`: integer retry cap for regeneration, default 2.
+  - `GOLDCOAST_JUDGE_PASS_THRESHOLD`: overall score required to pass, default 7.
+  - `GOLDCOAST_REPLAY`: set to `1` to serve cached model outputs instead of calling Gemini.
+  - `GOLDCOAST_REPLAY_RUN`: run id whose cached outputs replay mode reads from.
+  - `GOLDCOAST_OUTPUT_DIR`: default `output`.
+  - `GOLDCOAST_CLIP_MANIFEST`: default `sample_clips/manifest.json`. The editable record of analyzed clips; see Clip manifest below.
+- Directory layout:
+
+```
+Goldcoast/
+  environment.yml
+  pyproject.toml
+  .env.example
+  data/
+    athletes.json
+    businesses.json
+    ad_styles.json
+    venues.json
+    assets/<business_id>/logo.png
+  sample_clips/
+    manifest.json
+    <sport>_<athlete-id>_<event>.mp4
+  output/runs/<run_id>/
+  src/goldcoast/
+  web/
+  tests/
+  docs/
+```
+
+- Run: `python -m goldcoast run <clip>` for the full pipeline, `python -m goldcoast detect|match|generate|judge` for single stages, `uvicorn goldcoast.api.app:app --reload` for the API, `pnpm --dir web dev` for the UI.
+- Test: `pytest`, `ruff check .`, `ruff format --check .`, `pnpm --dir web test`.
+
+## Key Contracts
+
+### Seed data models (`models/seed.py`)
+
+- `Athlete`: `id`, `name`, `aliases: list[str]`, `country`, `sport`, `discipline`, `event`, `home_city`, `favorite_foods: list[FoodPreference]` where `FoodPreference` has `cuisine` and `dishes: list[str]`, `interests: list[str]`, `identification: AthleteIdentification` with `kit_colors`, `bib_number`, `distinguishing_features`, optional `headshot` (path under `data/assets/` to the athlete portrait used as an identity reference by ad generation and judging), `social_handles: dict[str, str]`, `fun_facts: list[str]`. The field stays optional in the model so seed validation does not fail for athletes without a portrait, but the ad agent requires it and fails early when it is missing.
+- `Business`: `id`, `name`, `category` (one of `restaurant`, `cafe`, `bar`, `sports_venue`, `retail`, `experience`), `tags: list[str]`, `address`, `neighborhood`, `nearest_venue`, `short_description`, `offerings: list[str]`, `logo` (path relative to `data/assets/`), `brand_colors: list[str]` hex, `tagline`, `offer_text: str | None` (null for real businesses with no live promotion; the ad agent uses `tagline` in its place), `cta`, `website`, `instagram`, optional `hours`, `price_range`, `reference_photos: list[str]` (paths relative to `data/assets/`).
+- `AdStyle`: `id`, `name`, `description`, `mood_keywords: list[str]`, `palette: list[str]`, `typography_guidance`, `layout_notes: dict[AdFormat, str]`, `required_elements: list[str]`, `use_when: list[str]`, optional `reference_images: list[str]`.
+- `Venue` (optional): `id`, `name`, `sport`, `lat`, `lng`, `neighborhood`.
+
+Seed files are JSON arrays of the corresponding model with unknown fields rejected. Loaders in `data/loaders.py` validate on load and fail fast on unknown ids, duplicate ids, missing logo files, and an athlete whose tags overlap no business at all. Athlete tags that no business uses are reported as warnings, not errors, so a rich profile can coexist with a small business list. Provenance and copy notes that do not belong in the validated JSON live in `data/SOURCES.md`.
+
+### Pipeline models (`models/pipeline.py`)
+
+- `AdFormat`: enum `landscape` (1920x1080, aspect 16:9, billboard) and `portrait` (1080x1920, aspect 9:16, reel).
+- `HypeMoment`: `id`, `run_id`, `clip_path`, `start_s`, `end_s`, `best_frame_s`, `best_frame_path`, `hype_score` 0 to 10, `description`, `sport`, `event_context`, `athlete_id: str | None` (set when the manifest already names the athlete), `athlete_hints: AthleteHints | None` with `name`, `country`, `kit_colors`, `bib_number`, `crowd_reaction`, `source` (`gemini` or `manual`).
+- `AdBrief`: `id`, `run_id`, `moment_id`, `athlete_id`, `business_id`, `ad_style_id`, `match_reason`, `match_score` 0 to 1, `headline_direction`, `offer_text`, `cta`, `formats: list[AdFormat]`.
+- `GeneratedAd`: `id`, `run_id`, `brief_id`, `business_id`, `format`, `attempt`, `image_path`, `prompt_used`, `model_id`, `created_at`.
+- `QualityVerdict`: `id`, `run_id`, `ad_id`, `attempt`, `scores: VerdictScores` with integer fields 0 to 10 for `image_quality`, `style_adherence`, `business_accuracy`, `format_compliance`, `brand_safety`, `overall` 0 to 10, `passed: bool`, `issues: list[str]`, `regeneration_hints: list[str]`, `model_id`, `created_at`.
+- `ApprovalDecision`: `ad_id`, `decision` (`approved` or `rejected`), `reviewer`, `note`, `decided_at`.
+- `PipelineEvent`: `id`, `run_id`, `type`, `timestamp`, `payload: dict`. Event types: `run_started`, `clip_loaded`, `clip_manifest_hit`, `moment_detected`, `frame_extracted`, `athlete_resolved`, `business_matched`, `brief_created`, `ad_generating`, `ad_generated`, `ad_judged`, `ad_regenerating`, `ad_final`, `run_completed`, `run_failed`, `ad_decided`.
+- `Run`: `id`, `clip_path`, `status` (`running`, `completed`, `failed`), `started_at`, `finished_at`, `replay: bool`, `moment_ids`, `brief_ids`, `ad_ids`.
+
+### Run directory layout
+
+```
+output/runs/<run_id>/
+  run.json
+  events.jsonl
+  frames/<moment_id>.png
+  briefs/<brief_id>.json
+  ads/<business_id>/<format>/attempt_<n>.png
+  ads/<business_id>/<format>/attempt_<n>.json
+  verdicts/<ad_id>_attempt_<n>.json
+  decisions/<ad_id>.json
+  model_calls/<stage>_<sequence>.json
+```
+
+`model_calls/*.json` holds `stage`, `model_id`, `prompt`, `input_refs`, `response`, `latency_ms`, `timestamp`. Replay mode reads these files by stage and sequence.
+
+### Clip manifest (`models/manifest.py`)
+
+`sample_clips/manifest.json` is a JSON array of `ClipEntry`, keyed by clip file name. It is both the owner's input and the video agent's output, and it is committed so it can be edited by hand.
+
+- `ClipEntry`: `file`, `sport`, `athlete_id: str | None`, `analyzed: bool`, `analyzed_by` (`gemini` or `manual`), `analyzed_at: datetime | None`, `notes`, `moments: list[ManifestMoment]`.
+- `ManifestMoment`: `start_s`, `end_s`, `best_frame_s`, `hype_score`, `description`, `event_context`, `athlete_hints: AthleteHints | None`.
+
+Rules:
+
+- The video agent looks up the clip by file name. If the entry has `analyzed: true` and at least one moment with `best_frame_s`, it uses those moments, extracts the frames with ffmpeg at the recorded timestamps, and makes no Gemini call. Otherwise it analyzes the clip with Gemini, writes the results into the entry, sets `analyzed: true` and `analyzed_by: gemini`, and saves the manifest.
+- The owner may edit any field afterward, in particular `best_frame_s` and `athlete_id`. The next run uses the edited values because frames are always extracted fresh from the timestamps. Set `analyzed_by: manual` when hand-editing so the change is visible in the UI.
+- If `athlete_id` is set, the matching agent uses it directly and skips athlete resolution. If it is null after a Gemini analysis, the matching agent resolves it from `athlete_hints` and writes the result back into the entry for the owner to confirm or correct.
+- `--force-analysis` re-runs Gemini and overwrites the entry's moments and hints, but never overwrites a non-null `athlete_id`.
+- Replay mode is separate: it reproduces an entire run including matching, generation, and judging from recorded model calls.
+
+### API shapes (`api/`)
+
+- `POST /runs` body `{ "clip_path": str, "replay": bool }` returns `Run`.
+- `GET /runs` returns `list[Run]`.
+- `GET /runs/{run_id}` returns `Run`.
+- `GET /runs/{run_id}/events` is an SSE stream of `PipelineEvent`, replaying the backlog then live events.
+- `GET /runs/{run_id}/moments` returns `list[HypeMoment]`.
+- `GET /runs/{run_id}/briefs` returns `list[AdBrief]`.
+- `GET /runs/{run_id}/ads` returns `list[AdWithVerdict]` where `AdWithVerdict` is `GeneratedAd` plus `verdict: QualityVerdict | None` plus `decision: ApprovalDecision | None`.
+- `POST /ads/{ad_id}/decision` body `ApprovalDecision` without `decided_at` returns `ApprovalDecision`.
+- `GET /runs/{run_id}/export` returns a manifest of approved ads and copies them to `output/runs/<run_id>/approved/`.
+- `GET /media/{run_id}/{path}` serves files from the run directory. `GET /clips/{name}` serves files from `sample_clips/`.
+- `GET /seed/athletes`, `GET /seed/businesses`, `GET /seed/ad-styles` return the seed data.
+
+### CLI (`cli.py`)
+
+- `goldcoast detect <clip>`: runs the video agent, prints `HypeMoment` JSON.
+- `goldcoast match <moment.json>`: runs the matching agent, prints `AdBrief` JSON.
+- `goldcoast generate <brief.json>`: runs the ad agent, prints `GeneratedAd` JSON.
+- `goldcoast judge <ad.json>`: runs the judge, prints `QualityVerdict` JSON.
+- `goldcoast run <clip>`: runs the full pipeline and prints the run id.
+- `goldcoast validate-seed`: loads and validates all seed files.
+
+## Critical Design Rules
+
+- Stages communicate only through the typed models above. Model text is parsed into a model inside the agent, and parsing failures are retried once with a repair prompt before the stage fails.
+- Every id referenced by an `AdBrief` or `GeneratedAd` must resolve to a record in the seed data. Agents never invent businesses, athletes, or styles.
+- Every Gemini call is logged to `model_calls/` before its result is used.
+- Each stage is runnable on its own through the CLI with a JSON file as input.
+- The judge is a separate model call from generation and never edits an image. Its verdict is advisory to the human; it never auto-approves.
+- Regeneration is bounded by `GOLDCOAST_JUDGE_MAX_RETRIES`. If every attempt fails, the highest-scoring attempt is kept, marked `passed: false`, and shown to the reviewer with its issues.
+- Replay mode never touches the network. Tests run in replay mode by default.
+- Video analysis is never repeated for a clip whose manifest entry is already `analyzed: true`, unless the caller passes `--force-analysis`. A manifest hit emits `clip_manifest_hit` so the UI can show that the clip was recognized and whether its moments were hand-edited.
+- The manifest is written atomically and only by the video agent and the matching agent's athlete write-back. No other code modifies it.
+- Ad formats are exactly the two in `AdFormat`. Generated images are verified against the target dimensions and resized only if the model returns the correct aspect ratio at a different size.
+- Secrets live only in `.env`. `output/`, `sample_clips/*.mp4`, and `.env` are gitignored.
+- The web UI reads and writes only through the API. It never touches the filesystem or Gemini directly.
+- Files are written atomically (write to a temp file, then rename) so the SSE stream never reads a partial artifact.
+
+## Intentional Design Decisions — Preserve During Rebuild
+
+- Pre-recorded clips instead of a live stream. The vision is live analysis, but the first versions read MP4 files so the demo is deterministic. `ClipSource` exists so a stream source can be added without changing agents.
+- Seed JSON instead of a database. Hand-editable files are the source of truth for athletes, businesses, and styles. Do not replace with a database unless a spec calls for it.
+- The clip manifest is keyed by file name, not content hash, and doubles as the analysis cache. This is a deliberate simplicity choice: the owner curates a handful of clips and wants to edit timestamps and athlete ids by hand. Renaming a clip means it is treated as new.
+- The MVP is one athlete and one clip. Nothing in the contracts is single-athlete specific, but the seed data, tests, and demo flow are built around one gymnastics clip of Simone Biles first. Do not generalize the demo to multiple athletes until that flow works end to end.
+- The hype frame is the hero image and always appears in the ad. The athlete portrait serves two roles: an identity reference so the athlete stays consistent, and, when the athlete's face is not clearly visible in the hero frame (mid-air, turned away, small in frame), a foreground cutout overlay placed beside the business's product or offering. The model is never asked to redraw or synthesize the athlete's face; it composes with the real images it is given.
+- Ads are framed as discovery, not endorsement. The copy invites visitors to explore the athlete's interests near the venue ("Simone's pick after a big routine? Find out at Slice House") rather than stating that the athlete endorses or recommends the business. Only facts present in the athlete's seed profile may be referenced. This is a copy rule enforced by the matching agent's headline direction and checked by the judge under brand safety.
+- The image model produces the whole ad, including text. Rendering text inside generated images can be imperfect. This is accepted for the hackathon and mitigated by the judge's `business_accuracy` and `format_compliance` checks rather than by a Pillow overlay step.
+- Judge verdicts are advisory. Even a passing ad requires a human decision. Even a failing ad after all retries is shown, flagged, so the reviewer can still approve it.
+- Replay mode is a first-class feature, not a test shim. The demo may run entirely from cached outputs.
+- Server-Sent Events instead of WebSockets. Events flow one way from server to UI, and SSE keeps the API simpler.
+- Exactly two ad formats. Landscape for digital billboards, portrait for reels. Additional formats are a stretch goal, not a config knob.
+- Matching is tag overlap first, LLM re-rank second. A business with no overlapping tag can never be matched, even if the model suggests it. This keeps matches explainable.

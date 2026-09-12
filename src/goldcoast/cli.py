@@ -24,6 +24,8 @@ def validate_seed(
     typer.echo(f"businesses: {len(seed.businesses)}")
     typer.echo(f"ad_styles: {len(seed.ad_styles)}")
     typer.echo(f"venues: {len(seed.venues)}")
+    for warning in seed.warnings:
+        typer.echo(f"warning: {warning}", err=True)
 
 
 def _not_implemented() -> None:

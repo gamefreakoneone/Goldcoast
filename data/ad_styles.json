@@ -2,46 +2,31 @@
   {
     "id": "electric-finish",
     "name": "Electric Finish",
-    "description": "High-energy celebration with sharp contrast, diagonal motion, and a stadium-light glow.",
-    "mood_keywords": ["electric", "celebratory", "bold"],
+    "description": "High-energy celebration with sharp contrast, diagonal motion streaks, and a stadium-light glow behind the athlete.",
+    "mood_keywords": ["electric", "celebratory", "bold", "loud"],
     "palette": ["#FFD60A", "#003566", "#FFFFFF"],
-    "typography_guidance": "Use condensed uppercase display type with a short, oversized headline.",
+    "typography_guidance": "Condensed uppercase display type, one oversized headline of five words or fewer, offer text in a contrasting pill.",
     "layout_notes": {
-      "landscape": "Place the athlete on the left, headline and offer on the right, and logo in the lower-right safe area.",
-      "portrait": "Stack the athlete above the headline, with offer and call to action in the lower third."
+      "landscape": "Hero frame as full-bleed background with a dark diagonal wash on the right. If the face is not visible in the hero frame, athlete portrait cutout on the left third with the product visual beside it. Headline and offer stacked on the right, business logo in the lower-right safe area.",
+      "portrait": "Hero frame as full-bleed background. If the face is not visible, athlete portrait cutout in the middle band with the product visual to its side. Headline across the upper third, offer and call to action in the lower third, logo bottom-center."
     },
-    "required_elements": ["business logo", "offer text", "athlete hero frame", "call to action"],
-    "use_when": ["victory", "crowd_roar", "sprint_finish"],
+    "required_elements": ["athlete hero frame", "product or offering visual", "business logo", "business name", "offer text or tagline", "call to action"],
+    "use_when": ["victory", "crowd_roar", "stuck_landing", "gymnastics"],
     "reference_images": []
   },
   {
-    "id": "precision-pulse",
-    "name": "Precision Pulse",
-    "description": "Focused, geometric composition inspired by targets, score lines, and controlled motion.",
-    "mood_keywords": ["precise", "focused", "modern"],
-    "palette": ["#E63946", "#F1FAEE", "#1D3557"],
-    "typography_guidance": "Use clean sans-serif type with measured spacing and one emphasized numeric detail.",
+    "id": "golden-hour-la",
+    "name": "Golden Hour LA",
+    "description": "Warm, cinematic Los Angeles sunset treatment with soft light leaks, palm silhouettes, and a relaxed premium feel.",
+    "mood_keywords": ["warm", "cinematic", "aspirational", "relaxed"],
+    "palette": ["#F4A261", "#E76F51", "#264653", "#FFF3E0"],
+    "typography_guidance": "Elegant high-contrast serif headline in sentence case, small clean sans-serif for offer and address, generous margins.",
     "layout_notes": {
-      "landscape": "Use concentric graphic accents behind the athlete and align copy in a compact left-side grid.",
-      "portrait": "Center the athlete inside a target-inspired frame and keep copy in two concise bands."
+      "landscape": "Hero frame as the background with a warm gradient fade to the right. If the face is not visible, athlete portrait cutout center-left with the product visual on a small table or plate beside it. Headline and offer on the right third, logo top-left.",
+      "portrait": "Hero frame full-bleed with a sunset gradient at the bottom. If the face is not visible, athlete portrait cutout in the lower-middle with the product visual beside it. Headline and offer over the gradient, logo top-center."
     },
-    "required_elements": ["business logo", "offer text", "athlete hero frame", "call to action"],
-    "use_when": ["precision_sport", "bullseye", "decisive_moment"],
-    "reference_images": []
-  },
-  {
-    "id": "street-surge",
-    "name": "Street Surge",
-    "description": "Expressive urban collage using layered color, hand-drawn accents, and a sense of upward movement.",
-    "mood_keywords": ["youthful", "creative", "kinetic"],
-    "palette": ["#FF4D6D", "#6A4C93", "#00BBF9"],
-    "typography_guidance": "Mix heavy sans-serif headlines with one handwritten accent, while preserving readability.",
-    "layout_notes": {
-      "landscape": "Crop the athlete dynamically across the center and anchor the logo and offer in opposite corners.",
-      "portrait": "Use a full-height action crop, with headline above and a sticker-like offer panel below."
-    },
-    "required_elements": ["business logo", "offer text", "athlete hero frame", "call to action"],
-    "use_when": ["skateboarding", "street_style", "creative_trick"],
+    "required_elements": ["athlete hero frame", "product or offering visual", "business logo", "business name", "offer text or tagline", "call to action"],
+    "use_when": ["victory", "podium", "gymnastics", "evening_session"],
     "reference_images": []
   }
 ]

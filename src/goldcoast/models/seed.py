@@ -67,7 +67,7 @@ class Business(SeedModel):
     logo: str
     brand_colors: list[HexColor] = Field(min_length=1)
     tagline: str
-    offer_text: str
+    offer_text: str | None = None
     cta: str
     website: str
     instagram: str

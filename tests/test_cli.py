@@ -11,10 +11,10 @@ runner = CliRunner()
 def test_validate_seed_prints_counts() -> None:
     result = runner.invoke(app, ["validate-seed", "--data-dir", str(PROJECT_ROOT / "data")])
     assert result.exit_code == 0, result.output
-    assert "athletes: 3" in result.output
-    assert "businesses: 6" in result.output
-    assert "ad_styles: 3" in result.output
-    assert "venues: 3" in result.output
+    assert "athletes: 1" in result.output
+    assert "businesses: 3" in result.output
+    assert "ad_styles: 2" in result.output
+    assert "venues: 2" in result.output
 
 
 def test_stage_stubs_exit_nonzero() -> None:

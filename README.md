@@ -2,7 +2,7 @@
 
 Dynamic ad generation for the LA 2028 Olympics: an AI video agent spots hype moments in Olympics footage, and an ad-generation agent turns each moment into landscape and portrait ads for nearby local businesses, judged for quality and approved by a human through a web UI.
 
-The first scaffold includes the shared data contracts, fictional demo seed records, clip-manifest persistence, Gemini call recording, and command-line entry points. Pipeline stages are added by the later numbered specs.
+The first scaffold includes the shared data contracts, Simone Biles's profile, three real LA businesses, clip-manifest persistence, Gemini call recording, and command-line entry points. Pipeline stages are added by the later numbered specs.
 
 ## Setup
 
@@ -35,5 +35,7 @@ pytest
 ruff check .
 ruff format --check .
 ```
+
+If pytest cannot create its Windows temporary directory, create `output/` if needed and run `pytest -p no:cacheprovider --basetemp output/pytest-tmp`.
 
 See [AGENTS.md](AGENTS.md) for working rules, [docs/FEATURE_STATUS.md](docs/FEATURE_STATUS.md) for feature progress, and [docs/DATA_REQUIREMENTS.md](docs/DATA_REQUIREMENTS.md) for production data requirements.

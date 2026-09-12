@@ -1,95 +1,67 @@
 [
   {
-    "id": "hana-mori",
-    "name": "Hana Mori",
-    "aliases": ["H. Mori", "Hana"],
-    "country": "Japan",
-    "sport": "archery",
-    "discipline": "recurve",
-    "event": "women's individual",
-    "home_city": "Yokohama",
+    "id": "simone-biles",
+    "name": "Simone Biles",
+    "aliases": ["Simone", "Biles", "S. Biles", "the GOAT"],
+    "country": "United States",
+    "sport": "gymnastics",
+    "discipline": "artistic",
+    "event": "women's artistic gymnastics",
+    "home_city": "Spring, Texas",
     "favorite_foods": [
+      {
+        "cuisine": "italian",
+        "dishes": ["pepperoni pizza", "fettuccine alfredo with chicken", "carbonara", "pasta"]
+      },
       {
         "cuisine": "japanese",
-        "dishes": ["salmon nigiri", "udon"]
+        "dishes": ["sushi", "spicy tuna rolls"]
       },
       {
-        "cuisine": "korean",
-        "dishes": ["bibimbap", "tteokbokki"]
-      }
-    ],
-    "interests": ["archery", "tea"],
-    "identification": {
-      "kit_colors": ["white", "red"],
-      "bib_number": "17",
-      "distinguishing_features": ["left-handed", "red wrist guard"]
-    },
-    "headshot": null,
-    "social_handles": {
-      "instagram": "@hana_mori_demo"
-    },
-    "fun_facts": ["Collects handmade tea cups", "Practices breathing exercises before finals"]
-  },
-  {
-    "id": "lucia-vega",
-    "name": "Lucia Vega",
-    "aliases": ["L. Vega", "Luce"],
-    "country": "Mexico",
-    "sport": "skateboarding",
-    "discipline": "street",
-    "event": "women's street",
-    "home_city": "Guadalajara",
-    "favorite_foods": [
-      {
-        "cuisine": "mexican",
-        "dishes": ["mushroom tacos", "elote"]
+        "cuisine": "seafood",
+        "dishes": ["salmon"]
       },
       {
-        "cuisine": "plant_based",
-        "dishes": ["jackfruit torta", "avocado tostada"]
+        "cuisine": "dessert",
+        "dishes": ["cookies", "cookies and cream ice cream", "cinnamon rolls"]
+      },
+      {
+        "cuisine": "american",
+        "dishes": ["sweet and tangy chicken nuggets", "potatoes"]
       }
     ],
-    "interests": ["skateboarding", "street_art"],
+    "interests": [
+      "gymnastics",
+      "horseback_riding",
+      "ice_skating",
+      "dogs",
+      "walking",
+      "shopping",
+      "fashion",
+      "wellness",
+      "spa",
+      "tennis"
+    ],
     "identification": {
-      "kit_colors": ["green", "black"],
+      "kit_colors": ["red", "white", "blue"],
       "bib_number": null,
-      "distinguishing_features": ["green helmet", "sunburst board graphic"]
+      "distinguishing_features": [
+        "Team USA competition leotards at international events",
+        "has worn rhinestone goat motifs on competition leotards",
+        "4 ft 8 in height"
+      ]
     },
-    "headshot": null,
+    "headshot": "athletes/simone-biles/portrait.png",
     "social_handles": {
-      "instagram": "@lucia_vega_demo"
+      "instagram": "@simonebiles"
     },
-    "fun_facts": ["Sketches mural ideas while traveling", "Learned to skate at a neighborhood plaza"]
-  },
-  {
-    "id": "darius-cole",
-    "name": "Darius Cole",
-    "aliases": ["D. Cole", "DC"],
-    "country": "United States",
-    "sport": "athletics",
-    "discipline": "sprint",
-    "event": "men's 200 metres",
-    "home_city": "Atlanta",
-    "favorite_foods": [
-      {
-        "cuisine": "southern",
-        "dishes": ["shrimp and grits", "peach cobbler"]
-      },
-      {
-        "cuisine": "caribbean",
-        "dishes": ["jerk chicken", "rice and peas"]
-      }
-    ],
-    "interests": ["running", "live_music"],
-    "identification": {
-      "kit_colors": ["navy", "white"],
-      "bib_number": "204",
-      "distinguishing_features": ["blue headband", "white arm sleeve"]
-    },
-    "headshot": null,
-    "social_handles": {
-      "instagram": "@darius_cole_demo"
-    },
-    "fun_facts": ["Builds race-day playlists", "Volunteers with a youth running club"]
+    "fun_facts": [
+      "Has five gymnastics elements named after her in the FIG Code of Points",
+      "Has won 41 Olympic and World Championship medals combined",
+      "Has won 11 Olympic medals: 7 gold, 2 silver and 2 bronze",
+      "Has won 30 World Championship medals",
+      "Received the Presidential Medal of Freedom in 2022",
+      "Was born in Columbus, Ohio and raised in Spring, Texas"
+    ]
   }
 ]

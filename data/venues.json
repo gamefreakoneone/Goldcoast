@@ -1,26 +1,18 @@
 [
   {
-    "id": "expo-archery-field",
-    "name": "Expo Archery Field",
-    "sport": "archery",
-    "lat": 34.0139,
-    "lng": -118.285,
-    "neighborhood": "University Park"
-  },
-  {
-    "id": "downtown-skate-plaza",
-    "name": "Downtown Skate Plaza",
-    "sport": "skateboarding",
-    "lat": 34.0407,
-    "lng": -118.2468,
+    "id": "crypto-com-arena",
+    "name": "Crypto.com Arena",
+    "sport": "gymnastics",
+    "lat": 34.043,
+    "lng": -118.2673,
     "neighborhood": "Downtown"
   },
   {
-    "id": "memorial-track",
-    "name": "Memorial Track",
-    "sport": "athletics",
-    "lat": 34.0141,
-    "lng": -118.2879,
-    "neighborhood": "Exposition Park"
+    "id": "intuit-dome",
+    "name": "Intuit Dome",
+    "sport": "basketball",
+    "lat": 33.9453,
+    "lng": -118.3418,
+    "neighborhood": "Inglewood"
   }
 ]
