@@ -2,16 +2,16 @@
 
 ## Task List
 
-- [ ] Implement `resolve_athlete` in `src/goldcoast/matching/athlete_resolver.py`, plus the direct lookup path when `moment.athlete_id` is set and the manifest write-back on resolution.
-- [ ] Implement `candidate_businesses` in `src/goldcoast/matching/business_candidates.py` with tag normalization.
-- [ ] Implement `eligible_styles` in `src/goldcoast/matching/style_selector.py`.
-- [ ] Write the re-rank and style prompts and schemas under `src/goldcoast/agents/prompts/`.
-- [ ] Implement `MatchingAgent.match` combining the layers and writing brief files.
-- [ ] Add `athlete_confidence_threshold` and `max_businesses` to settings and `.env.example`.
-- [ ] Wire the `match` CLI command.
-- [ ] Record real model calls for a confident match into `tests/fixtures/model_calls/match/`.
-- [ ] Write `tests/test_athlete_resolver.py` covering confident, ambiguous, and unknown athletes, the manifest `athlete_id` shortcut, and the write-back.
-- [ ] Write `tests/test_matching_agent.py` in replay mode covering a normal match, an invalid re-rank response, and no candidates.
+- [x] Implement `resolve_athlete` in `src/goldcoast/matching/athlete_resolver.py`, plus the direct lookup path when `moment.athlete_id` is set and the manifest write-back on resolution.
+- [x] Implement `candidate_businesses` in `src/goldcoast/matching/business_candidates.py` with tag normalization.
+- [x] Implement `eligible_styles` in `src/goldcoast/matching/style_selector.py`.
+- [x] Write the re-rank and style prompts and schemas under `src/goldcoast/agents/prompts/`.
+- [x] Implement `MatchingAgent.match` combining the layers and writing brief files.
+- [x] Add `athlete_confidence_threshold` and `max_businesses` to settings and `.env.example`.
+- [x] Wire the `match` CLI command.
+- [x] Record real model calls for a confident match into `tests/fixtures/model_calls/match/`.
+- [x] Write `tests/test_athlete_resolver.py` covering confident, ambiguous, and unknown athletes, the manifest `athlete_id` shortcut, and the write-back.
+- [x] Write `tests/test_matching_agent.py` in replay mode covering a normal match, an invalid re-rank response, and no candidates.
 
 ## Validation Steps
 

@@ -39,6 +39,8 @@ class Settings(BaseModel):
     clip_manifest: Path = Path("sample_clips/manifest.json")
     hype_threshold: int = Field(default=6, ge=0, le=10)
     frame_candidate_window_s: float = Field(default=1.0, gt=0)
+    athlete_confidence_threshold: float = Field(default=0.6, ge=0, le=1)
+    max_businesses: int = Field(default=2, ge=1)
 
     @model_validator(mode="after")
     def validate_configuration(self) -> Settings:
@@ -77,6 +79,10 @@ class Settings(BaseModel):
             "clip_manifest": os.getenv("GOLDCOAST_CLIP_MANIFEST", "sample_clips/manifest.json"),
             "hype_threshold": os.getenv("GOLDCOAST_HYPE_THRESHOLD", "6"),
             "frame_candidate_window_s": os.getenv("GOLDCOAST_FRAME_CANDIDATE_WINDOW_S", "1.0"),
+            "athlete_confidence_threshold": os.getenv(
+                "GOLDCOAST_ATHLETE_CONFIDENCE_THRESHOLD", ".6"
+            ),
+            "max_businesses": os.getenv("GOLDCOAST_MAX_BUSINESSES", "2"),
         }
         try:
             return cls.model_validate(values)

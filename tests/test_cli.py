@@ -18,7 +18,7 @@ def test_validate_seed_prints_counts() -> None:
 
 
 def test_stage_stubs_exit_nonzero() -> None:
-    for command in ("match", "generate", "judge", "run"):
+    for command in ("generate", "judge", "run"):
         result = runner.invoke(app, [command, "input.json"])
         assert result.exit_code != 0
         assert "not implemented" in result.output

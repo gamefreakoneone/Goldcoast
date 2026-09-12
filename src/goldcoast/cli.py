@@ -94,8 +94,41 @@ def clips() -> None:
 
 
 @app.command()
-def match(moment: Path) -> None:
-    _not_implemented()
+def match(
+    moment: Path,
+    out: Annotated[Path | None, typer.Option("--out")] = None,
+    max_businesses: Annotated[int | None, typer.Option("--max-businesses", min=1)] = None,
+) -> None:
+    import json
+
+    from goldcoast.agents.matching_agent import MatchingAgent
+    from goldcoast.llm.client import GeminiClient
+    from goldcoast.llm.recordings import RecordedResponseClient
+    from goldcoast.models.pipeline import HypeMoment
+    from goldcoast.settings import Settings
+
+    try:
+        settings = Settings.from_env()
+        if max_businesses is not None:
+            settings.max_businesses = max_businesses
+        destination = out or settings.output_dir / "manual" / f"match-{uuid4().hex[:8]}"
+        if settings.replay:
+            if not settings.replay_run:
+                raise ValueError("Replay requires GOLDCOAST_REPLAY_RUN")
+            client = RecordedResponseClient(
+                settings.output_dir / "runs" / settings.replay_run / "model_calls",
+                destination / "model_calls",
+            )
+        else:
+            client = GeminiClient(settings, destination / "model_calls")
+        value = HypeMoment.model_validate_json(moment.read_text(encoding="utf-8"))
+        briefs = MatchingAgent(client, load_seed(settings.data_dir), settings, destination).match(
+            value
+        )
+        typer.echo(json.dumps([b.model_dump(mode="json") for b in briefs], indent=2))
+    except Exception as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
 
 
 @app.command()

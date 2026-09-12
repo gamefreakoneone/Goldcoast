@@ -24,7 +24,7 @@ python -m goldcoast detect sample_clips/<clip>.mp4
 python -m goldcoast run sample_clips/<clip>.mp4
 ```
 
-`match`, `generate`, `judge`, and `run` are command stubs until their corresponding specs are implemented.
+`generate`, `judge`, and `run` are command stubs until their corresponding specs are implemented.
 
 ### Video detection
 
@@ -40,6 +40,17 @@ with no hype moments. Edit timestamps within the clip and moment window and set
 `analyzed_by` to `manual` to curate frames. `--force-analysis` explicitly replaces
 the analysis while preserving the athlete ID and notes. `--threshold` overrides
 `GOLDCOAST_HYPE_THRESHOLD` (default 6).
+
+### Context matching
+
+```powershell
+python -m goldcoast match output/manual/0002/moments/0002-moment-1.json --out output/manual/0003
+```
+
+The manifest athlete ID takes precedence over model hints. Eligible businesses
+must share cuisine, dish, or interest tags; `--max-businesses` defaults to 2.
+Briefs are saved under `briefs/` and include both formats, discovery-oriented copy,
+and the business tagline when no actual promotion exists.
 
 ## Validation
 

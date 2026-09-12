@@ -36,6 +36,8 @@ Layers in `src/goldcoast/`: `models/`, `data/`, `agents/`, `pipeline/`, `api/`, 
   - `GOLDCOAST_CLIP_MANIFEST`: default `sample_clips/manifest.json`. The editable record of analyzed clips; see Clip manifest below.
   - `GOLDCOAST_HYPE_THRESHOLD`: default 6, minimum accepted hype score.
   - `GOLDCOAST_FRAME_CANDIDATE_WINDOW_S`: default 1.0, neighboring-frame window.
+  - `GOLDCOAST_ATHLETE_CONFIDENCE_THRESHOLD`: default 0.6.
+  - `GOLDCOAST_MAX_BUSINESSES`: default 2, global cap per moment.
 - Directory layout:
 
 ```
