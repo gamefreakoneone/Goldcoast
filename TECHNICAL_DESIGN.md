@@ -81,7 +81,7 @@ Seed files are JSON arrays of the corresponding model with unknown fields reject
 - `HypeMoment`: `id`, `run_id`, `clip_path`, `start_s`, `end_s`, `best_frame_s`, `best_frame_path`, `hype_score` 0 to 10, `description`, `sport`, `event_context`, `athlete_id: str | None` (set when the manifest already names the athlete), `athlete_hints: AthleteHints | None` with `name`, `country`, `kit_colors`, `bib_number`, `crowd_reaction`, `source` (`gemini` or `manual`).
   - `source` belongs to the moment and reflects the manifest's `analyzed_by`; `best_frame_path` is nullable when extraction fails, as required by 0002. Consumers requiring a frame must reject null explicitly.
 - `AdBrief`: `id`, `run_id`, `moment_id`, `athlete_id`, `business_id`, `ad_style_id`, `match_reason`, `match_score` 0 to 1, `headline_direction`, `offer_text`, `cta`, `formats: list[AdFormat]`.
-- `GeneratedAd`: `id`, `run_id`, `brief_id`, `business_id`, `format`, `attempt`, `image_path`, `prompt_used`, `model_id`, `created_at`.
+- `GeneratedAd`: `id`, `run_id`, `brief_id`, `business_id`, `format`, `attempt`, `image_path`, `prompt_used`, `model_id`, `created_at`, `metadata: AdMetadata` with `format_mismatch: bool = false`, `resized_from: tuple[int, int] | None`, `portrait_omitted: bool = false`, `composited: bool = false`.
 - `QualityVerdict`: `id`, `run_id`, `ad_id`, `attempt`, `scores: VerdictScores` with integer fields 0 to 10 for `image_quality`, `style_adherence`, `business_accuracy`, `format_compliance`, `brand_safety`, `overall` 0 to 10, `passed: bool`, `issues: list[str]`, `regeneration_hints: list[str]`, `model_id`, `created_at`.
 - `ApprovalDecision`: `ad_id`, `decision` (`approved` or `rejected`), `reviewer`, `note`, `decided_at`.
 - `PipelineEvent`: `id`, `run_id`, `type`, `timestamp`, `payload: dict`. Event types: `run_started`, `clip_loaded`, `clip_manifest_hit`, `moment_detected`, `frame_extracted`, `athlete_resolved`, `business_matched`, `brief_created`, `ad_generating`, `ad_generated`, `ad_judged`, `ad_regenerating`, `ad_final`, `run_completed`, `run_failed`, `ad_decided`.
@@ -96,14 +96,24 @@ output/runs/<run_id>/
   frames/<moment_id>.png
   moments/<moment_id>.json
   briefs/<brief_id>.json
-  ads/<business_id>/<format>/attempt_<n>.png
-  ads/<business_id>/<format>/attempt_<n>.json
+  ads/<business_id>/brief_<key>/<format>/attempt_<n>.png
+  ads/<business_id>/brief_<key>/<format>/attempt_<n>.json
   verdicts/<ad_id>_attempt_<n>.json
   decisions/<ad_id>.json
   model_calls/<stage>_<sequence>.json
+  model_calls/images/<stage>_<sequence>_<index>.png
 ```
 
 `model_calls/*.json` holds `stage`, `model_id`, `prompt`, `input_refs`, `response`, `latency_ms`, `timestamp`. Replay mode reads these files by stage and sequence.
+
+`brief_<key>` uses the first 12 hexadecimal SHA-256 characters of the brief ID to
+prevent different moments overwriting one business's ads while keeping Windows
+paths short. Image calls retain original bytes under `model_calls/images/` and
+relative references in `response_raw.images`; final PNG normalization never
+changes these originals. Aspect-ratio checks allow 1% relative deviation for the
+model's quantized native canvas (observed 1376x768 and 768x1376 for requested 16:9
+and 9:16). Those outputs are normalized to the exact format dimensions; materially
+different ratios are retried once and then flagged without distortion.
 
 HTTP request accounting lives in `model_calls/http_requests/<id>.json` and records only method, URL path (no query), timestamp, response status, and latency. SDK generation retries are explicitly disabled with `HttpRetryOptions(attempts=1)`; any stage-level repair/regeneration is a separate recorded call. Files API initialization, multipart chunks, and activation polls are separate HTTP requests, not separate video analyses. `model_calls/video_upload.json` caches the remote file plus the source path, size, and modification time so a retry on an unchanged clip can reuse its upload.
 

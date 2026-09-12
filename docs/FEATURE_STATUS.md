@@ -9,7 +9,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 | 0001 | Project scaffold and seed data | Completed | [Validation evidence](specs/0001-project-scaffold-and-seed-data/status.md#evidence) | Conda env, pyproject, Pydantic models, seed JSON loaders, CLI entry point |
 | 0002 | Video hype detection | Completed | [Evidence](specs/0002-video-hype-detection/status.md#evidence) | Three real moments and PNGs, analyzed manifest, offline replay fixture, cache/edit checks; 35 tests pass |
 | 0003 | Context matching | Completed | [Evidence](specs/0003-context-matching/status.md#evidence) | Two real briefs, recorded reranking/style selection, all 45 Python tests pass |
-| 0004 | Ad generation | Not started | | Gemini image model produces landscape and portrait ads per brief |
+| 0004 | Ad generation | Completed | [Evidence](specs/0004-ad-generation/status.md#evidence) | Real landscape/portrait ads, exact normalized dimensions, immutable replay images; 51 tests pass |
 | 0005 | Ad quality judge | Not started | | Rubric scoring to QualityVerdict, bounded regeneration loop |
 | 0006 | Pipeline orchestration and run store | Not started | | Stage chaining, event bus, run directory, replay mode |
 | 0007 | API and live events | Not started | | FastAPI runs, SSE events, media, decisions, export |

@@ -78,6 +78,13 @@ class AdBrief(ContractModel):
         return self
 
 
+class AdMetadata(ContractModel):
+    format_mismatch: bool = False
+    resized_from: tuple[int, int] | None = None
+    portrait_omitted: bool = False
+    composited: bool = False
+
+
 class GeneratedAd(ContractModel):
     id: str
     run_id: str
@@ -89,6 +96,7 @@ class GeneratedAd(ContractModel):
     prompt_used: str
     model_id: str
     created_at: datetime
+    metadata: AdMetadata = Field(default_factory=AdMetadata)
 
 
 class VerdictScores(ContractModel):

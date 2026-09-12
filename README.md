@@ -24,7 +24,7 @@ python -m goldcoast detect sample_clips/<clip>.mp4
 python -m goldcoast run sample_clips/<clip>.mp4
 ```
 
-`generate`, `judge`, and `run` are command stubs until their corresponding specs are implemented.
+`judge` and `run` are command stubs until their corresponding specs are implemented.
 
 ### Video detection
 
@@ -51,6 +51,19 @@ The manifest athlete ID takes precedence over model hints. Eligible businesses
 must share cuisine, dish, or interest tags; `--max-businesses` defaults to 2.
 Briefs are saved under `briefs/` and include both formats, discovery-oriented copy,
 and the business tagline when no actual promotion exists.
+
+### Ad generation
+
+```powershell
+python -m goldcoast generate output/manual/0003/briefs/0002-moment-1-brief-yama-sushi-marketplace-koreatown.json --moment output/manual/0002/moments/0002-moment-1.json --out output/manual/0004
+```
+
+One call per format generates the entire ad from the real frame, portrait, logo,
+and product reference. `--format`, `--attempt`, and repeatable `--hint` support
+single-format regeneration. Images and sidecars live under
+`ads/<business_id>/brief_<12-character-brief-hash>/<format>/attempt_<n>.*` so multiple
+moments never overwrite each other. Original model image bytes are retained under
+`model_calls/images/` independently of dimension normalization.
 
 ## Validation
 

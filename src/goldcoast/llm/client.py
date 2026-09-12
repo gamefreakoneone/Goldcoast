@@ -17,7 +17,7 @@ from google.genai import types
 from pydantic import BaseModel, ConfigDict, Field
 
 from goldcoast.settings import Settings
-from goldcoast.storage import write_json
+from goldcoast.storage import write_bytes, write_json
 
 
 class LLMCallError(RuntimeError):
@@ -36,6 +36,34 @@ class RecordedCall(BaseModel):
     response_raw: Any
     latency_ms: int = Field(ge=0)
     timestamp: datetime
+
+
+class RecordedImageCall(BaseModel):
+    record: RecordedCall
+    image_path: Path | None
+    refusal: str = ""
+
+
+def image_result(record: RecordedCall, record_dir: Path, output_path: Path) -> RecordedImageCall:
+    images = record.response_raw.get("images", [])
+    if images:
+        write_bytes(output_path, (record_dir / images[0]).read_bytes())
+        return RecordedImageCall(record=record, image_path=output_path)
+    response = record.response_raw.get("response", {})
+    reason = " ".join(
+        filter(
+            None,
+            [
+                record.response_text,
+                str(response.get("prompt_feedback") or ""),
+                *[
+                    str(c.get("finish_reason") or "") + " " + str(c.get("finish_message") or "")
+                    for c in response.get("candidates", []) or []
+                ],
+            ],
+        )
+    )
+    return RecordedImageCall(record=record, image_path=None, refusal=reason or "No image returned")
 
 
 def _json_safe(value: Any) -> Any:
@@ -251,6 +279,7 @@ class GeminiClient:
         config: Any | None = None,
         *,
         input_refs: list[str] | None = None,
+        capture_images: bool = False,
     ) -> RecordedCall:
         if not re.fullmatch(r"[a-z0-9]+(?:[_-][a-z0-9]+)*", stage):
             raise ValueError(
@@ -268,7 +297,17 @@ class GeminiClient:
                 config=config,
             )
             latency_ms = max(0, round((time.perf_counter() - started) * 1000))
-            response_text = response.text or ""
+            images = []
+            if capture_images:
+                for part in response.parts or []:
+                    if part.inline_data and not part.thought:
+                        suffix = ".jpg" if part.inline_data.mime_type == "image/jpeg" else ".png"
+                        relative = f"images/{stage}_{sequence}_{len(images)}{suffix}"
+                        write_bytes(self.record_dir / relative, part.inline_data.data)
+                        images.append(relative)
+                response_text = "\n".join(p.text for p in response.parts or [] if p.text)
+            else:
+                response_text = response.text or ""
             record = RecordedCall(
                 stage=stage,
                 sequence=sequence,
@@ -282,6 +321,7 @@ class GeminiClient:
                         "config": _json_safe(config),
                     },
                     "response": _json_safe(response),
+                    **({"images": images} if capture_images else {}),
                 },
                 latency_ms=latency_ms,
                 timestamp=timestamp,
@@ -309,3 +349,18 @@ class GeminiClient:
             )
             self._write_record(record)
             raise LLMCallError(f"Gemini call failed during stage '{stage}': {exc}") from exc
+
+    def generate_image(
+        self,
+        stage: str,
+        model_id: str,
+        parts: Any,
+        config: Any,
+        *,
+        output_path: Path,
+        input_refs: list[str] | None = None,
+    ) -> RecordedImageCall:
+        record = self.generate(
+            stage, model_id, parts, config, input_refs=input_refs, capture_images=True
+        )
+        return image_result(record, self.record_dir, output_path)

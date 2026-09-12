@@ -131,9 +131,56 @@ def match(
         raise typer.Exit(code=1) from exc
 
 
+def _stage_client(settings, destination):
+    from goldcoast.llm.client import GeminiClient
+    from goldcoast.llm.recordings import RecordedResponseClient
+
+    if settings.replay:
+        if not settings.replay_run:
+            raise ValueError("Replay requires GOLDCOAST_REPLAY_RUN")
+        return RecordedResponseClient(
+            settings.output_dir / "runs" / settings.replay_run / "model_calls",
+            destination / "model_calls",
+        )
+    return GeminiClient(settings, destination / "model_calls")
+
+
 @app.command()
-def generate(brief: Path) -> None:
-    _not_implemented()
+def generate(
+    brief: Path,
+    moment: Annotated[Path, typer.Option("--moment")],
+    out: Annotated[Path | None, typer.Option("--out")] = None,
+    format: Annotated[str | None, typer.Option("--format")] = None,
+    attempt: Annotated[int, typer.Option("--attempt", min=1)] = 1,
+    hint: Annotated[list[str] | None, typer.Option("--hint")] = None,
+) -> None:
+    import json
+
+    from goldcoast.agents.ad_agent import AdAgent
+    from goldcoast.models.pipeline import AdBrief, AdFormat, HypeMoment
+    from goldcoast.settings import Settings
+
+    try:
+        settings = Settings.from_env()
+        destination = out or settings.output_dir / "manual" / f"generate-{uuid4().hex[:8]}"
+        value = AdBrief.model_validate_json(brief.read_text(encoding="utf-8"))
+        context = HypeMoment.model_validate_json(moment.read_text(encoding="utf-8"))
+        agent = AdAgent(
+            _stage_client(settings, destination),
+            load_seed(settings.data_dir),
+            settings,
+            destination,
+        )
+        if format:
+            ads = [agent.generate_one(value, context, AdFormat(format), attempt, hint)]
+        else:
+            ads = agent.generate(value, context, attempt, hint)
+        typer.echo(json.dumps([ad.model_dump(mode="json") for ad in ads], indent=2))
+        if agent.errors:
+            raise ValueError("; ".join(agent.errors))
+    except Exception as exc:
+        typer.echo(str(exc), err=True)
+        raise typer.Exit(code=1) from exc
 
 
 @app.command()

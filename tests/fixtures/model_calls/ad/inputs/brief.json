@@ -1,0 +1,17 @@
+{
+  "id": "0002-moment-1-brief-yama-sushi-marketplace-koreatown",
+  "run_id": "0002",
+  "moment_id": "0002-moment-1",
+  "athlete_id": "simone-biles",
+  "business_id": "yama-sushi-marketplace-koreatown",
+  "ad_style_id": "electric-finish",
+  "match_reason": "Matches an affinity for Japanese cuisine, fresh sushi, and salmon dishes.",
+  "match_score": 0.85,
+  "headline_direction": "Discover fresh grab-and-go sushi and salmon rolls in Koreatown.",
+  "offer_text": "Fresh sushi, discovered in Koreatown",
+  "cta": "Explore Yama Sushi Marketplace",
+  "formats": [
+    "landscape",
+    "portrait"
+  ]
+}
