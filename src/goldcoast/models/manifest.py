@@ -3,13 +3,17 @@ from __future__ import annotations
 import json
 import os
 import tempfile
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, model_validator
 
-from goldcoast.models.pipeline import AthleteHints, ContractModel
+from goldcoast.models.pipeline import AthleteHints, ContractModel, HypeMoment
+
+
+class ManifestError(ValueError):
+    pass
 
 
 class ManifestMoment(ContractModel):
@@ -40,6 +44,39 @@ class ClipEntry(ContractModel):
     notes: str = ""
     moments: list[ManifestMoment] = Field(default_factory=list)
 
+    def to_hype_moments(self, run_id: str, clip_path: Path) -> list[HypeMoment]:
+        return [
+            HypeMoment(
+                **moment.model_dump(),
+                id=f"{run_id}-moment-{index + 1}",
+                run_id=run_id,
+                clip_path=clip_path,
+                sport=self.sport or "unknown",
+                athlete_id=self.athlete_id,
+                source=self.analyzed_by or "gemini",
+            )
+            for index, moment in enumerate(self.moments)
+        ]
+
+    @classmethod
+    def from_analysis(
+        cls,
+        existing: ClipEntry | None,
+        file: str,
+        sport: str,
+        moments: list[ManifestMoment],
+    ) -> ClipEntry:
+        return cls(
+            file=file,
+            sport=(existing.sport if existing else None) or sport,
+            athlete_id=existing.athlete_id if existing else None,
+            notes=existing.notes if existing else "",
+            analyzed=True,
+            analyzed_by="gemini",
+            analyzed_at=datetime.now(UTC),
+            moments=moments,
+        )
+
     @model_validator(mode="after")
     def validate_analysis_state(self) -> ClipEntry:
         if self.analyzed and self.analyzed_by is None:
@@ -61,11 +98,14 @@ class ClipManifest(ContractModel):
     def load(cls, path: Path) -> ClipManifest:
         if not path.exists():
             return cls()
-        with path.open(encoding="utf-8") as handle:
-            data = json.load(handle)
-        if not isinstance(data, list):
-            raise ValueError("clip manifest must contain a JSON array")
-        return cls(entries=[ClipEntry.model_validate(item) for item in data])
+        try:
+            with path.open(encoding="utf-8") as handle:
+                data = json.load(handle)
+            if not isinstance(data, list):
+                raise ValueError("clip manifest must contain a JSON array")
+            return cls(entries=[ClipEntry.model_validate(item) for item in data])
+        except (OSError, ValueError) as exc:
+            raise ManifestError(f"Invalid clip manifest {path}: {exc}") from exc
 
     def save(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)

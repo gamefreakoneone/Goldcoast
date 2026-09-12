@@ -34,6 +34,8 @@ Layers in `src/goldcoast/`: `models/`, `data/`, `agents/`, `pipeline/`, `api/`, 
   - `GOLDCOAST_REPLAY_RUN`: run id whose cached outputs replay mode reads from.
   - `GOLDCOAST_OUTPUT_DIR`: default `output`.
   - `GOLDCOAST_CLIP_MANIFEST`: default `sample_clips/manifest.json`. The editable record of analyzed clips; see Clip manifest below.
+  - `GOLDCOAST_HYPE_THRESHOLD`: default 6, minimum accepted hype score.
+  - `GOLDCOAST_FRAME_CANDIDATE_WINDOW_S`: default 1.0, neighboring-frame window.
 - Directory layout:
 
 ```
@@ -75,6 +77,7 @@ Seed files are JSON arrays of the corresponding model with unknown fields reject
 
 - `AdFormat`: enum `landscape` (1920x1080, aspect 16:9, billboard) and `portrait` (1080x1920, aspect 9:16, reel).
 - `HypeMoment`: `id`, `run_id`, `clip_path`, `start_s`, `end_s`, `best_frame_s`, `best_frame_path`, `hype_score` 0 to 10, `description`, `sport`, `event_context`, `athlete_id: str | None` (set when the manifest already names the athlete), `athlete_hints: AthleteHints | None` with `name`, `country`, `kit_colors`, `bib_number`, `crowd_reaction`, `source` (`gemini` or `manual`).
+  - `source` belongs to the moment and reflects the manifest's `analyzed_by`; `best_frame_path` is nullable when extraction fails, as required by 0002. Consumers requiring a frame must reject null explicitly.
 - `AdBrief`: `id`, `run_id`, `moment_id`, `athlete_id`, `business_id`, `ad_style_id`, `match_reason`, `match_score` 0 to 1, `headline_direction`, `offer_text`, `cta`, `formats: list[AdFormat]`.
 - `GeneratedAd`: `id`, `run_id`, `brief_id`, `business_id`, `format`, `attempt`, `image_path`, `prompt_used`, `model_id`, `created_at`.
 - `QualityVerdict`: `id`, `run_id`, `ad_id`, `attempt`, `scores: VerdictScores` with integer fields 0 to 10 for `image_quality`, `style_adherence`, `business_accuracy`, `format_compliance`, `brand_safety`, `overall` 0 to 10, `passed: bool`, `issues: list[str]`, `regeneration_hints: list[str]`, `model_id`, `created_at`.
@@ -89,6 +92,7 @@ output/runs/<run_id>/
   run.json
   events.jsonl
   frames/<moment_id>.png
+  moments/<moment_id>.json
   briefs/<brief_id>.json
   ads/<business_id>/<format>/attempt_<n>.png
   ads/<business_id>/<format>/attempt_<n>.json
@@ -98,6 +102,8 @@ output/runs/<run_id>/
 ```
 
 `model_calls/*.json` holds `stage`, `model_id`, `prompt`, `input_refs`, `response`, `latency_ms`, `timestamp`. Replay mode reads these files by stage and sequence.
+
+HTTP request accounting lives in `model_calls/http_requests/<id>.json` and records only method, URL path (no query), timestamp, response status, and latency. SDK generation retries are explicitly disabled with `HttpRetryOptions(attempts=1)`; any stage-level repair/regeneration is a separate recorded call. Files API initialization, multipart chunks, and activation polls are separate HTTP requests, not separate video analyses. `model_calls/video_upload.json` caches the remote file plus the source path, size, and modification time so a retry on an unchanged clip can reuse its upload.
 
 ### Clip manifest (`models/manifest.py`)
 
@@ -109,6 +115,7 @@ output/runs/<run_id>/
 Rules:
 
 - The video agent looks up the clip by file name. If the entry has `analyzed: true` and at least one moment with `best_frame_s`, it uses those moments, extracts the frames with ffmpeg at the recorded timestamps, and makes no Gemini call. Otherwise it analyzes the clip with Gemini, writes the results into the entry, sets `analyzed: true` and `analyzed_by: gemini`, and saves the manifest.
+  An analyzed entry with zero moments is also a cache hit and returns an empty list without a model call.
 - The owner may edit any field afterward, in particular `best_frame_s` and `athlete_id`. The next run uses the edited values because frames are always extracted fresh from the timestamps. Set `analyzed_by: manual` when hand-editing so the change is visible in the UI.
 - If `athlete_id` is set, the matching agent uses it directly and skips athlete resolution. If it is null after a Gemini analysis, the matching agent resolves it from `athlete_hints` and writes the result back into the entry for the owner to confirm or correct.
 - `--force-analysis` re-runs Gemini and overwrites the entry's moments and hints, but never overwrites a non-null `athlete_id`.

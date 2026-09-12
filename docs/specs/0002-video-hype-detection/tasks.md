@@ -2,18 +2,23 @@
 
 ## Task List
 
-- [ ] Implement `ClipSource` and `LocalClipSource` in `src/goldcoast/sources/clip_source.py`.
-- [ ] Implement `extract_frame` and `extract_candidates` in `src/goldcoast/media/frames.py`.
-- [ ] Write the detection prompt and response schema in `src/goldcoast/agents/prompts/video_detect.py`.
-- [ ] Implement `VideoAgent.detect` with upload or inline handling, parsing, threshold filtering, and overlap merging.
-- [ ] Implement the uncertain-frame candidate pick.
-- [ ] Add `ClipEntry.to_hype_moments` and `ClipEntry.from_analysis`, and wire the manifest lookup, frame extraction from recorded timestamps, and manifest write-back into `VideoAgent.detect`.
-- [ ] Add `hype_threshold`, `frame_candidate_window_s`, and `clip_manifest` to settings and `.env.example`.
-- [ ] Wire the `detect` CLI command with `--force-analysis`, and the `clips` command.
-- [ ] Write a test that calls `detect` on an analyzed clip and asserts zero model calls, and a test that edits `best_frame_s` in a temporary manifest and asserts the frame is extracted at the new timestamp.
-- [ ] Record real model calls for the MVP hype clip into `tests/fixtures/model_calls/video/`, and add a hand-written empty-response fixture for the no-hype case.
-- [ ] Write `tests/test_video_agent.py` running in replay mode against the fixtures.
-- [ ] Update `README.md` run commands.
+- [x] Verify the current google-genai SDK documentation through Context7 before writing SDK calls.
+- [x] Investigate reported API request counts, add HTTP-level accounting, explicitly disable generation retries, and reuse active video uploads; validate with an offline SDK transport test.
+
+- [x] Implement `ClipSource` and `LocalClipSource` in `src/goldcoast/sources/clip_source.py`.
+- [x] Implement `extract_frame` and `extract_candidates` in `src/goldcoast/media/frames.py`.
+- [x] Write the detection prompt and response schema in `src/goldcoast/agents/prompts/video_detect.py`.
+- [x] Implement `VideoAgent.detect` with upload or inline handling, parsing, threshold filtering, and overlap merging.
+- [x] Implement the uncertain-frame candidate pick.
+- [x] Add `ClipEntry.to_hype_moments` and `ClipEntry.from_analysis`, and wire the manifest lookup, frame extraction from recorded timestamps, and manifest write-back into `VideoAgent.detect`.
+- [x] Add `hype_threshold`, `frame_candidate_window_s`, and `clip_manifest` to settings and `.env.example`.
+- [x] Wire the `detect` CLI command with `--force-analysis`, and the `clips` command.
+- [x] Write a test that calls `detect` on an analyzed clip and asserts zero model calls, and a test that edits `best_frame_s` in a temporary manifest and asserts the frame is extracted at the new timestamp.
+- [x] Record real model calls for the MVP hype clip into `tests/fixtures/model_calls/video/`, and add a hand-written empty-response fixture for the no-hype case.
+- [x] Write `tests/test_video_agent.py` running in replay mode against the fixtures.
+- [x] Update `README.md` run commands.
+
+The earlier 503 blocker is resolved. The first successful analysis is recorded, the manifest is analyzed, replay tests pass, and repeated detection plus the manual timestamp edit made no model calls. See `status.md` for the complete evidence and request history.
 
 ## Validation Steps
 

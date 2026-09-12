@@ -7,7 +7,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 | Spec | Feature | Status | Evidence | Notes |
 |---|---|---|---|---|
 | 0001 | Project scaffold and seed data | Completed | [Validation evidence](specs/0001-project-scaffold-and-seed-data/status.md#evidence) | Conda env, pyproject, Pydantic models, seed JSON loaders, CLI entry point |
-| 0002 | Video hype detection | Not started | | Gemini video analysis to HypeMoment, best-frame extraction with ffmpeg |
+| 0002 | Video hype detection | Completed | [Evidence](specs/0002-video-hype-detection/status.md#evidence) | Three real moments and PNGs, analyzed manifest, offline replay fixture, cache/edit checks; 35 tests pass |
 | 0003 | Context matching | Not started | | Athlete resolution, business matching by tags, ad style selection to AdBrief |
 | 0004 | Ad generation | Not started | | Gemini image model produces landscape and portrait ads per brief |
 | 0005 | Ad quality judge | Not started | | Rubric scoring to QualityVerdict, bounded regeneration loop |

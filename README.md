@@ -24,7 +24,22 @@ python -m goldcoast detect sample_clips/<clip>.mp4
 python -m goldcoast run sample_clips/<clip>.mp4
 ```
 
-`detect`, `match`, `generate`, `judge`, and `run` are command stubs until their corresponding specs are implemented.
+`match`, `generate`, `judge`, and `run` are command stubs until their corresponding specs are implemented.
+
+### Video detection
+
+```powershell
+python -m goldcoast detect sample_clips/gymnastics_simone.mp4 --out output/manual/0002
+python -m goldcoast clips
+```
+
+Detection writes `moments/*.json`, `frames/*.png`, and recorded calls under the output directory.
+Files at least 20 MiB use the Gemini Files API. An analyzed clip is read from
+`sample_clips/manifest.json` without another model call, including analyzed clips
+with no hype moments. Edit timestamps within the clip and moment window and set
+`analyzed_by` to `manual` to curate frames. `--force-analysis` explicitly replaces
+the analysis while preserving the athlete ID and notes. `--threshold` overrides
+`GOLDCOAST_HYPE_THRESHOLD` (default 6).
 
 ## Validation
 

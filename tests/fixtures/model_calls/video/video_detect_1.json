@@ -1,0 +1,309 @@
+{
+  "stage": "video_detect",
+  "sequence": 3,
+  "model_id": "gemini-3.8-flash",
+  "prompt": "Watch this complete sports clip once. Identify up to three distinct,\nnon-overlapping crowd-pleasing hype moments, sorted by hype score (0 to 10).\nUse seconds relative to the start of this clip, never broadcast clock times.\nChoose start_s <= best_frame_s <= end_s strictly within the clip duration.\nDescribe the decisive action and justify the hype score in the description;\ninclude sport, event context, and athlete hints based only on visible or audible\nevidence: name, country, kit colors, bib number, crowd reaction. Use null for\nunknown hints. Do not guess an athlete from fame alone. Pick a sharp, dramatic,\npicturesque frame for an advertisement; flag frame_uncertain only if neighboring\nframes need inspection. Return no moments if the clip contains no hype.\n\nClip duration: 130.519 seconds.\nhttps://generativelanguage.googleapis.com/v1beta/files/apyp2a8yftg6\nvideo/mp4",
+  "input_refs": [
+    "sample_clips\\gymnastics_simone.mp4"
+  ],
+  "response_text": "{\n  \"sport\": \"Artistic Gymnastics\",\n  \"moments\": [\n    {\n      \"start_s\": 106.0,\n      \"end_s\": 125.0,\n      \"best_frame_s\": 122.5,\n      \"hype_score\": 7.8,\n      \"description\": \"Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.\",\n      \"event_context\": \"Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.\",\n      \"athlete_hints\": {\n        \"name\": \"Simone Biles\",\n        \"country\": \"USA\",\n        \"kit_colors\": [\"blue\", \"purple\", \"white\"],\n        \"bib_number\": \"391\",\n        \"crowd_reaction\": \"standing ovation and loud cheering\",\n        \"source\": \"gemini\"\n      },\n      \"frame_uncertain\": false\n    },\n    {\n      \"start_s\": 36.5,\n      \"end_s\": 43.0,\n      \"best_frame_s\": 41.0,\n      \"hype_score\": 7.2,\n      \"description\": \"Biles opens her routine with an explosive, high-amplitude tumbling pass and sticks the landing, eliciting an immediate roar from spectators.\",\n      \"event_context\": \"Opening pass of the women's floor final at Paris 2024.\",\n      \"athlete_hints\": {\n        \"name\": \"Simone Biles\",\n        \"country\": \"USA\",\n        \"kit_colors\": [\"blue\", \"purple\", \"white\"],\n        \"bib_number\": \"391\",\n        \"crowd_reaction\": \"enthusiastic applause and cheering\",\n        \"source\": \"gemini\"\n      },\n      \"frame_uncertain\": false\n    },\n    {\n      \"start_s\": 87.5,\n      \"end_s\": 94.0,\n      \"best_frame_s\": 91.5,\n      \"hype_score\": 6.8,\n      \"description\": \"Biles lands another acrobatic tumbling series with precision and breaks into a smile as the arena audience applauds.\",\n      \"event_context\": \"Third tumbling pass during the floor exercise routine.\",\n      \"athlete_hints\": {\n        \"name\": \"Simone Biles\",\n        \"country\": \"USA\",\n        \"kit_colors\": [\"blue\", \"purple\", \"white\"],\n        \"bib_number\": \"391\",\n        \"crowd_reaction\": \"loud cheering and applause\",\n        \"source\": \"gemini\"\n      },\n      \"frame_uncertain\": false\n    }\n  ]\n}",
+  "response_raw": {
+    "request": {
+      "contents": [
+        "Watch this complete sports clip once. Identify up to three distinct,\nnon-overlapping crowd-pleasing hype moments, sorted by hype score (0 to 10).\nUse seconds relative to the start of this clip, never broadcast clock times.\nChoose start_s <= best_frame_s <= end_s strictly within the clip duration.\nDescribe the decisive action and justify the hype score in the description;\ninclude sport, event context, and athlete hints based only on visible or audible\nevidence: name, country, kit colors, bib number, crowd reaction. Use null for\nunknown hints. Do not guess an athlete from fame alone. Pick a sharp, dramatic,\npicturesque frame for an advertisement; flag frame_uncertain only if neighboring\nframes need inspection. Return no moments if the clip contains no hype.\n\nClip duration: 130.519 seconds.",
+        {
+          "media_resolution": null,
+          "code_execution_result": null,
+          "executable_code": null,
+          "file_data": {
+            "display_name": null,
+            "file_uri": "https://generativelanguage.googleapis.com/v1beta/files/apyp2a8yftg6",
+            "mime_type": "video/mp4"
+          },
+          "function_call": null,
+          "function_response": null,
+          "inline_data": null,
+          "text": null,
+          "thought": null,
+          "thought_signature": null,
+          "video_metadata": null,
+          "tool_call": null,
+          "tool_response": null,
+          "part_metadata": null,
+          "audio_transcription": null,
+          "media_processing": null
+        }
+      ],
+      "config": {
+        "response_mime_type": "application/json",
+        "response_schema": {
+          "properties": {
+            "sport": {
+              "type": "string"
+            },
+            "moments": {
+              "items": {
+                "properties": {
+                  "start_s": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "end_s": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "best_frame_s": {
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "hype_score": {
+                    "maximum": 10,
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "event_context": {
+                    "type": "string"
+                  },
+                  "athlete_hints": {
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "country": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "kit_colors": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "bib_number": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "crowd_reaction": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "source": {
+                        "enum": [
+                          "gemini",
+                          "manual"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "type": "object",
+                    "nullable": true,
+                    "property_ordering": [
+                      "name",
+                      "country",
+                      "kit_colors",
+                      "bib_number",
+                      "crowd_reaction",
+                      "source"
+                    ]
+                  },
+                  "frame_uncertain": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "start_s",
+                  "end_s",
+                  "best_frame_s",
+                  "hype_score",
+                  "description",
+                  "event_context"
+                ],
+                "type": "object",
+                "property_ordering": [
+                  "start_s",
+                  "end_s",
+                  "best_frame_s",
+                  "hype_score",
+                  "description",
+                  "event_context",
+                  "athlete_hints",
+                  "frame_uncertain"
+                ]
+              },
+              "maxItems": 3,
+              "type": "array"
+            }
+          },
+          "required": [
+            "sport"
+          ],
+          "type": "object"
+        },
+        "automatic_function_calling": {
+          "disable": true
+        }
+      }
+    },
+    "response": {
+      "sdk_http_response": {
+        "headers": {
+          "x-gemini-service-tier": "standard",
+          "content-type": "application/json; charset=UTF-8",
+          "vary": "Origin, X-Origin, Referer",
+          "content-encoding": "gzip",
+          "date": "Sat, 12 Sep 2026 22:11:51 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=9190",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+          "transfer-encoding": "chunked"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "{\n  \"sport\": \"Artistic Gymnastics\",\n  \"moments\": [\n    {\n      \"start_s\": 106.0,\n      \"end_s\": 125.0,\n      \"best_frame_s\": 122.5,\n      \"hype_score\": 7.8,\n      \"description\": \"Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.\",\n      \"event_context\": \"Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.\",\n      \"athlete_hints\": {\n        \"name\": \"Simone Biles\",\n        \"country\": \"USA\",\n        \"kit_colors\": [\"blue\", \"purple\", \"white\"],\n        \"bib_number\": \"391\",\n        \"crowd_reaction\": \"standing ovation and loud cheering\",\n        \"source\": \"gemini\"\n      },\n      \"frame_uncertain\": false\n    },\n    {\n      \"start_s\": 36.5,\n      \"end_s\": 43.0,\n      \"best_frame_s\": 41.0,\n      \"hype_score\": 7.2,\n      \"description\": \"Biles opens her routine with an explosive, high-amplitude tumbling pass and sticks the landing, eliciting an immediate roar from spectators.\",\n      \"event_context\": \"Opening pass of the women's floor final at Paris 2024.\",\n      \"athlete_hints\": {\n        \"name\": \"Simone Biles\",\n        \"country\": \"USA\",\n        \"kit_colors\": [\"blue\", \"purple\", \"white\"],\n        \"bib_number\": \"391\",\n        \"crowd_reaction\": \"enthusiastic applause and cheering\",\n        \"source\": \"gemini\"\n      },\n      \"frame_uncertain\": false\n    },\n    {\n      \"start_s\": 87.5,\n      \"end_s\": 94.0,\n      \"best_frame_s\": 91.5,\n      \"hype_score\": 6.8,\n      \"description\": \"Biles lands another acrobatic tumbling series with precision and breaks into a smile as the arena audience applauds.\",\n      \"event_context\": \"Third tumbling pass during the floor exercise routine.\",\n      \"athlete_hints\": {\n        \"name\": \"Simone Biles\",\n        \"country\": \"USA\",\n        \"kit_colors\": [\"blue\", \"purple\", \"white\"],\n        \"bib_number\": \"391\",\n        \"crowd_reaction\": \"loud cheering and applause\",\n        \"source\": \"gemini\"\n      },\n      \"frame_uncertain\": false\n    }\n  ]\n}",
+                "thought": null,
+                "thought_signature": {
+                  "type": "bytes",
+                  "length": 3775
+                },
+                "video_metadata": null,
+                "tool_call": null,
+                "tool_response": null,
+                "part_metadata": null,
+                "audio_transcription": null,
+                "media_processing": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "grounding_metadata": null,
+          "avg_logprobs": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.8-flash",
+      "prompt_feedback": null,
+      "response_id": "Hs6lavqjDb79qtsPxIWUkAk",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 632,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 12015,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 185
+          },
+          {
+            "modality": "VIDEO",
+            "token_count": 11830
+          }
+        ],
+        "thoughts_token_count": 1349,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 13996,
+        "traffic_type": null
+      },
+      "model_status": null,
+      "automatic_function_calling_history": null,
+      "parsed": {
+        "sport": "Artistic Gymnastics",
+        "moments": [
+          {
+            "start_s": 106.0,
+            "end_s": 125.0,
+            "best_frame_s": 122.5,
+            "hype_score": 7.8,
+            "description": "Simone Biles nails her final tumbling pass to conclude her floor exercise routine, prompting massive cheers and a standing ovation from the crowd.",
+            "event_context": "Women's artistic gymnastics floor exercise at the Paris 2024 Olympic Games.",
+            "athlete_hints": {
+              "name": "Simone Biles",
+              "country": "USA",
+              "kit_colors": [
+                "blue",
+                "purple",
+                "white"
+              ],
+              "bib_number": "391",
+              "crowd_reaction": "standing ovation and loud cheering",
+              "source": "gemini"
+            },
+            "frame_uncertain": false
+          },
+          {
+            "start_s": 36.5,
+            "end_s": 43.0,
+            "best_frame_s": 41.0,
+            "hype_score": 7.2,
+            "description": "Biles opens her routine with an explosive, high-amplitude tumbling pass and sticks the landing, eliciting an immediate roar from spectators.",
+            "event_context": "Opening pass of the women's floor final at Paris 2024.",
+            "athlete_hints": {
+              "name": "Simone Biles",
+              "country": "USA",
+              "kit_colors": [
+                "blue",
+                "purple",
+                "white"
+              ],
+              "bib_number": "391",
+              "crowd_reaction": "enthusiastic applause and cheering",
+              "source": "gemini"
+            },
+            "frame_uncertain": false
+          },
+          {
+            "start_s": 87.5,
+            "end_s": 94.0,
+            "best_frame_s": 91.5,
+            "hype_score": 6.8,
+            "description": "Biles lands another acrobatic tumbling series with precision and breaks into a smile as the arena audience applauds.",
+            "event_context": "Third tumbling pass during the floor exercise routine.",
+            "athlete_hints": {
+              "name": "Simone Biles",
+              "country": "USA",
+              "kit_colors": [
+                "blue",
+                "purple",
+                "white"
+              ],
+              "bib_number": "391",
+              "crowd_reaction": "loud cheering and applause",
+              "source": "gemini"
+            },
+            "frame_uncertain": false
+          }
+        ]
+      }
+    }
+  },
+  "latency_ms": 9262,
+  "timestamp": "2026-09-12T22:11:40.974639Z"
+}

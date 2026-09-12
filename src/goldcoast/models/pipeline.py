@@ -39,13 +39,14 @@ class HypeMoment(ContractModel):
     start_s: float = Field(ge=0)
     end_s: float = Field(ge=0)
     best_frame_s: float = Field(ge=0)
-    best_frame_path: Path
+    best_frame_path: Path | None = None
     hype_score: float = Field(ge=0, le=10)
     description: str
     sport: str
     event_context: str
     athlete_id: str | None = None
     athlete_hints: AthleteHints | None = None
+    source: Literal["gemini", "manual"] = "gemini"
 
     @model_validator(mode="after")
     def validate_timestamps(self) -> HypeMoment:

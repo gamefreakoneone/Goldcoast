@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
+import httpx
 import pytest
 
 from goldcoast.llm import GeminiClient, LLMCallError
@@ -65,3 +66,51 @@ def test_failed_call_is_recorded_before_wrapped_error(tmp_path: Path) -> None:
     saved = json.loads((tmp_path / "judge_1.json").read_text(encoding="utf-8"))
     assert saved["response_raw"]["error"]["type"] == "RuntimeError"
     assert saved["response_raw"]["error"]["message"] == "service unavailable"
+
+
+def test_one_sdk_attempt_and_http_audit_on_unavailable(tmp_path, monkeypatch):
+    from google import genai
+
+    original = genai.Client
+    requests = []
+
+    def respond(request):
+        requests.append(request)
+        return httpx.Response(
+            503,
+            json={
+                "error": {
+                    "code": 503,
+                    "message": "high demand",
+                    "status": "UNAVAILABLE",
+                }
+            },
+        )
+
+    def create_client(**kwargs):
+        options = kwargs["http_options"]
+        assert options.retry_options.attempts == 1
+        options.client_args["transport"] = httpx.MockTransport(respond)
+        return original(**kwargs)
+
+    monkeypatch.setattr(genai, "Client", create_client)
+    client = GeminiClient(_settings(), tmp_path)
+    try:
+        with pytest.raises(LLMCallError, match="503"):
+            client.generate(
+                "video_detect",
+                "gemini-3.8-flash",
+                "test",
+                {
+                    "automatic_function_calling": {"disable": True},
+                },
+            )
+        assert len(requests) == 1
+        traces = list((tmp_path / "http_requests").glob("*.json"))
+        assert len(traces) == 1
+        trace = json.loads(traces[0].read_text())
+        assert trace["status_code"] == 503
+        assert trace["path"].endswith("models/gemini-3.8-flash:generateContent")
+        assert "test-key" not in traces[0].read_text()
+    finally:
+        client._client.close()

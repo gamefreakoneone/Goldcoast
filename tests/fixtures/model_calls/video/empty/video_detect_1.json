@@ -1,0 +1,11 @@
+{
+  "stage": "video_detect",
+  "sequence": 1,
+  "model_id": "hand-written-empty-fixture",
+  "prompt": "Synthetic no-hype response fixture; not a live model call.",
+  "input_refs": [],
+  "response_text": "{\"sport\":\"gymnastics\",\"moments\":[]}",
+  "response_raw": {"fixture": "hand-written empty response permitted by spec 0002"},
+  "latency_ms": 0,
+  "timestamp": "2026-09-12T00:00:00Z"
+}
