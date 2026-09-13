@@ -37,7 +37,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0016 | Adaptation and replay | Completed | [Evidence](specs/0016-adaptation-and-replay/status.md) | Free historical demo and opt-in scheduling |
 
-Next in order: 0017 hosted deployment; 0018 submission package.
+| 0017 | Hosted deployment | Blocked | [Evidence](specs/0017-hosted-deployment/status.md) | Deferred by user until local acceptance testing |
+
+Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0018 submission package remains not started.
 
 ## Status Definitions
 
