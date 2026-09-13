@@ -98,6 +98,13 @@ async def execute_job(
             ),
         )
         return
+    if job.kind == "feed":
+        from goldcoast.studio.feed import discover_feed
+
+        await stages.run(
+            "feed", lambda: discover_feed(snapshot, job.input["topic"], runtime, discovery, stages)
+        )
+        return
     video = None
     if job.input.get("video_asset_id"):
 
@@ -144,7 +151,24 @@ async def execute_job(
     if prior.get("state") == "completed":
         result = CampaignResult.model_validate(prior["output"])
     else:
-        result = await plan_campaign(snapshot, job.input["goal"], runtime, discovery, stages, video)
+        if job.input.get("selected_campaign"):
+            result = CampaignResult.model_validate(job.input["selected_campaign"])
+            from goldcoast.studio.workflow import validate_candidates
+
+            valid, _ = validate_candidates(
+                [result.selected], result.graph, snapshot.profile, datetime.now(UTC)
+            )
+            if not valid:
+                raise Conflict("Selected idea expired before generation; refresh the feed")
+        else:
+            planning = snapshot.model_copy(deep=True)
+            if job.input.get("product_id"):
+                planning.profile.products = [
+                    p for p in planning.profile.products if p.id == job.input["product_id"]
+                ]
+            result = await plan_campaign(
+                planning, job.input["goal"], runtime, discovery, stages, video
+            )
         await stages.run("campaign", lambda: result)
 
     if creative_producer is not None:

@@ -53,3 +53,5 @@ Local acceptance testing is active. 0017 hosting is explicitly deferred by the u
 When a feature's status changes, update this table and the spec's `status.md` and `tasks.md` checkboxes in the same change. The Evidence column links to the validation section of the spec's `status.md` or names the commit that completed the spec.
 
 | 0018 | Asset organization and product identity | Completed | [Evidence](specs/0018-asset-organization/status.md) | Staged uploads and categorized private assets |
+
+| 0019 | Discovery feed and inline workflow | Completed | [Evidence](specs/0019-discovery-feed/status.md) | Cited local ideas |

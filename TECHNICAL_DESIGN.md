@@ -254,3 +254,7 @@ Spec 0016: historical replay creatives use immutable recorded business/brand sna
 ## 0018 Product and asset identity
 
 Studio products carry stable IDs; legacy profiles derive IDs deterministically until saved. Product assets carry an optional product_id and remain unassigned if missing. Asset classification is versioned and tenant scoped. Marketing references distinguish owned work from attributed external inspiration. Testimonial videos are separate from context video. These studio contracts supersede seed-only athlete requirements for the local-business pivot; legacy Olympic and replay contracts remain unchanged.
+
+## 0019 Discovery feed
+
+Feed results are tenant scoped durable jobs cached for six hours by business version and topic. Explicit feed refresh reserves a separate allowance and permits at most two searches, two extracts and four model calls. Campaigns snapshot selected evidence and revalidate expiry at execution. Testimonial allowances are reserved for 0020. New grant columns require `alembic upgrade head`.

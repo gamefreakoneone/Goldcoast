@@ -22,6 +22,9 @@ class WorkflowStart(StrictModel):
     goal: str = Field(default="Bring more neighbors in today", min_length=1, max_length=1500)
     video_asset_id: str | None = None
     replay_source: str | None = None
+    feed_job_id: str | None = None
+    idea_id: str | None = None
+    product_id: str | None = None
 
 
 class Snapshot(StrictModel):
@@ -48,6 +51,10 @@ class Candidate(StrictModel):
     angle: str = Field(min_length=1, max_length=700)
     product_name: str = Field(min_length=1, max_length=100)
     source_ids: list[str] = Field(max_length=8)
+    product_id: str | None = None
+    location: str = Field(default="", max_length=200)
+    event_date: date | None = None
+    date_quote: str = Field(default="", max_length=800)
     expires_at: AwareDatetime
     fit: int = Field(ge=0, le=10)
     timeliness: int = Field(ge=0, le=10)
@@ -116,6 +123,8 @@ def start_campaign(repo, assets, tenant, body, key):
         }
     else:
         snapshot = snapshot_business(repo, assets, tenant)
+        if body.product_id and body.product_id not in {p.id for p in snapshot.profile.products}:
+            raise Conflict("Choose a product from this business")
         if body.video_asset_id:
             asset = repo.get(tenant, "asset", body.video_asset_id)
             if asset.data["role"] != "video":
@@ -124,7 +133,14 @@ def start_campaign(repo, assets, tenant, body, key):
             "snapshot": snapshot.model_dump(mode="json"),
             "goal": body.goal,
             "video_asset_id": body.video_asset_id,
+            "product_id": body.product_id,
         }
+        if body.idea_id or body.feed_job_id:
+            from goldcoast.studio.feed import selected_idea
+
+            payload["selected_campaign"] = selected_idea(
+                repo, tenant, snapshot, body.feed_job_id, body.idea_id
+            ).model_dump(mode="json")
     return repo.create_job(tenant, "campaign", body.mode, key, payload)
 
 
@@ -140,6 +156,24 @@ def validate_candidates(candidates, graph, profile, now):
             reason = "Duplicate candidate ID"
         elif candidate.product_name.casefold() not in products:
             reason = "Product is not in the confirmed business profile"
+        elif candidate.product_id and candidate.product_id not in {
+            p.id for p in profile.products if p.name.casefold() == candidate.product_name.casefold()
+        }:
+            reason = "Product identity does not match the catalog"
+        elif (
+            candidate.event_date
+            and candidate.event_date < now.astimezone(ZoneInfo(profile.timezone)).date()
+        ):
+            reason = "Event date has passed"
+        elif candidate.event_date and (
+            not candidate.date_quote
+            or not any(
+                candidate.date_quote in sources[s].text
+                for s in candidate.source_ids
+                if s in sources
+            )
+        ):
+            reason = "Event date requires an exact source excerpt"
         elif candidate.expires_at <= now:
             reason = "Opportunity has expired"
         elif candidate.category != "evergreen" and (
@@ -163,6 +197,11 @@ def validate_candidates(candidates, graph, profile, now):
                         if edge.target in candidate.source_ids and edge.state == "supported"
                     ),
                 )
+            candidate.product_id = next(
+                p.id
+                for p in profile.products
+                if p.name.casefold() == candidate.product_name.casefold()
+            )
             valid.append(candidate)
             ids.add(candidate.id)
     return valid, rejected
@@ -213,7 +252,7 @@ async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None):
             "chief_plan",
             lambda: runtime.run(
                 "chief_planner",
-                "Plan a campaign for this food/drink business, date and city. Return two "
+                "Plan a campaign for this local business, date and city. Return two "
                 "local searches and two cultural searches. Prioritize timely reasons "
                 "to visit. Video cues are uncertain. Never invent business facts.",
                 context,

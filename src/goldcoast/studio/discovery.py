@@ -115,7 +115,7 @@ class Discovery:
             result.append(source.model_dump(mode="json"))
         return result
 
-    def search(self, query):
+    def search(self, query, *, time_range=None, include_domains=None):
         if not query.strip() or len(query) > 500:
             raise ValueError("Search query must be 1 to 500 characters")
         payload = {
@@ -128,6 +128,10 @@ class Discovery:
             "include_usage": True,
             "auto_parameters": False,
         }
+        if time_range:
+            payload["time_range"] = time_range
+        if include_domains:
+            payload["include_domains"] = include_domains
         response, timestamp = self.cassette.call(
             "tavily", "search", payload, lambda: self._request("tavily", "search", payload)
         )

@@ -46,8 +46,8 @@ class Repository:
                 raise AccessError("Not found")
             return row
 
-    def grant(self, tenant_id, campaign, brand):
-        if campaign < 0 or brand < 0:
+    def grant(self, tenant_id, campaign, brand, feed=0, testimonial=0):
+        if min(campaign, brand, feed, testimonial) < 0:
             raise ValueError("Grants must be nonnegative")
         with self.sessions.begin() as s:
             result = s.execute(
@@ -56,13 +56,15 @@ class Repository:
                 .values(
                     campaign_grants=Tenant.campaign_grants + campaign,
                     brand_grants=Tenant.brand_grants + brand,
+                    feed_grants=Tenant.feed_grants + feed,
+                    testimonial_grants=Tenant.testimonial_grants + testimonial,
                 )
             )
             if not result.rowcount:
                 raise AccessError("Not found")
 
-    def controls(self, *, enabled=None, campaign=0, brand=0):
-        if campaign < 0 or brand < 0:
+    def controls(self, *, enabled=None, campaign=0, brand=0, feed=0, testimonial=0):
+        if min(campaign, brand, feed, testimonial) < 0:
             raise ValueError("Grants must be nonnegative")
         with self.sessions.begin() as s:
             row = s.execute(select(Controls).where(Controls.id == 1).with_for_update()).scalar_one()
@@ -70,6 +72,8 @@ class Repository:
                 row.live_enabled = enabled
             row.campaign_grants += campaign
             row.brand_grants += brand
+            row.feed_grants += feed
+            row.testimonial_grants += testimonial
             return row
 
     def put(self, tenant_id, kind, data, resource_id=None, expected_version=None):
@@ -120,7 +124,10 @@ class Repository:
             )
 
     def create_job(self, tenant_id, kind, mode, request_key, payload):
-        if kind not in {"campaign", "brand"} or mode not in {"live", "replay"}:
+        if kind not in {"campaign", "brand", "feed", "testimonial"} or mode not in {
+            "live",
+            "replay",
+        }:
             raise ValueError("Invalid job kind or mode")
         if not request_key or len(request_key) > 128:
             raise ValueError("Invalid idempotency key")
@@ -206,6 +213,10 @@ class Repository:
                 raise Conflict("Provider call is not permitted")
             counters = dict(row.counters)
             limit = min(LIMITS[kind], 8) if row.kind == "brand" else LIMITS[kind]
+            if row.kind == "feed":
+                limit = {"search": 2, "extract": 2, "model": 4, "tool": 4}.get(kind, 0)
+            elif row.kind == "testimonial":
+                limit = {"model": 2, "video": 1}.get(kind, 0)
             if counters.get(kind, 0) >= limit:
                 raise Conflict(f"{kind} allowance exhausted")
             counters[kind] = counters.get(kind, 0) + 1

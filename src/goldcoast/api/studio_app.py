@@ -23,6 +23,8 @@ class GrantRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     campaign: int = Field(default=0, ge=0, le=100)
     brand: int = Field(default=0, ge=0, le=100)
+    feed: int = Field(default=0, ge=0, le=100)
+    testimonial: int = Field(default=0, ge=0, le=100)
 
 
 class ControlRequest(GrantRequest):
@@ -92,26 +94,38 @@ def create_app(settings: StudioSettings | None = None, sessions=None, verifier=N
         return {
             "campaign_remaining": row.campaign_grants,
             "brand_remaining": row.brand_grants,
+            "feed_remaining": row.feed_grants,
+            "testimonial_remaining": row.testimonial_grants,
             "active_job": row.active_job,
             "live_enabled": controls.live_enabled,
             "global_campaign_remaining": controls.campaign_grants,
             "global_brand_remaining": controls.brand_grants,
+            "global_feed_remaining": controls.feed_grants,
+            "global_testimonial_remaining": controls.testimonial_grants,
         }
 
     @app.post("/api/v2/admin/grants/{tenant_id}")
     def grants(tenant_id: str, body: GrantRequest, request: Request, identity: OwnerDep):
-        request.app.state.repo.grant(tenant_id, body.campaign, body.brand)
+        request.app.state.repo.grant(
+            tenant_id, body.campaign, body.brand, body.feed, body.testimonial
+        )
         return {"updated": True}
 
     @app.post("/api/v2/admin/controls")
     def controls(body: ControlRequest, request: Request, identity: OwnerDep):
         row = request.app.state.repo.controls(
-            enabled=body.enabled, campaign=body.campaign, brand=body.brand
+            enabled=body.enabled,
+            campaign=body.campaign,
+            brand=body.brand,
+            feed=body.feed,
+            testimonial=body.testimonial,
         )
         return {
             "live_enabled": row.live_enabled,
             "campaign_remaining": row.campaign_grants,
             "brand_remaining": row.brand_grants,
+            "feed_remaining": row.feed_grants,
+            "testimonial_remaining": row.testimonial_grants,
         }
 
     @app.get("/api/v2/runs")

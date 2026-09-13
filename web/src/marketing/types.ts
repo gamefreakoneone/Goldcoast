@@ -20,11 +20,12 @@ export interface Asset {
 }
 export interface User { id: string; name: string; role: 'owner' | 'business' | 'demo' }
 export interface Usage {
+  feed_remaining?: number; testimonial_remaining?: number; global_feed_remaining?: number; global_testimonial_remaining?: number;
   campaign_remaining: number; brand_remaining: number; active_job: string | null;
   live_enabled: boolean; global_campaign_remaining: number; global_brand_remaining: number;
 }
 export interface Run {
-  id: string; kind: 'campaign' | 'brand'; mode: 'live' | 'replay';
+  id: string; kind: 'campaign' | 'brand' | 'feed' | 'testimonial'; mode: 'live' | 'replay';
   state: 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
   input: { goal?: string; source?: string; snapshot?: { profile: Business } };
   checkpoint: Record<string, { state: string; output?: unknown }>;
@@ -41,6 +42,7 @@ export interface Graph {
 }
 export interface Candidate {
   id: string; category: 'local' | 'culture' | 'evergreen'; title: string; angle: string;
+  product_id?: string; location?: string; event_date?: string; date_quote?: string;
   product_name: string; source_ids: string[]; expires_at: string; fit: number;
   timeliness: number; risks: string[];
 }
@@ -62,3 +64,5 @@ export interface Creative {
 export interface CreativeView extends Resource<Creative> { passed: boolean; stale: boolean }
 export interface StudioEvent { id: string; type: string; timestamp: number; payload: Record<string, unknown> }
 export const terminal = (run: Run) => ['completed', 'failed', 'cancelled'].includes(run.state)
+
+export interface FeedResult { ideas: Candidate[]; graph: Graph; retrieved_at: string; expires_at: string; rejected: { id: string; reason: string }[] }

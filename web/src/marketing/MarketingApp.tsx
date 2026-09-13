@@ -9,6 +9,7 @@ import { BrandPage, BusinessPage } from './BrandBusiness'
 import { PrivateImage } from './hooks'
 
 import { ReviewPage } from './Review'
+import { Feed, WorkflowProgress, type IdeaSelection } from './Feed'
 import { SchedulePanel } from './SchedulePanel'
 
 import { Icon, Notice, PageHeading, Status, Wordmark } from './ui'
@@ -19,11 +20,11 @@ import './marketing.css'
 
 
 
-type Page = 'today' | 'brand' | 'business' | 'campaigns' | 'settings' | 'review'
+type Page = 'feed' | 'today' | 'brand' | 'business' | 'campaigns' | 'settings' | 'review'
 
 interface Data { user: User; usage: Usage; business: Resource<Business> | null; brand: Resource<Brand> | null; assets: Resource<Asset>[]; runs: Run[] }
 
-const nav: { page: Page; label: string }[] = [{ page: 'today', label: 'Today' }, { page: 'brand', label: 'Brand library' }, { page: 'business', label: 'Business' }, { page: 'campaigns', label: 'Campaigns' }, { page: 'settings', label: 'Settings' }]
+const nav: { page: Page; label: string }[] = [{ page: 'today', label: 'Today' }, { page: 'feed', label: 'Your Feed' }, { page: 'brand', label: 'Brand library' }, { page: 'business', label: 'Business' }, { page: 'campaigns', label: 'Campaigns' }, { page: 'settings', label: 'Settings' }]
 
 function currentRoute(): { page: Page; id: string | null } {
 
@@ -35,11 +36,11 @@ function currentRoute(): { page: Page; id: string | null } {
 
 
 
-function Today({ data, navigate, refresh }: { data: Data; navigate: (page: Page, id?: string) => void; refresh: () => Promise<void> }) {
+function Today({ data, navigate, refresh, selection, onUse, runId, clearSelection }: { selection: IdeaSelection | null; onUse: (value: IdeaSelection) => void; clearSelection: () => void; runId: string | null; data: Data; navigate: (page: Page, id?: string) => void; refresh: () => Promise<void> }) {
 
-  const [goal, setGoal] = useState('')
+  const [goal, setGoal] = useState(selection?.idea.angle ?? '')
 
-  const [mode, setMode] = useState<'replay' | 'live'>('replay')
+  const [mode, setMode] = useState<'replay' | 'live'>(selection ? 'live' : 'replay')
 
   const [source, setSource] = useState('')
 
@@ -63,9 +64,9 @@ function Today({ data, navigate, refresh }: { data: Data; navigate: (page: Page,
 
     try {
 
-      const run = mode === 'replay' && replaySource === 'sample' ? await api<Run>('/replays/sample', {}) : await api<Run>('/workflows', { mode, goal: goal.trim() || 'Bring more neighbors in today', video_asset_id: video || null, replay_source: mode === 'replay' ? replaySource : null })
+      const run = mode === 'replay' && replaySource === 'sample' ? await api<Run>('/replays/sample', {}) : await api<Run>('/workflows', { mode, goal: goal.trim() || 'Bring more neighbors in today', video_asset_id: video || null, replay_source: mode === 'replay' ? replaySource : null, feed_job_id: selection?.jobId ?? null, idea_id: selection?.idea.id ?? null, product_id: selection?.idea.product_id ?? null })
 
-      await refresh(); navigate('review', run.id)
+      await refresh(); navigate('today', run.id)
 
     } catch (reason) { setError(reason instanceof Error ? reason.message : String(reason)) } finally { setBusy(false) }
 
@@ -75,7 +76,7 @@ function Today({ data, navigate, refresh }: { data: Data; navigate: (page: Page,
 
   return <><PageHeading title="Your daily marketing desk.">Turn what’s happening nearby into a reason to stop by.</PageHeading>{error && <Notice>{error}</Notice>}
 
-    <div className="today-grid"><form className="panel brief-panel" onSubmit={start}><h2>What should we focus on?</h2>
+    <div className="today-grid"><form className="panel brief-panel" onSubmit={start}><h2>What should we focus on?</h2>{selection && <Notice tone="info">Selected: {selection.idea.title}<button type="button" className="text-button" onClick={() => { clearSelection(); setGoal('') }}>Choose for me instead</button></Notice>}
 
       <label className="visually-hidden" htmlFor="daily-brief">Today's campaign brief</label><textarea id="daily-brief" className="daily-brief" maxLength={1500} readOnly={mode === 'replay'} value={mode === 'replay' ? recorded.find(r => r.id === replaySource)?.input.goal ?? 'Explore a recorded Morrow Coffee campaign: local research, visual brand references, and two judged ads. No API credits needed.' : goal} onChange={e => setGoal(e.target.value)} placeholder={`Bring in the afternoon crowd with our ${data.business?.data.products[0]?.name.toLowerCase() || 'signature drink'}.`}/>
 
@@ -99,7 +100,8 @@ function Today({ data, navigate, refresh }: { data: Data; navigate: (page: Page,
 
     </aside></div>
 
-    <section className="panel workflow-intro"><h2>The workflow</h2>{[['Discover the moment', 'Local events and cultural signals, with sources.'], ['Make it yours', 'Your products, your visual references, two ad formats.'], ['Review before it goes out', 'A quality check, then your approval.']].map(([title, text], i) => <div className="workflow-row" key={title}><span>{i + 1}</span><div><h3>{title}</h3><p>{text}</p></div></div>)}</section>
+    <WorkflowProgress id={runId ?? data.runs.find(r => r.kind === 'campaign')?.id ?? null} onReview={() => { const id = runId ?? data.runs.find(r => r.kind === 'campaign')?.id; if (id) navigate('review', id) }}/>
+    <Feed compact usage={data.usage} onUse={onUse} onRefresh={refresh}/>
 
     <footer className="workspace-footer">Nothing publishes without your approval.</footer></>
 
@@ -122,6 +124,8 @@ function SettingsPage({ data, refresh }: { data: Data; refresh: () => Promise<vo
   const [campaign, setCampaign] = useState(1)
 
   const [brand, setBrand] = useState(1)
+  const [feedGrant, setFeedGrant] = useState(1)
+  const [testimonialGrant, setTestimonialGrant] = useState(1)
 
   const [busy, setBusy] = useState(false)
 
@@ -143,11 +147,11 @@ function SettingsPage({ data, refresh }: { data: Data; refresh: () => Promise<vo
 
     <div className="settings-grid"><section className="panel"><h2>Your account</h2><dl className="settings-list"><div><dt>Name</dt><dd>{data.user.name}</dd></div><div><dt>Access</dt><dd>{data.user.role}</dd></div><div><dt>Account ID</dt><dd><code>{data.user.id}</code></dd></div></dl><p className="small muted">Share your account ID with the owner to request a live allowance.</p></section>
 
-      <section className="panel"><h2>Your live allowance</h2><dl className="settings-list"><div><dt>Campaigns remaining</dt><dd>{data.usage.campaign_remaining}</dd></div><div><dt>Brand analyses remaining</dt><dd>{data.usage.brand_remaining}</dd></div><div><dt>Live generation</dt><dd>{data.usage.live_enabled ? 'Enabled' : 'Paused'}</dd></div></dl><p className="small muted">Replays use no API credits. One live workflow can run at a time.</p></section></div>
+      <section className="panel"><h2>Your live allowance</h2><dl className="settings-list"><div><dt>Campaigns remaining</dt><dd>{data.usage.campaign_remaining}</dd></div><div><dt>Brand analyses remaining</dt><dd>{data.usage.brand_remaining}</dd></div><div><dt>Feed refreshes remaining</dt><dd>{data.usage.feed_remaining ?? 0}</dd></div><div><dt>Testimonial analyses remaining</dt><dd>{data.usage.testimonial_remaining ?? 0}</dd></div><div><dt>Live generation</dt><dd>{data.usage.live_enabled ? 'Enabled' : 'Paused'}</dd></div></dl><p className="small muted">Replays use no API credits. One live workflow can run at a time.</p></section></div>
 
-    <SchedulePanel timezone={data.business?.data.timezone ?? 'your business timezone'}/>{data.user.role === 'owner' && <section className="panel owner-controls"><h2>Owner controls</h2><div className="settings-grid"><div><h3>Shared live budget</h3><p>{data.usage.global_campaign_remaining} campaigns · {data.usage.global_brand_remaining} brand analyses remaining</p><button className={data.usage.live_enabled ? 'danger' : 'primary'} disabled={busy} onClick={() => void act('/admin/controls', { enabled: !data.usage.live_enabled })}>{data.usage.live_enabled ? 'Pause all live generation' : 'Enable live generation'}</button><p className="small muted">Pausing blocks the next provider call in every live workflow.</p><button className="text-button" disabled={busy} onClick={() => void act('/admin/controls', { campaign: 1, brand: 1 })}>Add 1 to each shared allowance</button></div>
+    <SchedulePanel timezone={data.business?.data.timezone ?? 'your business timezone'}/>{data.user.role === 'owner' && <section className="panel owner-controls"><h2>Owner controls</h2><div className="settings-grid"><div><h3>Shared live budget</h3><p>{data.usage.global_campaign_remaining} campaigns · {data.usage.global_brand_remaining} brand analyses remaining</p><button className={data.usage.live_enabled ? 'danger' : 'primary'} disabled={busy} onClick={() => void act('/admin/controls', { enabled: !data.usage.live_enabled })}>{data.usage.live_enabled ? 'Pause all live generation' : 'Enable live generation'}</button><p className="small muted">Pausing blocks the next provider call in every live workflow.</p><button className="text-button" disabled={busy} onClick={() => void act('/admin/controls', { campaign: 1, brand: 1, feed: 1, testimonial: 1 })}>Add 1 to each shared allowance</button></div>
 
-      <form onSubmit={e => { e.preventDefault(); void act(`/admin/grants/${tenant}`, { campaign, brand }) }}><h3>Grant account usage</h3><label>Account ID<input required pattern="[a-f0-9]{32}" value={tenant} onChange={e => setTenant(e.target.value)}/></label><div className="form-grid"><label>Campaigns<input type="number" min={0} max={100} value={campaign} onChange={e => setCampaign(Number(e.target.value))}/></label><label>Brand analyses<input type="number" min={0} max={100} value={brand} onChange={e => setBrand(Number(e.target.value))}/></label></div><button className="primary" disabled={busy}>Grant allowance</button></form></div></section>}
+      <form onSubmit={e => { e.preventDefault(); void act(`/admin/grants/${tenant}`, { campaign, brand, feed: feedGrant, testimonial: testimonialGrant }) }}><h3>Grant account usage</h3><label>Account ID<input required pattern="[a-f0-9]{32}" value={tenant} onChange={e => setTenant(e.target.value)}/></label><div className="form-grid"><label>Campaigns<input type="number" min={0} max={100} value={campaign} onChange={e => setCampaign(Number(e.target.value))}/></label><label>Brand analyses<input type="number" min={0} max={100} value={brand} onChange={e => setBrand(Number(e.target.value))}/></label><label>Feed refreshes<input type="number" min={0} max={100} value={feedGrant} onChange={e => setFeedGrant(Number(e.target.value))}/></label><label>Testimonial analyses<input type="number" min={0} max={100} value={testimonialGrant} onChange={e => setTestimonialGrant(Number(e.target.value))}/></label></div><button className="primary" disabled={busy}>Grant allowance</button></form></div></section>}
 
   </>
 
@@ -166,6 +170,8 @@ export default function MarketingApp() {
   const [error, setError] = useState('')
 
   const [route, setRoute] = useState(currentRoute)
+
+  const [selection, setSelection] = useState<IdeaSelection | null>(null)
 
   const [analysisId, setAnalysisId] = useState<string | null>(null)
 
@@ -199,6 +205,8 @@ export default function MarketingApp() {
 
   const navigate = (page: Page, id?: string) => { history.pushState({}, '', `#/${page}${id ? '/' + id : ''}`); setRoute({ page, id: id ?? null }); window.scrollTo(0, 0) }
 
+  const useIdea = (value: IdeaSelection) => { setSelection(value); navigate('today') }
+
   const login = async () => { setError(''); try { await signIn() } catch (reason) { setError(reason instanceof Error ? reason.message : String(reason)) } }
 
   const logout = async () => { setLogged(false); setData(null); try { await signOut() } catch (reason) { setError(String(reason)) } }
@@ -217,13 +225,15 @@ export default function MarketingApp() {
 
       {error && <Notice>{error}</Notice>}
 
-      {route.page === 'today' && <Today data={data} navigate={navigate} refresh={refresh}/>}
+      {route.page === 'today' && <Today key={selection?.idea.id ?? 'daily'} data={data} navigate={navigate} refresh={refresh} runId={route.id} selection={selection} onUse={useIdea} clearSelection={() => setSelection(null)}/>}
+
+      {route.page === 'feed' && <Feed usage={data.usage} onUse={useIdea} onRefresh={refresh}/>}
 
       {route.page === 'business' && <BusinessPage key={data.business?.version ?? 0} value={data.business} onSaved={refresh}/>}
 
       {route.page === 'brand' && <BrandPage key={data.brand?.version ?? 0} brand={data.brand} business={data.business} assets={data.assets} usage={data.usage} analysisId={analysisId ?? data.runs.find(r => r.kind === 'brand')?.id ?? null} onAnalysis={setAnalysisId} onSaved={refresh}/>}
 
-      {route.page === 'campaigns' && <History runs={data.runs} open={run => { if (run.kind === 'brand') { setAnalysisId(run.id); navigate('brand') } else navigate('review', run.id) }}/>} 
+      {route.page === 'campaigns' && <History runs={data.runs.filter(r => r.kind === 'campaign' || r.kind === 'brand')} open={run => { if (run.kind === 'brand') { setAnalysisId(run.id); navigate('brand') } else navigate('review', run.id) }}/>} 
 
       {route.page === 'settings' && <SettingsPage data={data} refresh={refresh}/>}
 

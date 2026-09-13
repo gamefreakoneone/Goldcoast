@@ -5,6 +5,7 @@ from fastapi import APIRouter, Header, HTTPException, Request
 from goldcoast.api.studio_auth import IdentityDep
 from goldcoast.api.studio_views import job_view
 from goldcoast.studio.brand import resource_view
+from goldcoast.studio.feed import FeedRequest
 from goldcoast.studio.schedule import ScheduleSave, ScheduleService
 from goldcoast.studio.workflow import WorkflowStart, snapshot_business, start_campaign
 
@@ -47,7 +48,9 @@ def analyze(request: Request, identity: IdentityDep, key: KeyDep):
 @router.get("/runs/{job_id}/result")
 def result(job_id: str, request: Request, identity: IdentityDep):
     job = request.app.state.repo.job(identity.tenant_id, job_id)
-    key = "brand_analysis" if job.kind == "brand" else "campaign"
+    key = {"brand": "brand_analysis", "feed": "feed", "testimonial": "testimonial"}.get(
+        job.kind, "campaign"
+    )
     step = job.checkpoint.get(key, {})
     return step.get("output") if step.get("state") == "completed" else None
 
@@ -76,3 +79,25 @@ def schedule(request: Request, identity: IdentityDep):
 def save_schedule(body: ScheduleSave, request: Request, identity: IdentityDep):
     service = ScheduleService(request.app.state.repo, request.app.state.assets)
     return service.save(identity.tenant_id, body)
+
+
+@router.get("/feed")
+def feed(request: Request, identity: IdentityDep, topic: str = ""):
+    from goldcoast.studio.brand import BrandService
+    from goldcoast.studio.feed import current_feed
+
+    repo, assets = request.app.state.repo, request.app.state.assets
+    if not BrandService(repo, assets).current(identity.tenant_id, "business"):
+        return None
+    snapshot = snapshot_business(repo, assets, identity.tenant_id, require_brand=False)
+    job = current_feed(repo, identity.tenant_id, snapshot, topic)
+    return job_view(job) if job else None
+
+
+@router.post("/feed/refresh", status_code=202)
+def refresh_feed(body: FeedRequest, request: Request, identity: IdentityDep, key: KeyDep):
+    from goldcoast.studio.feed import start_feed
+
+    return job_view(
+        start_feed(request.app.state.repo, request.app.state.assets, identity.tenant_id, body, key)
+    )

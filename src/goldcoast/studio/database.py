@@ -31,6 +31,8 @@ class Tenant(Base):
     role: Mapped[str] = mapped_column(String(20), default="business")
     campaign_grants: Mapped[int] = mapped_column(Integer, default=0)
     brand_grants: Mapped[int] = mapped_column(Integer, default=0)
+    feed_grants: Mapped[int] = mapped_column(Integer, default=0)
+    testimonial_grants: Mapped[int] = mapped_column(Integer, default=0)
     active_job: Mapped[str | None] = mapped_column(String(64), nullable=True)
     __table_args__ = (UniqueConstraint("issuer", "subject"),)
 
@@ -84,6 +86,9 @@ class Controls(Base):
     live_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
     campaign_grants: Mapped[int] = mapped_column(Integer, default=3)
     brand_grants: Mapped[int] = mapped_column(Integer, default=3)
+
+    feed_grants: Mapped[int] = mapped_column(Integer, default=0)
+    testimonial_grants: Mapped[int] = mapped_column(Integer, default=0)
 
 
 def session_factory(url: str):

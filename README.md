@@ -303,3 +303,7 @@ Ad composition uses installed Chrome on Windows. On Linux, install the renderer 
 Optional daily scheduling lives in **Settings** and is disabled by default. Choose a local start hour (using the business timezone), a goal, and explicitly enable it. The worker checks once per minute and creates at most one scheduled campaign per account/local date. It consumes the same live grants and limits as a manual start. Disabling it prevents future scheduled starts; use Stop workflow to cancel existing work. Business/brand changes and expired evidence invalidate old live creatives without automatically regenerating them.
 
 The committed sample in `data/studio_demo` contains real recorded Tavily/Gemini results and both judged PNG formats from the fictional Morrow Coffee validation campaign. Its manifest verifies package and image hashes. Replay never constructs live providers, changes business/brand setup, or inherits another run's approvals. Source timestamps stay unchanged. Model verdicts are recorded assessments, not guarantees. The recordings include development failures and a documented extraction recovery; see spec 0015 evidence.
+
+### Daily studio updates
+
+After updating, run `alembic upgrade head` in the goldcoast environment before restarting the studio API and worker. Your Feed uses a separate owner-granted allowance; opening it never searches automatically. Cached feeds last six hours. New uploads are staged and individually categorized before submission.
