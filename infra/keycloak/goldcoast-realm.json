@@ -1,0 +1,79 @@
+{
+  "realm": "goldcoast",
+  "enabled": true,
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "goldcoast-owner"
+      },
+      {
+        "name": "goldcoast-demo"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "goldcoast-web",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "protocolMappers": [
+        {
+          "name": "goldcoast-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "goldcoast-web",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "owner",
+      "enabled": true,
+      "firstName": "Goldcoast",
+      "lastName": "Owner",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${GOLDCOAST_LOCAL_OWNER_PASSWORD}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "goldcoast-owner"
+      ]
+    },
+    {
+      "username": "demo",
+      "enabled": true,
+      "firstName": "Demo",
+      "lastName": "Reviewer",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${GOLDCOAST_LOCAL_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "goldcoast-demo"
+      ]
+    }
+  ]
+}

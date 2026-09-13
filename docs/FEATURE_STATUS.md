@@ -23,7 +23,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 |---|---|---|---|---|
 | 0009 | Strands runtime | Completed | [Evidence](specs/0009-strands-runtime/status.md) | Strands 1.55.1; 8 runtime tests, 95 total tests pass; recorded tool execution and offline replay |
 
-Next in order: 0010 accounts and persistence; 0011 business and brand onboarding; 0012 discovery and knowledge graph; 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+| 0010 | Accounts and persistence | Completed | [Evidence](specs/0010-accounts-and-persistence/status.md) | OIDC, PostgreSQL, durable usage limits and jobs |
+
+Next in order: 0011 business and brand onboarding; 0012 discovery and knowledge graph; 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
 
 ## Status Definitions
 

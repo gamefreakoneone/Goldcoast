@@ -29,6 +29,38 @@ this does not downgrade the application's MCP dependency. Reload your MCP client
 to discover `strands-docs`. This is developer documentation tooling, not an
 application runtime dependency.
 
+## Marketing studio development
+
+The tenant-isolated studio API is separate from the legacy video API. Its login,
+replay, and storage services do not need Gemini credentials. Local infrastructure
+uses Docker Desktop with Linux containers:
+
+```powershell
+python scripts/setup_studio.py
+docker compose up -d postgres keycloak
+python -m alembic upgrade head
+uvicorn goldcoast.api.studio_app:app --port 8001
+```
+
+The setup script generates development passwords only in `.env`. Keycloak runs
+at `http://localhost:8080`; the imported `goldcoast` realm contains `owner` and
+`demo` accounts. Their passwords are `GOLDCOAST_LOCAL_OWNER_PASSWORD` and
+`GOLDCOAST_LOCAL_DEMO_PASSWORD` in `.env`. Public registration is disabled.
+Passwords are imported on the first Keycloak start; changing `.env` later does
+not automatically change an existing identity's password.
+
+PostgreSQL binds to `127.0.0.1:5433`. Set `GOLDCOAST_DATABASE_URL` to use an
+external PostgreSQL instance; otherwise the application constructs the local
+connection from `GOLDCOAST_DB_PASSWORD`. Private local assets use
+`output/studio/assets`. Both services bind only to localhost in this Compose
+configuration. Hosted authentication will use Cognito with the same OIDC checks.
+
+The authenticated `/api/v2` interface includes `/me`, `/usage`, run history and
+SSE, cancellation, and owner-only allowance controls. Live generation starts
+disabled; accounts start without paid grants. Owner grants and the global live
+switch are separate controls. The old unauthenticated `/runs` routes are not
+mounted in the studio API.
+
 ## Setup
 
 ```powershell

@@ -220,3 +220,8 @@ callback for spec 0010. Cancellation and the 100,000-character context limit
 are checked before subsequent requests. Tool dispatch is sequential within an
 agent; separate specialist runtimes can share one budget. Legacy pipelines and
 recording formats are unchanged by this additive integration.
+
+
+## Studio foundation (0010)
+
+The studio serves only /api/v2 authenticated routes from goldcoast.api.studio_app. JWT issuer and subject establish a tenant; client-supplied tenant IDs never select user data. PostgreSQL stores versioned resources, durable jobs, per-job event cursors, account grants and singleton global controls. Paid work atomically consumes one account and global grant, with one active live job per tenant. Each provider call requires a running job and valid worker lease, enabled live controls, and remaining durable allowance. Replay cannot invoke providers. Terminal transitions and their event are atomic. OIDC uses Keycloak locally and Cognito in AWS. Media stays private behind authenticated resource lookup.

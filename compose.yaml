@@ -1,0 +1,36 @@
+name: goldcoast
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: goldcoast
+      POSTGRES_DB: goldcoast
+      POSTGRES_PASSWORD: ${GOLDCOAST_DB_PASSWORD:?Set GOLDCOAST_DB_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U goldcoast -d goldcoast"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.3
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${GOLDCOAST_KEYCLOAK_ADMIN_PASSWORD:?Set local admin password}
+      GOLDCOAST_LOCAL_OWNER_PASSWORD: ${GOLDCOAST_LOCAL_OWNER_PASSWORD:?Set owner password}
+      GOLDCOAST_LOCAL_DEMO_PASSWORD: ${GOLDCOAST_LOCAL_DEMO_PASSWORD:?Set demo password}
+      KC_HOSTNAME: http://localhost:8080
+      KC_HEALTH_ENABLED: "true"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./infra/keycloak/goldcoast-realm.json:/opt/keycloak/data/import/goldcoast-realm.json:ro
+      - keycloak-data:/opt/keycloak/data
+    mem_limit: 1g
+volumes:
+  postgres-data:
+  keycloak-data:
