@@ -304,7 +304,8 @@ async def produce_creatives(
                         *references,
                     ],
                     types.GenerateContentConfig(
-                        response_mime_type="application/json", response_schema=CreativeVerdict
+                        response_mime_type="application/json",
+                        response_json_schema=CreativeVerdict.model_json_schema(),
                     ),
                     input_refs=reference_ids + [str(composite_path)],
                 )

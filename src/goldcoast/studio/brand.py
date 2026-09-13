@@ -285,7 +285,9 @@ class BrandService:
             model_id,
             parts,
             types.GenerateContentConfig(
-                response_mime_type="application/json", response_schema=BrandKit, temperature=0.2
+                response_mime_type="application/json",
+                response_json_schema=BrandKit.model_json_schema(),
+                temperature=0.2,
             ),
             input_refs=[row.id for row in usable],
         )

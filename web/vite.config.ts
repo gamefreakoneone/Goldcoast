@@ -6,9 +6,12 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
-    proxy: Object.fromEntries(
-      ['/runs', '/ads', '/clips', '/media', '/seed'].map((path) => [path, 'http://127.0.0.1:8000']),
-    ),
+    proxy: {
+      '/api/v2': 'http://127.0.0.1:8001',
+      ...Object.fromEntries(
+        ['/runs', '/ads', '/clips', '/media', '/seed'].map(path => [path, 'http://127.0.0.1:8000']),
+      ),
+    },
   },
   test: {
     environment: 'jsdom',

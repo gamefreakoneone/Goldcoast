@@ -249,11 +249,31 @@ async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None):
             source = EvidenceSource.model_validate(value)
             discovery.sources[source.id] = source
         reports.append(ScoutReport.model_validate(saved["report"]))
+    from goldcoast.studio.graph import normalized
+
+    claims = [claim for report in reports for claim in report.claims]
+    invalid = [
+        claim
+        for claim in claims
+        if claim.source_id not in discovery.sources
+        or normalized(claim.quote) not in normalized(discovery.sources[claim.source_id].text)
+    ]
+    invalid_sources = {claim.source_id for claim in invalid}
     graph = build_graph(
-        list(discovery.sources.values()), [c for r in reports for c in r.claims], now
+        list(discovery.sources.values()),
+        [claim for claim in claims if claim.source_id not in invalid_sources][:80],
+        now,
     )
     candidates, rejected = validate_candidates(
         [c for r in reports for c in r.candidates], graph, snapshot.profile, now
+    )
+    rejected.extend(
+        {
+            "id": f"claim-{index}",
+            "title": claim.subject,
+            "reason": "Excluded evidence: quote did not match its recorded source",
+        }
+        for index, claim in enumerate(invalid)
     )
     if not candidates:
         product = snapshot.profile.products[0]

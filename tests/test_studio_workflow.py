@@ -184,3 +184,33 @@ def test_foreign_replay_is_inaccessible(campaign):
     job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "private")
     with pytest.raises(AccessError):
         start_campaign(repo, assets, other, WorkflowStart(replay_source=job.id), "foreign")
+
+
+def test_unmatched_quote_is_excluded_without_stopping_campaign(campaign):
+    repo, assets, tenant, _, _ = campaign
+    job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "bad-quote")
+
+    def invalid_factory(*args):
+        runtime, discovery, client, settings, reserve, root = factory(*args)
+        original = runtime.run
+
+        async def run(name, instructions, payload, output, tools=None):
+            result = await original(name, instructions, payload, output, tools)
+            if name == "local_scout":
+                result.claims[0].quote = "A fabricated quote absent from the recorded page."
+            if name == "chief_marketer":
+                result.candidate_id = "evergreen-product"
+            return result
+
+        runtime.run = run
+        return runtime, discovery, client, settings, reserve, root
+
+    process_job(
+        repo, assets, repo.claim("worker"), "worker", invalid_factory, creative_producer=None
+    )
+    finished = repo.job(tenant, job.id)
+    assert finished.state == "completed"
+    result = finished.checkpoint["campaign"]["output"]
+    assert result["selected"]["category"] == "evergreen"
+    assert not result["graph"]["edges"]
+    assert any("quote did not match" in item["reason"] for item in result["rejected"])

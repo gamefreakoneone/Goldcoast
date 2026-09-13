@@ -33,7 +33,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0014 | Branded creative production | Completed | [Evidence](specs/0014-branded-creative-production/status.md) | Reference imagery, composition and judge |
 
-Next in order: 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+| 0015 | Marketing workspace | Completed | [Evidence](specs/0015-marketing-workspace/status.md) | New business-facing UI |
+
+Next in order: 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
 
 ## Status Definitions
 

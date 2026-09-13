@@ -171,3 +171,74 @@ def test_reservations_are_atomic_across_threads():
     with ThreadPoolExecutor(max_workers=8) as pool:
         assert sum(pool.map(attempt, range(20))) == 3
     assert budget.used["model"] == 3
+
+
+@pytest.mark.asyncio
+async def test_gemini_strict_schema_uses_json_schema_and_validates_text(monkeypatch):
+    from types import SimpleNamespace
+
+    from google.genai import types
+
+    from goldcoast.agents.runtime import UsageGeminiModel
+    from goldcoast.studio.brand import BrandKit
+
+    captured = {}
+
+    async def generate_content(**request):
+        captured.update(request)
+        return types.GenerateContentResponse(
+            candidates=[
+                types.Candidate(
+                    content=types.Content(
+                        parts=[
+                            types.Part(
+                                text='{"palette":["#183D35","#FFF9ED"],"prohibited":[],"reference_asset_ids":[],"uncertainty":[]}'
+                            )
+                        ]
+                    )
+                )
+            ]
+        )
+
+    client = SimpleNamespace(
+        aio=SimpleNamespace(models=SimpleNamespace(generate_content=generate_content))
+    )
+    model = UsageGeminiModel(model_id="test", client_args={"api_key": "offline"})
+    monkeypatch.setattr(model, "_get_client", lambda: client)
+    events = [
+        event
+        async for event in model.structured_output(
+            BrandKit, [{"role": "user", "content": [{"text": "Analyze"}]}]
+        )
+    ]
+    config = types.GenerateContentConfig.model_validate(captured["config"])
+    assert captured["contents"][-1]["role"] == "user"
+    assert config.response_schema is None
+    assert config.response_json_schema["additionalProperties"] is False
+    assert events[-1]["output"].palette == ["#183D35", "#FFF9ED"]
+
+
+def test_generation_schema_preserves_property_names_and_local_constraints():
+    from goldcoast.agents.runtime import generation_schema
+    from goldcoast.studio.workflow import ScoutReport
+
+    schema = generation_schema(ScoutReport)
+    candidate = schema["properties"]["candidates"]["items"]
+    assert set(candidate["required"]) <= set(candidate["properties"])
+    assert "title" in candidate["properties"]
+    assert "pattern" not in candidate["properties"]["id"]
+    assert "pattern" in ScoutReport.model_json_schema()["$defs"]["Candidate"]["properties"]["id"]
+
+
+@pytest.mark.asyncio
+async def test_runtime_restart_does_not_overwrite_recording(tmp_path):
+    (tmp_path / "sum_0001.json").write_text('{"prior": true}')
+    runtime = AgentRuntime(tmp_path, model=ScriptedModel())
+
+    @tool(description="Add two numbers")
+    def add(left: int, right: int) -> int:
+        return left + right
+
+    await runtime.run("sum", "Add numbers", {"left": 2, "right": 3}, Answer, tools=[add])
+    assert json.loads((tmp_path / "sum_0001.json").read_text()) == {"prior": True}
+    assert (tmp_path / "sum_0002.json").is_file()

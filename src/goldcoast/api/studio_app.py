@@ -72,6 +72,7 @@ def create_app(settings: StudioSettings | None = None, sessions=None, verifier=N
         configured = request.app.state.settings
         return {
             "issuer": configured.issuer,
+            "provider": configured.auth_provider,
             "client_id": configured.client_id,
             "authorization_endpoint": configured.auth_url,
             "token_endpoint": configured.token_url,

@@ -1,5 +1,23 @@
 # Goldcoast
 
+## Marketing studio (default UI)
+
+Goldcoast now helps independent cafes, bakeries, restaurants, and bars turn timely local context into branded ads. Upload product photos, past ads, and brand guidelines; review the inferred brand kit; then start a daily workflow. Strands agents research with Tavily, retain cited evidence in PostgreSQL, select a real-product opportunity, generate two formats from actual visual references, and judge each final composition before human approval.
+
+```powershell
+python scripts/setup_studio.py
+docker compose up -d
+alembic upgrade head
+uvicorn goldcoast.api.studio_app:app --host 127.0.0.1 --port 8001
+```
+
+In separate terminals, run `python -m goldcoast.studio.worker` and `pnpm.cmd --dir web dev`. Open `http://localhost:5173` and sign in with the local owner or demo account using its generated password in `.env`. The invitation-only production identity provider replaces local Keycloak when deployed. Never publish the local development realm.
+
+Start with **Business**, then **Brand library**. Uploading itself makes no model calls. **Analyze my brand** consumes one separately granted analysis; its draft must be reviewed and saved. **Today** defaults to replay. Live campaigns require a confirmed business and brand kit, a per-account allowance, and enabled global controls. **Settings** lets the owner grant bounded usage or pause all live generation. New accounts have zero live allowance. Review evidence, judge scores, and both formats before approval and ZIP export. No ads are published automatically.
+
+The default Vite UI proxies `/api/v2` to port 8001. To open the historical Olympics dashboard described below, set `$env:VITE_LEGACY_UI="1"` before starting Vite and run its API on port 8000. Remove that variable to return to the marketing studio.
+
+
 Dynamic ad generation for the LA 2028 Olympics: an AI video agent spots hype moments in Olympics footage, and an ad-generation agent turns each moment into landscape and portrait ads for nearby local businesses, judged for quality and approved by a human through a web UI.
 
 The full agent pipeline and HTTP API are implemented, with Simone Biles's profile,

@@ -245,3 +245,5 @@ Daily jobs capture business/brand versions, asset metadata and the business-loca
 ## Studio creative production (0014)
 
 Studio ads reference authenticated business/brand snapshots, not Olympics seed entities. Actual owned reference image bytes accompany image requests. Escaped code-owned templates compose exact text, original logos and optional fonts in offline Chromium at 1920x1080 and 1080x1920. Judge verdicts cover the final composite. Each format has at most three image attempts, six total per campaign; factuality/legibility failures stop image retries early. Every exposed attempt has a typed verdict. Human approval and ZIP export require passing, current, unexpired assets. Export never publishes to an advertising network.
+
+Integrated studio validation (0015): Gemini receives a reduced JSON Schema for constrained decoding; full Pydantic models still validate every returned value. Structured extraction consumes a recorded evidence transcript. Invalid source quotes are excluded and explained before graph construction; they never become graph edges. Live agent recording filenames remain unique across worker restarts.

@@ -127,7 +127,8 @@ async def execute_job(
                     ),
                 ],
                 types.GenerateContentConfig(
-                    response_mime_type="application/json", response_schema=VideoEvidence
+                    response_mime_type="application/json",
+                    response_json_schema=VideoEvidence.model_json_schema(),
                 ),
                 input_refs=[asset_id],
             )
