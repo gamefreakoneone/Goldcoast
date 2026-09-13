@@ -99,3 +99,47 @@ def test_analysis_reads_images_but_cannot_self_confirm(library):
     assert kit.confirmed is False
     assert kit.reference_asset_ids == [row.id]
     assert service.current(tenant, "brand") is None
+
+
+def test_product_identity_and_asset_edit(library):
+    from goldcoast.studio.brand import AssetEdit, Product
+
+    service, tenant, other = library
+    old = service.current(tenant, "business")
+    profile = BusinessProfile(name="Cafe", city="LA", products=[Product(name="Matcha")])
+    product_id = profile.products[0].id
+    service.save(tenant, "business", profile, old.version)
+    profile.products[0].name = "Iced matcha"
+    assert BusinessProfile.model_validate(profile.model_dump()).products[0].id == product_id
+    row = service.upload(tenant, "matcha.png", "image/png", "product", png(), True, product_id)
+    assert row.data["product_id"] == product_id
+    with pytest.raises(ValueError, match="product"):
+        service.edit_asset(
+            tenant, row.id, AssetEdit(version=row.version, role="product", product_id="foreign")
+        )
+    changed = service.edit_asset(
+        tenant,
+        row.id,
+        AssetEdit(
+            version=row.version,
+            role="reference",
+            marketing_kind="inspiration",
+            source_url="https://example.com/campaign",
+        ),
+    )
+    assert changed.data["product_id"] is None
+    with pytest.raises(Conflict):
+        service.edit_asset(tenant, row.id, AssetEdit(version=row.version, role="product"))
+    with pytest.raises(AccessError):
+        service.edit_asset(other, row.id, AssetEdit(version=changed.version, role="product"))
+
+
+def test_legacy_product_ids_are_repeatable_and_unassigned_assets_stay_unassigned(library):
+    legacy = {"name": "Cafe", "city": "LA", "products": [{"name": "Latte"}]}
+    assert (
+        BusinessProfile.model_validate(legacy).products[0].id
+        == BusinessProfile.model_validate(legacy).products[0].id
+    )
+    service, tenant, _ = library
+    row = service.upload(tenant, "photo.png", "image/png", "product", png(), True)
+    assert row.data["product_id"] is None

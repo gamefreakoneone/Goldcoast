@@ -5,9 +5,11 @@ from fastapi.responses import Response
 
 from goldcoast.api.studio_auth import IdentityDep
 from goldcoast.studio.brand import (
+    AssetEdit,
     AssetRole,
     BrandSave,
     BrandService,
+    BusinessProfile,
     ProfileSave,
     resource_view,
 )
@@ -22,7 +24,14 @@ def service(request):
 @router.get("/business")
 def business(request: Request, identity: IdentityDep):
     row = service(request).current(identity.tenant_id, "business")
-    return resource_view(row) if row else None
+    return (
+        {
+            **resource_view(row),
+            "data": BusinessProfile.model_validate(row.data).model_dump(mode="json"),
+        }
+        if row
+        else None
+    )
 
 
 @router.put("/business")
@@ -58,6 +67,9 @@ async def upload(
     role: Annotated[AssetRole, Form()],
     rights_confirmed: Annotated[bool, Form()],
     file: Annotated[UploadFile, File()],
+    product_id: Annotated[str | None, Form()] = None,
+    marketing_kind: Annotated[str, Form()] = "owned",
+    source_url: Annotated[str | None, Form()] = None,
 ):
     raw = await file.read(10 * 1024 * 1024 + 1)
     await file.close()
@@ -69,6 +81,9 @@ async def upload(
             role,
             raw,
             rights_confirmed,
+            product_id,
+            marketing_kind,
+            source_url,
         )
         return resource_view(row)
     except ValueError as exc:
@@ -90,3 +105,11 @@ def content(asset_id: str, request: Request, identity: IdentityDep):
             else "attachment",
         },
     )
+
+
+@router.put("/assets/{asset_id}")
+def edit_asset(asset_id: str, body: AssetEdit, request: Request, identity: IdentityDep):
+    try:
+        return resource_view(service(request).edit_asset(identity.tenant_id, asset_id, body))
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from None

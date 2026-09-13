@@ -250,3 +250,7 @@ Integrated studio validation (0015): Gemini receives a reduced JSON Schema for c
 
 
 Spec 0016: historical replay creatives use immutable recorded business/brand snapshots and explicit replay-mode ownership, rather than current live resources. Decisions are independent and exports disclose historical status. Live approval/export still reject changed versions and expired opportunity/claim/offer deadlines. Exports serialize against tenant edits. Optional scheduling is disabled by default; deterministic account/local-date keys and PostgreSQL row locks prevent duplicate daily reservations. All existing live limits apply.
+
+## 0018 Product and asset identity
+
+Studio products carry stable IDs; legacy profiles derive IDs deterministically until saved. Product assets carry an optional product_id and remain unassigned if missing. Asset classification is versioned and tenant scoped. Marketing references distinguish owned work from attributed external inspiration. Testimonial videos are separate from context video. These studio contracts supersede seed-only athlete requirements for the local-business pivot; legacy Olympic and replay contracts remain unchanged.

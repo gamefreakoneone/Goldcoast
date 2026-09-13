@@ -71,7 +71,7 @@ function Today({ data, navigate, refresh }: { data: Data; navigate: (page: Page,
 
   }
 
-  const pictures = data.assets.filter(a => a.data.mime.startsWith('image/') && a.data.role !== 'logo').slice(0, 2)
+  const pictures = data.assets.filter(a => a.data.role === 'product').slice(0, 2)
 
   return <><PageHeading title="Your daily marketing desk.">Turn what’s happening nearby into a reason to stop by.</PageHeading>{error && <Notice>{error}</Notice>}
 
@@ -93,9 +93,9 @@ function Today({ data, navigate, refresh }: { data: Data; navigate: (page: Page,
 
       {mode === 'live' && !liveAllowed && <p className="small muted">{!ready ? 'Confirm your business and brand kit to start.' : !data.usage.live_enabled ? 'Live generation is paused by the owner.' : data.usage.active_job ? 'A live workflow is already active.' : 'Ask the owner for a live campaign allowance.'}</p>}
 
-    </form><aside className="panel brand-summary"><h2>Your brand, on hand.</h2>{pictures.length ? <div className="brand-thumbnails">{pictures.map(asset => <PrivateImage key={asset.id} path={`/assets/${asset.id}/content`} alt={asset.data.filename}/>)}</div> : <div className="brand-empty"><Icon name="brand" size={38}/><p>Your photos and brand direction belong here.</p></div>}
+    </form><aside className="panel brand-summary"><h2>Your brand, on hand.</h2>{data.brand?.data.logo_asset_id && <PrivateImage className="summary-logo" path={`/assets/${data.brand.data.logo_asset_id}/content`} alt="Business logo"/>}{pictures.length ? <div className="brand-thumbnails">{pictures.map(asset => <PrivateImage key={asset.id} path={`/assets/${asset.id}/content`} alt={asset.data.filename}/>)}</div> : <div className="brand-empty"><Icon name="brand" size={38}/><p>Your photos and brand direction belong here.</p></div>}
 
-      <h3>{data.business?.data.name || 'Make yourself at home.'}</h3><Status good={Boolean(data.brand?.data.confirmed)}>{data.brand?.data.confirmed ? 'Brand confirmed' : 'Brand setup needed'}</Status><p>{data.brand?.data.voice || 'Start with your business details, then bring your visual references.'}</p><button className="text-button" onClick={() => navigate(data.business ? 'brand' : 'business')}>{data.business ? 'Open brand library' : 'Set up your business'}<Icon name="arrow" size={18}/></button>
+      <h3>{data.business?.data.name || 'Make yourself at home.'}</h3><Status good={Boolean(data.brand?.data.confirmed)}>{data.brand?.data.confirmed ? 'Brand confirmed' : 'Brand setup needed'}</Status><p>{data.business?.data.description}</p><div className="summary-palette">{data.brand?.data.palette.map(color => <span key={color} title={color} style={{ background: color }}/>)}</div><p>{data.brand?.data.voice || 'Start with your business details, then bring your visual references.'}</p><button className="text-button" onClick={() => navigate(data.business ? 'brand' : 'business')}>{data.business ? 'Open brand library' : 'Set up your business'}<Icon name="arrow" size={18}/></button>
 
     </aside></div>
 

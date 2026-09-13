@@ -1,8 +1,8 @@
 export interface Resource<T> { id: string; version: number; data: T }
-export interface Product { name: string; description: string; price: string }
+export interface Product { id?: string; name: string; description: string; price: string }
 export interface Offer { text: string; valid_until: string; confirmed: true }
 export interface Business {
-  name: string; category: 'cafe' | 'bakery' | 'restaurant' | 'bar'; city: string;
+  name: string; category: 'cafe' | 'bakery' | 'restaurant' | 'bar' | 'cafe_goods'; city: string;
   neighborhood: string; address: string; timezone: string; website: string | null;
   description: string; hours: string; products: Product[]; offers: Offer[];
   audience: string; confirmed: boolean;
@@ -12,9 +12,10 @@ export interface Brand {
   image_direction: string; prohibited: string[]; reference_asset_ids: string[];
   logo_asset_id: string | null; font_asset_id: string | null; uncertainty: string[]; confirmed: boolean;
 }
-export type AssetRole = 'logo' | 'product' | 'reference' | 'guidelines' | 'font' | 'video'
+export type AssetRole = 'logo' | 'product' | 'reference' | 'guidelines' | 'font' | 'video' | 'testimonial'
 export interface Asset {
   business_id: string; filename: string; role: AssetRole; mime: string; size: number;
+  product_id?: string | null; marketing_kind?: 'owned' | 'inspiration'; source_url?: string | null;
   sha256: string; width: number | null; height: number | null; rights_confirmed: true;
 }
 export interface User { id: string; name: string; role: 'owner' | 'business' | 'demo' }

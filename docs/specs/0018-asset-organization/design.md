@@ -1,0 +1,3 @@
+# Design
+
+Extend Product with a stable ID, assigned deterministically for legacy records and preserved on edits. Add optional product_id and source_url plus marketing_kind (owned/inspiration) to AssetMetadata. Keep existing roles for wire compatibility and add testimonial role for MP4. Validate role/content and product ownership on upload and metadata updates. Add PUT /assets/{id} with version and metadata classification. Use an independent AssetLibrary React component with a local staging queue; upload each file independently and preserve failures for retry. Group persisted cards and edit their classification. Product references will be selected by identity in spec 0020. Brand analysis receives labeled asset purpose. Existing replay bytes are unchanged.

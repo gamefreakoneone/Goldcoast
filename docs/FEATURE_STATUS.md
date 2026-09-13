@@ -39,7 +39,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0017 | Hosted deployment | Blocked | [Evidence](specs/0017-hosted-deployment/status.md) | Deferred by user until local acceptance testing |
 
-Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0018 submission package remains not started.
+Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0022 submission package remains not started.
 
 ## Status Definitions
 
@@ -51,3 +51,5 @@ Local acceptance testing is active. 0017 hosting is explicitly deferred by the u
 ## Update Rule
 
 When a feature's status changes, update this table and the spec's `status.md` and `tasks.md` checkboxes in the same change. The Evidence column links to the validation section of the spec's `status.md` or names the commit that completed the spec.
+
+| 0018 | Asset organization and product identity | Completed | [Evidence](specs/0018-asset-organization/status.md) | Staged uploads and categorized private assets |
