@@ -230,3 +230,8 @@ The studio serves only /api/v2 authenticated routes from goldcoast.api.studio_ap
 ## Visual brand library (0011)
 
 Studio business profiles and brand kits are separate versioned resource documents. Only owners confirm factual products/offers and inferred brand preferences. Immutable assets are tenant-scoped, content-hashed and validated before storage. Image uploads are normalized to PNG; documents/fonts are served as downloads. Brand analysis passes image/PDF bytes to a recorded Gemini call and cannot self-confirm its result. Confirmed kits require owned visual references. Profile and kit versions form later campaign snapshot boundaries.
+
+
+## Evidence graph (0012)
+
+Studio discovery records Tavily and optional Ticketmaster requests without credentials. Exact completed requests are cached; replay has no live fallback. Extraction is restricted to public URLs discovered in the same workflow. Evidence is untrusted input. Typed graphs retain source URLs, content hashes, retrieval/expiry timestamps, exact supporting quotes, and conflicting values. Fresh supported claims may inform opportunities, but only owner-confirmed profiles establish business products and offers.

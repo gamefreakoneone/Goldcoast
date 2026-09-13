@@ -27,7 +27,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0011 | Business and brand onboarding | Completed | [Evidence](specs/0011-business-and-brand-onboarding/status.md) | Private assets and editable visual brand kit |
 
-Next in order: 0012 discovery and knowledge graph; 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+| 0012 | Discovery and knowledge graph | Completed | [Evidence](specs/0012-discovery-and-knowledge-graph/status.md) | Tavily and cited graph |
+
+Next in order: 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
 
 ## Status Definitions
 
