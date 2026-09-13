@@ -20,6 +20,11 @@ from goldcoast.studio.repository import AccessError, Conflict
 from goldcoast.studio.workflow import Snapshot
 
 
+class ComicPanel(StrictModel):
+    scene: str = Field(min_length=1, max_length=700)
+    dialogue: str = Field(min_length=1, max_length=90)
+
+
 class CreativeBrief(StrictModel):
     headline: str = Field(min_length=1, max_length=80)
     subheading: str = Field(min_length=1, max_length=140)
@@ -27,6 +32,11 @@ class CreativeBrief(StrictModel):
     product_name: str = Field(min_length=1, max_length=100)
     offer_text: str = Field(default="", max_length=200)
     image_prompt: str = Field(min_length=1, max_length=1500)
+    creative_type: Literal["product", "timely", "comic", "testimonial"] = "product"
+    caption: str = Field(default="", max_length=1500)
+    panels: list[ComicPanel] = Field(default_factory=list, max_length=4)
+    quote: str = Field(default="", max_length=220)
+    attribution: str = Field(default="", max_length=100)
 
 
 class CreativeVerdict(StrictModel):
@@ -49,7 +59,7 @@ class CreativeArtifact(StrictModel):
     job_id: str
     business_id: str
     brand_id: str
-    format: Literal["landscape", "portrait"]
+    format: Literal["landscape", "portrait", "post", "story"]
     attempt: int = Field(ge=1, le=3)
     width: int
     height: int
@@ -77,7 +87,15 @@ def validate_brief(brief, snapshot, selected):
     offers = [o.text for o in snapshot.profile.offers if o.valid_until >= snapshot.local_date]
     if brief.offer_text and brief.offer_text not in offers:
         raise ValueError("Creative offer is not an exact current owner-confirmed offer")
-    text = " ".join([brief.headline, brief.subheading, brief.cta])
+    text = " ".join(
+        [
+            brief.headline,
+            brief.subheading,
+            brief.cta,
+            brief.caption,
+            *[p.dialogue for p in brief.panels],
+        ]
+    )
     promotions = re.findall(
         r"\d+(?:\.\d+)?\s*%|\$\s*\d+(?:\.\d+)?|\bfree\b|\bdiscount\b", text, re.I
     )
@@ -113,7 +131,22 @@ class CreativeService:
             business.version != snapshot.business_version
             or brand.version != snapshot.brand_version
             or artifact.expires_at <= datetime.now(UTC)
+            or self.testimonial_changed(tenant, job)
         )
+
+    def testimonial_changed(self, tenant, job):
+        if not job.input.get("testimonial"):
+            return False
+        from goldcoast.studio.testimonials import approved_quote
+
+        saved = job.input["testimonial"]
+        try:
+            return (
+                approved_quote(self.repo, tenant, saved["testimonial_id"], saved["quote_id"])
+                != saved
+            )
+        except (Conflict, AccessError, ValueError):
+            return True
 
     def view(self, tenant, row):
         artifact = CreativeArtifact.model_validate(row.data)
@@ -176,13 +209,21 @@ class CreativeService:
         for row in sorted(rows, key=lambda r: r["data"]["attempt"]):
             if row["passed"] and not row["stale"] and row["data"]["decision"] == "approved":
                 selected[row["data"]["format"]] = row
-        if set(selected) != set(SIZES):
+        job = self.repo.job(tenant, job_id)
+        required = {"post", "story"} if job.input.get("include_story") else {"post"}
+        if not job.input.get("creative_type"):
+            required = {"landscape", "portrait"}
+        if set(selected) != required:
             raise Conflict("Approve one passing, current creative in each format before export")
         output = io.BytesIO()
         with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
             for format, row in selected.items():
                 archive.writestr(format + ".png", self.assets.get(tenant, row["id"]))
             job = self.repo.job(tenant, job_id)
+            if job.input.get("creative_type"):
+                archive.writestr(
+                    "caption.txt", next(iter(selected.values()))["data"]["brief"].get("caption", "")
+                )
             archive.writestr(
                 "manifest.json",
                 json.dumps(
@@ -216,6 +257,12 @@ async def produce_creatives(
     root,
     renderer=render_composite,
 ):
+    if job.input.get("creative_type"):
+        from goldcoast.studio.social import produce_social
+
+        return await produce_social(
+            repo, assets, job, snapshot, campaign, runtime, client, settings, stages, root
+        )
     brief = CreativeBrief.model_validate(
         await stages.run(
             "creative_brief",
@@ -261,6 +308,8 @@ async def produce_creatives(
     service = CreativeService(repo, assets)
     completed = []
     for format, (width, height) in SIZES.items():
+        if format not in {"landscape", "portrait"}:
+            continue
         feedback = ""
         for attempt in range(1, 4):
 

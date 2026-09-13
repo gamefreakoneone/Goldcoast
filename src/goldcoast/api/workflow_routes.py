@@ -7,6 +7,7 @@ from goldcoast.api.studio_views import job_view
 from goldcoast.studio.brand import resource_view
 from goldcoast.studio.feed import FeedRequest
 from goldcoast.studio.schedule import ScheduleSave, ScheduleService
+from goldcoast.studio.testimonials import TestimonialSave, TestimonialStart
 from goldcoast.studio.workflow import WorkflowStart, snapshot_business, start_campaign
 
 router = APIRouter(prefix="/api/v2")
@@ -100,4 +101,42 @@ def refresh_feed(body: FeedRequest, request: Request, identity: IdentityDep, key
 
     return job_view(
         start_feed(request.app.state.repo, request.app.state.assets, identity.tenant_id, body, key)
+    )
+
+
+@router.get("/testimonials")
+def testimonials(request: Request, identity: IdentityDep):
+    return [
+        resource_view(r) for r in request.app.state.repo.list(identity.tenant_id, "testimonial")
+    ]
+
+
+@router.post("/testimonials/analyze", status_code=202)
+def testimonial_analyze(
+    body: TestimonialStart, request: Request, identity: IdentityDep, key: KeyDep
+):
+    repo, assets = request.app.state.repo, request.app.state.assets
+    row = repo.get(identity.tenant_id, "asset", body.asset_id)
+    if row.data["role"] != "testimonial":
+        raise HTTPException(409, "Select a testimonial video")
+    snapshot = snapshot_business(repo, assets, identity.tenant_id, require_brand=False)
+    return job_view(
+        repo.create_job(
+            identity.tenant_id,
+            "testimonial",
+            "live",
+            key,
+            {"snapshot": snapshot.model_dump(mode="json"), "asset_id": body.asset_id},
+        )
+    )
+
+
+@router.put("/testimonials/{resource_id}")
+def testimonial_save(
+    resource_id: str, body: TestimonialSave, request: Request, identity: IdentityDep
+):
+    from goldcoast.studio.testimonials import save_testimonial
+
+    return resource_view(
+        save_testimonial(request.app.state.repo, identity.tenant_id, resource_id, body)
     )

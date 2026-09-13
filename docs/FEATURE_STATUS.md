@@ -55,3 +55,5 @@ When a feature's status changes, update this table and the spec's `status.md` an
 | 0018 | Asset organization and product identity | Completed | [Evidence](specs/0018-asset-organization/status.md) | Staged uploads and categorized private assets |
 
 | 0019 | Discovery feed and inline workflow | Completed | [Evidence](specs/0019-discovery-feed/status.md) | Cited local ideas |
+
+| 0020 | Social creatives and testimonial quotes | Completed | [Evidence](specs/0020-social-creatives/status.md) | Instagram posts and reviewed quotes |

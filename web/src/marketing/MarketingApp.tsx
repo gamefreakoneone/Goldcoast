@@ -9,6 +9,7 @@ import { BrandPage, BusinessPage } from './BrandBusiness'
 import { PrivateImage } from './hooks'
 
 import { ReviewPage } from './Review'
+import { QuotePicker } from './Testimonials'
 import { Feed, WorkflowProgress, type IdeaSelection } from './Feed'
 import { SchedulePanel } from './SchedulePanel'
 
@@ -45,6 +46,10 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
   const [source, setSource] = useState('')
 
   const [video, setVideo] = useState('')
+  const [creativeType, setCreativeType] = useState('auto')
+  const [includeStory, setIncludeStory] = useState(false)
+  const [product, setProduct] = useState('')
+  const [quote, setQuote] = useState('')
 
   const [busy, setBusy] = useState(false)
 
@@ -64,7 +69,7 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
 
     try {
 
-      const run = mode === 'replay' && replaySource === 'sample' ? await api<Run>('/replays/sample', {}) : await api<Run>('/workflows', { mode, goal: goal.trim() || 'Bring more neighbors in today', video_asset_id: video || null, replay_source: mode === 'replay' ? replaySource : null, feed_job_id: selection?.jobId ?? null, idea_id: selection?.idea.id ?? null, product_id: selection?.idea.product_id ?? null })
+      const run = mode === 'replay' && replaySource === 'sample' ? await api<Run>('/replays/sample', {}) : await api<Run>('/workflows', { mode, goal: goal.trim() || 'Bring more neighbors in today', video_asset_id: video || null, replay_source: mode === 'replay' ? replaySource : null, feed_job_id: selection?.jobId ?? null, idea_id: selection?.idea.id ?? null, product_id: product || selection?.idea.product_id || null, creative_type: creativeType, include_story: includeStory, testimonial_id: quote.split(':')[0] || null, quote_id: quote.split(':')[1] || null })
 
       await refresh(); navigate('today', run.id)
 
@@ -88,9 +93,10 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
 
       {mode === 'live' && data.assets.some(a => a.data.role === 'video') && <label className="replay-select">Optional video context<select value={video} onChange={e => setVideo(e.target.value)}><option value="">Let the agents discover today’s context</option>{data.assets.filter(a => a.data.role === 'video').map(a => <option key={a.id} value={a.id}>{a.data.filename}</option>)}</select></label>}
 
+      {mode === 'live' && <div className="form-grid"><label>Creative type<select value={creativeType} onChange={e => setCreativeType(e.target.value)}><option value="auto">Choose for me</option><option value="product">Product spotlight</option><option value="timely">Timely promotion</option><option value="comic">Four-panel comic</option><option value="testimonial">Testimonial quote</option></select></label><label>Product<select value={product || selection?.idea.product_id || ''} disabled={Boolean(selection)} onChange={e => setProduct(e.target.value)}><option value="">Let the agent choose</option>{data.business?.data.products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label><label className="checkbox"><input type="checkbox" checked={includeStory} onChange={e => setIncludeStory(e.target.checked)}/>Also make a vertical Story image</label>{creativeType === 'testimonial' && <QuotePicker value={quote} onChange={setQuote}/>}</div>}
       <div className="brief-actions"><div className="mode-controls"><div className="segmented"><button type="button" className={mode === 'replay' ? 'selected' : ''} onClick={() => setMode('replay')}>Replay</button><button type="button" className={mode === 'live' ? 'selected' : ''} onClick={() => setMode('live')}>Live</button></div><span className="small muted">{mode === 'replay' ? 'No API usage' : `Uses 1 campaign · ${data.usage.campaign_remaining} left`}</span></div>
 
-        <button className="primary start-button" disabled={busy || (mode === 'live' ? !liveAllowed : !replaySource)}>{busy ? 'Starting...' : mode === 'replay' && replaySource === 'sample' ? 'Try recorded example' : 'Start today’s workflow'}<Icon name="arrow" size={20}/></button></div>
+        <button className="primary start-button" disabled={busy || (mode === 'live' ? !liveAllowed || (creativeType === 'testimonial' && !quote) : !replaySource)}>{busy ? 'Starting...' : mode === 'replay' && replaySource === 'sample' ? 'Try recorded example' : 'Start today’s workflow'}<Icon name="arrow" size={20}/></button></div>
 
       {mode === 'live' && !liveAllowed && <p className="small muted">{!ready ? 'Confirm your business and brand kit to start.' : !data.usage.live_enabled ? 'Live generation is paused by the owner.' : data.usage.active_job ? 'A live workflow is already active.' : 'Ask the owner for a live campaign allowance.'}</p>}
 

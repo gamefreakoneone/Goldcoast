@@ -45,7 +45,9 @@ async def produce(campaign, always_fail=False):
     service = BrandService(repo, assets)
     reference = service.upload(tenant, "latte.png", "image/png", "product", png(), True)
     service.save(tenant, "brand", BrandKit(confirmed=True, reference_asset_ids=[reference.id]), 1)
-    job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "creative")
+    job = start_campaign(
+        repo, assets, tenant, WorkflowStart(mode="live", creative_type=None), "creative"
+    )
     job = repo.claim("worker")
     snapshot = Snapshot.model_validate(job.input["snapshot"])
     brief = CreativeBrief(

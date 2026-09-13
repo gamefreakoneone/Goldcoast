@@ -98,6 +98,19 @@ async def execute_job(
             ),
         )
         return
+    if job.kind == "testimonial":
+        from goldcoast.studio.testimonials import analyze_testimonial
+
+        await stages.run(
+            "testimonial", lambda: analyze_testimonial(repo, assets, job, client, settings, reserve)
+        )
+        return
+    if job.input.get("testimonial"):
+        from goldcoast.studio.testimonials import approved_quote
+
+        saved = job.input["testimonial"]
+        if approved_quote(repo, job.tenant_id, saved["testimonial_id"], saved["quote_id"]) != saved:
+            raise Conflict("Testimonial changed after workflow start")
     if job.kind == "feed":
         from goldcoast.studio.feed import discover_feed
 
@@ -151,7 +164,11 @@ async def execute_job(
     if prior.get("state") == "completed":
         result = CampaignResult.model_validate(prior["output"])
     else:
-        if job.input.get("selected_campaign"):
+        if job.input.get("creative_type") in {"product", "testimonial"}:
+            from goldcoast.studio.social import product_campaign
+
+            result = product_campaign(snapshot, job.input.get("product_id"))
+        elif job.input.get("selected_campaign"):
             result = CampaignResult.model_validate(job.input["selected_campaign"])
             from goldcoast.studio.workflow import validate_candidates
 

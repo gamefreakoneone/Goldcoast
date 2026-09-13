@@ -60,9 +60,10 @@ function CreativeCard({ creative, ready, onChanged }: { creative: CreativeView; 
     try { await api(`/creatives/${creative.id}/decision`, { version: creative.version, decision, note }); onChanged() }
     catch (reason) { setError(reason instanceof Error ? reason.message : String(reason)) } finally { setBusy(false) }
   }
-  return <article className={`panel creative-card ${data.format}`}><div className="section-header"><h2>{data.format === 'landscape' ? 'Landscape' : 'Portrait'} <span>· {data.width} × {data.height}</span></h2><Status good={creative.passed}>{creative.passed ? 'Quality check passed' : 'Needs changes'}</Status></div>
+  return <article className={`panel creative-card ${data.format}`}><div className="section-header"><h2>{({ landscape: 'Landscape', portrait: 'Portrait', post: 'Instagram post', story: 'Story image' })[data.format]} <span>· {data.width} × {data.height}</span></h2><Status good={creative.passed}>{creative.passed ? 'Quality check passed' : 'Needs changes'}</Status></div>
     <PrivateImage className="creative-preview" path={`/creatives/${creative.id}/content`} alt={`${data.format} advertisement: ${data.brief.headline}`}/>
     <div className="scores">{[['Facts', data.verdict.factuality], ['Brand', data.verdict.brand_fidelity], ['Visuals', data.verdict.visual_quality], ['Readability', data.verdict.legibility]].map(([label, score]) => <div key={label}><span>{label}</span><strong>{score}/10</strong></div>)}</div>
+    {data.brief.caption && <details open><summary>Caption</summary><p>{data.brief.caption}</p></details>}
     <p className="judge-feedback">{data.verdict.feedback}</p>
     {data.verdict.critical_issues.length > 0 && <Notice>{data.verdict.critical_issues.join(' · ')}</Notice>}
     {creative.stale && <Notice>This ad is out of date. Start a new workflow before approving or downloading it.</Notice>}
@@ -80,8 +81,9 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
   const run = state.run
   const campaign = state.result && 'selected' in state.result ? state.result : null
   const selectedTab = tab ?? (run?.state === 'completed' ? 'creatives' : 'activity')
-  const latest = ['landscape', 'portrait'].map(format => state.creatives.filter(c => c.data.format === format).sort((a, b) => b.data.attempt - a.data.attempt)[0]).filter(Boolean)
-  const canDownload = latest.length === 2 && latest.every(c => c.passed && !c.stale && c.data.decision === 'approved')
+  const formats = run?.input.creative_type ? (run.input.include_story ? ['post', 'story'] : ['post']) : ['landscape', 'portrait']
+  const latest = formats.map(format => state.creatives.filter(c => c.data.format === format).sort((a, b) => b.data.attempt - a.data.attempt)[0]).filter(Boolean)
+  const canDownload = latest.length === formats.length && latest.every(c => c.passed && !c.stale && c.data.decision === 'approved')
   const download = async () => { setDownloading(true); setError(''); try { await downloadCampaign(id) } catch (reason) { setError(reason instanceof Error ? reason.message : String(reason)) } finally { setDownloading(false) } }
   const cancel = async () => { try { await api(`/runs/${id}/cancel`, {}); state.reload(); await onChanged() } catch (reason) { setError(String(reason)) } }
   return <><PageHeading title={run?.state === 'completed' ? 'Made for your neighborhood.' : 'Your agents are on it.'}>{run?.state === 'completed' ? 'Your ads are ready. Take a look before they go anywhere.' : 'Follow the thinking, the sources, and the work as it happens.'}</PageHeading>
@@ -90,7 +92,7 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
     {run?.state === 'failed' && <Notice>The workflow stopped. Check Activity for the reason. Paid work will not retry automatically.</Notice>}
     {run?.state === 'cancelled' && <Notice tone="info">This workflow was cancelled.</Notice>}
     <div className="review-toolbar"><div className="segmented tabs">{[['creatives', 'Creatives'], ['thinking', 'The thinking'], ['activity', 'Activity']].map(([value, label]) => <button key={value} className={selectedTab === value ? 'selected' : ''} onClick={() => setTab(value)}>{label}</button>)}</div>
-      <div className="download-control">{run && ['queued', 'running'].includes(run.state) ? <button className="secondary" onClick={() => void cancel()}>Stop workflow</button> : <><button className="secondary" disabled={!canDownload || downloading} onClick={() => void download()}><Icon name="download" size={18}/>{downloading ? 'Preparing…' : 'Download campaign'}</button><small>{canDownload ? 'Both formats approved' : 'Approve both formats to download'}</small></>}</div></div>
+      <div className="download-control">{run && ['queued', 'running'].includes(run.state) ? <button className="secondary" onClick={() => void cancel()}>Stop workflow</button> : <><button className="secondary" disabled={!canDownload || downloading} onClick={() => void download()}><Icon name="download" size={18}/>{downloading ? 'Preparing…' : 'Download campaign'}</button><small>{canDownload ? 'Selected outputs approved' : 'Approve every selected output to download'}</small></>}</div></div>
     {selectedTab === 'activity' && <Activity events={state.events}/>}
     {selectedTab === 'thinking' && (campaign ? <Thinking campaign={campaign}/> : <section className="panel empty-note">The chief’s recommendation will appear here after discovery.</section>)}
     {selectedTab === 'creatives' && <>{latest.length ? <div className="creative-grid">{latest.map(creative => <CreativeCard key={creative.id + creative.version} creative={creative} ready={run?.state === 'completed'} onChanged={() => { state.reload(); void onChanged() }}/>)}</div> : <section className="panel empty-note">{run?.state === 'failed' ? 'No judged creatives were produced.' : 'Your judged creatives will appear here.'}</section>}

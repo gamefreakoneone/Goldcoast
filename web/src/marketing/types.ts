@@ -27,7 +27,7 @@ export interface Usage {
 export interface Run {
   id: string; kind: 'campaign' | 'brand' | 'feed' | 'testimonial'; mode: 'live' | 'replay';
   state: 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
-  input: { goal?: string; source?: string; snapshot?: { profile: Business } };
+  input: { creative_type?: string; include_story?: boolean; goal?: string; source?: string; snapshot?: { profile: Business } };
   checkpoint: Record<string, { state: string; output?: unknown }>;
   counters: Record<string, number>; created_at: number; finished_at: number | null;
 }
@@ -55,9 +55,9 @@ export interface Verdict {
   critical_issues: string[]; feedback: string; detected_text: string;
 }
 export interface Creative {
-  job_id: string; business_id: string; brand_id: string; format: 'landscape' | 'portrait';
+  job_id: string; business_id: string; brand_id: string; format: 'landscape' | 'portrait' | 'post' | 'story';
   attempt: number; width: number; height: number; sha256: string;
-  brief: { headline: string; subheading: string; cta: string; product_name: string; offer_text: string; image_prompt: string };
+  brief: { headline: string; subheading: string; cta: string; product_name: string; offer_text: string; image_prompt: string; caption?: string; creative_type?: string; quote?: string; attribution?: string };
   verdict: Verdict; expires_at: string; decision: 'pending' | 'approved' | 'rejected';
   decision_note: string; decided_at: string | null; replay: boolean;
 }

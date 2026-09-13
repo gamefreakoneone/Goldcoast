@@ -25,6 +25,10 @@ class WorkflowStart(StrictModel):
     feed_job_id: str | None = None
     idea_id: str | None = None
     product_id: str | None = None
+    creative_type: Literal["auto", "product", "timely", "comic", "testimonial"] | None = "auto"
+    include_story: bool = False
+    testimonial_id: str | None = None
+    quote_id: str | None = None
 
 
 class Snapshot(StrictModel):
@@ -120,6 +124,11 @@ def start_campaign(repo, assets, tenant, body, key):
             "snapshot": source.input["snapshot"],
             "goal": source.input["goal"],
             "source": source.id,
+            **{
+                k: source.input[k]
+                for k in ("creative_type", "include_story", "testimonial")
+                if k in source.input
+            },
         }
     else:
         snapshot = snapshot_business(repo, assets, tenant)
@@ -135,6 +144,16 @@ def start_campaign(repo, assets, tenant, body, key):
             "video_asset_id": body.video_asset_id,
             "product_id": body.product_id,
         }
+        if body.creative_type:
+            payload.update(creative_type=body.creative_type, include_story=body.include_story)
+        if body.creative_type == "testimonial":
+            from goldcoast.studio.testimonials import approved_quote
+
+            if not body.testimonial_id or not body.quote_id:
+                raise Conflict("Select a reviewed testimonial quote")
+            payload["testimonial"] = approved_quote(
+                repo, tenant, body.testimonial_id, body.quote_id
+            )
         if body.idea_id or body.feed_job_id:
             from goldcoast.studio.feed import selected_idea
 

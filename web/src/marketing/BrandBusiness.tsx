@@ -6,6 +6,7 @@ import { useRun } from './hooks'
 
 import { Icon, Notice, PageHeading, Status } from './ui'
 
+import { Testimonials } from './Testimonials'
 import { AssetLibrary } from './AssetLibrary'
 
 import type { Asset, Brand, Business, Resource, Run, Usage } from './types'
@@ -217,7 +218,7 @@ export function BrandPage({ brand, assets, business, usage, analysisId, onAnalys
 
       <button className="primary full" disabled={busy || !business}>{busy ? 'Working…' : 'Save brand kit'}</button>
 
-    </form></div></>
+    </form></div><Testimonials assets={assets} usage={usage} onSaved={onSaved}/></>
 
 }
 

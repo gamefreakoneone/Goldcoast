@@ -258,3 +258,7 @@ Studio products carry stable IDs; legacy profiles derive IDs deterministically u
 ## 0019 Discovery feed
 
 Feed results are tenant scoped durable jobs cached for six hours by business version and topic. Explicit feed refresh reserves a separate allowance and permits at most two searches, two extracts and four model calls. Campaigns snapshot selected evidence and revalidate expiry at execution. Testimonial allowances are reserved for 0020. New grant columns require `alembic upgrade head`.
+
+## 0020 Social creative contracts
+
+New studio workflows carry creative_type and include_story; legacy jobs without them retain landscape/portrait pairs. Post is 1080x1440; Story is 1080x1920. Comic briefs contain four ordered panels; dialogue is deterministically typeset. Product references are selected by product_id separately from marketing style. Reviewed testimonials retain source segment timestamps and exact excerpts; changing/revoking a review invalidates dependent live creatives. Exports include caption.txt for social jobs and require each requested placement to pass and be approved.

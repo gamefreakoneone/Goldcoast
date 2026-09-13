@@ -6,10 +6,12 @@ import type { Candidate, FeedResult, Run, Usage } from './types'
 
 export type IdeaSelection = { jobId: string; idea: Candidate }
 
+const stageTitle = (name: string) => ({ chief_plan: 'Understanding your brief', recent_search: 'Checking recent news', upcoming_search: 'Finding upcoming events', feed_analysis: 'Connecting ideas to your products', local_scout: 'Researching nearby opportunities', culture_scout: 'Exploring cultural ideas', chief_selection: 'Choosing the angle', campaign: 'Campaign direction selected', creative_brief: 'Writing your post', creative_result: 'Ready for your review', replay: 'Recorded workflow loaded' })[name] ?? (name.startsWith('illustration_') ? `Creating illustration ${name.split('_')[1]}` : name.startsWith('creative_') ? 'Composing and checking your post' : name.replaceAll('_', ' '))
+
 export function WorkflowProgress({ id, onReview }: { id: string | null; onReview?: () => void }) {
   const { run, events, error } = useRun(id)
   return <section className="panel workflow-intro" aria-live="polite"><h2>The workflow</h2>{error && <Notice>{error}</Notice>}{run ? <><Status good={run.state === 'completed'}>{run.state === 'completed' ? 'Ready for review' : run.state}</Status>
-    {Object.entries(run.checkpoint).map(([name, stage], i) => <div className="workflow-row" key={name}><span>{i + 1}</span><div><h3>{name.replaceAll('_', ' ')}</h3><p>{stage.state === 'completed' ? 'Completed' : 'In progress'}</p></div></div>)}
+    {Object.entries(run.checkpoint).map(([name, stage], i) => <div className="workflow-row" key={name}><span>{i + 1}</span><div><h3>{stageTitle(name)}</h3><p>{stage.state === 'completed' ? 'Completed' : 'In progress'}</p></div></div>)}
     {!Object.keys(run.checkpoint).length && <p>Waiting for the worker to begin.</p>}
     {events.filter(e => e.type === 'workflow_error').map(e => <Notice key={e.id}>{String(e.payload.message ?? 'Workflow failed')}</Notice>)}
     {run.state === 'completed' && onReview && <button className="primary" onClick={onReview}>Review results</button>}

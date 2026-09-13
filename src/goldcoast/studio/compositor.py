@@ -2,7 +2,12 @@ import base64
 import html
 import os
 
-SIZES = {"landscape": (1920, 1080), "portrait": (1080, 1920)}
+SIZES = {
+    "landscape": (1920, 1080),
+    "portrait": (1080, 1920),
+    "post": (1080, 1440),
+    "story": (1080, 1920),
+}
 
 
 def data_url(raw, mime="image/png"):
