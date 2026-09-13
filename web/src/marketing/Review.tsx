@@ -13,7 +13,7 @@ const stageNames: Record<string, string> = {
 }
 
 export function Activity({ events }: { events: StudioEvent[] }) {
-  const visible = events.filter(e => e.type.startsWith('stage_') || e.type === 'workflow_error' || e.type === 'workflow_replayed' || e.type.startsWith('run_') || e.type === 'tool_started')
+  const visible = events.filter(e => e.type.startsWith('stage_') || e.type === 'recorded_stage' || e.type === 'workflow_error' || e.type === 'workflow_replayed' || e.type.startsWith('run_') || e.type === 'tool_started')
   return <section className="panel activity-panel"><h2>Agent activity</h2>{!visible.length && <p className="empty-note">Waiting for the worker to pick up this workflow…</p>}
     <ol className="activity-list">{visible.map(event => {
       const stage = String(event.payload.stage ?? '')
@@ -21,7 +21,7 @@ export function Activity({ events }: { events: StudioEvent[] }) {
       const complete = event.type === 'stage_completed' || event.type === 'run_completed'
       return <li key={event.id}><span className={`activity-mark ${complete ? 'done' : ''}`}>{complete ? <Icon name="check" size={16}/> : <span/>}</span>
         <div><strong>{event.type === 'workflow_error' ? 'The workflow stopped' : event.type === 'workflow_replayed' ? 'Recorded workflow loaded' : event.type === 'tool_started' ? 'Checking a source' : label || event.type.replace(/_/g, ' ')}</strong>
-          <p>{event.type === 'workflow_error' ? String(event.payload.message) : event.type === 'stage_started' ? 'In progress' : event.type === 'stage_completed' ? 'Completed' : String(event.payload.tool ?? '')}</p></div>
+          <p>{event.type === 'workflow_error' ? String(event.payload.message) : event.type === 'stage_started' ? 'In progress' : event.type === 'recorded_stage' ? 'Recorded step ? no live call' : event.type === 'stage_completed' ? 'Completed' : String(event.payload.tool ?? '')}</p></div>
         <time>{new Date(event.timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</time></li>
     })}</ol></section>
 }
@@ -85,6 +85,7 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
   const download = async () => { setDownloading(true); setError(''); try { await downloadCampaign(id) } catch (reason) { setError(reason instanceof Error ? reason.message : String(reason)) } finally { setDownloading(false) } }
   const cancel = async () => { try { await api(`/runs/${id}/cancel`, {}); state.reload(); await onChanged() } catch (reason) { setError(String(reason)) } }
   return <><PageHeading title={run?.state === 'completed' ? 'Made for your neighborhood.' : 'Your agents are on it.'}>{run?.state === 'completed' ? 'Your ads are ready. Take a look before they go anywhere.' : 'Follow the thinking, the sources, and the work as it happens.'}</PageHeading>
+    {run?.mode === 'replay' && <Notice tone="info">Historical demonstration{campaign ? ` - recorded ${new Date(campaign.graph.built_at).toLocaleDateString()}` : ''}. Sources and ads reflect the original run, not current conditions. Review decisions apply only to this replay. No API credits are used.</Notice>}
     {(error || state.error) && <Notice>{error || state.error}</Notice>}
     {run?.state === 'failed' && <Notice>The workflow stopped. Check Activity for the reason. Paid work will not retry automatically.</Notice>}
     {run?.state === 'cancelled' && <Notice tone="info">This workflow was cancelled.</Notice>}
@@ -96,4 +97,5 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
       {state.creatives.length > 2 && <details className="panel attempts"><summary>Previous attempts and judge feedback</summary>{state.creatives.map(c => <p key={c.id}><strong>{c.data.format} · attempt {c.data.attempt}</strong> — {c.passed ? 'Passed' : 'Needs changes'}: {c.data.verdict.feedback}</p>)}</details>}</>}
     <footer className="workspace-footer"><span>{run?.mode === 'replay' ? 'You’re reviewing a recorded example. No API credits were used.' : 'Nothing publishes without your approval.'}</span><button className="text-button" onClick={onNew}>Start a new workflow<Icon name="arrow" size={16}/></button></footer>
   </>
-}
+}
+

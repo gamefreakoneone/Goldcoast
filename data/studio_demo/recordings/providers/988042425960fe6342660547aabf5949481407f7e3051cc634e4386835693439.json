@@ -1,0 +1,72 @@
+{
+  "request": {
+    "provider": "tavily",
+    "operation": "search",
+    "payload": {
+      "query": "Los Angeles museum exhibitions gallery openings September 13 2026",
+      "search_depth": "basic",
+      "max_results": 5,
+      "topic": "general",
+      "include_answer": false,
+      "include_raw_content": false,
+      "include_usage": true,
+      "auto_parameters": false
+    }
+  },
+  "timestamp": "2026-09-13T22:00:13.864870+00:00",
+  "status": "completed",
+  "response": {
+    "query": "Los Angeles museum exhibitions gallery openings September 13 2026",
+    "follow_up_questions": null,
+    "answer": null,
+    "images": [],
+    "results": [
+      {
+        "url": "https://www.timeout.com/los-angeles/news/22-art-exhibitions-in-l-a-to-look-forward-to-in-2026-123125",
+        "title": "22 art exhibitions in L.A. to look forward to in 2026",
+        "content": "If all goes according to plan, the Lucas Museum of Narrative Art will finally open its doors in Exposition Park this September. The verdant spaceship-like building between the Natural History Museum and the L.A. Memorial Coliseum adds something decidedly different and otherworldly to L.A.’s architectural scene and has been piquing Angelenos’ interest for years now. The five-story museum will feature 35 galleries, two state-of-the-art theaters, classrooms, a library, dining options and a gift [...] Lucas Museum of Narrative Art  \nOpening Sept 22, 2026 [...] of the Manzanar War Relocation Center. The immersive exhibition will wind through the remodeled first floor, promising a more dynamic experience that traces the past, present and future of the Japanese American experience. Also opening at JANM the same time will be “Pictures of Belonging,” an exhibition of works by three trailblazing Japanese American women artists—Miki Hayakawa, Hisako Hibi and Miné Okubo—that debuted at the Smithsonian American Art Museum.",
+        "score": 0.83742094,
+        "raw_content": null,
+        "id": "2a9fd4-00"
+      },
+      {
+        "url": "https://www.galleriesnow.net/exhibitions/los-angeles",
+        "title": "Exhibitions in Los Angeles - Exhibitions | GalleriesNow",
+        "content": "Image for Phung Huynh: Bite The Hand That Feeds You, at Luis De Jesus Los Angeles \n\nPhung Huynh: Bite The Hand That Feeds You\n\n12 Sep - 24 Oct 2026\n\nforthcoming\n\n1110 Mateo St, CA 90021, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Luis De Jesus Los Angeles\n\nLuis De Jesus Los Angeles Los Angeles\n\nImage for Sherin Guirguis: Into the Lake of Fire (ⲉ̀ϧⲟⲩⲛ ⲉ̀ϯⲗⲩⲙⲛⲏ ⲛ̀ⲭ̀ⲣⲱⲙ), at Luis De Jesus Los Angeles \n\nSherin Guirguis: Into the Lake of Fire (ⲉ̀ϧⲟⲩⲛ ⲉ̀ϯⲗⲩⲙⲛⲏ ⲛ̀ⲭ̀ⲣⲱⲙ)\n\n12 Sep - 24 Oct 2026 [...] forthcoming\n\n1110 Mateo St, CA 90021, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Perrotin\n\nPerrotin Los Angeles Los Angeles\n\nImage for Paul Pfeiffer: Olympia, at Perrotin Los Angeles \n\nPaul Pfeiffer: Olympia\n\n18 Sep - 7 Nov 2026\n\nforthcoming\n\n5036 W Pico Blvd, CA 90019, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Philip Martin Gallery\n\nPhilip Martin Gallery Los Angeles\n\nImage for A Certain Slant of Light, at Philip Martin Gallery \n\nA Certain Slant of Light\n\n1 Aug - 26 Sep 2026 [...] forthcoming\n\n1037 N. Sycamore Avenue, CA 90038, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Louis Stern Fine Arts\n\nLouis Stern Fine Arts Los Angeles\n\nImage for Cordillera Mexicana: Alfredo Ramos Martínez and the Mexican Landscape, at Louis Stern Fine Arts \n\nCordillera Mexicana: Alfredo Ramos Martínez and the Mexican Landscape\n\n18 Jul - 19 Sep 2026\n\n9002 Melrose Avenue, CA 90069, Los Angeles\n\nTue-Fri 10am-6pm, Sat 11am-5pm",
+        "score": 0.82761955,
+        "raw_content": null,
+        "id": "967261-01"
+      },
+      {
+        "url": "https://ocula.com/cities/usa/los-angeles-art-galleries/exhibitions",
+        "title": "Art Exhibitions in Los Angeles during 2026 / 2027",
+        "content": "Los Angeles County Museum of Art Los Angeles\n\nAmadeo Luciano Lorenzato David Zwirner 23 September–31 October 2026 Los Angeles/)\n\nAmadeo Luciano Lorenzato David Zwirner 23 September–31 October 2026 Los Angeles/) Los Angeles County Museum of Art Los Angeles\n\nGroup Exhibition Tom's Stretch David Kordansky Gallery 10 July–22 August 2026 Los Angeles/) [...] - [x] Lisson Gallery - [x] Los Angeles County Museum of Art - [x] Marciano Art Foundation - [x] Marian Goodman Gallery - [x] Matthew Brown - [x] Matthew Marks Gallery - [x] The Geffen Contemporary at MOCA - [x] MOCA Grand Avenue - [x] Night Gallery - [x] Nonaka-Hill - [x] Ocula Advisory - [x] OMR - [x] Pace Gallery - [x] Perrotin - [x] Regen Projects - [x] Roberts Projects - [x] Sean Kelly - [x] Simchowitz - [x] Sprüth Magers - [x] Tanya Bonakdar Gallery - [x] The Broad - [x] The Getty Center [...] The Getty Center - [x] Vincent Price Art Museum - [x] Wilding Cran Gallery",
+        "score": 0.8245895,
+        "raw_content": null,
+        "id": "9c6ffc-02"
+      },
+      {
+        "url": "https://www.artrabbit.com/exhibitions/united-states/los-angeles/upcoming",
+        "title": "Contemporary art exhibitions and events in Los Angeles",
+        "content": "Opening: 19 Sep 2026, 18:00\n\nGabba Gallery\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Poster Pals: Featuring MAZZA and MUNK ONE\n\nRadiant Terrains: Elements of Light in Contemporary Art from the Permanent Collection\n\nExhibition\n\nRadiant Terrains: Elements of Light in Contemporary Art from the Permanent Collection\n\n19 Sep 2026 – 10 Jan 2027\n\nLaguna Art Museum\n\nLaguna Beach, United States [...] Exhibition\n\nBryan Ida Portrait Remix Opening Reception\n\n19 Sep 2026\n\nOpening: 19 Sep 2026, 15:00\n\nBluerider ART LA · Manhattan Beach\n\nManhattan Beach, United States\n\n Save / follow\n I've seen this\n Comment on Bryan Ida Portrait Remix Opening Reception\n\nDavid Lynch: LA\n\nExhibition\n\nDavid Lynch: LA\n\n19 Sep 2026 – 24 Oct 2026\n\nOpening: 19 Sep 2026, 18:00\n\nPACE Los Angeles\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on David Lynch: LA\n\nErin Wright: Memnosphere\n\nExhibition [...] Opening: 19 Sep 2026, 18:00\n\nla BEAST gallery\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Neither Land Nor Water\n\nObjective Truths\n\nExhibition\n\nObjective Truths\n\n19 Sep 2026 – 24 Oct 2026\n\nOpening: 19 Sep 2026, 17:00\n\nRoberts Projects\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Objective Truths\n\nPoster Pals: Featuring MAZZA and MUNK ONE\n\nExhibition\n\nPoster Pals: Featuring MAZZA and MUNK ONE\n\n19 Sep 2026 – 10 Oct 2026",
+        "score": 0.82288796,
+        "raw_content": null,
+        "id": "cd87bb-03"
+      },
+      {
+        "url": "https://www.lacma.org",
+        "title": "LACMA | Los Angeles County Museum of Art, Week of ...",
+        "content": "<p>Installation photo, <em>Deep Cuts: Block Printing Across Cultures</em> at the Los Angeles County Museum of Art, November 9, 2025–September 13, 2026, photo © Museum Associates/LACMA, by Jonathan Urban</p> \n\nThis Week at LACMA\n\n<p>Yayoi Kusama at LACMA, 1998, © Yayoi Kusama, photo © Museum Associates/LACMA</p> \n\nRemembering Yayoi Kusama\n\n<p>Interior of the David Geffen Galleries at the Los Angeles County Museum of Art, photo © Museum Associates/LACMA, by Charlie Powers</p> [...] ### Collecting Impressionism at LACMA\n\nExhibition | On view through Jan 3, 2027\n\n## Third Weekends at LACMA: September\n\n \n\nThe Genesis Talks: Marc Merrill and Michael Govan\n\nTalk | Mon Sep 21, 7 pm\n\n \n\nJazz at LACMA: The 17 Big Band\n\nMusic | Fri Sep 18, 6 pm\n\n \n\nLACMA Live: Native Voices' The Space Between Labels\n\nSpecial Event | Thu Sep 17 and Sat Sep 19\n\nPhoto © Museum Associates/LACMA \n\nNinth R.L. Shep Triennial Symposium on Textiles and Dress\n\nTalk | Sun Sep 20, 9:30 am [...] Reading the Room: How Do You Care for Art in a Radically New Kind of Museum?\n\n<p>Rick Guidice for NASA, <em>Cutaway of Torus Wheel Habitat</em>, 1975, NASA Ames Research Center, © Rick Guidice, photo courtesy of NASA Ames Research Center</p> \n\nEven More Exhibitions to See in 2026",
+        "score": 0.72465646,
+        "raw_content": null,
+        "id": "e8ea0c-04"
+      }
+    ],
+    "response_time": 1.86,
+    "usage": {
+      "credits": 1
+    },
+    "request_id": "f634a93f-1c94-4924-b7f2-0620708b9034"
+  },
+  "latency_ms": 2188
+}

@@ -1,0 +1,33 @@
+{
+  "request": {
+    "provider": "tavily",
+    "operation": "extract",
+    "payload": {
+      "urls": [
+        "https://www.lacma.org/"
+      ],
+      "extract_depth": "basic",
+      "format": "text",
+      "include_usage": true
+    }
+  },
+  "timestamp": "2026-09-13T22:00:21.486818+00:00",
+  "status": "completed",
+  "response": {
+    "results": [
+      {
+        "url": "https://www.lacma.org/",
+        "title": "LACMA | Los Angeles County Museum of Art, Week of ...",
+        "raw_content": "Los Angeles County Museum of Art (LACMA) Notice of data security incident\nOpen today: 11 AM-8 PM\nShop Membership MYLACMA Tickets\nLACMA\nTicket Link\nLACMA | Los Angeles County Museum of Art, Week of July 27\n \nThe New David Geffen Galleries Are Now Open\nGet Tickets\nEileen Cowin, The Uninvited Visitor, 2025, printed 2026, © Eileen Cowin, courtesy of the artist\n \nEileen Cowin: Between Panic and Paradise\nExhibition | On view through Jan 3, 2027\n \nTextile Alchemy: The Art of Reiko Sudō and NUNO\nExhibition | Member Previews Sep 17 through Sep 19\nNight Out at LACMA \nNight Out at LACMA\nSpecial Event | Wed Sep 30, 7 pm\nTextile Alchemy: The Art of Reiko Sudō & NUNO Special Edition Exhibition Catalogue \nTextile Alchemy: The Art of Reiko Sudō & NUNO Special Edition Exhibition Catalogue\nShop the LACMA Store\nFashioning Chinese Women: Empire to Modernity \nFashioning Chinese Women: Empire to Modernity\nExhibition | On view through Oct 12\nThe LACMA Fund \nThe LACMA Fund\nMake a gift today\nJazz at LACMA: L.A. Jazz Treasure Award \nJazz at LACMA: L.A. Jazz Treasure Award\nMusic | Fri Sep 11, 6 pm\nAlfonso Gonzalez Jr.: In Between Stops \nAlfonso Gonzalez Jr.: In Between Stops\nInstallation | On view through Dec 1\nBoone Children's Gallery \nBoone Children's Gallery\nWorkshop | Daily except Wednesdays and Sundays\nCollecting Impressionism at LACMA \nCollecting Impressionism at LACMA\nExhibition | On view through Jan 3, 2027\nThird Weekends at LACMA: September\n \nThe Genesis Talks: Marc Merrill and Michael Govan\nTalk | Mon Sep 21, 7 pm\n \nJazz at LACMA: The 17 Big Band\nMusic | Fri Sep 18, 6 pm\n \nLACMA Live: Native Voices' The Space Between Labels\nSpecial Event | Thu Sep 17 and Sat Sep 19\nPhoto © Museum Associates/LACMA \nNinth R.L. Shep Triennial Symposium on Textiles and Dress\nTalk | Sun Sep 20, 9:30 am\nVisitors in the David Geffen Galleries  \nGet 12 months of free admission, including the David Geffen Galleries.\nBecome a Member\n\nDocent Tours\nFree every day\nDocent-led tours on a variety of subjects ranging from entire exhibitions to single works of art are offered most days the museum is open and are free to all with admission.\n\nThe LACMA Store\nShop the LACMA Store\nThe LACMA Store reflects the museum itself through its thoughtfully curated selection of LACMA-developed catalogues and publications, books, posters, and more.\n\nErewhon at LACMA\nNow open\nErewhon at LACMA offers organic coffee and matcha, fresh pastries, signature smoothies, cold-pressed juices, and a selection of grab-and-go meals and organic snacks.\nHot fun in the summertime...\nNew Brighton, Merseyside \nMartin Parr  \nNew Brighton, Merseyside, 1983-1986, printed 2002\nNear Palm Springs \nBen Blackwell  \nNear Palm Springs, 1972\nThe Seventh Month, Fireworks over Ryōgoku, Sumida River \nFujimori Shizuo  \nThe Seventh Month, Fireworks over Ryōgoku, Sumida River, 1925\nDwight Evans Hits a Home Run, Fenway Park \nJim Stone  \nDwight Evans Hits a Home Run, Fenway Park, 1982\nWoman's Coordinates (Blouse, Skirt, and Shorts) \nDeDe Johnson  \nWoman's Coordinates (Blouse, Skirt, and Shorts), late 1950s\nConey Island \nPaul Cadmus  \nConey Island, 1934\nWith grandchildren at the Fun House \nImogen Cunningham  \nWith grandchildren at the Fun House, 1955\nCalifornia Copied From 1965 Painting in 1987 \nDavid Hockney  \nCalifornia Copied From 1965 Painting in 1987, 1987\nLatest from Unframed, the LACMA blog\n \nEverything You Need to Know About LACMA’s New David Geffen Galleries\n<p>Installation photo, <em>Deep Cuts: Block Printing Across Cultures</em> at the Los Angeles County Museum of Art, November 9, 2025–September 13, 2026, photo © Museum Associates/LACMA, by Jonathan Urban</p> \nThis Week at LACMA\n<p>Yayoi Kusama at LACMA, 1998, © Yayoi Kusama, photo © Museum Associates/LACMA</p> \nRemembering Yayoi Kusama\n<p>Interior of the David Geffen Galleries at the Los Angeles County Museum of Art, photo © Museum Associates/LACMA, by Charlie Powers</p> \nReading the Room: How Do You Care for Art in a Radically New Kind of Museum?\n<p>Rick Guidice for NASA, <em>Cutaway of Torus Wheel Habitat</em>, 1975, NASA Ames Research Center, © Rick Guidice, photo courtesy of NASA Ames Research Center</p> \nEven More Exhibitions to See in 2026",
+        "images": []
+      }
+    ],
+    "failed_results": [],
+    "response_time": 0.01,
+    "usage": {
+      "credits": 0
+    },
+    "request_id": "f10f860e-40a0-4c2c-9168-db5abbcf8e28"
+  },
+  "latency_ms": 296
+}

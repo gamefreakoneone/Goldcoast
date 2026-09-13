@@ -1,0 +1,72 @@
+{
+  "request": {
+    "provider": "tavily",
+    "operation": "search",
+    "payload": {
+      "query": "Silver Lake Reservoir loop walking path Los Angeles visitors weekend",
+      "search_depth": "basic",
+      "max_results": 5,
+      "topic": "general",
+      "include_answer": false,
+      "include_raw_content": false,
+      "include_usage": true,
+      "auto_parameters": false
+    }
+  },
+  "timestamp": "2026-09-13T21:56:44.669480+00:00",
+  "status": "completed",
+  "response": {
+    "query": "Silver Lake Reservoir loop walking path Los Angeles visitors weekend",
+    "follow_up_questions": null,
+    "answer": null,
+    "images": [],
+    "results": [
+      {
+        "url": "https://www.facebook.com/DiscoverLosAngeles/posts/walks-along-silver-lake-reservoir-discoverla-welovela/1296106582556197",
+        "title": "Walks along Silver Lake Reservoir 💕 #discoverLA ...",
+        "content": "offer a pleasant and easy 2.2- mile loop trail bordered by pine and eucalyptus trees. It's one of the most popular walking paths in the city.",
+        "score": 0.7187726,
+        "raw_content": null,
+        "id": "403465-00"
+      },
+      {
+        "url": "https://modernhiker.com/hike/silver-lake-reservoir",
+        "title": "Silver Lake Reservoir - Modern Hiker",
+        "content": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped in nature and history. At 2 miles, the loop should only take around 45 minutes, which makes it the perfect afternoon outing. The paved paths and even ground (there’s only one steep incline toward the end) also make it the perfect spot for runners. There’s also a green space toward the end of the hike that’s nice for picnics and family [...] You’ll come across a fence — go straight through and keep left (this is where the non-dog path and the park path reconvene). Turn left on Armstrong Avenue, and take the shaded uphill paved path. This is the steepest part of the trek, but it doesn’t last very long. Turn left on Tesla Drive. You’ll pass the reservoir native gardens, where you can stop to take in the flora and fauna. Past this, you’ll have looped right back to where you started. [...] The unpaved path continues, and soon you’ll see Silver Lake Reservoir on your left. This is where you’ll have to exit the fence, as the path closest to the reservoir is restricted to pedestrians. There are still benches and trash cans scattered along your route, and dogs are welcome (but must be leashed). From here on out, you’ll notice tons of eucalyptus trees, thousands of which were planted as early as 1911 to try to make the concrete space a bit greener. Depending on the season, you can",
+        "score": 0.7050753,
+        "raw_content": null,
+        "id": "2c4ad7-01"
+      },
+      {
+        "url": "https://www.alltrails.com/trail/us/california/silver-lake-reservoir-trail--2",
+        "title": "Silver Lake Reservoir Trail, California",
+        "content": "Silver Lake Reservoir Trail is a loop trail that covers 2.2 mi, with an elevation gain of 111 ft. It takes about 0.5–1 hr to complete. Loop trails have the same",
+        "score": 0.6711479,
+        "raw_content": null,
+        "id": "f97aa8-02"
+      },
+      {
+        "url": "https://www.totago.co/app/trip/MH_silver-lake-reservoir",
+        "title": "Silver Lake Reservoir",
+        "content": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped",
+        "score": 0.66229486,
+        "raw_content": null,
+        "id": "467205-03"
+      },
+      {
+        "url": "https://www.yelp.com/biz/silver-lake-reservoir-los-angeles",
+        "title": "Silver Lake Reservoir Photos",
+        "content": "The Reservoir is a 2.2 mile loop that can be busy with runners and walkers during peak hours. It's a decent walking path that definitely needs some landscaping",
+        "score": 0.65887916,
+        "raw_content": null,
+        "id": "a4a2a6-04"
+      }
+    ],
+    "response_time": 1.21,
+    "usage": {
+      "credits": 1
+    },
+    "request_id": "485ca938-2848-4c9f-aa47-10db721d3315"
+  },
+  "latency_ms": 1594
+}

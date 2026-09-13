@@ -32,7 +32,7 @@ describe('marketing workspace', () => {
     render(<MarketingApp />)
     await screen.findByRole('heading', { name: 'Your daily marketing desk.' })
     expect(screen.getByRole('button', { name: 'Replay' })).toHaveClass('selected')
-    expect(screen.getByRole('button', { name: /Start today/ })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Try recorded example' })).toBeEnabled()
     expect(mockApi.mock.calls.every(([, body]) => body === undefined)).toBe(true)
     await userEvent.click(screen.getByRole('button', { name: 'Live' }))
     expect(screen.getByRole('button', { name: /Start today/ })).toBeDisabled()

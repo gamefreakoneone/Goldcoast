@@ -35,7 +35,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0015 | Marketing workspace | Completed | [Evidence](specs/0015-marketing-workspace/status.md) | New business-facing UI |
 
-Next in order: 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+| 0016 | Adaptation and replay | Completed | [Evidence](specs/0016-adaptation-and-replay/status.md) | Free historical demo and opt-in scheduling |
+
+Next in order: 0017 hosted deployment; 0018 submission package.
 
 ## Status Definitions
 

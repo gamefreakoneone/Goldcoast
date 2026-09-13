@@ -104,6 +104,8 @@ class CreativeService:
 
     def stale(self, tenant, artifact):
         job = self.repo.job(tenant, artifact.job_id)
+        if job.mode == "replay" and artifact.replay:
+            return False
         snapshot = Snapshot.model_validate(job.input["snapshot"])
         business = self.repo.get(tenant, "business", snapshot.business_id)
         brand = self.repo.get(tenant, "brand", snapshot.brand_id)
@@ -162,6 +164,13 @@ class CreativeService:
             return resource_view(row)
 
     def export(self, tenant, job_id):
+        with self.repo.sessions.begin() as session:
+            session.execute(
+                select(Tenant).where(Tenant.id == tenant).with_for_update()
+            ).scalar_one()
+            return self._export(tenant, job_id)
+
+    def _export(self, tenant, job_id):
         rows = self.list(tenant, job_id)
         selected = {}
         for row in sorted(rows, key=lambda r: r["data"]["attempt"]):
@@ -180,6 +189,10 @@ class CreativeService:
                     {
                         "job_id": job_id,
                         "mode": job.mode,
+                        "replay": job.mode == "replay",
+                        "historical_notice": "Historical demonstration; evidence may be out of date"
+                        if job.mode == "replay"
+                        else None,
                         "snapshot": job.input["snapshot"],
                         "creatives": list(selected.values()),
                         "campaign": job.checkpoint["campaign"]["output"],

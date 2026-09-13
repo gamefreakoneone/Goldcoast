@@ -4,6 +4,8 @@ from fastapi import APIRouter, Header, HTTPException, Request
 
 from goldcoast.api.studio_auth import IdentityDep
 from goldcoast.api.studio_views import job_view
+from goldcoast.studio.brand import resource_view
+from goldcoast.studio.schedule import ScheduleSave, ScheduleService
 from goldcoast.studio.workflow import WorkflowStart, snapshot_business, start_campaign
 
 router = APIRouter(prefix="/api/v2")
@@ -54,3 +56,23 @@ def result(job_id: str, request: Request, identity: IdentityDep):
 def graph(job_id: str, request: Request, identity: IdentityDep):
     value = result(job_id, request, identity)
     return value.get("graph") if value else None
+
+
+@router.post("/replays/sample", status_code=202)
+def sample(request: Request, identity: IdentityDep, key: KeyDep):
+    from goldcoast.studio.replay import start_sample
+
+    return job_view(start_sample(request.app.state.repo, identity.tenant_id, key))
+
+
+@router.get("/schedule")
+def schedule(request: Request, identity: IdentityDep):
+    service = ScheduleService(request.app.state.repo, request.app.state.assets)
+    row = service.current(identity.tenant_id)
+    return resource_view(row) if row else None
+
+
+@router.put("/schedule")
+def save_schedule(body: ScheduleSave, request: Request, identity: IdentityDep):
+    service = ScheduleService(request.app.state.repo, request.app.state.assets)
+    return service.save(identity.tenant_id, body)

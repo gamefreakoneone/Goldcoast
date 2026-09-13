@@ -155,7 +155,13 @@ def validate_candidates(candidates, graph, profile, now):
         else:
             if candidate.source_ids:
                 candidate.expires_at = min(
-                    candidate.expires_at, *(sources[s].expires_at for s in candidate.source_ids)
+                    candidate.expires_at,
+                    *(sources[s].expires_at for s in candidate.source_ids),
+                    *(
+                        edge.valid_until
+                        for edge in graph.edges
+                        if edge.target in candidate.source_ids and edge.state == "supported"
+                    ),
                 )
             valid.append(candidate)
             ids.add(candidate.id)

@@ -1,0 +1,507 @@
+{
+  "version": 1,
+  "request": {
+    "name": "chief_planner",
+    "instructions": "Plan a campaign for this food/drink business, date and city. Return two local searches and two cultural searches. Prioritize timely reasons to visit. Video cues are uncertain. Never invent business facts.",
+    "input": {
+      "business": {
+        "name": "Morrow Coffee",
+        "category": "cafe",
+        "city": "Los Angeles",
+        "neighborhood": "Silver Lake",
+        "address": "",
+        "timezone": "America/Los_Angeles",
+        "website": null,
+        "description": "Fictional cafe for this hackathon demonstration. Warm ceramic cups, thoughtful coffee and an unhurried neighborhood atmosphere.",
+        "hours": "",
+        "products": [
+          {
+            "name": "Latte",
+            "description": "Espresso and steamed milk in a ceramic cup",
+            "price": ""
+          }
+        ],
+        "offers": [],
+        "audience": "Neighbors and visitors looking for an afternoon coffee stop",
+        "confirmed": true
+      },
+      "date": "2026-09-13",
+      "goal": "Find a timely neighborhood or cultural reason for Los Angeles visitors to stop for our latte today. Use only our confirmed product; do not invent prices, offers, partnerships, or opening hours.",
+      "video_evidence": null
+    },
+    "schema": {
+      "additionalProperties": false,
+      "properties": {
+        "local_queries": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Local Queries",
+          "type": "array"
+        },
+        "cultural_queries": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "title": "Cultural Queries",
+          "type": "array"
+        },
+        "strategy": {
+          "maxLength": 1000,
+          "title": "Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "local_queries",
+        "cultural_queries",
+        "strategy"
+      ],
+      "title": "SearchPlan",
+      "type": "object"
+    },
+    "tools": []
+  },
+  "request_digest": "58d93813b40a2679401f2d081faae76694ac30d19cc3a003110a771ebd8ce1d2",
+  "model_id": "gemini-3.8-flash",
+  "timestamp": "2026-09-13T21:54:19.461763+00:00",
+  "status": "completed",
+  "events": [
+    {
+      "type": "model_started",
+      "payload": {
+        "operation": "stream",
+        "args": [
+          [
+            {
+              "role": "user",
+              "content": [
+                {
+                  "text": "{\"business\": {\"name\": \"Morrow Coffee\", \"category\": \"cafe\", \"city\": \"Los Angeles\", \"neighborhood\": \"Silver Lake\", \"address\": \"\", \"timezone\": \"America/Los_Angeles\", \"website\": null, \"description\": \"Fictional cafe for this hackathon demonstration. Warm ceramic cups, thoughtful coffee and an unhurried neighborhood atmosphere.\", \"hours\": \"\", \"products\": [{\"name\": \"Latte\", \"description\": \"Espresso and steamed milk in a ceramic cup\", \"price\": \"\"}], \"offers\": [], \"audience\": \"Neighbors and visitors looking for an afternoon coffee stop\", \"confirmed\": true}, \"date\": \"2026-09-13\", \"goal\": \"Find a timely neighborhood or cultural reason for Los Angeles visitors to stop for our latte today. Use only our confirmed product; do not invent prices, offers, partnerships, or opening hours.\", \"video_evidence\": null}"
+                }
+              ]
+            }
+          ],
+          null,
+          "Plan a campaign for this food/drink business, date and city. Return two local searches and two cultural searches. Prioritize timely reasons to visit. Video cues are uncertain. Never invent business facts."
+        ],
+        "kwargs": {
+          "tool_choice": null,
+          "system_prompt_content": [
+            {
+              "text": "Plan a campaign for this food/drink business, date and city. Return two local searches and two cultural searches. Prioritize timely reasons to visit. Video cues are uncertain. Never invent business facts."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "model_finished",
+      "payload": {
+        "operation": "stream",
+        "chunks": [
+          {
+            "messageStart": {
+              "role": "assistant"
+            }
+          },
+          {
+            "contentBlockStart": {
+              "start": {}
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": "### Campaign Strategy: The Sunday Slowdown in Silver Lake\n\n**Date:** Sunday, September 13"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": ", 2026  \n**Focus:** Morrow Coffee’s Latte (espresso and steamed milk served in a warm"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " ceramic cup)  \n**Target Audience:** Silver Lake locals, weekend strollers, and visitors seeking an unhurried afternoon pause"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": ".\n\n---\n\n### Timely Hook & Angle\nSundays in Silver Lake naturally draw visitors for reservoir strolls, vintage"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " shopping, and leisurely neighborhood exploration. Position Morrow Coffee as the intentional, calm midpoint of an afternoon out—inviting guests"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " to step away from the weekend bustle and sit down with a thoughtfully prepared Latte served in a signature ceramic cup.\n\n---"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": "\n\n### Campaign Search Plan\n\n#### Local Searches\n1. `Silver Lake Los Angeles weekend events September 13 202"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": "6`  \n   *(Purpose: Identify neighborhood gatherings, flea markets, or community walks taking place within walking distance on"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " Sunday afternoon.)*\n2. `Silver Lake Reservoir walking route weekend visitor activities September 2026`  "
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": "\n   *(Purpose: Connect coffee stops to popular Sunday recreational foot traffic around the Silver Lake Reservoir and nearby stairs/paths"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": ".)*\n\n#### Cultural Searches\n1. `Los Angeles museum exhibitions gallery openings September 13 2026"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": "`  \n   *(Purpose: Tap into cultural tourists and locals spending Sunday visiting Eastside or Downtown LA arts and design exhibits.)*\n2."
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " `Los Angeles Sunday food and cultural festivals mid September 2026`  \n   *(Purpose: Spot seasonal"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " fall cultural events or music gatherings across LA that drive afternoon foot traffic through the area.)*\n\n---\n\n### Execution &"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " Messaging Guardrails\n* **Featured Item:** Feature only the confirmed **Latte** (\"Espresso and steamed milk in a ceramic"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": " cup\").\n* **Brand Tone:** Thoughtful, calm, and neighborhood-focused.\n* **Strict Exclusions:** Do not reference specific operating hours"
+              }
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "text": ", pricing, promotions, or unverified community partnerships."
+              }
+            }
+          },
+          {
+            "contentBlockStop": {}
+          },
+          {
+            "contentBlockStart": {
+              "start": {}
+            }
+          },
+          {
+            "contentBlockDelta": {
+              "delta": {
+                "reasoningContent": {
+                  "signature": "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"
+                }
+              }
+            }
+          },
+          {
+            "contentBlockStop": {}
+          },
+          {
+            "messageStop": {
+              "stopReason": "end_turn"
+            }
+          },
+          {
+            "metadata": {
+              "usage": {
+                "inputTokens": 240,
+                "outputTokens": 1005,
+                "totalTokens": 1245
+              },
+              "metrics": {
+                "latencyMs": 0
+              }
+            }
+          }
+        ],
+        "latency_ms": 10781
+      }
+    },
+    {
+      "type": "model_started",
+      "payload": {
+        "operation": "structured_output",
+        "args": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "local_queries": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 2,
+                "minItems": 1,
+                "title": "Local Queries",
+                "type": "array"
+              },
+              "cultural_queries": {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 2,
+                "minItems": 1,
+                "title": "Cultural Queries",
+                "type": "array"
+              },
+              "strategy": {
+                "maxLength": 1000,
+                "title": "Strategy",
+                "type": "string"
+              }
+            },
+            "required": [
+              "local_queries",
+              "cultural_queries",
+              "strategy"
+            ],
+            "title": "SearchPlan",
+            "type": "object"
+          },
+          [
+            {
+              "role": "user",
+              "content": [
+                {
+                  "text": "{\"business\": {\"name\": \"Morrow Coffee\", \"category\": \"cafe\", \"city\": \"Los Angeles\", \"neighborhood\": \"Silver Lake\", \"address\": \"\", \"timezone\": \"America/Los_Angeles\", \"website\": null, \"description\": \"Fictional cafe for this hackathon demonstration. Warm ceramic cups, thoughtful coffee and an unhurried neighborhood atmosphere.\", \"hours\": \"\", \"products\": [{\"name\": \"Latte\", \"description\": \"Espresso and steamed milk in a ceramic cup\", \"price\": \"\"}], \"offers\": [], \"audience\": \"Neighbors and visitors looking for an afternoon coffee stop\", \"confirmed\": true}, \"date\": \"2026-09-13\", \"goal\": \"Find a timely neighborhood or cultural reason for Los Angeles visitors to stop for our latte today. Use only our confirmed product; do not invent prices, offers, partnerships, or opening hours.\", \"video_evidence\": null}"
+                }
+              ],
+              "tracking_id": "930e77d8-77f3-45b3-a362-1b99978261a6"
+            },
+            {
+              "role": "assistant",
+              "content": [
+                {
+                  "text": "### Campaign Strategy: The Sunday Slowdown in Silver Lake\n\n**Date:** Sunday, September 13, 2026  \n**Focus:** Morrow Coffee’s Latte (espresso and steamed milk served in a warm ceramic cup)  \n**Target Audience:** Silver Lake locals, weekend strollers, and visitors seeking an unhurried afternoon pause.\n\n---\n\n### Timely Hook & Angle\nSundays in Silver Lake naturally draw visitors for reservoir strolls, vintage shopping, and leisurely neighborhood exploration. Position Morrow Coffee as the intentional, calm midpoint of an afternoon out—inviting guests to step away from the weekend bustle and sit down with a thoughtfully prepared Latte served in a signature ceramic cup.\n\n---\n\n### Campaign Search Plan\n\n#### Local Searches\n1. `Silver Lake Los Angeles weekend events September 13 2026`  \n   *(Purpose: Identify neighborhood gatherings, flea markets, or community walks taking place within walking distance on Sunday afternoon.)*\n2. `Silver Lake Reservoir walking route weekend visitor activities September 2026`  \n   *(Purpose: Connect coffee stops to popular Sunday recreational foot traffic around the Silver Lake Reservoir and nearby stairs/paths.)*\n\n#### Cultural Searches\n1. `Los Angeles museum exhibitions gallery openings September 13 2026`  \n   *(Purpose: Tap into cultural tourists and locals spending Sunday visiting Eastside or Downtown LA arts and design exhibits.)*\n2. `Los Angeles Sunday food and cultural festivals mid September 2026`  \n   *(Purpose: Spot seasonal fall cultural events or music gatherings across LA that drive afternoon foot traffic through the area.)*\n\n---\n\n### Execution & Messaging Guardrails\n* **Featured Item:** Feature only the confirmed **Latte** (\"Espresso and steamed milk in a ceramic cup\").\n* **Brand Tone:** Thoughtful, calm, and neighborhood-focused.\n* **Strict Exclusions:** Do not reference specific operating hours, pricing, promotions, or unverified community partnerships."
+                },
+                {
+                  "reasoningContent": {
+                    "reasoningText": {
+                      "text": "",
+                      "signature": "EpEXCo4XARFNMg+c/+WDi7YKQPr0VVyI7BAQrf7OO+BTKkcYgAmcOEMVn5r3fz3SujiX4sc+1Nu8geGltxigUBCKoTyn9fwUBO2hZabyWLs/EdKlPbcsFdda2j51RRcXguzMDKP+mbsRDwkg6wz0O9+0oT2Urp5kCawzc3wqeJb8hEZ7cqz5+mN4qHqcuTknG626bs0Ynm7z7DBAA8tt2YdC5JV7DL6qXKo2Ga6IF97NVLt6m98k/gKcD9fsj6NAl3B4r4ocz5yKjWVGXpMCL9HfGUslDIyinUTG1i2eWTqNv8YBOEke1GEe91EoiIKFG6KTDanZE8GoHic55+a9VYQM63l/FA+YuM4JupRLzkVUrut9VcJgcL/AMWIXCJ3vJn/KJkCHoSsZzJmW3QXHY+hFOTCv2SrbetIRLSAum0es4P+3Ir87RXRJYS7K7OasXmK3n6xm8FfdnRRWCyq1auxlpip/TZbehifTLINT45zNRBIM/gFTZaahbycl/Jh+a5eAGRhmvjKvmaytQufKI7URJYUwfCrVS7KPmnMcfm+PwARY6ljkJDkH8jNre5vfOhlRiU8WjDAHR1B9m3dZK7LOYov1Yr+2vY67rEwLWGtToV/uo2Y9C4qT375OUsPWmoZrga1A4ICvQQS0SVoGPmhf8JoHL4cYK1RZkW4hUPDDyJ57FS53zbKJJ1K6irVuxjH1NylyxxIOUxwietRwWTSSdr6+l+4cAnp8TF8ibUEHPpncCZACI4vFn4QoOAHtIvt1Xwb+01ozM7AeV4yv2Mg7CT+cIFwo/KZlW9Tm9vcFoBghrVAHNWh/s8bTjlLFFWPs50EcMiGf0bo5YY1Dei5CEjPY64ZKKBJexStW5T7nzxwWiF7ghwlDLkX1Y2qF3io7WhczGQC/d91fJzeeeeJzkmAFg37WrzhHepVyr7fp2/WVuj5EfccSVNAmJBupW7VuaTpmZ4xS4jZtgwhH+ZYRT1R5YTspYO85lVhUp4MPlHLkVQ9o8in5WUsGyj6WIo8CVzCfgAVHC3G45ZN7oBPPyXvbHoyxIAeC519oq2v6Zby6V9kJJepfyufYDP3qmVWquRqePiROlmuBPbiecCUgoLPby7ddatTs857BfwDoz20V9x5Bsv6tNSm2fmj20dWqMhgs2VlkCIYgYjkyJSiaF4CNqglY63p76ZfYU6EltOkcXkFkEi4OUZOIgXdCKVlv9v4lAz85Gz3QHbvVpU7Q71HoZw3emJjRWAIWWIwH+ctLJ5DR89/azKS/gaFoZijx7CGkg+J+kuEhkS6XskeAV6wqbPiZzmNuXJDDOOj+gVaJtAPBnGXCcP8ExollZEOHhR5g3nFH7LC0dijX1M2r5JP7/GBdOKqLiUepxz96Qvax+9wN06Ifb8PHM7tLAGhhg0Wv1kgFvNdcBT6HL5SyxdDLeZQVoek6JGkdHH9bX9aMcfdhi73gxA+lPvwAwScyckv3MlfNwTZxUKWwOMbFEyL1toFnFdpJzbnZMHis4mFze6gaPaajHY65e2qjcM7MtN/65v9HTjQRx9BumYiewGtq3FCqvmGz76SR0IWFPapyqQJlkYLuzna6IZBOjXpJUSwecpMwBkhV+K2nWXsyHxuCAGS/d1CwE0ASndz3su11a9gWAOSaQYu72RT0s3nKo3fe3oMBaIWqq0sDnEOzSyn4gLyxXI5np4A9azsnexZkAtIzGp+YzvSIzziXGTdkEDPK9qsEGaihNK/3mfYnUM+2K04qPM9mtiTyRFnNBlEq1t6314RShsc4l0QxZpELwQeEUk9FMh3AzMrYXuq1ftzARf7hky7t0QD77/ohQ+2fPB6griqOTdm1ucr03j0/SEpQg8qqPdkvZTai5BRic6QQAnNohabouKY+QD8G1by9kV7VSf7WFCkAwcz0OSVPVcE2LMlKHK/r5Ya4f/A3tDprcCwFc45e0JP7ast+B036yaTgEfEyOLD+iKA7BZY5W+haM0O+Ww+73m3Eu2Fr391k0T7ddu1VszLbeAhSbWiP5NhB50yktzyRche13KK8+WrSoA4bfWipQcEYkYjY5F3hPSsgCRNRrO9KMj7oc/mirAEahBIwy3m7JHm7+GQwdAZqPd2OSqr7gf4s4rKSVJr34XA8JEjMbSR1qW5RaMYGpvzaA5nPTBTMmC8AXTXUgvrRYdpYdFFnnFBbpyu2fb7pHVwOkQ3AX3s/AAPL6xSoj5Y9YUMYVRcON8URuUtutfupS/EON6pJ+J7W1bHk6igM4Cuxuvy2P1dhC0NSC4mrI7j8ESam1y5QKdrQvuvMvCXyVsV2QWYfp1fnSaZRyNoPtryKlPyy9V/1TQBVB3qcQUbARcc4yOTGBvuoW6fSQt9EiLrRlIUJUWmGN9yO47hbaiOazQYZqQj0cr6l+a9Cnlk6hNJsMQ5kPNjApDXnecVbtvseTwLePJOu9j2bxwJS/y2QuuGJ/xJHtZWFjcfPS+3QEwwcVi17Tl3irvHkodAkmOhJWJUZADkpmcEmMOCaemj+rH/PxT+qTCPS4klPDH0n5pKwyYDHH06kgi/v1sdkzMwk8sotRrGEI3qP9D5/CAaxINT2FyHpD+4ZKm4MLG8EmdIi6NVKS19UL+nAJ3dHL7M/Au5m8i7phJItgV43LUXUAh1rpAqKgaUn1CQfQWEP5ZFtIPvbQHFkLJSWBAxijO7aykIPjNdQqVAzXHH+9FtfoOkyebjyvz526cQ+Ra7J5Sjjw2JZjw/MFFBMRk2WGYgAIYn5u/H8Nbl+8YSoaXjPdVKbhzDJBnMsbUbxD2RKZWIzIyjcH+hzNn9OBHJPVcQ1IANLPPAXBBxm5nzi4HMtH1ErvGwdaWjOn1fGHdjG2088ZXwc9iXQLw9XoVt3QDNJhoHA9yMSun8qTZeviV2MBwgnMjXixUPIDJHaFMqxIOZAmO/hXasERQTWpzwDrb42kCOaqR0ALmqJdIfSkQo7h8qztZcql1debkTSf7d0x6Ii8eAhOpuYS3k/MeCiGocQyNvCqGHXaLj9U/u0TX7DG6b9G1Pq90MQtRzdqSHbmouVkS755GVTazjjIrXKAwtM0K2BFSeivozPIDIt42SOHxynlKaEfR4/0cx/VpElb4wDU/Faz03oXdTwAjp5nKPDCV2j+YI9hU1gUw1FsPlMOLxOHunRkAfQHvlG3nk4wjlWeAT3Ho8ftEZRTobFtgEPTbPonShbNAbyNvBxty5VvfxaZstHyitALrJIWMF9f0KlYdgAxCcfJvNTYm2WsWD0lFXMELVV49L6s1/HFVcaAoHLNn1uqPsXAFl76KAE2nrI9XBh2CWjaPzwkvecsSidRNF9ntwrCsEjWdU8BH8wlhJwL125sLfXZBprmkSTOdNiA3+GlgNPG4Sy2zn8C2rw4udovuAMZeU5fnDSCeu2IERIiImT+85Iqn9rMdWEDychFVvyK6AzmNxrzz9UHoUIB0XzTM0E65ofdvn7Zf5XBbEpAyw609tZ5rLdCUDSXUZn8RPZdw/VM7mOVi+g2OF+Tp/jGf1lGdjHw91R627F/WBrYjrTMRLRM83ptDaiHZmACHpP8FXIcqT7ak6PJ+GbpZ9TLOjh4lSlXeCETAuAzW4Ys/IpOHuaZ5827tLpntsZNVpURKGfSS+TROAT7OOC85IojwiPOnnc8M2sj1/qdHW+ZNDT+SPCJiUE1jNYCDj5NYZRt1UWWnn8Hn1JUo0aMSsaSSf5rvbUXGHVC3jX6ZfLcYvQDDe4EqOlssPXTm3wXQid/BC71yddo0IOrtbsSNhec9o8dEFCrTKkwfXiF8puNa9cue3jCL3gcz9oE6HIFYyMF/ECWR1EC+CZCd/CzUs3SQJ46HUEDjaMjzCu00Oy36+rgHQkkLBpbtkqXejOHPKUH+6ZjTIKJBmwEufqn1K12Ppit0j58tFGPZzjyXNXTDHLIkTs/nsk"
+                    }
+                  }
+                }
+              ],
+              "metadata": {
+                "usage": {
+                  "inputTokens": 240,
+                  "outputTokens": 1005,
+                  "totalTokens": 1245
+                },
+                "metrics": {
+                  "latencyMs": 0,
+                  "timeToFirstByteMs": 7051
+                }
+              },
+              "tracking_id": "52117cc9-0b60-4771-8b25-cd375786241e"
+            }
+          ],
+          "Plan a campaign for this food/drink business, date and city. Return two local searches and two cultural searches. Prioritize timely reasons to visit. Video cues are uncertain. Never invent business facts."
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "type": "model_finished",
+      "payload": {
+        "operation": "structured_output",
+        "chunks": [
+          {
+            "provider_response": {
+              "sdk_http_response": {
+                "headers": {
+                  "x-gemini-service-tier": "standard",
+                  "content-type": "application/json; charset=UTF-8",
+                  "vary": "Origin, X-Origin, Referer",
+                  "content-encoding": "gzip",
+                  "date": "Sun, 13 Sep 2026 21:54:33 GMT",
+                  "server": "scaffolding on HTTPServer2",
+                  "x-xss-protection": "0",
+                  "x-frame-options": "SAMEORIGIN",
+                  "x-content-type-options": "nosniff",
+                  "server-timing": "gfet4t7; dur=1133",
+                  "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+                  "transfer-encoding": "chunked"
+                },
+                "body": null
+              },
+              "candidates": [
+                {
+                  "content": {
+                    "parts": [
+                      {
+                        "media_resolution": null,
+                        "code_execution_result": null,
+                        "executable_code": null,
+                        "file_data": null,
+                        "function_call": null,
+                        "function_response": null,
+                        "inline_data": null,
+                        "text": "{\n  \"local_queries\": [\n    \"Silver Lake Los Angeles weekend events September 13 2026\",\n    \"Silver Lake Reservoir walking route weekend visitor activities September 2026\"\n  ],\n  \"cultural_queries\": [\n    \"Los Angeles museum exhibitions gallery openings September 13 2026\",\n    \"Los Angeles Sunday food and cultural festivals mid September 2026\"\n  ],\n  \"strategy\": \"Position Morrow Coffee as an intentional Sunday afternoon pause for Silver Lake walkers and Los Angeles visitors. Highlight the confirmed latte served in a warm ceramic cup within an unhurried neighborhood setting, avoiding any invented hours, prices, or discounts.\"\n}",
+                        "thought": null,
+                        "thought_signature": "EmcKZQERTTIPKLyuE9-4dGX6Spj1TZU8va9wICVk9v-RbJT08eo8OnaYndtYzBwf_mQoJUdeqpezFpwUTSN8VVN63X-uvdv2OxOttxYRi78Y8eYyOvPeM5SsT4iY8_rgNA7MxdR8P6Ww",
+                        "video_metadata": null,
+                        "tool_call": null,
+                        "tool_response": null,
+                        "part_metadata": null,
+                        "audio_transcription": null,
+                        "media_processing": null
+                      }
+                    ],
+                    "role": "model"
+                  },
+                  "citation_metadata": null,
+                  "finish_message": null,
+                  "token_count": null,
+                  "finish_reason": "STOP",
+                  "grounding_metadata": null,
+                  "avg_logprobs": null,
+                  "index": 0,
+                  "logprobs_result": null,
+                  "safety_ratings": null,
+                  "url_context_metadata": null
+                }
+              ],
+              "create_time": null,
+              "model_version": "gemini-3.8-flash",
+              "prompt_feedback": null,
+              "response_id": "mBunapyJCpKEz7IPhuXZ6Q4",
+              "usage_metadata": {
+                "cache_tokens_details": null,
+                "cached_content_token_count": null,
+                "candidates_token_count": 151,
+                "candidates_tokens_details": null,
+                "prompt_token_count": 1264,
+                "prompt_tokens_details": [
+                  {
+                    "modality": "TEXT",
+                    "token_count": 1264
+                  }
+                ],
+                "thoughts_token_count": null,
+                "tool_use_prompt_token_count": null,
+                "tool_use_prompt_tokens_details": null,
+                "total_token_count": 1415,
+                "traffic_type": null
+              },
+              "model_status": null,
+              "automatic_function_calling_history": [],
+              "parsed": {
+                "local_queries": [
+                  "Silver Lake Los Angeles weekend events September 13 2026",
+                  "Silver Lake Reservoir walking route weekend visitor activities September 2026"
+                ],
+                "cultural_queries": [
+                  "Los Angeles museum exhibitions gallery openings September 13 2026",
+                  "Los Angeles Sunday food and cultural festivals mid September 2026"
+                ],
+                "strategy": "Position Morrow Coffee as an intentional Sunday afternoon pause for Silver Lake walkers and Los Angeles visitors. Highlight the confirmed latte served in a warm ceramic cup within an unhurried neighborhood setting, avoiding any invented hours, prices, or discounts."
+              }
+            },
+            "usage": {
+              "cache_tokens_details": null,
+              "cached_content_token_count": null,
+              "candidates_token_count": 151,
+              "candidates_tokens_details": null,
+              "prompt_token_count": 1264,
+              "prompt_tokens_details": [
+                {
+                  "modality": "TEXT",
+                  "token_count": 1264
+                }
+              ],
+              "thoughts_token_count": null,
+              "tool_use_prompt_token_count": null,
+              "tool_use_prompt_tokens_details": null,
+              "total_token_count": 1415,
+              "traffic_type": null
+            }
+          },
+          {
+            "output": {
+              "local_queries": [
+                "Silver Lake Los Angeles weekend events September 13 2026",
+                "Silver Lake Reservoir walking route weekend visitor activities September 2026"
+              ],
+              "cultural_queries": [
+                "Los Angeles museum exhibitions gallery openings September 13 2026",
+                "Los Angeles Sunday food and cultural festivals mid September 2026"
+              ],
+              "strategy": "Position Morrow Coffee as an intentional Sunday afternoon pause for Silver Lake walkers and Los Angeles visitors. Highlight the confirmed latte served in a warm ceramic cup within an unhurried neighborhood setting, avoiding any invented hours, prices, or discounts."
+            }
+          }
+        ],
+        "latency_ms": 1265
+      }
+    }
+  ],
+  "output": {
+    "local_queries": [
+      "Silver Lake Los Angeles weekend events September 13 2026",
+      "Silver Lake Reservoir walking route weekend visitor activities September 2026"
+    ],
+    "cultural_queries": [
+      "Los Angeles museum exhibitions gallery openings September 13 2026",
+      "Los Angeles Sunday food and cultural festivals mid September 2026"
+    ],
+    "strategy": "Position Morrow Coffee as an intentional Sunday afternoon pause for Silver Lake walkers and Los Angeles visitors. Highlight the confirmed latte served in a warm ceramic cup within an unhurried neighborhood setting, avoiding any invented hours, prices, or discounts."
+  },
+  "latency_ms": 12140
+}

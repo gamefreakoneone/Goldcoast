@@ -1,0 +1,72 @@
+{
+  "request": {
+    "provider": "tavily",
+    "operation": "search",
+    "payload": {
+      "query": "Los Angeles Sunday food and cultural festivals mid September 2026",
+      "search_depth": "basic",
+      "max_results": 5,
+      "topic": "general",
+      "include_answer": false,
+      "include_raw_content": false,
+      "include_usage": true,
+      "auto_parameters": false
+    }
+  },
+  "timestamp": "2026-09-13T22:00:17.823460+00:00",
+  "status": "completed",
+  "response": {
+    "query": "Los Angeles Sunday food and cultural festivals mid September 2026",
+    "follow_up_questions": null,
+    "answer": null,
+    "images": [],
+    "results": [
+      {
+        "url": "https://www.eventbrite.com/d/ca--los-angeles/food-festival",
+        "title": "Discover Food Festival Events & Activities in Los Angeles, CA | Eventbrite",
+        "content": "Free\n\nSOQWallet\n\nPromoted\n\nPAUL FRANK @ BOB BAKER DAY! primary image\n\n### PAUL FRANK @ BOB BAKER DAY!\n\nSun, Sep 20, 10:00 AM\n\nLos Angeles State Historic Park\n\nFree\n\nPromoted\n\nIndian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026 primary image\n\n### Indian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026\n\nSat, Sep 26, 12:00 PM\n\nSimons · The Compound Event Center\n\nIndian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026 primary image [...] ### Indian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026\n\nSat, Sep 26, 12:00 PM\n\nSimons · The Compound Event Center\n\nSouth Bay Mediterranean Food Festival primary image\n\n### South Bay Mediterranean Food Festival\n\nToday at 11:00 AM\n\nEast Torrance · St Matthew Orthodox Christian Church\n\nSouth Bay Mediterranean Food Festival primary image\n\n### South Bay Mediterranean Food Festival\n\nToday at 11:00 AM\n\nEast Torrance · St Matthew Orthodox Christian Church [...] Hollywood · 6233 Hollywood Blvd\n\nLos Angeles CHOCOLATE SALON and FESTIVAL 2026 primary image\n\n### Los Angeles CHOCOLATE SALON and FESTIVAL 2026\n\nSun, Oct 4, 10:00 AM\n\nDowntown · Pasadena Center\n\nLos Angeles CHOCOLATE SALON and FESTIVAL 2026 primary image\n\n### Los Angeles CHOCOLATE SALON and FESTIVAL 2026\n\nSun, Oct 4, 10:00 AM\n\nDowntown · Pasadena Center\n\n2026 LA Afrobeats Block Party & Jollof Cook-off (5-year Edition) primary image",
+        "score": 0.84948516,
+        "raw_content": null,
+        "id": "9918e0-00"
+      },
+      {
+        "url": "https://www.timeout.com/los-angeles/things-to-do/september-events-calendar",
+        "title": "September 2026 Events Calendar for Los Angeles - Time Out",
+        "content": "Oktoberfest is coming to the zoo—because beer gardens have always needed more giraffes. The brand-new Zootoberfest takes over the L.A. Zoo September 19 and 20 with German-inspired food, giant pretzels, specialty beers, root beer floats, live Oktoberfest bands, lawn games, a braid bar, themed photo ops and plenty of fall vibes. Admission to the family-friendly celebration is included with your general admission zoo ticket. Food and drinks are available for purchase, so come for the animals, stay [...] Forget the usual museum stroll—let’s dance! LACMA is celebrating the Mid-Autumn Festival with a traditional lion dance accompanied by live music from the Immortals Lion Dance crew. The free performance takes place Sunday, September 20, at the David Geffen Galleries’ Plaza Level, as part of the museum’s free Third Weekends program and in celebration of its exhibition “Fashioning Chinese Women.” No ticket required: Just show up and prepare to make your museum visit a considerably livelier one. [...] News\n Things to Do\n Food & Drink\n Culture\n Travel\n + Attractions\n  + Museums\n  + Hotels\n\nfacebooktwitterinstagramspotify\n\nPhotograph: Courtesy Ohana Festival\n\nPhotograph: Courtesy Ohana Festival\n\n# September 2026 events calendar for Los Angeles\n\nPlan your month with our September 2026 events calendar of the best activities, including free things to do, festivals and concerts\n\nFacebookTwitterPinterestEmailWhatsApp\n\nGillian Glover\n\nEdited by Gillian Glover\n\nThings to Do Editor, Los Angeles",
+        "score": 0.8080827,
+        "raw_content": null,
+        "id": "e16de4-01"
+      },
+      {
+        "url": "https://www.facebook.com/LACity/posts/september-is-in-full-swing-with-vibrant-cultural-expos-community-gatherings-and-/1532950422198922",
+        "title": "September is in full swing with vibrant cultural expos, community ...",
+        "content": "Sat, September 12, 2026, 10:00 AM – 6:00 PM\n\n📍 Point Fermin Park, 807 West Paseo Del Mar, San Pedro, CA 90731\n\n💲 Free; RSVP recommended\n\n21st Annual LAWineFest\n\nSat, September 12, 2026, 2:00 – 6:00 PM & Sun, September 13, 2026, 1:00 – 5:00 PM\n\n📍 Los Angeles Equestrian Center, 480 W. Riverside Drive, Burbank, CA 91506\n\n💲 Ticketed; prices vary\n\nCaribbean Heritage Festival\n\nSat, September 12, 2026, 2:00 – 7:00 PM [...] Sun, September 13, 2026, 10:00 AM – 4:00 PM\n\n📍 E. César E. Chávez Ave. & Mednik Ave., East Los Angeles, CA 90022\n\n💲 Free\n\nPico Union Pet Parade\n\nSat, September 12, 2026, 5:00 – 9:00 PM\n\n📍 Alvarado Terrace Park, 1342 S. Alvarado St., Los Angeles, CA 90006\n\n💲 Free\n\nGoodfellas at Cinespia\n\nSat, September 12, 2026; doors open at 5:45 PM, movie begins at 7:30 PM\n\n📍 Hollywood Forever Cemetery, 6000 Santa Monica Blvd., Los Angeles, CA 90038\n\n💲 $31\n\n32nd Annual Festival of Philippine Arts & Culture [...] ## City of Los Angeles's post\n\n### City of Los Angeles\n\n19h  ·\n\nSeptember is in full swing with vibrant cultural expos, community gatherings, and pet parades! ☀️ Discover some of the top events happening around Los Angeles this weekend—and one special event on Monday.\n\n5th Annual Deaf Latinos Expo\n\nSat, September 12, 2026, 11:00 AM – 4:00 PM\n\n📍 Plaza de La Raza, 3540 N. Mission Rd., Los Angeles, CA 90031\n\n💲 Free (RSVP recommended)\n\nEast LA Parade & Festival",
+        "score": 0.8058924,
+        "raw_content": null,
+        "id": "74c472-02"
+      },
+      {
+        "url": "https://festivalguidesandreviews.com/california-festivals",
+        "title": "2026 California Festival Guide - Festival Guides and Reviews",
+        "content": "9/26 – Saint Vincent de Paul Parish Fest and Car Show – Huntington Beach  \n9/26 –June Lake Autumn Brew Festival – June Lake  \n9/26 – Kelseyville Pear Festival – Kelseyville  \n9/26 – Autry Museum of the American West Annual Block Party – Los Angeles  \n9/26 – Los Angeles Libros Festival – Los Angeles  \n9/26 – Monrovia Beer, Wine and Music Festival – Monrovia  \n9/26 – Moraga Pear and Wine Festival – Moraga  \n9/26 – Mountain House Multi-Cultural Celebration – Mountain House [...] 9/24-9/27 – Antelope Valley Fair I – Lancaster  \n9/24-9/27 – Westminster Fall Festival – Westminster  \n9/25 – Foods of Garden Grove – Garden Grove  \n9/25 – Irvine Mid-Autumn Festival – Irvine  \n9/25 – Milpitas Lantern Festival – Milpitas  \n9/25 – California Native American Day – San Bernardino  \n9/25 – Visalia Oktoberfest – Visalia  \n9/25-9/26 – Arroyo Grande Valley Harvest Festival and Parade – Arroyo Grande  \nWeekend continues below… [...] 9/19-9/20 – Millbrae Mid-Autumn Festival – Millbrae   \n9/19-9/20 – Modesto Greek Food Festival – Modesto  \n9/19-9/20 – Whale Rock Music and Arts Festival – Paso Robles  \n9/19-9/20 – Nocturnal Wonderland – San Bernardino  \nWeekend continues below…",
+        "score": 0.7795405,
+        "raw_content": null,
+        "id": "53feb8-03"
+      },
+      {
+        "url": "https://www.discoverlosangeles.com/events",
+        "title": "Los Angeles Events Calendar for 2026, from Festivals to ...",
+        "content": "Music\n\n## Rodgers & Hammerstein’s The Sound of Music Sing-A-Long\n\nSep 26, 2026   8PM - 10PM\n\nJon Batiste \n\nMusic\n\n## Jon Batiste\n\nSep 27, 2026   7:30PM - 9:30PM\n\nMain image for event titled Bruno Mars  \n\nMusic\n\n## Bruno Mars\n\nSep 30, 2026   7PM - 9PM\n\n⟨\n\n⟩ [...] Sep 13, 2026   1:25PM - 3:25PM\n\nLucy Dacus \n\nMusic\n\n## Lucy Dacus with the Hollywood Bowl Orchestra\n\nSep 13, 2026   7PM - 9PM\n\nSqueeze \n\n## Squeeze | Adam Ant | The English Beat\n\nSep 19, 2026   8PM - 10PM\n\nWynton Marsalis \n\nMusic\n\n## Jazz at Lincoln Center Orchestra with Wynton Marsalis\n\nSep 23, 2026   8PM - 10PM\n\nMain image for event titled Usher & Chris Brown \n\n## Usher & Chris Brown\n\nSep 25, 2026   7PM - 10PM\n\nRodgers & Hammerstein’s The Sound of Music Sing-A-Long \n\nMusic [...] chargers\") \n\nSports\n\n## Los Angeles Chargers vs. Arizona Cardinals (SEASON OPENER)\")\n\nSep 13, 2026   1:25PM - 3:25PM\n\nSqueeze \n\n## Squeeze | Adam Ant | The English Beat\n\nSep 19, 2026   8PM - 10PM\n\nWynton Marsalis \n\n## Jazz at Lincoln Center Orchestra with Wynton Marsalis\n\nSep 23, 2026   8PM - 10PM\n\nMain image for event titled Usher & Chris Brown \n\n## Usher & Chris Brown\n\nSep 25, 2026   7PM - 10PM\n\nRodgers & Hammerstein’s The Sound of Music Sing-A-Long",
+        "score": 0.67243975,
+        "raw_content": null,
+        "id": "3e45de-04"
+      }
+    ],
+    "response_time": 1.62,
+    "usage": {
+      "credits": 1
+    },
+    "request_id": "ba815991-6080-4093-9967-a57462ed1cf7"
+  },
+  "latency_ms": 1938
+}

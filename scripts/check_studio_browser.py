@@ -22,10 +22,12 @@ async def main():
             "confirm",
             "review",
             "capture",
+            "sample",
         ],
         default="inspect",
     )
     args = parser.parse_args()
+    username = "demo" if args.phase == "sample" else "owner"
     root = Path("output/studio-browser")
     root.mkdir(parents=True, exist_ok=True)
     credentials = dotenv_values(".env")
@@ -38,15 +40,15 @@ async def main():
         await page.screenshot(path=str(root / "login.png"), full_page=True)
         await page.get_by_role("button", name="Sign in to your workspace").click()
         await page.wait_for_url("**/realms/goldcoast/**")
-        await page.get_by_role("textbox", name="Username", exact=True).fill("owner")
+        await page.get_by_role("textbox", name="Username", exact=True).fill(username)
         await page.get_by_label("Password", exact=True).fill(
-            credentials["GOLDCOAST_LOCAL_OWNER_PASSWORD"]
+            credentials[f"GOLDCOAST_LOCAL_{username.upper()}_PASSWORD"]
         )
         await page.get_by_role("button", name="Sign In", exact=True).click()
         await page.wait_for_load_state("networkidle")
         if "/required-action" in page.url:
             await page.get_by_role("textbox", name="Email", exact=False).fill(
-                "owner@goldcoast.example"
+                username + "@goldcoast.example"
             )
             await page.get_by_role("button", name="Submit", exact=True).click()
         try:
@@ -223,6 +225,43 @@ async def main():
             print(
                 "Reviewed evidence/activity, rejected then approved ads, "
                 "and downloaded the real ZIP.",
+                flush=True,
+            )
+        if args.phase == "sample":
+            async with page.expect_response(
+                lambda r: "/replays/sample" in r.url and r.request.method == "POST"
+            ) as started:
+                await page.get_by_role("button", name="Try recorded example", exact=True).click()
+            response = await started.value
+            assert response.status == 202
+            job = await response.json()
+            (root / "sample-job.txt").write_text(job["id"], encoding="utf-8")
+            await page.get_by_role("heading", name="Made for your neighborhood.").wait_for(
+                timeout=30_000
+            )
+            await page.get_by_text("Historical demonstration", exact=False).wait_for()
+            await page.get_by_role("button", name="Creatives", exact=True).click()
+            await page.wait_for_function(
+                "document.querySelectorAll('img.creative-preview').length === 2 && "
+                "[...document.querySelectorAll('img.creative-preview')]"
+                ".every(i => i.complete && i.naturalWidth > 0)"
+            )
+            await page.screenshot(path=str(root / "sample-replay.png"), full_page=True)
+            for _ in range(2):
+                await page.get_by_role("button", name="Approve ad", exact=True).first.click()
+                await page.get_by_role("button", name="Approved", exact=True).first.wait_for()
+            async with page.expect_download() as download:
+                await page.get_by_role("button", name="Download campaign", exact=True).click()
+            await (await download.value).save_as(root / "sample-campaign.zip")
+            await page.get_by_role("button", name="Settings", exact=True).click()
+            await page.get_by_label("Automatically start my daily workflow").check()
+            await page.get_by_role("button", name="Save daily schedule", exact=True).click()
+            await page.get_by_text("Daily schedule enabled.", exact=True).wait_for()
+            await page.get_by_label("Automatically start my daily workflow").uncheck()
+            await page.get_by_role("button", name="Save daily schedule", exact=True).click()
+            await page.get_by_text("Daily schedule disabled.", exact=True).wait_for()
+            print(
+                "Zero-grant demo account replayed, approved, exported and toggled its schedule.",
                 flush=True,
             )
         if args.phase == "pause":

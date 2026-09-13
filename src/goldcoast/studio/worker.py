@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import copy
 import os
 import threading
 import time
@@ -80,18 +79,9 @@ async def execute_job(
 ):
     stages = Stages(repo, job, worker)
     if job.mode == "replay":
-        source = repo.job(job.tenant_id, job.input["source"])
-        if source.state != "completed" or source.kind != job.kind:
-            raise Conflict("Replay source is not a completed matching workflow")
-        if job.kind == "campaign":
-            CampaignResult.model_validate(source.checkpoint["campaign"]["output"])
-        copied = copy.deepcopy(source.checkpoint)
-        copied["replay"] = {
-            "state": "completed",
-            "output": {"source": source.id, "provider_calls": 0},
-        }
-        repo.checkpoint(job.tenant_id, job.id, worker, copied)
-        repo.emit(job.tenant_id, job.id, "workflow_replayed", {"source": source.id})
+        from goldcoast.studio.replay import replay_job
+
+        replay_job(repo, assets, job, worker)
         return
     snapshot = Snapshot.model_validate(job.input["snapshot"])
     runtime, discovery, client, settings, reserve, root = provider_factory(
@@ -211,8 +201,14 @@ def main():
     engine, sessions = session_factory(settings.database_url)
     repo, assets = Repository(sessions), LocalAssetStore(settings.asset_root)
     worker = uuid4().hex
+    from goldcoast.studio.schedule import ScheduleService
+
+    next_schedule_check = 0
     try:
         while True:
+            if time.monotonic() >= next_schedule_check:
+                ScheduleService(repo, assets).tick()
+                next_schedule_check = time.monotonic() + 60
             job = repo.claim(worker)
             if job:
                 process_job(repo, assets, job, worker)

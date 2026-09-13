@@ -1,0 +1,1245 @@
+{
+  "version": 1,
+  "label": "Morrow Coffee historical demonstration",
+  "source_job": "182dda74dc204d95affff2932da436c1",
+  "recorded_at": 1789336345.9232082,
+  "goal": "Find a timely neighborhood or cultural reason for Los Angeles visitors to stop for our latte today. Use only our confirmed product; do not invent prices, offers, partnerships, or opening hours.",
+  "snapshot": {
+    "business_id": "aa80bfb295214deb8834e23c7354b873",
+    "business_version": 1,
+    "profile": {
+      "name": "Morrow Coffee",
+      "category": "cafe",
+      "city": "Los Angeles",
+      "neighborhood": "Silver Lake",
+      "address": "",
+      "timezone": "America/Los_Angeles",
+      "website": null,
+      "description": "Fictional cafe for this hackathon demonstration. Warm ceramic cups, thoughtful coffee and an unhurried neighborhood atmosphere.",
+      "hours": "",
+      "products": [
+        {
+          "name": "Latte",
+          "description": "Espresso and steamed milk in a ceramic cup",
+          "price": ""
+        }
+      ],
+      "offers": [],
+      "audience": "Neighbors and visitors looking for an afternoon coffee stop",
+      "confirmed": true
+    },
+    "brand_id": "d3caf2e9039846ff93748ac795beb2a0",
+    "brand_version": 1,
+    "brand": {
+      "palette": [
+        "#183d35",
+        "#fff9ed",
+        "#704427",
+        "#2D3B29",
+        "#342D29"
+      ],
+      "voice": "Warm, welcoming, artisanal, and mindful. Invoking a slow, comforting daily ritual centered around quality craftsmanship and natural tranquility.",
+      "typography": "serif",
+      "layout": "Airy, balanced, and organic with ample warm breathing space. Compositions highlight natural light, authentic materials, and grounded artisanal moments.",
+      "image_direction": "Dappled natural sunlight streaming through windows, casting soft leafy shadows across rustic wooden surfaces and plaster walls. Focus on handcrafted speckled ceramics, delicate floral accents, warm latte tones, and cozy cafe interiors without harsh artificial lighting.",
+      "prohibited": [
+        "neon colors",
+        "harsh artificial or cool lighting",
+        "glossy plastic or synthetic textures",
+        "cluttered digital overlays",
+        "over-processed high-contrast filters"
+      ],
+      "reference_asset_ids": [
+        "e33b54d33d10403ea55cd15f694e1f59",
+        "33cc8971732f42e8b29a9b8f4385a77d"
+      ],
+      "logo_asset_id": null,
+      "font_asset_id": null,
+      "uncertainty": [
+        "Primary digital typeface selection, as the visual evidence features hand-lettered casual script on wall art",
+        "Exact brand accent colors beyond earthy cafe interior materials and coffee shades"
+      ],
+      "confirmed": true
+    },
+    "assets": [
+      {
+        "id": "e33b54d33d10403ea55cd15f694e1f59",
+        "version": 1,
+        "data": {
+          "business_id": "aa80bfb295214deb8834e23c7354b873",
+          "filename": "cafe-reference.png",
+          "role": "reference",
+          "mime": "image/png",
+          "size": 2347639,
+          "sha256": "230f647aef11c7d44edeabfa815fd57f6c3ce5ec7d7d84d12d4544192700a7ae",
+          "width": 1254,
+          "height": 1254,
+          "rights_confirmed": true
+        }
+      },
+      {
+        "id": "33cc8971732f42e8b29a9b8f4385a77d",
+        "version": 1,
+        "data": {
+          "business_id": "aa80bfb295214deb8834e23c7354b873",
+          "filename": "latte.png",
+          "role": "product",
+          "mime": "image/png",
+          "size": 2269178,
+          "sha256": "726ffd6dc35e119f777394d0481cd3ac8024f5fefaee64de52e519b95d4705c8",
+          "width": 1254,
+          "height": 1254,
+          "rights_confirmed": true
+        }
+      }
+    ],
+    "local_date": "2026-09-13"
+  },
+  "checkpoint": {
+    "chief_plan": {
+      "state": "completed",
+      "output": {
+        "local_queries": [
+          "Silver Lake Los Angeles weekend events September 13 2026",
+          "Silver Lake Reservoir walking route weekend visitor activities September 2026"
+        ],
+        "cultural_queries": [
+          "Los Angeles museum exhibitions gallery openings September 13 2026",
+          "Los Angeles Sunday food and cultural festivals mid September 2026"
+        ],
+        "strategy": "Position Morrow Coffee as an intentional Sunday afternoon pause for Silver Lake walkers and Los Angeles visitors. Highlight the confirmed latte served in a warm ceramic cup within an unhurried neighborhood setting, avoiding any invented hours, prices, or discounts."
+      }
+    },
+    "local_scout": {
+      "state": "completed",
+      "output": {
+        "report": {
+          "claims": [
+            {
+              "subject": "Silver Lake Reservoir loop",
+              "predicate": "serves as",
+              "value": "a 2-mile walk that takes around 45 minutes, making it a convenient afternoon outing",
+              "source_id": "3b932053db19663edefebb0d",
+              "quote": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped in nature and history. At 2 miles, the loop should only take around 45 minutes, which makes it the perfect afternoon outing.",
+              "valid_until": "2026-09-14T21:54:35.951439Z"
+            }
+          ],
+          "candidates": [
+            {
+              "id": "local-silver-lake-reservoir-afternoon-walk",
+              "category": "local",
+              "title": "Post-Reservoir Loop Afternoon Latte",
+              "angle": "Invite visitors finishing an afternoon stroll around the nearby Silver Lake Reservoir to unwind with a warm ceramic cup of latte in an unhurried neighborhood setting.",
+              "product_name": "Latte",
+              "source_ids": [
+                "3b932053db19663edefebb0d"
+              ],
+              "expires_at": "2026-09-14T21:54:35.951439Z",
+              "fit": 5,
+              "timeliness": 4,
+              "risks": []
+            }
+          ],
+          "summary": "Scouted an afternoon walking opportunity centered on the Silver Lake Reservoir loop, positioning Morrow Coffee's latte as a welcoming post-walk stop for visitors in the neighborhood."
+        },
+        "sources": [
+          {
+            "id": "8a119809c2b87ce0abe84d1b",
+            "url": "https://www.facebook.com/DiscoverLosAngeles/posts/walks-along-silver-lake-reservoir-discoverla-welovela/1296106582556197",
+            "title": "Walks along Silver Lake Reservoir \ud83d\udc95 #discoverLA ...",
+            "text": "offer a pleasant and easy 2.2- mile loop trail bordered by pine and eucalyptus trees. It's one of the most popular walking paths in the city.",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "deb871867710a87de184e360d16f9f842deda6ac86355047077ceff825d871f8"
+          },
+          {
+            "id": "3b932053db19663edefebb0d",
+            "url": "https://modernhiker.com/hike/silver-lake-reservoir",
+            "title": "Silver Lake Reservoir - Modern Hiker",
+            "text": "Modern Hiker Logo\nMenu Icon\n\nSilver Lake Reservoir\nHiker Info\nThe Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped in nature and history. At 2 miles, the loop should only take around 45 minutes, which makes it the perfect afternoon outing. The paved paths and even ground (there\u2019s only one steep incline toward the end) also make it the perfect spot for runners. There\u2019s also a green space toward the end of the hike that\u2019s nice for picnics and family gatherings. Bird watching is plentiful here, and there are even some off-leash dog parks if your canine companion needs to get a little more energy out after the hike. Just remember to slather on that sunscreen and bring a hat and water, as shade is somewhat limited.\nFor this hike, since you can really start anywhere along the reservoir, we\u2019re going to treat the Ivanhoe Reservoir entrance as our trailhead. Take Silver Lake Boulevard to West Silver Lake Drive. There\u2019s ample parking along West Silver Lake Drive \u2014 just make sure you read the signs to keep abreast of any parking restrictions. You\u2019re going to start where West Silver Lake Drive meets Tesla Avenue.\n\nWalk up the pedestrian ramp on West Silver Lake Drive and enter the fence to get to the walking path. You can also walk on the outside of the fence, but note that this is the only portion of the hike that gets you inside the fenced area, so definitely take advantage of it! Especially since the pedestrian path inside the fence is filled with pine and eucalyptus trees and offers some of the best shade on the trail. There is an ongoing project to attempt to turn this entire area into more of a park-like environment, with additional wetlands for birds and more trees \u2014 you can keep up to date on that via the L.A. Bureau of Engineering project page.\n\nHead south, keeping the reservoir on your left and the street on your right. There are plenty of benches to rest and take in reservoir views under ample shade. The Silver Lake Reservoir is actually made up of two concrete-lined basins. The part of the reservoir you\u2019re seeing here is called the Ivanhoe Reservoir, and the larger portion is simply called Silver Lake. Silver Lake (the reservoir and the neighborhood) was named in 1906 for Herman Silver, the Water Board Commissioner, and was completed in 1908.\n\nThe unpaved path continues, and soon you\u2019ll see Silver Lake Reservoir on your left. This is where you\u2019ll have to exit the fence, as the path closest to the reservoir is restricted to pedestrians. There are still benches and trash cans scattered along your route, and dogs are welcome (but must be leashed). From here on out, you\u2019ll notice tons of eucalyptus trees, thousands of which were planted as early as 1911 to try to make the concrete space a bit greener. Depending on the season, you can spot blue herons hanging out in the trees \u2014 a plaque along your route boasts some facts about the birds, if you feel inclined to stop for a bit of light reading.\n\nAs you reach the tip of the reservoir, a paved path to your left will open up. Veer left to take this path. You\u2019ll notice that down to your right is both the recreation center and the dog park. This is the best place to get the full view of the reservoir and the San Gabriel Mountains beyond \u2014 if you\u2019re looking for a spot to take pictures, this is it!\n\nExit the paved path, and keep left to continue, with the reservoir on your left this time and Silver Lake Boulevard on your right. On this side of the reservoir you\u2019ll find a beautiful and diverse selection of trees scattered about, helping to distract from the traffic, and there\u2019s plenty of unique architecture to check out as well. One home, Silvertop, was built in 1963 by famed architect John Lautner. There\u2019s also a water fountain on this side if needed.\n\nAs you continue, you\u2019ll notice the entrance to a big, beautiful green space perfect for picnics and resting under large trees. There are two paths at this point \u2014 the one on the left takes you through the green space, and the one on the right takes you around. Both paths converge again, but if you have a dog with you, you\u2019ll need to take the outside path, as dogs aren\u2019t allowed inside the park area. This portion of the hike is also filled with wildflowers and even lizards. This is the part that really makes you feel like you\u2019re no longer in the middle of the city (it\u2019s also the only portion where the street isn\u2019t visible).\n\nYou\u2019ll come across a fence \u2014 go straight through and keep left (this is where the non-dog path and the park path reconvene). Turn left on Armstrong Avenue, and take the shaded uphill paved path. This is the steepest part of the trek, but it doesn\u2019t last very long. Turn left on Tesla Drive. You\u2019ll pass the reservoir native gardens, where you can stop to take in the flora and fauna. Past this, you\u2019ll have looped right back to where you started.\nThere you have it! A short jaunt in the middle of the city that offers clear reservoir views, a few parks for some leisure time, and plenty of nature to take in along the way. When I was there, there were also fabric signs all along the reservoir fences noting the names of people of color who had been killed by police. The images below are just a few of the names posted on the fences. And at the end, a full quote from the Amanda Gorman poem Hymn for the Hurting: \u201cMay we not just ache, but act.\u201d\n    \n\nTags: Los Angeles, reservoir, silver lake, silverlake\nAccommodations near Silver Lake Reservoir\n by Cleo Egnal\n\nCleo Egnal is a writer with a love for nature, history, and dogs!\n\nEasy to follow, mostly paved path with a few forks with good signage.\nDownload GPX\nTake Silver Lake Boulevard to West Silver Lake Drive. Park anywhere along West Silver Lake Drive, and start the hike where West Silver Lake Drive meets Tesla Avenue. The pedestrian ramp on West Silver Lake Drive will take you to the start of the walking path.\nDriving Directions\nCar-free Directions\nUse the ModernHiker mobile app to download this map and complete trail description for offline access.\nDownload Details & Map\nConnect with Us",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:35.951439Z",
+            "expires_at": "2026-09-14T21:54:35.951439Z",
+            "content_hash": "db7c25c7bcfa5431acb71b45af8f77f63d3ac335947e1b46f5b7e382294d5af8"
+          },
+          {
+            "id": "54da5d9afa3e88976850d427",
+            "url": "https://www.alltrails.com/trail/us/california/silver-lake-reservoir-trail--2",
+            "title": "Silver Lake Reservoir Trail, California",
+            "text": "Silver Lake Reservoir Trail is a loop trail that covers 2.2 mi, with an elevation gain of 111 ft. It takes about 0.5\u20131 hr to complete. Loop trails have the same",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "0a1604048b0e8c3b86ed2d641fe618d667b70155fe3d27e0e6d0e91f53578043"
+          },
+          {
+            "id": "177afe8333712c7a66cb72f3",
+            "url": "https://www.totago.co/app/trip/MH_silver-lake-reservoir",
+            "title": "Silver Lake Reservoir",
+            "text": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "adbd68f8ece70bed2aa5f426b65cb967c9297a3458971883d459f1e1899e1e52"
+          },
+          {
+            "id": "ac03a0c9f5ef0886484b993c",
+            "url": "https://www.yelp.com/biz/silver-lake-reservoir-los-angeles",
+            "title": "Silver Lake Reservoir Photos",
+            "text": "The Reservoir is a 2.2 mile loop that can be busy with runners and walkers during peak hours. It's a decent walking path that definitely needs some landscaping",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "a260d42dc43ec86d271e2096ebff8e3cb44a3b7121938993c51451de15dbc549"
+          },
+          {
+            "id": "514b72903ebb6dcb7df7d091",
+            "url": "https://en.wikipedia.org/wiki/Silver_Lake_Reservoir",
+            "title": "Silver Lake Reservoir - Wikipedia",
+            "text": "Jump to content\n  Wikipedia The Free Encyclopedia\nSearch\nContents\n (Top)\n 1 History\n 2 Environmental issues\n 3 In popular culture\n 4 See also\n 5 References\n 6 External links\nSilver Lake Reservoir\n Cebuano \"Silver Lake Reservoir (tubiganan sa Tinipong Bansa, California) \u2013 Cebuano\")\nEdit links\n Article\n Talk\n Read\n Edit\n View history\nTools\nActions\n Read\n Edit\n View history\nGeneral\n What links here\n Related changes\n Upload file\n Permanent link\n Page information\n Cite this page\n Get shortened URL\n Switch to legacy parser\nPrint/export\n Download as PDF\n Printable version\nIn other projects\n Wikimedia Commons\n Wikidata item\nAppearance\nCoordinates: 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495\nFrom Wikipedia, the free encyclopedia\nWater supply reservoirs for Los Angeles\n| Silver Lake Reservoir Complex |\n\n| View to the northwest across lower reservoir |\n| Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within the Los Angeles metropolitan area Show map of the Los Angeles metropolitan area  Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within California Show map of California  Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within the United States Show map of the United States |\n| Location | Silver Lake, Los Angeles, California |\n| Coordinates | 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495: {{#parsoid\\u0000fragment:9}}[ 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495]\"}}\" id=\"mwBw\" about=\"#mwt10\" typeof=\"mw:Extension/indicator\"> |\n| Type | Reservoir \"Reservoir (water)\") |\n| Basin countries | United States |\n| Max. length | 1.2 km (0.75 mi) |\n| Max. width | 500 m (1,600 ft) |\n| Surface area | 39 hectares (96 acres) |\n| Water volume | 3,000,000 m3 (2,400 acre\u22c5ft) |\n| Shore length1 | 3.2 km (2.0 mi) |\n| Surface elevation | 433 ft (132 m) |\n| References | U.S. Geological Survey Geographic Names Information System: Silver Lake Reservoir |\n| 1 Shore length is not a well-defined measure. |\nThe Silver Lake Reservoir Complex comprises two concrete-lined basins, Ivanhoe Reservoir and Silver Lake, divided by a spillway, in the Silver Lake community of Los Angeles, California.\nHistory\n[edit]\nThe lower body of water was named in 1906 for Water Board Commissioner Herman Silver, and in turn lends its name to the neighborhood. The upper body received its name after the 1819 Sir Walter Scott novel Ivanhoe.\nThe reservoirs are owned and maintained by the Los Angeles Department of Water and Power (DWP), and could provide water to 600,000 homes in downtown and South Los Angeles;. Only the smaller of the two, Ivanhoe, remains online. At capacity, it holds 795 million US gallons (3,010,000 m3) of water. The Silver Lake Reservoir's water resources was planned to be replaced by the Headworks Reservoir\"), an underground reservoir north of Griffith Park, slated for completion by December 2017.\nThe reservoir is the focal point of the community and has evolved as a regional recreational resource. It is surrounded by several recreational areas, including a dog park on the south, a nursery school on the north, and the Silver Lake Recreation Center, which includes a basketball court on the south side of the lake. There is also a walking and jogging path, which stretches 2.2 miles (3.5 km) around the reservoir. In April 2011, the City of Los Angeles opened up for public use a three-acre passive park on the east side of the lake dubbed the \"Silver Lake Meadow,\" modeled after the Sheep Meadow in New York's Central Park.\nIn January 2022, investigative journalists Christo Grozev and Maria Pevchikh came up with a plan that they called Secret Project Silver Lake, while walking around the reservoir. It was to organize an exchange of Russian spies held in Western prisons for several Russian political prisoners. A little more than two years later in August 2024, 16 individuals, many activists, journalists and political dissidents, were released from Russian prisons, including journalist Evan Gershkovich.\n Silver Lake Reservoir in February 1956\nSilver Lake Reservoir in February 1956\n Looking north\nLooking north\n Looking west\nLooking west\n Ivanhoe Reservoir after addition of shade balls\nIvanhoe Reservoir after addition of shade balls\nEnvironmental issues\n[edit]\nIn December 2007, the DWP announced that the Silver Lake and Ivanhoe reservoirs had both become contaminated with unusually high levels of the cancer-causing chemical bromate, and were immediately isolated. The reservoirs were both drained over several weeks in March 2008, and refilled in May 2008.\nIn June 2008, 400,000 black hollow plastic shade balls were placed in Ivanhoe, which remain in use, to reduce the likelihood of the sunlight-fueled bromate. Silver Lake Reservoir was taken offline permanently. This incident pointed out the necessity of protecting the water supply by using underground tanks. The black plastic balls were created in Allentown, Pennsylvania by Orange Products Inc. The balls are also used at airports to prevent birds from landing in water runoff, thus preventing birds from being drawn into aircraft engines. The balls were certified by NSF International which certifies the safety of food, water, and consumer goods. In February 2013 LADWP contracted with Glendora, California-based manufacturer XavierC LLC to supply an additional 6.4 million hollow plastic shade balls for reservoirs.\nIn popular culture\n[edit]\nThe reservoir appeared in the 2018 movie Under the Silver Lake, directed by David Robert Mitchell.\nThe reservoir was featured in Visiting... with Huell Howser Episode 1610.\nSee also\n[edit]\n List of dams and reservoirs in California\n List of lakes in California\nReferences\n[edit]\n1. 1 2 LA Times article: \"Silver Lake goes dry\".\n2. 1 2 Take Sunset article: \"13 Facts About The Silver Lake Reservoir\".\n3. 1 2 3 LADWP press release: \"LADWP Begins Refilling the Silver Lake Reservoir[permanent dead link]\"\n4. \u2191 LADWP fact sheet: Headworks Reservoir - Silver Lake Reservoir Complex Storage Replacement\".\n5. \u2191 Gessen, M. (2024-08-02). \"Opinion | Navalny Couldn't Be Freed Until Gershkovich Was Kidnapped. Gershkovich Couldn't Be Freed Until Navalny Was Dead\". The New York Times. ISSN \"ISSN (identifier)\") 0362-4331. Retrieved 2025-01-07.\n6. \u2191 LADWP press release: \"Statement on Silver Lake and Elysian Reservoir Bromate Issue Archived 2009-01-05 at the Wayback Machine\".\n7. \u2191 KCBS-TV CBS 2 article: \"400,000 Balls Get Dumped In Silver Lake Reservoir Archived 2008-06-12 at the Wayback Machine\".\n8. \u2191 LA Times article: \"We are not making this up: Ivanhoe Reservoir in Silver Lake covered in little black plastic balls.\"\n9. \u2191 \"Listing Category Search Page | NSF International\". Info.nsf.org. 2014-07-22. Retrieved 2016-10-25.\n10. \u2191 \"Under the Silver Lake \u2013 Filming & Production\". IMDb. Retrieved 20 July 2022.\n11. \u2191 \"Silver Lake Reservoir \u2013 Visiting (1610) \u2013 Huell Howser Archives at Chapman University\". 6 December 2016.\n Mr. Sunset (16 June 2009). \"13 Facts About The Silver Lake Reservoir\". Take Sunset. Retrieved 2009-09-05.\n 8. \nExternal links\n[edit]\nWikimedia Commons logo\nWikimedia Commons has media related to Silver Lake Reservoir.\n Los Angeles Department of Water and Power official website\n Historic image gallery at Silver Lake.org\n Silver Lake Reservoirs Conservancy\n Silver Lake Reservoir at Yelp\n|  v  t  e  Dams in Los Angeles County, California |\n\n| CA Department of Water Resources |  Castaic  Elderberry Forebay  Pyramid |\n| LA Department of Public Works |  Big Dalton  Big Tujunga  Cogswell  Devil's Gate  Eaton Wash  Live Oak\")  Morris  Pacoima  Puddingstone  San Dimas  San Gabriel  Santa Anita  Sawpit\") (disused)  Sierra Madre  Thompson Creek\") |\n| LA Department",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:39.008376Z",
+            "expires_at": "2026-09-14T21:54:39.008376Z",
+            "content_hash": "0ce404385c75e2b278e623c9247cc6622328fc09704b99321a90fb3da264d790"
+          },
+          {
+            "id": "2a6e781bdc32c996f011fc60",
+            "url": "https://www.welikela.com/walking-around-the-silver-lake-reservoir-and-up-the-mattachine-steps-l-a-on-foot-8",
+            "title": "Walking Around The Silver Lake Reservoir and Up the Mattachine Steps | L.A. On Foot #8",
+            "text": "October 18, 2022 - A 2.7 mile walk that takes you down the Mattachine Steps and around the Silver Lake Reservoir.",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:33.160975Z",
+            "expires_at": "2026-09-14T21:54:33.160975Z",
+            "content_hash": "8ecbdc371adf36d3839242d45a3ce12a9790f182db46da5fb7b6e2dd522571c8"
+          },
+          {
+            "id": "5916dceede79915916a1bff3",
+            "url": "https://en.wikipedia.org/wiki/Silver",
+            "title": "Silver",
+            "text": "# Silver [...] The principal sources of silver are polymetallic ores from which silver is recovered as a byproduct, especially lead\u2013zinc, copper and gold ores. Although silver is the principal product at several mines, the polymetallic ore deposits from which silver is recovered account for more than two-thirds of U.S. and world silver resources. [...] Further information: Silver mining",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:33.160975Z",
+            "expires_at": "2026-09-14T21:54:33.160975Z",
+            "content_hash": "5aa02c90b7316ef271bfec5f93319a51e56fd2b57c9c28ee3bdc223d84f68dd1"
+          },
+          {
+            "id": "c936edca65fa55ecbed5e4d1",
+            "url": "https://en.wikipedia.org/wiki/Sterling_silver",
+            "title": "Sterling silver - Wikipedia",
+            "text": "The American revolutionary Paul Revere was regarded as one of the best silversmiths from this \"Golden Age of American Silver\". Following the Revolutionary War, Revere acquired and made use of a silver rolling mill \"Rolling (metalworking)\") from England. Not only did the rolling mill increase his production\u2014hammering and flattening silver took most of a silversmith's time\u2014he was able to roll and sell silver of appropriate, uniform thickness to other silversmiths. He retired a wealthy artisan, [...] Silver is not a very reactive metal and does not react with oxygen or water at ordinary temperatures, so does not easily oxidize. However, it is attacked by common components of atmospheric pollution. Silver sulfide slowly appears as a black tarnish during exposure to airborne compounds of sulfur (byproducts of the burning of fossil fuels and some industrial processes), and low level ozone reacts to form silver oxide. As the purity of the silver decreases, the problem of corrosion or tarnishing [...] In Colonial America, sterling silver was used for currency and general goods as well. Between 1634 and 1776, some 500 silversmiths created items in the \"New World\" ranging from simple buckles to ornate Rococo coffee pots. Although silversmiths of this era were typically familiar with all precious metals, they primarily worked in sterling silver. The colonies lacked an assay office until 1814, so American silversmiths adhered to the standard set by the London Goldsmiths Company: sterling silver",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:33.160975Z",
+            "expires_at": "2026-09-14T21:54:33.160975Z",
+            "content_hash": "6c2987a72a726bd08813e5352bfa7c5e523ad47c8e6089c146b689f7f1041063"
+          }
+        ]
+      }
+    },
+    "culture_scout": {
+      "state": "completed",
+      "output": {
+        "report": {
+          "claims": [
+            {
+              "subject": "Deep Cuts: Block Printing Across Cultures",
+              "predicate": "closes on",
+              "value": "September 13, 2026",
+              "source_id": "b95f2099e6b830381ba119b1",
+              "quote": "Installation photo, Deep Cuts: Block Printing Across Cultures at the Los Angeles County Museum of Art, November 9, 2025\u2013September 13, 2026, photo \u00a9 Museum Associates/LACMA, by Jonathan Urban",
+              "valid_until": "2026-09-13T23:59:59Z"
+            },
+            {
+              "subject": "East LA Parade & Festival",
+              "predicate": "takes place on",
+              "value": "September 13, 2026",
+              "source_id": "8f7021c9b4b80ef340aba849",
+              "quote": "Sun, September 13, 2026, 10:00 AM \u2013 4:00 PM",
+              "valid_until": "2026-09-13T16:00:00Z"
+            },
+            {
+              "subject": "Lucy Dacus with the Hollywood Bowl Orchestra",
+              "predicate": "performs on",
+              "value": "September 13, 2026",
+              "source_id": "7d039035f51d11b9f64a6643",
+              "quote": "Lucy Dacus with the Hollywood Bowl Orchestra",
+              "valid_until": "2026-09-13T21:00:00Z"
+            }
+          ],
+          "candidates": [
+            {
+              "id": "culture-lacma-deep-cuts-closing",
+              "category": "culture",
+              "title": "Closing Day Pause After LACMA Exhibition",
+              "angle": "Catching the final day of Deep Cuts: Block Printing Across Cultures at LACMA and unwinding afterward with an unhurried latte in Silver Lake.",
+              "product_name": "Latte",
+              "source_ids": [
+                "b95f2099e6b830381ba119b1"
+              ],
+              "expires_at": "2026-09-13T23:59:59Z",
+              "fit": 4,
+              "timeliness": 5,
+              "risks": [
+                "LACMA is located in the Miracle Mile neighborhood, requiring visitors to travel across town to Silver Lake."
+              ]
+            },
+            {
+              "id": "culture-east-la-parade-and-festival",
+              "category": "culture",
+              "title": "Afternoon Coffee Stop Following the East LA Parade",
+              "angle": "Welcoming attendees of the East LA Parade and Festival for a relaxing ceramic cup of latte during their Sunday afternoon outing.",
+              "product_name": "Latte",
+              "source_ids": [
+                "8f7021c9b4b80ef340aba849"
+              ],
+              "expires_at": "2026-09-13T16:00:00Z",
+              "fit": 3,
+              "timeliness": 5,
+              "risks": [
+                "Event takes place in East Los Angeles, a short drive from Silver Lake."
+              ]
+            },
+            {
+              "id": "culture-lucy-dacus-hollywood-bowl",
+              "category": "culture",
+              "title": "Pre-Concert Coffee Stop for Hollywood Bowl Guests",
+              "angle": "Encouraging music lovers heading to the Hollywood Bowl for Lucy Dacus and the orchestra to enjoy an afternoon latte in a warm ceramic cup.",
+              "product_name": "Latte",
+              "source_ids": [
+                "7d039035f51d11b9f64a6643"
+              ],
+              "expires_at": "2026-09-13T19:00:00Z",
+              "fit": 4,
+              "timeliness": 5,
+              "risks": [
+                "Concert takes place later in the evening in Hollywood."
+              ]
+            }
+          ],
+          "summary": "Scouted cultural opportunities for September 13, 2026, including the final day of LACMA's block printing exhibition, the East LA Parade & Festival, and an evening performance at the Hollywood Bowl, pairing visitors with an afternoon latte at Morrow Coffee."
+        },
+        "sources": [
+          {
+            "id": "8a119809c2b87ce0abe84d1b",
+            "url": "https://www.facebook.com/DiscoverLosAngeles/posts/walks-along-silver-lake-reservoir-discoverla-welovela/1296106582556197",
+            "title": "Walks along Silver Lake Reservoir \ud83d\udc95 #discoverLA ...",
+            "text": "offer a pleasant and easy 2.2- mile loop trail bordered by pine and eucalyptus trees. It's one of the most popular walking paths in the city.",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "deb871867710a87de184e360d16f9f842deda6ac86355047077ceff825d871f8"
+          },
+          {
+            "id": "3b932053db19663edefebb0d",
+            "url": "https://modernhiker.com/hike/silver-lake-reservoir",
+            "title": "Silver Lake Reservoir - Modern Hiker",
+            "text": "Modern Hiker Logo\nMenu Icon\n\nSilver Lake Reservoir\nHiker Info\nThe Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped in nature and history. At 2 miles, the loop should only take around 45 minutes, which makes it the perfect afternoon outing. The paved paths and even ground (there\u2019s only one steep incline toward the end) also make it the perfect spot for runners. There\u2019s also a green space toward the end of the hike that\u2019s nice for picnics and family gatherings. Bird watching is plentiful here, and there are even some off-leash dog parks if your canine companion needs to get a little more energy out after the hike. Just remember to slather on that sunscreen and bring a hat and water, as shade is somewhat limited.\nFor this hike, since you can really start anywhere along the reservoir, we\u2019re going to treat the Ivanhoe Reservoir entrance as our trailhead. Take Silver Lake Boulevard to West Silver Lake Drive. There\u2019s ample parking along West Silver Lake Drive \u2014 just make sure you read the signs to keep abreast of any parking restrictions. You\u2019re going to start where West Silver Lake Drive meets Tesla Avenue.\n\nWalk up the pedestrian ramp on West Silver Lake Drive and enter the fence to get to the walking path. You can also walk on the outside of the fence, but note that this is the only portion of the hike that gets you inside the fenced area, so definitely take advantage of it! Especially since the pedestrian path inside the fence is filled with pine and eucalyptus trees and offers some of the best shade on the trail. There is an ongoing project to attempt to turn this entire area into more of a park-like environment, with additional wetlands for birds and more trees \u2014 you can keep up to date on that via the L.A. Bureau of Engineering project page.\n\nHead south, keeping the reservoir on your left and the street on your right. There are plenty of benches to rest and take in reservoir views under ample shade. The Silver Lake Reservoir is actually made up of two concrete-lined basins. The part of the reservoir you\u2019re seeing here is called the Ivanhoe Reservoir, and the larger portion is simply called Silver Lake. Silver Lake (the reservoir and the neighborhood) was named in 1906 for Herman Silver, the Water Board Commissioner, and was completed in 1908.\n\nThe unpaved path continues, and soon you\u2019ll see Silver Lake Reservoir on your left. This is where you\u2019ll have to exit the fence, as the path closest to the reservoir is restricted to pedestrians. There are still benches and trash cans scattered along your route, and dogs are welcome (but must be leashed). From here on out, you\u2019ll notice tons of eucalyptus trees, thousands of which were planted as early as 1911 to try to make the concrete space a bit greener. Depending on the season, you can spot blue herons hanging out in the trees \u2014 a plaque along your route boasts some facts about the birds, if you feel inclined to stop for a bit of light reading.\n\nAs you reach the tip of the reservoir, a paved path to your left will open up. Veer left to take this path. You\u2019ll notice that down to your right is both the recreation center and the dog park. This is the best place to get the full view of the reservoir and the San Gabriel Mountains beyond \u2014 if you\u2019re looking for a spot to take pictures, this is it!\n\nExit the paved path, and keep left to continue, with the reservoir on your left this time and Silver Lake Boulevard on your right. On this side of the reservoir you\u2019ll find a beautiful and diverse selection of trees scattered about, helping to distract from the traffic, and there\u2019s plenty of unique architecture to check out as well. One home, Silvertop, was built in 1963 by famed architect John Lautner. There\u2019s also a water fountain on this side if needed.\n\nAs you continue, you\u2019ll notice the entrance to a big, beautiful green space perfect for picnics and resting under large trees. There are two paths at this point \u2014 the one on the left takes you through the green space, and the one on the right takes you around. Both paths converge again, but if you have a dog with you, you\u2019ll need to take the outside path, as dogs aren\u2019t allowed inside the park area. This portion of the hike is also filled with wildflowers and even lizards. This is the part that really makes you feel like you\u2019re no longer in the middle of the city (it\u2019s also the only portion where the street isn\u2019t visible).\n\nYou\u2019ll come across a fence \u2014 go straight through and keep left (this is where the non-dog path and the park path reconvene). Turn left on Armstrong Avenue, and take the shaded uphill paved path. This is the steepest part of the trek, but it doesn\u2019t last very long. Turn left on Tesla Drive. You\u2019ll pass the reservoir native gardens, where you can stop to take in the flora and fauna. Past this, you\u2019ll have looped right back to where you started.\nThere you have it! A short jaunt in the middle of the city that offers clear reservoir views, a few parks for some leisure time, and plenty of nature to take in along the way. When I was there, there were also fabric signs all along the reservoir fences noting the names of people of color who had been killed by police. The images below are just a few of the names posted on the fences. And at the end, a full quote from the Amanda Gorman poem Hymn for the Hurting: \u201cMay we not just ache, but act.\u201d\n    \n\nTags: Los Angeles, reservoir, silver lake, silverlake\nAccommodations near Silver Lake Reservoir\n by Cleo Egnal\n\nCleo Egnal is a writer with a love for nature, history, and dogs!\n\nEasy to follow, mostly paved path with a few forks with good signage.\nDownload GPX\nTake Silver Lake Boulevard to West Silver Lake Drive. Park anywhere along West Silver Lake Drive, and start the hike where West Silver Lake Drive meets Tesla Avenue. The pedestrian ramp on West Silver Lake Drive will take you to the start of the walking path.\nDriving Directions\nCar-free Directions\nUse the ModernHiker mobile app to download this map and complete trail description for offline access.\nDownload Details & Map\nConnect with Us",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:35.951439Z",
+            "expires_at": "2026-09-14T21:54:35.951439Z",
+            "content_hash": "db7c25c7bcfa5431acb71b45af8f77f63d3ac335947e1b46f5b7e382294d5af8"
+          },
+          {
+            "id": "54da5d9afa3e88976850d427",
+            "url": "https://www.alltrails.com/trail/us/california/silver-lake-reservoir-trail--2",
+            "title": "Silver Lake Reservoir Trail, California",
+            "text": "Silver Lake Reservoir Trail is a loop trail that covers 2.2 mi, with an elevation gain of 111 ft. It takes about 0.5\u20131 hr to complete. Loop trails have the same",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "0a1604048b0e8c3b86ed2d641fe618d667b70155fe3d27e0e6d0e91f53578043"
+          },
+          {
+            "id": "177afe8333712c7a66cb72f3",
+            "url": "https://www.totago.co/app/trip/MH_silver-lake-reservoir",
+            "title": "Silver Lake Reservoir",
+            "text": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "adbd68f8ece70bed2aa5f426b65cb967c9297a3458971883d459f1e1899e1e52"
+          },
+          {
+            "id": "ac03a0c9f5ef0886484b993c",
+            "url": "https://www.yelp.com/biz/silver-lake-reservoir-los-angeles",
+            "title": "Silver Lake Reservoir Photos",
+            "text": "The Reservoir is a 2.2 mile loop that can be busy with runners and walkers during peak hours. It's a decent walking path that definitely needs some landscaping",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:56:44.669480Z",
+            "expires_at": "2026-09-14T21:56:44.669480Z",
+            "content_hash": "a260d42dc43ec86d271e2096ebff8e3cb44a3b7121938993c51451de15dbc549"
+          },
+          {
+            "id": "514b72903ebb6dcb7df7d091",
+            "url": "https://en.wikipedia.org/wiki/Silver_Lake_Reservoir",
+            "title": "Silver Lake Reservoir - Wikipedia",
+            "text": "Jump to content\n  Wikipedia The Free Encyclopedia\nSearch\nContents\n (Top)\n 1 History\n 2 Environmental issues\n 3 In popular culture\n 4 See also\n 5 References\n 6 External links\nSilver Lake Reservoir\n Cebuano \"Silver Lake Reservoir (tubiganan sa Tinipong Bansa, California) \u2013 Cebuano\")\nEdit links\n Article\n Talk\n Read\n Edit\n View history\nTools\nActions\n Read\n Edit\n View history\nGeneral\n What links here\n Related changes\n Upload file\n Permanent link\n Page information\n Cite this page\n Get shortened URL\n Switch to legacy parser\nPrint/export\n Download as PDF\n Printable version\nIn other projects\n Wikimedia Commons\n Wikidata item\nAppearance\nCoordinates: 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495\nFrom Wikipedia, the free encyclopedia\nWater supply reservoirs for Los Angeles\n| Silver Lake Reservoir Complex |\n\n| View to the northwest across lower reservoir |\n| Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within the Los Angeles metropolitan area Show map of the Los Angeles metropolitan area  Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within California Show map of California  Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within the United States Show map of the United States |\n| Location | Silver Lake, Los Angeles, California |\n| Coordinates | 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495: {{#parsoid\\u0000fragment:9}}[ 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495]\"}}\" id=\"mwBw\" about=\"#mwt10\" typeof=\"mw:Extension/indicator\"> |\n| Type | Reservoir \"Reservoir (water)\") |\n| Basin countries | United States |\n| Max. length | 1.2 km (0.75 mi) |\n| Max. width | 500 m (1,600 ft) |\n| Surface area | 39 hectares (96 acres) |\n| Water volume | 3,000,000 m3 (2,400 acre\u22c5ft) |\n| Shore length1 | 3.2 km (2.0 mi) |\n| Surface elevation | 433 ft (132 m) |\n| References | U.S. Geological Survey Geographic Names Information System: Silver Lake Reservoir |\n| 1 Shore length is not a well-defined measure. |\nThe Silver Lake Reservoir Complex comprises two concrete-lined basins, Ivanhoe Reservoir and Silver Lake, divided by a spillway, in the Silver Lake community of Los Angeles, California.\nHistory\n[edit]\nThe lower body of water was named in 1906 for Water Board Commissioner Herman Silver, and in turn lends its name to the neighborhood. The upper body received its name after the 1819 Sir Walter Scott novel Ivanhoe.\nThe reservoirs are owned and maintained by the Los Angeles Department of Water and Power (DWP), and could provide water to 600,000 homes in downtown and South Los Angeles;. Only the smaller of the two, Ivanhoe, remains online. At capacity, it holds 795 million US gallons (3,010,000 m3) of water. The Silver Lake Reservoir's water resources was planned to be replaced by the Headworks Reservoir\"), an underground reservoir north of Griffith Park, slated for completion by December 2017.\nThe reservoir is the focal point of the community and has evolved as a regional recreational resource. It is surrounded by several recreational areas, including a dog park on the south, a nursery school on the north, and the Silver Lake Recreation Center, which includes a basketball court on the south side of the lake. There is also a walking and jogging path, which stretches 2.2 miles (3.5 km) around the reservoir. In April 2011, the City of Los Angeles opened up for public use a three-acre passive park on the east side of the lake dubbed the \"Silver Lake Meadow,\" modeled after the Sheep Meadow in New York's Central Park.\nIn January 2022, investigative journalists Christo Grozev and Maria Pevchikh came up with a plan that they called Secret Project Silver Lake, while walking around the reservoir. It was to organize an exchange of Russian spies held in Western prisons for several Russian political prisoners. A little more than two years later in August 2024, 16 individuals, many activists, journalists and political dissidents, were released from Russian prisons, including journalist Evan Gershkovich.\n Silver Lake Reservoir in February 1956\nSilver Lake Reservoir in February 1956\n Looking north\nLooking north\n Looking west\nLooking west\n Ivanhoe Reservoir after addition of shade balls\nIvanhoe Reservoir after addition of shade balls\nEnvironmental issues\n[edit]\nIn December 2007, the DWP announced that the Silver Lake and Ivanhoe reservoirs had both become contaminated with unusually high levels of the cancer-causing chemical bromate, and were immediately isolated. The reservoirs were both drained over several weeks in March 2008, and refilled in May 2008.\nIn June 2008, 400,000 black hollow plastic shade balls were placed in Ivanhoe, which remain in use, to reduce the likelihood of the sunlight-fueled bromate. Silver Lake Reservoir was taken offline permanently. This incident pointed out the necessity of protecting the water supply by using underground tanks. The black plastic balls were created in Allentown, Pennsylvania by Orange Products Inc. The balls are also used at airports to prevent birds from landing in water runoff, thus preventing birds from being drawn into aircraft engines. The balls were certified by NSF International which certifies the safety of food, water, and consumer goods. In February 2013 LADWP contracted with Glendora, California-based manufacturer XavierC LLC to supply an additional 6.4 million hollow plastic shade balls for reservoirs.\nIn popular culture\n[edit]\nThe reservoir appeared in the 2018 movie Under the Silver Lake, directed by David Robert Mitchell.\nThe reservoir was featured in Visiting... with Huell Howser Episode 1610.\nSee also\n[edit]\n List of dams and reservoirs in California\n List of lakes in California\nReferences\n[edit]\n1. 1 2 LA Times article: \"Silver Lake goes dry\".\n2. 1 2 Take Sunset article: \"13 Facts About The Silver Lake Reservoir\".\n3. 1 2 3 LADWP press release: \"LADWP Begins Refilling the Silver Lake Reservoir[permanent dead link]\"\n4. \u2191 LADWP fact sheet: Headworks Reservoir - Silver Lake Reservoir Complex Storage Replacement\".\n5. \u2191 Gessen, M. (2024-08-02). \"Opinion | Navalny Couldn't Be Freed Until Gershkovich Was Kidnapped. Gershkovich Couldn't Be Freed Until Navalny Was Dead\". The New York Times. ISSN \"ISSN (identifier)\") 0362-4331. Retrieved 2025-01-07.\n6. \u2191 LADWP press release: \"Statement on Silver Lake and Elysian Reservoir Bromate Issue Archived 2009-01-05 at the Wayback Machine\".\n7. \u2191 KCBS-TV CBS 2 article: \"400,000 Balls Get Dumped In Silver Lake Reservoir Archived 2008-06-12 at the Wayback Machine\".\n8. \u2191 LA Times article: \"We are not making this up: Ivanhoe Reservoir in Silver Lake covered in little black plastic balls.\"\n9. \u2191 \"Listing Category Search Page | NSF International\". Info.nsf.org. 2014-07-22. Retrieved 2016-10-25.\n10. \u2191 \"Under the Silver Lake \u2013 Filming & Production\". IMDb. Retrieved 20 July 2022.\n11. \u2191 \"Silver Lake Reservoir \u2013 Visiting (1610) \u2013 Huell Howser Archives at Chapman University\". 6 December 2016.\n Mr. Sunset (16 June 2009). \"13 Facts About The Silver Lake Reservoir\". Take Sunset. Retrieved 2009-09-05.\n 8. \nExternal links\n[edit]\nWikimedia Commons logo\nWikimedia Commons has media related to Silver Lake Reservoir.\n Los Angeles Department of Water and Power official website\n Historic image gallery at Silver Lake.org\n Silver Lake Reservoirs Conservancy\n Silver Lake Reservoir at Yelp\n|  v  t  e  Dams in Los Angeles County, California |\n\n| CA Department of Water Resources |  Castaic  Elderberry Forebay  Pyramid |\n| LA Department of Public Works |  Big Dalton  Big Tujunga  Cogswell  Devil's Gate  Eaton Wash  Live Oak\")  Morris  Pacoima  Puddingstone  San Dimas  San Gabriel  Santa Anita  Sawpit\") (disused)  Sierra Madre  Thompson Creek\") |\n| LA Department",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:39.008376Z",
+            "expires_at": "2026-09-14T21:54:39.008376Z",
+            "content_hash": "0ce404385c75e2b278e623c9247cc6622328fc09704b99321a90fb3da264d790"
+          },
+          {
+            "id": "2a6e781bdc32c996f011fc60",
+            "url": "https://www.welikela.com/walking-around-the-silver-lake-reservoir-and-up-the-mattachine-steps-l-a-on-foot-8",
+            "title": "Walking Around The Silver Lake Reservoir and Up the Mattachine Steps | L.A. On Foot #8",
+            "text": "October 18, 2022 - A 2.7 mile walk that takes you down the Mattachine Steps and around the Silver Lake Reservoir.",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:33.160975Z",
+            "expires_at": "2026-09-14T21:54:33.160975Z",
+            "content_hash": "8ecbdc371adf36d3839242d45a3ce12a9790f182db46da5fb7b6e2dd522571c8"
+          },
+          {
+            "id": "5916dceede79915916a1bff3",
+            "url": "https://en.wikipedia.org/wiki/Silver",
+            "title": "Silver",
+            "text": "# Silver [...] The principal sources of silver are polymetallic ores from which silver is recovered as a byproduct, especially lead\u2013zinc, copper and gold ores. Although silver is the principal product at several mines, the polymetallic ore deposits from which silver is recovered account for more than two-thirds of U.S. and world silver resources. [...] Further information: Silver mining",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:33.160975Z",
+            "expires_at": "2026-09-14T21:54:33.160975Z",
+            "content_hash": "5aa02c90b7316ef271bfec5f93319a51e56fd2b57c9c28ee3bdc223d84f68dd1"
+          },
+          {
+            "id": "c936edca65fa55ecbed5e4d1",
+            "url": "https://en.wikipedia.org/wiki/Sterling_silver",
+            "title": "Sterling silver - Wikipedia",
+            "text": "The American revolutionary Paul Revere was regarded as one of the best silversmiths from this \"Golden Age of American Silver\". Following the Revolutionary War, Revere acquired and made use of a silver rolling mill \"Rolling (metalworking)\") from England. Not only did the rolling mill increase his production\u2014hammering and flattening silver took most of a silversmith's time\u2014he was able to roll and sell silver of appropriate, uniform thickness to other silversmiths. He retired a wealthy artisan, [...] Silver is not a very reactive metal and does not react with oxygen or water at ordinary temperatures, so does not easily oxidize. However, it is attacked by common components of atmospheric pollution. Silver sulfide slowly appears as a black tarnish during exposure to airborne compounds of sulfur (byproducts of the burning of fossil fuels and some industrial processes), and low level ozone reacts to form silver oxide. As the purity of the silver decreases, the problem of corrosion or tarnishing [...] In Colonial America, sterling silver was used for currency and general goods as well. Between 1634 and 1776, some 500 silversmiths created items in the \"New World\" ranging from simple buckles to ornate Rococo coffee pots. Although silversmiths of this era were typically familiar with all precious metals, they primarily worked in sterling silver. The colonies lacked an assay office until 1814, so American silversmiths adhered to the standard set by the London Goldsmiths Company: sterling silver",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T21:54:33.160975Z",
+            "expires_at": "2026-09-14T21:54:33.160975Z",
+            "content_hash": "6c2987a72a726bd08813e5352bfa7c5e523ad47c8e6089c146b689f7f1041063"
+          },
+          {
+            "id": "a84743696cfea178b32efe6f",
+            "url": "https://www.timeout.com/los-angeles/news/22-art-exhibitions-in-l-a-to-look-forward-to-in-2026-123125",
+            "title": "22 art exhibitions in L.A. to look forward to in 2026",
+            "text": "If all goes according to plan, the Lucas Museum of Narrative Art will finally open its doors in Exposition Park this September. The verdant spaceship-like building between the Natural History Museum and the L.A. Memorial Coliseum adds something decidedly different and otherworldly to L.A.\u2019s architectural scene and has been piquing Angelenos\u2019 interest for years now. The five-story museum will feature 35 galleries, two state-of-the-art theaters, classrooms, a library, dining options and a gift [...] Lucas Museum of Narrative Art  \nOpening Sept 22, 2026 [...] of the Manzanar War Relocation Center. The immersive exhibition will wind through the remodeled first floor, promising a more dynamic experience that traces the past, present and future of the Japanese American experience. Also opening at JANM the same time will be \u201cPictures of Belonging,\u201d an exhibition of works by three trailblazing Japanese American women artists\u2014Miki Hayakawa, Hisako Hibi and Min\u00e9 Okubo\u2014that debuted at the Smithsonian American Art Museum.",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:13.864870Z",
+            "expires_at": "2026-09-14T22:00:13.864870Z",
+            "content_hash": "94c72248527de2fbb2b68ca98ee5b614284f9fe1fcabbb27c61d19666dff34c7"
+          },
+          {
+            "id": "a6671018dd1e27c59c859aa2",
+            "url": "https://www.galleriesnow.net/exhibitions/los-angeles",
+            "title": "Exhibitions in\u00a0Los Angeles - Exhibitions | GalleriesNow",
+            "text": "Image for Phung Huynh: Bite The Hand That Feeds You, at Luis De Jesus Los Angeles \n\nPhung Huynh: Bite The Hand That Feeds You\n\n12 Sep - 24 Oct 2026\n\nforthcoming\n\n1110 Mateo St, CA 90021, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Luis De Jesus Los Angeles\n\nLuis De Jesus Los Angeles Los Angeles\n\nImage for Sherin Guirguis: Into the Lake of Fire (\u2c89\u0300\u03e7\u2c9f\u2ca9\u2c9b \u2c89\u0300\u03ef\u2c97\u2ca9\u2c99\u2c9b\u2c8f \u2c9b\u0300\u2cad\u0300\u2ca3\u2cb1\u2c99), at Luis De Jesus Los Angeles \n\nSherin Guirguis: Into the Lake of Fire (\u2c89\u0300\u03e7\u2c9f\u2ca9\u2c9b \u2c89\u0300\u03ef\u2c97\u2ca9\u2c99\u2c9b\u2c8f \u2c9b\u0300\u2cad\u0300\u2ca3\u2cb1\u2c99)\n\n12 Sep - 24 Oct 2026 [...] forthcoming\n\n1110 Mateo St, CA 90021, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Perrotin\n\nPerrotin Los Angeles Los Angeles\n\nImage for Paul Pfeiffer: Olympia, at Perrotin Los Angeles \n\nPaul Pfeiffer: Olympia\n\n18 Sep - 7 Nov 2026\n\nforthcoming\n\n5036 W Pico Blvd, CA 90019, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Philip Martin Gallery\n\nPhilip Martin Gallery Los Angeles\n\nImage for A Certain Slant of Light, at Philip Martin Gallery \n\nA Certain Slant of Light\n\n1 Aug - 26 Sep 2026 [...] forthcoming\n\n1037 N. Sycamore Avenue, CA 90038, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Louis Stern Fine Arts\n\nLouis Stern Fine Arts Los Angeles\n\nImage for Cordillera Mexicana: Alfredo Ramos Mart\u00ednez and the Mexican Landscape, at Louis Stern Fine Arts \n\nCordillera Mexicana: Alfredo Ramos Mart\u00ednez and the Mexican Landscape\n\n18 Jul - 19 Sep 2026\n\n9002 Melrose Avenue, CA 90069, Los Angeles\n\nTue-Fri 10am-6pm, Sat 11am-5pm",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:13.864870Z",
+            "expires_at": "2026-09-14T22:00:13.864870Z",
+            "content_hash": "dcb696f7b62c7845d8ae2cdf3a613e7aa2ac6abeebced0b0cac9763f58ea6f73"
+          },
+          {
+            "id": "3cfc657761cc100843d424d2",
+            "url": "https://ocula.com/cities/usa/los-angeles-art-galleries/exhibitions",
+            "title": "Art Exhibitions in Los Angeles during 2026 / 2027",
+            "text": "Los Angeles County Museum of Art Los Angeles\n\nAmadeo Luciano Lorenzato David Zwirner 23 September\u201331 October 2026 Los Angeles/)\n\nAmadeo Luciano Lorenzato David Zwirner 23 September\u201331 October 2026 Los Angeles/) Los Angeles County Museum of Art Los Angeles\n\nGroup Exhibition Tom's Stretch David Kordansky Gallery 10 July\u201322 August 2026 Los Angeles/) [...] - [x] Lisson Gallery - [x] Los Angeles County Museum of Art - [x] Marciano Art Foundation - [x] Marian Goodman Gallery - [x] Matthew Brown - [x] Matthew Marks Gallery - [x] The Geffen Contemporary at MOCA - [x] MOCA Grand Avenue - [x] Night Gallery - [x] Nonaka-Hill - [x] Ocula Advisory - [x] OMR - [x] Pace Gallery - [x] Perrotin - [x] Regen Projects - [x] Roberts Projects - [x] Sean Kelly - [x] Simchowitz - [x] Spr\u00fcth Magers - [x] Tanya Bonakdar Gallery - [x] The Broad - [x] The Getty Center [...] The Getty Center - [x] Vincent Price Art Museum - [x] Wilding Cran Gallery",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:13.864870Z",
+            "expires_at": "2026-09-14T22:00:13.864870Z",
+            "content_hash": "9819066347258374cf86cb3faa163ade0a1e202dee0b702c9fa25907a4b718cd"
+          },
+          {
+            "id": "e7b4bf3114395fade099ea1f",
+            "url": "https://www.artrabbit.com/exhibitions/united-states/los-angeles/upcoming",
+            "title": "Contemporary art exhibitions and events in Los Angeles",
+            "text": "Opening: 19 Sep 2026, 18:00\n\nGabba Gallery\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Poster Pals: Featuring MAZZA and MUNK ONE\n\nRadiant Terrains: Elements of Light in Contemporary Art from the Permanent Collection\n\nExhibition\n\nRadiant Terrains: Elements of Light in Contemporary Art from the Permanent Collection\n\n19 Sep 2026 \u2013 10 Jan 2027\n\nLaguna Art Museum\n\nLaguna Beach, United States [...] Exhibition\n\nBryan Ida Portrait Remix Opening Reception\n\n19 Sep 2026\n\nOpening: 19 Sep 2026, 15:00\n\nBluerider ART LA \u00b7 Manhattan Beach\n\nManhattan Beach, United States\n\n Save / follow\n I've seen this\n Comment on Bryan Ida Portrait Remix Opening Reception\n\nDavid Lynch: LA\n\nExhibition\n\nDavid Lynch: LA\n\n19 Sep 2026 \u2013 24 Oct 2026\n\nOpening: 19 Sep 2026, 18:00\n\nPACE Los Angeles\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on David Lynch: LA\n\nErin Wright: Memnosphere\n\nExhibition [...] Opening: 19 Sep 2026, 18:00\n\nla BEAST gallery\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Neither Land Nor Water\n\nObjective Truths\n\nExhibition\n\nObjective Truths\n\n19 Sep 2026 \u2013 24 Oct 2026\n\nOpening: 19 Sep 2026, 17:00\n\nRoberts Projects\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Objective Truths\n\nPoster Pals: Featuring MAZZA and MUNK ONE\n\nExhibition\n\nPoster Pals: Featuring MAZZA and MUNK ONE\n\n19 Sep 2026 \u2013 10 Oct 2026",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:13.864870Z",
+            "expires_at": "2026-09-14T22:00:13.864870Z",
+            "content_hash": "76565f84ad7c4e21df541eb1e3ac349c77f5a6da929ad0e391db95f46fcb3901"
+          },
+          {
+            "id": "b95f2099e6b830381ba119b1",
+            "url": "https://www.lacma.org/",
+            "title": "LACMA | Los Angeles County Museum of Art, Week of ...",
+            "text": "Los Angeles County Museum of Art (LACMA) Notice of data security incident\nOpen today: 11 AM-8 PM\nShop Membership MYLACMA Tickets\nLACMA\nTicket Link\nLACMA | Los Angeles County Museum of Art, Week of July 27\n \nThe New David Geffen Galleries Are Now Open\nGet Tickets\nEileen Cowin, The Uninvited Visitor, 2025, printed 2026, \u00a9 Eileen Cowin, courtesy of the artist\n \nEileen Cowin: Between Panic and Paradise\nExhibition | On view through Jan 3, 2027\n \nTextile Alchemy: The Art of Reiko Sud\u014d and NUNO\nExhibition | Member Previews Sep 17 through Sep 19\nNight Out at LACMA \nNight Out at LACMA\nSpecial Event | Wed Sep 30, 7 pm\nTextile Alchemy: The Art of Reiko Sud\u014d & NUNO Special Edition Exhibition Catalogue \nTextile Alchemy: The Art of Reiko Sud\u014d & NUNO Special Edition Exhibition Catalogue\nShop the LACMA Store\nFashioning Chinese Women: Empire to Modernity \nFashioning Chinese Women: Empire to Modernity\nExhibition | On view through Oct 12\nThe LACMA Fund \nThe LACMA Fund\nMake a gift today\nJazz at LACMA: L.A. Jazz Treasure Award \nJazz at LACMA: L.A. Jazz Treasure Award\nMusic | Fri Sep 11, 6 pm\nAlfonso Gonzalez Jr.: In Between Stops \nAlfonso Gonzalez Jr.: In Between Stops\nInstallation | On view through Dec 1\nBoone Children's Gallery \nBoone Children's Gallery\nWorkshop | Daily except Wednesdays and Sundays\nCollecting Impressionism at LACMA \nCollecting Impressionism at LACMA\nExhibition | On view through Jan 3, 2027\nThird Weekends at LACMA: September\n \nThe Genesis Talks: Marc Merrill and Michael Govan\nTalk | Mon Sep 21, 7 pm\n \nJazz at LACMA: The 17 Big Band\nMusic | Fri Sep 18, 6 pm\n \nLACMA Live: Native Voices' The Space Between Labels\nSpecial Event | Thu Sep 17 and Sat Sep 19\nPhoto \u00a9 Museum Associates/LACMA \nNinth R.L. Shep Triennial Symposium on Textiles and Dress\nTalk | Sun Sep 20, 9:30 am\nVisitors in the David Geffen Galleries  \nGet 12 months of free admission, including the David Geffen Galleries.\nBecome a Member\n\nDocent Tours\nFree every day\nDocent-led tours on a variety of subjects ranging from entire exhibitions to single works of art are offered most days the museum is open and are free to all with admission.\n\nThe LACMA Store\nShop the LACMA Store\nThe LACMA Store reflects the museum itself through its thoughtfully curated selection of LACMA-developed catalogues and publications, books, posters, and more.\n\nErewhon at LACMA\nNow open\nErewhon at LACMA offers organic coffee and matcha, fresh pastries, signature smoothies, cold-pressed juices, and a selection of grab-and-go meals and organic snacks.\nHot fun in the summertime...\nNew Brighton, Merseyside \nMartin Parr  \nNew Brighton, Merseyside, 1983-1986, printed 2002\nNear Palm Springs \nBen Blackwell  \nNear Palm Springs, 1972\nThe Seventh Month, Fireworks over Ry\u014dgoku, Sumida River \nFujimori Shizuo  \nThe Seventh Month, Fireworks over Ry\u014dgoku, Sumida River, 1925\nDwight Evans Hits a Home Run, Fenway Park \nJim Stone  \nDwight Evans Hits a Home Run, Fenway Park, 1982\nWoman's Coordinates (Blouse, Skirt, and Shorts) \nDeDe Johnson  \nWoman's Coordinates (Blouse, Skirt, and Shorts), late 1950s\nConey Island \nPaul Cadmus  \nConey Island, 1934\nWith grandchildren at the Fun House \nImogen Cunningham  \nWith grandchildren at the Fun House, 1955\nCalifornia Copied From 1965 Painting in 1987 \nDavid Hockney  \nCalifornia Copied From 1965 Painting in 1987, 1987\nLatest from Unframed, the LACMA blog\n \nEverything You Need to Know About LACMA\u2019s New David Geffen Galleries\n<p>Installation photo, <em>Deep Cuts: Block Printing Across Cultures</em> at the Los Angeles County Museum of Art, November 9, 2025\u2013September 13, 2026, photo \u00a9 Museum Associates/LACMA, by Jonathan Urban</p> \nThis Week at LACMA\n<p>Yayoi Kusama at LACMA, 1998, \u00a9 Yayoi Kusama, photo \u00a9 Museum Associates/LACMA</p> \nRemembering Yayoi Kusama\n<p>Interior of the David Geffen Galleries at the Los Angeles County Museum of Art, photo \u00a9 Museum Associates/LACMA, by Charlie Powers</p> \nReading the Room: How Do You Care for Art in a Radically New Kind of Museum?\n<p>Rick Guidice for NASA, <em>Cutaway of Torus Wheel Habitat</em>, 1975, NASA Ames Research Center, \u00a9 Rick Guidice, photo courtesy of NASA Ames Research Center</p> \nEven More Exhibitions to See in 2026",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:21.486818Z",
+            "expires_at": "2026-09-14T22:00:21.486818Z",
+            "content_hash": "82bd476c3899759304919a52b27e9b1ee11b9e41fd913d941430a1c0d8e43513"
+          },
+          {
+            "id": "c8bbdcc72ba34c895ecdbc3b",
+            "url": "https://www.eventbrite.com/d/ca--los-angeles/food-festival",
+            "title": "Discover Food Festival Events & Activities in Los Angeles, CA | Eventbrite",
+            "text": "Free\n\nSOQWallet\n\nPromoted\n\nPAUL FRANK @ BOB BAKER DAY! primary image\n\n### PAUL FRANK @ BOB BAKER DAY!\n\nSun, Sep 20, 10:00 AM\n\nLos Angeles State Historic Park\n\nFree\n\nPromoted\n\nIndian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026 primary image\n\n### Indian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026\n\nSat, Sep 26, 12:00 PM\n\nSimons \u00b7 The Compound Event Center\n\nIndian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026 primary image [...] ### Indian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026\n\nSat, Sep 26, 12:00 PM\n\nSimons \u00b7 The Compound Event Center\n\nSouth Bay Mediterranean Food Festival primary image\n\n### South Bay Mediterranean Food Festival\n\nToday at 11:00 AM\n\nEast Torrance \u00b7 St Matthew Orthodox Christian Church\n\nSouth Bay Mediterranean Food Festival primary image\n\n### South Bay Mediterranean Food Festival\n\nToday at 11:00 AM\n\nEast Torrance \u00b7 St Matthew Orthodox Christian Church [...] Hollywood \u00b7 6233 Hollywood Blvd\n\nLos Angeles CHOCOLATE SALON and FESTIVAL 2026 primary image\n\n### Los Angeles CHOCOLATE SALON and FESTIVAL 2026\n\nSun, Oct 4, 10:00 AM\n\nDowntown \u00b7 Pasadena Center\n\nLos Angeles CHOCOLATE SALON and FESTIVAL 2026 primary image\n\n### Los Angeles CHOCOLATE SALON and FESTIVAL 2026\n\nSun, Oct 4, 10:00 AM\n\nDowntown \u00b7 Pasadena Center\n\n2026 LA Afrobeats Block Party & Jollof Cook-off (5-year Edition) primary image",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:17.823460Z",
+            "expires_at": "2026-09-14T22:00:17.823460Z",
+            "content_hash": "6f0c9131522baa4da304f5324eed4f1f4d20b1a18bd97c5034b7310bc25c88f2"
+          },
+          {
+            "id": "d7a9d5194f253fc8157a444b",
+            "url": "https://www.timeout.com/los-angeles/things-to-do/september-events-calendar",
+            "title": "September 2026 Events Calendar for Los Angeles - Time Out",
+            "text": "Oktoberfest is coming to the zoo\u2014because beer gardens have always needed more giraffes. The brand-new Zootoberfest takes over the L.A. Zoo September 19 and 20 with German-inspired food, giant pretzels, specialty beers, root beer floats, live Oktoberfest bands, lawn games, a braid bar, themed photo ops and plenty of fall vibes. Admission to the family-friendly celebration is included with your general admission zoo ticket. Food and drinks are available for purchase, so come for the animals, stay [...] Forget the usual museum stroll\u2014let\u2019s dance! LACMA is celebrating the Mid-Autumn Festival with a traditional lion dance accompanied by live music from the Immortals Lion Dance crew. The free performance takes place Sunday, September 20, at the David Geffen Galleries\u2019 Plaza Level, as part of the museum\u2019s free Third Weekends program and in celebration of its exhibition \u201cFashioning Chinese Women.\u201d No ticket required: Just show up and prepare to make your museum visit a considerably livelier one. [...] News\n Things to Do\n Food & Drink\n Culture\n Travel\n + Attractions\n  + Museums\n  + Hotels\n\nfacebooktwitterinstagramspotify\n\nPhotograph: Courtesy Ohana Festival\n\nPhotograph: Courtesy Ohana Festival\n\n# September 2026 events calendar for Los Angeles\n\nPlan your month with our September 2026 events calendar of the best activities, including free things to do, festivals and concerts\n\nFacebookTwitterPinterestEmailWhatsApp\n\nGillian Glover\n\nEdited by Gillian Glover\n\nThings to Do Editor, Los Angeles",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:17.823460Z",
+            "expires_at": "2026-09-14T22:00:17.823460Z",
+            "content_hash": "411cf4fef1642a8d62abbc7cb3d7084a65b92f80af02ed8d2cd339837234f573"
+          },
+          {
+            "id": "8f7021c9b4b80ef340aba849",
+            "url": "https://www.facebook.com/LACity/posts/september-is-in-full-swing-with-vibrant-cultural-expos-community-gatherings-and-/1532950422198922",
+            "title": "September is in full swing with vibrant cultural expos, community ...",
+            "text": "City of Los Angeles's post\nCity of Los Angeles\n19h  \u00b7\nSeptember is in full swing with vibrant cultural expos, community gatherings, and pet parades! \u2600\ufe0f Discover some of the top events happening around Los Angeles this weekend\u2014and one special event on Monday.\n5th Annual Deaf Latinos Expo\nSat, September 12, 2026, 11:00 AM \u2013 4:00 PM\n\ud83d\udccd Plaza de La Raza, 3540 N. Mission Rd., Los Angeles, CA 90031\n\ud83d\udcb2 Free (RSVP recommended)\nEast LA Parade & Festival\nSun, September 13, 2026, 10:00 AM \u2013 4:00 PM\n\ud83d\udccd E. C\u00e9sar E. Ch\u00e1vez Ave. & Mednik Ave., East Los Angeles, CA 90022\n\ud83d\udcb2 Free\nPico Union Pet Parade\nSat, September 12, 2026, 5:00 \u2013 9:00 PM\n\ud83d\udccd Alvarado Terrace Park, 1342 S. Alvarado St., Los Angeles, CA 90006\n\ud83d\udcb2 Free\nGoodfellas at Cinespia\nSat, September 12, 2026; doors open at 5:45 PM, movie begins at 7:30 PM\n\ud83d\udccd Hollywood Forever Cemetery, 6000 Santa Monica Blvd., Los Angeles, CA 90038\n\ud83d\udcb2 $31\n32nd Annual Festival of Philippine Arts & Culture\nSat, September 12, 2026, 10:00 AM \u2013 6:00 PM\n\ud83d\udccd Point Fermin Park, 807 West Paseo Del Mar, San Pedro, CA 90731\n\ud83d\udcb2 Free; RSVP recommended\n21st Annual LAWineFest\nSat, September 12, 2026, 2:00 \u2013 6:00 PM & Sun, September 13, 2026, 1:00 \u2013 5:00 PM\n\ud83d\udccd Los Angeles Equestrian Center, 480 W. Riverside Drive, Burbank, CA 91506\n\ud83d\udcb2 Ticketed; prices vary\nCaribbean Heritage Festival\nSat, September 12, 2026, 2:00 \u2013 7:00 PM\n\ud83d\udccd Baldwin Hills Crenshaw Plaza, 3650 W. Martin Luther King Jr. Blvd., Los Angeles, CA 90008\n\ud83d\udcb2 Free\nLos \u00c1ngeles Azules Square Unveiling\nMon, September 14, 2026, 9:00 AM \u2013 1:00 PM\n\ud83d\udccd Van Nuys Blvd. & Chase St., Panorama City, CA 91402\n\ud83d\udcb2 Free\n\n+5\n'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint2_radial_15251_63610)' fill-opacity='.5'/%3E%3Cpath d='M7.3014 3.8662a.6974.6974 0 0 1 .6974-.6977c.6742 0 1.2207.5465 1.2207 1.2206v1.7464a.101.101 0 0 0 .101.101h1.7953c.992 0 1.7232.9273 1.4917 1.892l-.4572 1.9047a2.301 2.301 0 0 1-2.2374 1.764H6.9185a.5752.5752 0 0 1-.5752-.5752V7.7384c0-.4168.097-.8278.2834-1.2005l.2856-.5712a3.6878 3.6878 0 0 0 .3893-1.6509l-.0002-.4496ZM4.367 7a.767.767 0 0 0-.7669.767v3.2598a.767.767 0 0 0 .767.767h.767a.3835.3835 0 0 0 .3835-.3835V7.3835A.3835.3835 0 0 0 5.134 7h-.767Z' fill='%23fff'/%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(90 .0005 8) scale(7.99958)'%3E%3Cstop offset='.5618' stop-color='%230866FF' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%230866FF' stop-opacity='.1'/%3E%3C/radialGradient%3E%3CradialGradient id='paint2_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(45 -4.5257 10.9237) scale(10.1818)'%3E%3Cstop offset='.3143' stop-color='%2302ADFC'/%3E%3Cstop offset='1' stop-color='%2302ADFC' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.3989' y1='2.3999' x2='13.5983' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2302ADFC'/%3E%3Cstop offset='.5' stop-color='%230866FF'/%3E%3Cstop offset='1' stop-color='%232B7EFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E)\n'%3E%3Cpath d='M15.9963 8c0 4.4179-3.5811 7.9993-7.9986 7.9993-4.4176 0-7.9987-3.5814-7.9987-7.9992 0-4.4179 3.5811-7.9992 7.9987-7.9992 4.4175 0 7.9986 3.5813 7.9986 7.9992Z' fill='url(%23paint0_linear_15251_63610)'/%3E%3Cpath d='M15.9973 7.9992c0 4.4178-3.5811 7.9992-7.9987 7.9992C3.5811 15.9984 0 12.417 0 7.9992S3.5811 0 7.9986 0c4.4176 0 7.9987 3.5814 7.9987 7.9992Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M7.9996 5.9081c-.3528-.8845-1.1936-1.507-2.1748-1.507-1.4323 0-2.4254 1.328-2.4254 2.6797 0 2.2718 2.3938 4.0094 4.0816 5.1589.3168.2157.7205.2157 1.0373 0 1.6878-1.1495 4.0815-2.8871 4.0815-5.159 0-1.3517-.993-2.6796-2.4254-2.6796-.9811 0-1.822.6225-2.1748 1.507Z' fill='%23fff'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='matrix(0 7.9992 -7.99863 0 7.9986 7.9992)'%3E%3Cstop offset='.5637' stop-color='%23E11731' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23E11731' stop-opacity='.1'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.3986' y1='2.4007' x2='13.5975' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FF74AE'/%3E%3Cstop offset='.5001' stop-color='%23FA2E3E'/%3E%3Cstop offset='1' stop-color='%23FF5758'/%3E%3C/linearGradient%3E%3CclipPath id='clip0_15251_63610'%3E%3Cpath fill='%23fff' d='M-.001.0009h15.9992v15.9984H-.001z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E)\n'%3E%3Cpath d='M15.9953 7.9996c0 4.418-3.5816 7.9996-7.9996 7.9996S-.004 12.4176-.004 7.9996 3.5776 0 7.9957 0c4.418 0 7.9996 3.5815 7.9996 7.9996Z' fill='url(%23paint0_linear_15251_63610)'/%3E%3Cpath d='M15.9973 7.9992c0 4.4178-3.5811 7.9992-7.9987 7.9992C3.5811 15.9984 0 12.417 0 7.9992S3.5811 0 7.9986 0c4.4176 0 7.9987 3.5814 7.9987 7.9992Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M15.9953 7.9996c0 4.418-3.5816 7.9996-7.9996 7.9996S-.004 12.4176-.004 7.9996 3.5776 0 7.9957 0c4.418 0 7.9996 3.5815 7.9996 7.9996Z' fill='url(%23paint2_radial_15251_63610)' fill-opacity='.8'/%3E%3Cpath d='M12.5278 8.1957c.4057.1104.6772.4854.623.9024-.3379 2.6001-2.5167 4.9012-5.1542 4.9012s-4.8163-2.3011-5.1542-4.9012c-.0542-.417.2173-.792.623-.9024.8708-.237 2.5215-.596 4.5312-.596 2.0098 0 3.6605.359 4.5312.596Z' fill='%234B280E'/%3E%3Cpath d='M11.5809 12.3764c-.9328.9843-2.1948 1.6228-3.5841 1.6228-1.3892 0-2.6512-.6383-3.5839-1.6225a1.5425 1.5425 0 0 0-.016-.0174c.4475-1.0137 2.2-1.3599 3.5999-1.3599 1.4 0 3.1514.3468 3.5998 1.3599l-.0157.0171Z' fill='url(%23paint3_linear_15251_63610)'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.3049 5.8793c.1614-1.1485-.6387-2.2103-1.7872-2.3717l-.0979-.0138c-1.1484-.1614-2.2103.6388-2.3717 1.7872l-.0163.1164a.5.5 0 0 0 .9902.1392l.0163-.1164c.0846-.6016.6408-1.0207 1.2424-.9362l.0978.0138c.6016.0845 1.0207.6407.9362 1.2423l-.0164.1164a.5.5 0 0 0 .9903.1392l.0163-.1164ZM2.6902 5.8793c-.1614-1.1485.6387-2.2103 1.7872-2.3717l.0979-.0138c1.1484-.1614 2.2103.6388 2.3717 1.7872l.0164.1164a.5.5 0 1 1-.9903.1392l-.0163-.1164c-.0846-.6016-.6408-1.0207-1.2423-.9362l-.098.0138c-.6015.0845-1.0206.6407-.936 1.2423l.0163.1164a.5.5 0 0 1-.9902.1392l-.0164-.1164Z' fill='%231C1C1D'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='matrix(0 7.9992 -7.99863 0 7.9986 7.9992)'%3E%3Cstop offset='.5637' stop-color='%23FF5758' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23FF5758' stop-opacity='.1'/%3E%3C/radialGradient%3E%3CradialGradient id='paint2_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(45 -4.5272 10.9202) scale(10.1818)'%3E%3Cstop stop-color='%23FFF287'/%3E%3Cstop offset='1' stop-color='%23FFF287' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.396' y1='2.3999' x2='13.5954' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FFF287'/%3E%3Cstop offset='1' stop-color='%23F68628'/%3E%3C/linearGradient%3E%3ClinearGradient id='paint3_linear_15251_63610' x1='5.1979' y1='10.7996' x2='5.245' y2='14.2452' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FF60A4'/%3E%3Cstop offset='.2417' stop-color='%23FA2E3E'/%3E%3Cstop offset='1' stop-color='%23BC0A26'/%3E%3C/linearGradient%3E%3CclipPath id='clip0_15251_63610'%3E%3Cpath fill='%23fff' d='M-.002 0h16v15.9992h-16z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E)\nAll reactions:\n11\n2 comments\n4 shares\nMost relevant\nMary Perez LA Reyna\nthumbs up; supportive; thumbs up emoji; thumbs up gif; giving thumbs up; supportive gesture;",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:23.354731Z",
+            "expires_at": "2026-09-14T22:00:23.354731Z",
+            "content_hash": "a617c5a09a57b63d42a624a7586ec30b403b63ffcb4981f4f5d1c436fb9fa297"
+          },
+          {
+            "id": "101b25b16896b6216a2ea7a1",
+            "url": "https://festivalguidesandreviews.com/california-festivals",
+            "title": "2026 California Festival Guide - Festival Guides and Reviews",
+            "text": "9/26 \u2013 Saint Vincent de Paul Parish Fest and Car Show \u2013 Huntington Beach  \n9/26 \u2013June Lake Autumn Brew Festival \u2013 June Lake  \n9/26 \u2013 Kelseyville Pear Festival \u2013 Kelseyville  \n9/26 \u2013 Autry Museum of the American West Annual Block Party \u2013 Los Angeles  \n9/26 \u2013 Los Angeles Libros Festival \u2013 Los Angeles  \n9/26 \u2013 Monrovia Beer, Wine and Music Festival \u2013 Monrovia  \n9/26 \u2013 Moraga Pear and Wine Festival \u2013 Moraga  \n9/26 \u2013 Mountain House Multi-Cultural Celebration \u2013 Mountain House [...] 9/24-9/27 \u2013 Antelope Valley Fair I \u2013 Lancaster  \n9/24-9/27 \u2013 Westminster Fall Festival \u2013 Westminster  \n9/25 \u2013 Foods of Garden Grove \u2013 Garden Grove  \n9/25 \u2013 Irvine Mid-Autumn Festival \u2013 Irvine  \n9/25 \u2013 Milpitas Lantern Festival \u2013 Milpitas  \n9/25 \u2013 California Native American Day \u2013 San Bernardino  \n9/25 \u2013 Visalia Oktoberfest \u2013 Visalia  \n9/25-9/26 \u2013 Arroyo Grande Valley Harvest Festival and Parade \u2013 Arroyo Grande  \nWeekend continues below\u2026 [...] 9/19-9/20 \u2013 Millbrae Mid-Autumn Festival \u2013 Millbrae   \n9/19-9/20 \u2013 Modesto Greek Food Festival \u2013 Modesto  \n9/19-9/20 \u2013 Whale Rock Music and Arts Festival \u2013 Paso Robles  \n9/19-9/20 \u2013 Nocturnal Wonderland \u2013 San Bernardino  \nWeekend continues below\u2026",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:17.823460Z",
+            "expires_at": "2026-09-14T22:00:17.823460Z",
+            "content_hash": "9b79ab90a10e6714749ccd7508e318e9f34adc3d79a51e6423a54d8c678b02c6"
+          },
+          {
+            "id": "7d039035f51d11b9f64a6643",
+            "url": "https://www.discoverlosangeles.com/events",
+            "title": "Los Angeles Events Calendar for 2026, from Festivals to ...",
+            "text": "Music\n\n## Rodgers & Hammerstein\u2019s The Sound of Music Sing-A-Long\n\nSep 26, 2026   8PM - 10PM\n\nJon Batiste \n\nMusic\n\n## Jon Batiste\n\nSep 27, 2026   7:30PM - 9:30PM\n\nMain image for event titled Bruno Mars  \n\nMusic\n\n## Bruno Mars\n\nSep 30, 2026   7PM - 9PM\n\n\u27e8\n\n\u27e9 [...] Sep 13, 2026   1:25PM - 3:25PM\n\nLucy Dacus \n\nMusic\n\n## Lucy Dacus with the Hollywood Bowl Orchestra\n\nSep 13, 2026   7PM - 9PM\n\nSqueeze \n\n## Squeeze | Adam Ant | The English Beat\n\nSep 19, 2026   8PM - 10PM\n\nWynton Marsalis \n\nMusic\n\n## Jazz at Lincoln Center Orchestra with Wynton Marsalis\n\nSep 23, 2026   8PM - 10PM\n\nMain image for event titled Usher & Chris Brown \n\n## Usher & Chris Brown\n\nSep 25, 2026   7PM - 10PM\n\nRodgers & Hammerstein\u2019s The Sound of Music Sing-A-Long \n\nMusic [...] chargers\") \n\nSports\n\n## Los Angeles Chargers vs. Arizona Cardinals (SEASON OPENER)\")\n\nSep 13, 2026   1:25PM - 3:25PM\n\nSqueeze \n\n## Squeeze | Adam Ant | The English Beat\n\nSep 19, 2026   8PM - 10PM\n\nWynton Marsalis \n\n## Jazz at Lincoln Center Orchestra with Wynton Marsalis\n\nSep 23, 2026   8PM - 10PM\n\nMain image for event titled Usher & Chris Brown \n\n## Usher & Chris Brown\n\nSep 25, 2026   7PM - 10PM\n\nRodgers & Hammerstein\u2019s The Sound of Music Sing-A-Long",
+            "provider": "tavily",
+            "retrieved_at": "2026-09-13T22:00:17.823460Z",
+            "expires_at": "2026-09-14T22:00:17.823460Z",
+            "content_hash": "7178fdc700e1735ccd07e6d8125e5053485b4e666f0e8254cc3aaf29d792b685"
+          }
+        ]
+      }
+    },
+    "chief_selection": {
+      "state": "completed",
+      "output": {
+        "candidate_id": "local-silver-lake-reservoir-afternoon-walk",
+        "rationale": "This candidate provides an ideal product fit (5/5) by focusing strictly on the confirmed latte served in ceramic cups within Morrow Coffee's authentic, unhurried neighborhood atmosphere. It aligns naturally with the afternoon timing for visitors exploring the Silver Lake Reservoir without assuming unverified operating hours, prices, or external partnerships. The evidence relies on a permanent neighborhood fixture, presenting zero operational or factual risks. While it lacks the high-urgency novelty of a one-time event, this tradeoff offers a credible, dependable hook that strictly adheres to all constraints."
+      }
+    },
+    "campaign": {
+      "state": "completed",
+      "output": {
+        "candidates": [
+          {
+            "id": "local-silver-lake-reservoir-afternoon-walk",
+            "category": "local",
+            "title": "Post-Reservoir Loop Afternoon Latte",
+            "angle": "Invite visitors finishing an afternoon stroll around the nearby Silver Lake Reservoir to unwind with a warm ceramic cup of latte in an unhurried neighborhood setting.",
+            "product_name": "Latte",
+            "source_ids": [
+              "3b932053db19663edefebb0d"
+            ],
+            "expires_at": "2026-09-14T21:54:35.951439Z",
+            "fit": 5,
+            "timeliness": 4,
+            "risks": []
+          }
+        ],
+        "selected": {
+          "id": "local-silver-lake-reservoir-afternoon-walk",
+          "category": "local",
+          "title": "Post-Reservoir Loop Afternoon Latte",
+          "angle": "Invite visitors finishing an afternoon stroll around the nearby Silver Lake Reservoir to unwind with a warm ceramic cup of latte in an unhurried neighborhood setting.",
+          "product_name": "Latte",
+          "source_ids": [
+            "3b932053db19663edefebb0d"
+          ],
+          "expires_at": "2026-09-14T21:54:35.951439Z",
+          "fit": 5,
+          "timeliness": 4,
+          "risks": []
+        },
+        "rationale": "This candidate provides an ideal product fit (5/5) by focusing strictly on the confirmed latte served in ceramic cups within Morrow Coffee's authentic, unhurried neighborhood atmosphere. It aligns naturally with the afternoon timing for visitors exploring the Silver Lake Reservoir without assuming unverified operating hours, prices, or external partnerships. The evidence relies on a permanent neighborhood fixture, presenting zero operational or factual risks. While it lacks the high-urgency novelty of a one-time event, this tradeoff offers a credible, dependable hook that strictly adheres to all constraints.",
+        "graph": {
+          "sources": [
+            {
+              "id": "8a119809c2b87ce0abe84d1b",
+              "url": "https://www.facebook.com/DiscoverLosAngeles/posts/walks-along-silver-lake-reservoir-discoverla-welovela/1296106582556197",
+              "title": "Walks along Silver Lake Reservoir \ud83d\udc95 #discoverLA ...",
+              "text": "offer a pleasant and easy 2.2- mile loop trail bordered by pine and eucalyptus trees. It's one of the most popular walking paths in the city.",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:56:44.669480Z",
+              "expires_at": "2026-09-14T21:56:44.669480Z",
+              "content_hash": "deb871867710a87de184e360d16f9f842deda6ac86355047077ceff825d871f8"
+            },
+            {
+              "id": "3b932053db19663edefebb0d",
+              "url": "https://modernhiker.com/hike/silver-lake-reservoir",
+              "title": "Silver Lake Reservoir - Modern Hiker",
+              "text": "Modern Hiker Logo\nMenu Icon\n\nSilver Lake Reservoir\nHiker Info\nThe Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped in nature and history. At 2 miles, the loop should only take around 45 minutes, which makes it the perfect afternoon outing. The paved paths and even ground (there\u2019s only one steep incline toward the end) also make it the perfect spot for runners. There\u2019s also a green space toward the end of the hike that\u2019s nice for picnics and family gatherings. Bird watching is plentiful here, and there are even some off-leash dog parks if your canine companion needs to get a little more energy out after the hike. Just remember to slather on that sunscreen and bring a hat and water, as shade is somewhat limited.\nFor this hike, since you can really start anywhere along the reservoir, we\u2019re going to treat the Ivanhoe Reservoir entrance as our trailhead. Take Silver Lake Boulevard to West Silver Lake Drive. There\u2019s ample parking along West Silver Lake Drive \u2014 just make sure you read the signs to keep abreast of any parking restrictions. You\u2019re going to start where West Silver Lake Drive meets Tesla Avenue.\n\nWalk up the pedestrian ramp on West Silver Lake Drive and enter the fence to get to the walking path. You can also walk on the outside of the fence, but note that this is the only portion of the hike that gets you inside the fenced area, so definitely take advantage of it! Especially since the pedestrian path inside the fence is filled with pine and eucalyptus trees and offers some of the best shade on the trail. There is an ongoing project to attempt to turn this entire area into more of a park-like environment, with additional wetlands for birds and more trees \u2014 you can keep up to date on that via the L.A. Bureau of Engineering project page.\n\nHead south, keeping the reservoir on your left and the street on your right. There are plenty of benches to rest and take in reservoir views under ample shade. The Silver Lake Reservoir is actually made up of two concrete-lined basins. The part of the reservoir you\u2019re seeing here is called the Ivanhoe Reservoir, and the larger portion is simply called Silver Lake. Silver Lake (the reservoir and the neighborhood) was named in 1906 for Herman Silver, the Water Board Commissioner, and was completed in 1908.\n\nThe unpaved path continues, and soon you\u2019ll see Silver Lake Reservoir on your left. This is where you\u2019ll have to exit the fence, as the path closest to the reservoir is restricted to pedestrians. There are still benches and trash cans scattered along your route, and dogs are welcome (but must be leashed). From here on out, you\u2019ll notice tons of eucalyptus trees, thousands of which were planted as early as 1911 to try to make the concrete space a bit greener. Depending on the season, you can spot blue herons hanging out in the trees \u2014 a plaque along your route boasts some facts about the birds, if you feel inclined to stop for a bit of light reading.\n\nAs you reach the tip of the reservoir, a paved path to your left will open up. Veer left to take this path. You\u2019ll notice that down to your right is both the recreation center and the dog park. This is the best place to get the full view of the reservoir and the San Gabriel Mountains beyond \u2014 if you\u2019re looking for a spot to take pictures, this is it!\n\nExit the paved path, and keep left to continue, with the reservoir on your left this time and Silver Lake Boulevard on your right. On this side of the reservoir you\u2019ll find a beautiful and diverse selection of trees scattered about, helping to distract from the traffic, and there\u2019s plenty of unique architecture to check out as well. One home, Silvertop, was built in 1963 by famed architect John Lautner. There\u2019s also a water fountain on this side if needed.\n\nAs you continue, you\u2019ll notice the entrance to a big, beautiful green space perfect for picnics and resting under large trees. There are two paths at this point \u2014 the one on the left takes you through the green space, and the one on the right takes you around. Both paths converge again, but if you have a dog with you, you\u2019ll need to take the outside path, as dogs aren\u2019t allowed inside the park area. This portion of the hike is also filled with wildflowers and even lizards. This is the part that really makes you feel like you\u2019re no longer in the middle of the city (it\u2019s also the only portion where the street isn\u2019t visible).\n\nYou\u2019ll come across a fence \u2014 go straight through and keep left (this is where the non-dog path and the park path reconvene). Turn left on Armstrong Avenue, and take the shaded uphill paved path. This is the steepest part of the trek, but it doesn\u2019t last very long. Turn left on Tesla Drive. You\u2019ll pass the reservoir native gardens, where you can stop to take in the flora and fauna. Past this, you\u2019ll have looped right back to where you started.\nThere you have it! A short jaunt in the middle of the city that offers clear reservoir views, a few parks for some leisure time, and plenty of nature to take in along the way. When I was there, there were also fabric signs all along the reservoir fences noting the names of people of color who had been killed by police. The images below are just a few of the names posted on the fences. And at the end, a full quote from the Amanda Gorman poem Hymn for the Hurting: \u201cMay we not just ache, but act.\u201d\n    \n\nTags: Los Angeles, reservoir, silver lake, silverlake\nAccommodations near Silver Lake Reservoir\n by Cleo Egnal\n\nCleo Egnal is a writer with a love for nature, history, and dogs!\n\nEasy to follow, mostly paved path with a few forks with good signage.\nDownload GPX\nTake Silver Lake Boulevard to West Silver Lake Drive. Park anywhere along West Silver Lake Drive, and start the hike where West Silver Lake Drive meets Tesla Avenue. The pedestrian ramp on West Silver Lake Drive will take you to the start of the walking path.\nDriving Directions\nCar-free Directions\nUse the ModernHiker mobile app to download this map and complete trail description for offline access.\nDownload Details & Map\nConnect with Us",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:54:35.951439Z",
+              "expires_at": "2026-09-14T21:54:35.951439Z",
+              "content_hash": "db7c25c7bcfa5431acb71b45af8f77f63d3ac335947e1b46f5b7e382294d5af8"
+            },
+            {
+              "id": "54da5d9afa3e88976850d427",
+              "url": "https://www.alltrails.com/trail/us/california/silver-lake-reservoir-trail--2",
+              "title": "Silver Lake Reservoir Trail, California",
+              "text": "Silver Lake Reservoir Trail is a loop trail that covers 2.2 mi, with an elevation gain of 111 ft. It takes about 0.5\u20131 hr to complete. Loop trails have the same",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:56:44.669480Z",
+              "expires_at": "2026-09-14T21:56:44.669480Z",
+              "content_hash": "0a1604048b0e8c3b86ed2d641fe618d667b70155fe3d27e0e6d0e91f53578043"
+            },
+            {
+              "id": "177afe8333712c7a66cb72f3",
+              "url": "https://www.totago.co/app/trip/MH_silver-lake-reservoir",
+              "title": "Silver Lake Reservoir",
+              "text": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:56:44.669480Z",
+              "expires_at": "2026-09-14T21:56:44.669480Z",
+              "content_hash": "adbd68f8ece70bed2aa5f426b65cb967c9297a3458971883d459f1e1899e1e52"
+            },
+            {
+              "id": "ac03a0c9f5ef0886484b993c",
+              "url": "https://www.yelp.com/biz/silver-lake-reservoir-los-angeles",
+              "title": "Silver Lake Reservoir Photos",
+              "text": "The Reservoir is a 2.2 mile loop that can be busy with runners and walkers during peak hours. It's a decent walking path that definitely needs some landscaping",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:56:44.669480Z",
+              "expires_at": "2026-09-14T21:56:44.669480Z",
+              "content_hash": "a260d42dc43ec86d271e2096ebff8e3cb44a3b7121938993c51451de15dbc549"
+            },
+            {
+              "id": "514b72903ebb6dcb7df7d091",
+              "url": "https://en.wikipedia.org/wiki/Silver_Lake_Reservoir",
+              "title": "Silver Lake Reservoir - Wikipedia",
+              "text": "Jump to content\n  Wikipedia The Free Encyclopedia\nSearch\nContents\n (Top)\n 1 History\n 2 Environmental issues\n 3 In popular culture\n 4 See also\n 5 References\n 6 External links\nSilver Lake Reservoir\n Cebuano \"Silver Lake Reservoir (tubiganan sa Tinipong Bansa, California) \u2013 Cebuano\")\nEdit links\n Article\n Talk\n Read\n Edit\n View history\nTools\nActions\n Read\n Edit\n View history\nGeneral\n What links here\n Related changes\n Upload file\n Permanent link\n Page information\n Cite this page\n Get shortened URL\n Switch to legacy parser\nPrint/export\n Download as PDF\n Printable version\nIn other projects\n Wikimedia Commons\n Wikidata item\nAppearance\nCoordinates: 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495\nFrom Wikipedia, the free encyclopedia\nWater supply reservoirs for Los Angeles\n| Silver Lake Reservoir Complex |\n\n| View to the northwest across lower reservoir |\n| Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within the Los Angeles metropolitan area Show map of the Los Angeles metropolitan area  Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within California Show map of California  Location of Silver Lake Reservoir in California, USA. Location of Silver Lake Reservoir in California, USA.  Silver Lake Reservoir Complex  Location within the United States Show map of the United States |\n| Location | Silver Lake, Los Angeles, California |\n| Coordinates | 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495: {{#parsoid\\u0000fragment:9}}[ 34\u00b006\u203204\u2033N 118\u00b015\u203254\u2033W\ufeff / \ufeff34.10107\u00b0N 118.26495\u00b0W\ufeff / 34.10107; -118.26495]\"}}\" id=\"mwBw\" about=\"#mwt10\" typeof=\"mw:Extension/indicator\"> |\n| Type | Reservoir \"Reservoir (water)\") |\n| Basin countries | United States |\n| Max. length | 1.2 km (0.75 mi) |\n| Max. width | 500 m (1,600 ft) |\n| Surface area | 39 hectares (96 acres) |\n| Water volume | 3,000,000 m3 (2,400 acre\u22c5ft) |\n| Shore length1 | 3.2 km (2.0 mi) |\n| Surface elevation | 433 ft (132 m) |\n| References | U.S. Geological Survey Geographic Names Information System: Silver Lake Reservoir |\n| 1 Shore length is not a well-defined measure. |\nThe Silver Lake Reservoir Complex comprises two concrete-lined basins, Ivanhoe Reservoir and Silver Lake, divided by a spillway, in the Silver Lake community of Los Angeles, California.\nHistory\n[edit]\nThe lower body of water was named in 1906 for Water Board Commissioner Herman Silver, and in turn lends its name to the neighborhood. The upper body received its name after the 1819 Sir Walter Scott novel Ivanhoe.\nThe reservoirs are owned and maintained by the Los Angeles Department of Water and Power (DWP), and could provide water to 600,000 homes in downtown and South Los Angeles;. Only the smaller of the two, Ivanhoe, remains online. At capacity, it holds 795 million US gallons (3,010,000 m3) of water. The Silver Lake Reservoir's water resources was planned to be replaced by the Headworks Reservoir\"), an underground reservoir north of Griffith Park, slated for completion by December 2017.\nThe reservoir is the focal point of the community and has evolved as a regional recreational resource. It is surrounded by several recreational areas, including a dog park on the south, a nursery school on the north, and the Silver Lake Recreation Center, which includes a basketball court on the south side of the lake. There is also a walking and jogging path, which stretches 2.2 miles (3.5 km) around the reservoir. In April 2011, the City of Los Angeles opened up for public use a three-acre passive park on the east side of the lake dubbed the \"Silver Lake Meadow,\" modeled after the Sheep Meadow in New York's Central Park.\nIn January 2022, investigative journalists Christo Grozev and Maria Pevchikh came up with a plan that they called Secret Project Silver Lake, while walking around the reservoir. It was to organize an exchange of Russian spies held in Western prisons for several Russian political prisoners. A little more than two years later in August 2024, 16 individuals, many activists, journalists and political dissidents, were released from Russian prisons, including journalist Evan Gershkovich.\n Silver Lake Reservoir in February 1956\nSilver Lake Reservoir in February 1956\n Looking north\nLooking north\n Looking west\nLooking west\n Ivanhoe Reservoir after addition of shade balls\nIvanhoe Reservoir after addition of shade balls\nEnvironmental issues\n[edit]\nIn December 2007, the DWP announced that the Silver Lake and Ivanhoe reservoirs had both become contaminated with unusually high levels of the cancer-causing chemical bromate, and were immediately isolated. The reservoirs were both drained over several weeks in March 2008, and refilled in May 2008.\nIn June 2008, 400,000 black hollow plastic shade balls were placed in Ivanhoe, which remain in use, to reduce the likelihood of the sunlight-fueled bromate. Silver Lake Reservoir was taken offline permanently. This incident pointed out the necessity of protecting the water supply by using underground tanks. The black plastic balls were created in Allentown, Pennsylvania by Orange Products Inc. The balls are also used at airports to prevent birds from landing in water runoff, thus preventing birds from being drawn into aircraft engines. The balls were certified by NSF International which certifies the safety of food, water, and consumer goods. In February 2013 LADWP contracted with Glendora, California-based manufacturer XavierC LLC to supply an additional 6.4 million hollow plastic shade balls for reservoirs.\nIn popular culture\n[edit]\nThe reservoir appeared in the 2018 movie Under the Silver Lake, directed by David Robert Mitchell.\nThe reservoir was featured in Visiting... with Huell Howser Episode 1610.\nSee also\n[edit]\n List of dams and reservoirs in California\n List of lakes in California\nReferences\n[edit]\n1. 1 2 LA Times article: \"Silver Lake goes dry\".\n2. 1 2 Take Sunset article: \"13 Facts About The Silver Lake Reservoir\".\n3. 1 2 3 LADWP press release: \"LADWP Begins Refilling the Silver Lake Reservoir[permanent dead link]\"\n4. \u2191 LADWP fact sheet: Headworks Reservoir - Silver Lake Reservoir Complex Storage Replacement\".\n5. \u2191 Gessen, M. (2024-08-02). \"Opinion | Navalny Couldn't Be Freed Until Gershkovich Was Kidnapped. Gershkovich Couldn't Be Freed Until Navalny Was Dead\". The New York Times. ISSN \"ISSN (identifier)\") 0362-4331. Retrieved 2025-01-07.\n6. \u2191 LADWP press release: \"Statement on Silver Lake and Elysian Reservoir Bromate Issue Archived 2009-01-05 at the Wayback Machine\".\n7. \u2191 KCBS-TV CBS 2 article: \"400,000 Balls Get Dumped In Silver Lake Reservoir Archived 2008-06-12 at the Wayback Machine\".\n8. \u2191 LA Times article: \"We are not making this up: Ivanhoe Reservoir in Silver Lake covered in little black plastic balls.\"\n9. \u2191 \"Listing Category Search Page | NSF International\". Info.nsf.org. 2014-07-22. Retrieved 2016-10-25.\n10. \u2191 \"Under the Silver Lake \u2013 Filming & Production\". IMDb. Retrieved 20 July 2022.\n11. \u2191 \"Silver Lake Reservoir \u2013 Visiting (1610) \u2013 Huell Howser Archives at Chapman University\". 6 December 2016.\n Mr. Sunset (16 June 2009). \"13 Facts About The Silver Lake Reservoir\". Take Sunset. Retrieved 2009-09-05.\n 8. \nExternal links\n[edit]\nWikimedia Commons logo\nWikimedia Commons has media related to Silver Lake Reservoir.\n Los Angeles Department of Water and Power official website\n Historic image gallery at Silver Lake.org\n Silver Lake Reservoirs Conservancy\n Silver Lake Reservoir at Yelp\n|  v  t  e  Dams in Los Angeles County, California |\n\n| CA Department of Water Resources |  Castaic  Elderberry Forebay  Pyramid |\n| LA Department of Public Works |  Big Dalton  Big Tujunga  Cogswell  Devil's Gate  Eaton Wash  Live Oak\")  Morris  Pacoima  Puddingstone  San Dimas  San Gabriel  Santa Anita  Sawpit\") (disused)  Sierra Madre  Thompson Creek\") |\n| LA Department",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:54:39.008376Z",
+              "expires_at": "2026-09-14T21:54:39.008376Z",
+              "content_hash": "0ce404385c75e2b278e623c9247cc6622328fc09704b99321a90fb3da264d790"
+            },
+            {
+              "id": "2a6e781bdc32c996f011fc60",
+              "url": "https://www.welikela.com/walking-around-the-silver-lake-reservoir-and-up-the-mattachine-steps-l-a-on-foot-8",
+              "title": "Walking Around The Silver Lake Reservoir and Up the Mattachine Steps | L.A. On Foot #8",
+              "text": "October 18, 2022 - A 2.7 mile walk that takes you down the Mattachine Steps and around the Silver Lake Reservoir.",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:54:33.160975Z",
+              "expires_at": "2026-09-14T21:54:33.160975Z",
+              "content_hash": "8ecbdc371adf36d3839242d45a3ce12a9790f182db46da5fb7b6e2dd522571c8"
+            },
+            {
+              "id": "5916dceede79915916a1bff3",
+              "url": "https://en.wikipedia.org/wiki/Silver",
+              "title": "Silver",
+              "text": "# Silver [...] The principal sources of silver are polymetallic ores from which silver is recovered as a byproduct, especially lead\u2013zinc, copper and gold ores. Although silver is the principal product at several mines, the polymetallic ore deposits from which silver is recovered account for more than two-thirds of U.S. and world silver resources. [...] Further information: Silver mining",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:54:33.160975Z",
+              "expires_at": "2026-09-14T21:54:33.160975Z",
+              "content_hash": "5aa02c90b7316ef271bfec5f93319a51e56fd2b57c9c28ee3bdc223d84f68dd1"
+            },
+            {
+              "id": "c936edca65fa55ecbed5e4d1",
+              "url": "https://en.wikipedia.org/wiki/Sterling_silver",
+              "title": "Sterling silver - Wikipedia",
+              "text": "The American revolutionary Paul Revere was regarded as one of the best silversmiths from this \"Golden Age of American Silver\". Following the Revolutionary War, Revere acquired and made use of a silver rolling mill \"Rolling (metalworking)\") from England. Not only did the rolling mill increase his production\u2014hammering and flattening silver took most of a silversmith's time\u2014he was able to roll and sell silver of appropriate, uniform thickness to other silversmiths. He retired a wealthy artisan, [...] Silver is not a very reactive metal and does not react with oxygen or water at ordinary temperatures, so does not easily oxidize. However, it is attacked by common components of atmospheric pollution. Silver sulfide slowly appears as a black tarnish during exposure to airborne compounds of sulfur (byproducts of the burning of fossil fuels and some industrial processes), and low level ozone reacts to form silver oxide. As the purity of the silver decreases, the problem of corrosion or tarnishing [...] In Colonial America, sterling silver was used for currency and general goods as well. Between 1634 and 1776, some 500 silversmiths created items in the \"New World\" ranging from simple buckles to ornate Rococo coffee pots. Although silversmiths of this era were typically familiar with all precious metals, they primarily worked in sterling silver. The colonies lacked an assay office until 1814, so American silversmiths adhered to the standard set by the London Goldsmiths Company: sterling silver",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T21:54:33.160975Z",
+              "expires_at": "2026-09-14T21:54:33.160975Z",
+              "content_hash": "6c2987a72a726bd08813e5352bfa7c5e523ad47c8e6089c146b689f7f1041063"
+            },
+            {
+              "id": "a84743696cfea178b32efe6f",
+              "url": "https://www.timeout.com/los-angeles/news/22-art-exhibitions-in-l-a-to-look-forward-to-in-2026-123125",
+              "title": "22 art exhibitions in L.A. to look forward to in 2026",
+              "text": "If all goes according to plan, the Lucas Museum of Narrative Art will finally open its doors in Exposition Park this September. The verdant spaceship-like building between the Natural History Museum and the L.A. Memorial Coliseum adds something decidedly different and otherworldly to L.A.\u2019s architectural scene and has been piquing Angelenos\u2019 interest for years now. The five-story museum will feature 35 galleries, two state-of-the-art theaters, classrooms, a library, dining options and a gift [...] Lucas Museum of Narrative Art  \nOpening Sept 22, 2026 [...] of the Manzanar War Relocation Center. The immersive exhibition will wind through the remodeled first floor, promising a more dynamic experience that traces the past, present and future of the Japanese American experience. Also opening at JANM the same time will be \u201cPictures of Belonging,\u201d an exhibition of works by three trailblazing Japanese American women artists\u2014Miki Hayakawa, Hisako Hibi and Min\u00e9 Okubo\u2014that debuted at the Smithsonian American Art Museum.",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:13.864870Z",
+              "expires_at": "2026-09-14T22:00:13.864870Z",
+              "content_hash": "94c72248527de2fbb2b68ca98ee5b614284f9fe1fcabbb27c61d19666dff34c7"
+            },
+            {
+              "id": "a6671018dd1e27c59c859aa2",
+              "url": "https://www.galleriesnow.net/exhibitions/los-angeles",
+              "title": "Exhibitions in\u00a0Los Angeles - Exhibitions | GalleriesNow",
+              "text": "Image for Phung Huynh: Bite The Hand That Feeds You, at Luis De Jesus Los Angeles \n\nPhung Huynh: Bite The Hand That Feeds You\n\n12 Sep - 24 Oct 2026\n\nforthcoming\n\n1110 Mateo St, CA 90021, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Luis De Jesus Los Angeles\n\nLuis De Jesus Los Angeles Los Angeles\n\nImage for Sherin Guirguis: Into the Lake of Fire (\u2c89\u0300\u03e7\u2c9f\u2ca9\u2c9b \u2c89\u0300\u03ef\u2c97\u2ca9\u2c99\u2c9b\u2c8f \u2c9b\u0300\u2cad\u0300\u2ca3\u2cb1\u2c99), at Luis De Jesus Los Angeles \n\nSherin Guirguis: Into the Lake of Fire (\u2c89\u0300\u03e7\u2c9f\u2ca9\u2c9b \u2c89\u0300\u03ef\u2c97\u2ca9\u2c99\u2c9b\u2c8f \u2c9b\u0300\u2cad\u0300\u2ca3\u2cb1\u2c99)\n\n12 Sep - 24 Oct 2026 [...] forthcoming\n\n1110 Mateo St, CA 90021, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Perrotin\n\nPerrotin Los Angeles Los Angeles\n\nImage for Paul Pfeiffer: Olympia, at Perrotin Los Angeles \n\nPaul Pfeiffer: Olympia\n\n18 Sep - 7 Nov 2026\n\nforthcoming\n\n5036 W Pico Blvd, CA 90019, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Philip Martin Gallery\n\nPhilip Martin Gallery Los Angeles\n\nImage for A Certain Slant of Light, at Philip Martin Gallery \n\nA Certain Slant of Light\n\n1 Aug - 26 Sep 2026 [...] forthcoming\n\n1037 N. Sycamore Avenue, CA 90038, Los Angeles\n\nTue-Sat 10am-6pm\n\nLogo for Louis Stern Fine Arts\n\nLouis Stern Fine Arts Los Angeles\n\nImage for Cordillera Mexicana: Alfredo Ramos Mart\u00ednez and the Mexican Landscape, at Louis Stern Fine Arts \n\nCordillera Mexicana: Alfredo Ramos Mart\u00ednez and the Mexican Landscape\n\n18 Jul - 19 Sep 2026\n\n9002 Melrose Avenue, CA 90069, Los Angeles\n\nTue-Fri 10am-6pm, Sat 11am-5pm",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:13.864870Z",
+              "expires_at": "2026-09-14T22:00:13.864870Z",
+              "content_hash": "dcb696f7b62c7845d8ae2cdf3a613e7aa2ac6abeebced0b0cac9763f58ea6f73"
+            },
+            {
+              "id": "3cfc657761cc100843d424d2",
+              "url": "https://ocula.com/cities/usa/los-angeles-art-galleries/exhibitions",
+              "title": "Art Exhibitions in Los Angeles during 2026 / 2027",
+              "text": "Los Angeles County Museum of Art Los Angeles\n\nAmadeo Luciano Lorenzato David Zwirner 23 September\u201331 October 2026 Los Angeles/)\n\nAmadeo Luciano Lorenzato David Zwirner 23 September\u201331 October 2026 Los Angeles/) Los Angeles County Museum of Art Los Angeles\n\nGroup Exhibition Tom's Stretch David Kordansky Gallery 10 July\u201322 August 2026 Los Angeles/) [...] - [x] Lisson Gallery - [x] Los Angeles County Museum of Art - [x] Marciano Art Foundation - [x] Marian Goodman Gallery - [x] Matthew Brown - [x] Matthew Marks Gallery - [x] The Geffen Contemporary at MOCA - [x] MOCA Grand Avenue - [x] Night Gallery - [x] Nonaka-Hill - [x] Ocula Advisory - [x] OMR - [x] Pace Gallery - [x] Perrotin - [x] Regen Projects - [x] Roberts Projects - [x] Sean Kelly - [x] Simchowitz - [x] Spr\u00fcth Magers - [x] Tanya Bonakdar Gallery - [x] The Broad - [x] The Getty Center [...] The Getty Center - [x] Vincent Price Art Museum - [x] Wilding Cran Gallery",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:13.864870Z",
+              "expires_at": "2026-09-14T22:00:13.864870Z",
+              "content_hash": "9819066347258374cf86cb3faa163ade0a1e202dee0b702c9fa25907a4b718cd"
+            },
+            {
+              "id": "e7b4bf3114395fade099ea1f",
+              "url": "https://www.artrabbit.com/exhibitions/united-states/los-angeles/upcoming",
+              "title": "Contemporary art exhibitions and events in Los Angeles",
+              "text": "Opening: 19 Sep 2026, 18:00\n\nGabba Gallery\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Poster Pals: Featuring MAZZA and MUNK ONE\n\nRadiant Terrains: Elements of Light in Contemporary Art from the Permanent Collection\n\nExhibition\n\nRadiant Terrains: Elements of Light in Contemporary Art from the Permanent Collection\n\n19 Sep 2026 \u2013 10 Jan 2027\n\nLaguna Art Museum\n\nLaguna Beach, United States [...] Exhibition\n\nBryan Ida Portrait Remix Opening Reception\n\n19 Sep 2026\n\nOpening: 19 Sep 2026, 15:00\n\nBluerider ART LA \u00b7 Manhattan Beach\n\nManhattan Beach, United States\n\n Save / follow\n I've seen this\n Comment on Bryan Ida Portrait Remix Opening Reception\n\nDavid Lynch: LA\n\nExhibition\n\nDavid Lynch: LA\n\n19 Sep 2026 \u2013 24 Oct 2026\n\nOpening: 19 Sep 2026, 18:00\n\nPACE Los Angeles\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on David Lynch: LA\n\nErin Wright: Memnosphere\n\nExhibition [...] Opening: 19 Sep 2026, 18:00\n\nla BEAST gallery\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Neither Land Nor Water\n\nObjective Truths\n\nExhibition\n\nObjective Truths\n\n19 Sep 2026 \u2013 24 Oct 2026\n\nOpening: 19 Sep 2026, 17:00\n\nRoberts Projects\n\nLos Angeles, United States\n\n Save / follow\n I've seen this\n Comment on Objective Truths\n\nPoster Pals: Featuring MAZZA and MUNK ONE\n\nExhibition\n\nPoster Pals: Featuring MAZZA and MUNK ONE\n\n19 Sep 2026 \u2013 10 Oct 2026",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:13.864870Z",
+              "expires_at": "2026-09-14T22:00:13.864870Z",
+              "content_hash": "76565f84ad7c4e21df541eb1e3ac349c77f5a6da929ad0e391db95f46fcb3901"
+            },
+            {
+              "id": "b95f2099e6b830381ba119b1",
+              "url": "https://www.lacma.org/",
+              "title": "LACMA | Los Angeles County Museum of Art, Week of ...",
+              "text": "Los Angeles County Museum of Art (LACMA) Notice of data security incident\nOpen today: 11 AM-8 PM\nShop Membership MYLACMA Tickets\nLACMA\nTicket Link\nLACMA | Los Angeles County Museum of Art, Week of July 27\n \nThe New David Geffen Galleries Are Now Open\nGet Tickets\nEileen Cowin, The Uninvited Visitor, 2025, printed 2026, \u00a9 Eileen Cowin, courtesy of the artist\n \nEileen Cowin: Between Panic and Paradise\nExhibition | On view through Jan 3, 2027\n \nTextile Alchemy: The Art of Reiko Sud\u014d and NUNO\nExhibition | Member Previews Sep 17 through Sep 19\nNight Out at LACMA \nNight Out at LACMA\nSpecial Event | Wed Sep 30, 7 pm\nTextile Alchemy: The Art of Reiko Sud\u014d & NUNO Special Edition Exhibition Catalogue \nTextile Alchemy: The Art of Reiko Sud\u014d & NUNO Special Edition Exhibition Catalogue\nShop the LACMA Store\nFashioning Chinese Women: Empire to Modernity \nFashioning Chinese Women: Empire to Modernity\nExhibition | On view through Oct 12\nThe LACMA Fund \nThe LACMA Fund\nMake a gift today\nJazz at LACMA: L.A. Jazz Treasure Award \nJazz at LACMA: L.A. Jazz Treasure Award\nMusic | Fri Sep 11, 6 pm\nAlfonso Gonzalez Jr.: In Between Stops \nAlfonso Gonzalez Jr.: In Between Stops\nInstallation | On view through Dec 1\nBoone Children's Gallery \nBoone Children's Gallery\nWorkshop | Daily except Wednesdays and Sundays\nCollecting Impressionism at LACMA \nCollecting Impressionism at LACMA\nExhibition | On view through Jan 3, 2027\nThird Weekends at LACMA: September\n \nThe Genesis Talks: Marc Merrill and Michael Govan\nTalk | Mon Sep 21, 7 pm\n \nJazz at LACMA: The 17 Big Band\nMusic | Fri Sep 18, 6 pm\n \nLACMA Live: Native Voices' The Space Between Labels\nSpecial Event | Thu Sep 17 and Sat Sep 19\nPhoto \u00a9 Museum Associates/LACMA \nNinth R.L. Shep Triennial Symposium on Textiles and Dress\nTalk | Sun Sep 20, 9:30 am\nVisitors in the David Geffen Galleries  \nGet 12 months of free admission, including the David Geffen Galleries.\nBecome a Member\n\nDocent Tours\nFree every day\nDocent-led tours on a variety of subjects ranging from entire exhibitions to single works of art are offered most days the museum is open and are free to all with admission.\n\nThe LACMA Store\nShop the LACMA Store\nThe LACMA Store reflects the museum itself through its thoughtfully curated selection of LACMA-developed catalogues and publications, books, posters, and more.\n\nErewhon at LACMA\nNow open\nErewhon at LACMA offers organic coffee and matcha, fresh pastries, signature smoothies, cold-pressed juices, and a selection of grab-and-go meals and organic snacks.\nHot fun in the summertime...\nNew Brighton, Merseyside \nMartin Parr  \nNew Brighton, Merseyside, 1983-1986, printed 2002\nNear Palm Springs \nBen Blackwell  \nNear Palm Springs, 1972\nThe Seventh Month, Fireworks over Ry\u014dgoku, Sumida River \nFujimori Shizuo  \nThe Seventh Month, Fireworks over Ry\u014dgoku, Sumida River, 1925\nDwight Evans Hits a Home Run, Fenway Park \nJim Stone  \nDwight Evans Hits a Home Run, Fenway Park, 1982\nWoman's Coordinates (Blouse, Skirt, and Shorts) \nDeDe Johnson  \nWoman's Coordinates (Blouse, Skirt, and Shorts), late 1950s\nConey Island \nPaul Cadmus  \nConey Island, 1934\nWith grandchildren at the Fun House \nImogen Cunningham  \nWith grandchildren at the Fun House, 1955\nCalifornia Copied From 1965 Painting in 1987 \nDavid Hockney  \nCalifornia Copied From 1965 Painting in 1987, 1987\nLatest from Unframed, the LACMA blog\n \nEverything You Need to Know About LACMA\u2019s New David Geffen Galleries\n<p>Installation photo, <em>Deep Cuts: Block Printing Across Cultures</em> at the Los Angeles County Museum of Art, November 9, 2025\u2013September 13, 2026, photo \u00a9 Museum Associates/LACMA, by Jonathan Urban</p> \nThis Week at LACMA\n<p>Yayoi Kusama at LACMA, 1998, \u00a9 Yayoi Kusama, photo \u00a9 Museum Associates/LACMA</p> \nRemembering Yayoi Kusama\n<p>Interior of the David Geffen Galleries at the Los Angeles County Museum of Art, photo \u00a9 Museum Associates/LACMA, by Charlie Powers</p> \nReading the Room: How Do You Care for Art in a Radically New Kind of Museum?\n<p>Rick Guidice for NASA, <em>Cutaway of Torus Wheel Habitat</em>, 1975, NASA Ames Research Center, \u00a9 Rick Guidice, photo courtesy of NASA Ames Research Center</p> \nEven More Exhibitions to See in 2026",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:21.486818Z",
+              "expires_at": "2026-09-14T22:00:21.486818Z",
+              "content_hash": "82bd476c3899759304919a52b27e9b1ee11b9e41fd913d941430a1c0d8e43513"
+            },
+            {
+              "id": "c8bbdcc72ba34c895ecdbc3b",
+              "url": "https://www.eventbrite.com/d/ca--los-angeles/food-festival",
+              "title": "Discover Food Festival Events & Activities in Los Angeles, CA | Eventbrite",
+              "text": "Free\n\nSOQWallet\n\nPromoted\n\nPAUL FRANK @ BOB BAKER DAY! primary image\n\n### PAUL FRANK @ BOB BAKER DAY!\n\nSun, Sep 20, 10:00 AM\n\nLos Angeles State Historic Park\n\nFree\n\nPromoted\n\nIndian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026 primary image\n\n### Indian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026\n\nSat, Sep 26, 12:00 PM\n\nSimons \u00b7 The Compound Event Center\n\nIndian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026 primary image [...] ### Indian Food Festival Los Angeles - Compound Event Center | Sept 26, 2026\n\nSat, Sep 26, 12:00 PM\n\nSimons \u00b7 The Compound Event Center\n\nSouth Bay Mediterranean Food Festival primary image\n\n### South Bay Mediterranean Food Festival\n\nToday at 11:00 AM\n\nEast Torrance \u00b7 St Matthew Orthodox Christian Church\n\nSouth Bay Mediterranean Food Festival primary image\n\n### South Bay Mediterranean Food Festival\n\nToday at 11:00 AM\n\nEast Torrance \u00b7 St Matthew Orthodox Christian Church [...] Hollywood \u00b7 6233 Hollywood Blvd\n\nLos Angeles CHOCOLATE SALON and FESTIVAL 2026 primary image\n\n### Los Angeles CHOCOLATE SALON and FESTIVAL 2026\n\nSun, Oct 4, 10:00 AM\n\nDowntown \u00b7 Pasadena Center\n\nLos Angeles CHOCOLATE SALON and FESTIVAL 2026 primary image\n\n### Los Angeles CHOCOLATE SALON and FESTIVAL 2026\n\nSun, Oct 4, 10:00 AM\n\nDowntown \u00b7 Pasadena Center\n\n2026 LA Afrobeats Block Party & Jollof Cook-off (5-year Edition) primary image",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:17.823460Z",
+              "expires_at": "2026-09-14T22:00:17.823460Z",
+              "content_hash": "6f0c9131522baa4da304f5324eed4f1f4d20b1a18bd97c5034b7310bc25c88f2"
+            },
+            {
+              "id": "d7a9d5194f253fc8157a444b",
+              "url": "https://www.timeout.com/los-angeles/things-to-do/september-events-calendar",
+              "title": "September 2026 Events Calendar for Los Angeles - Time Out",
+              "text": "Oktoberfest is coming to the zoo\u2014because beer gardens have always needed more giraffes. The brand-new Zootoberfest takes over the L.A. Zoo September 19 and 20 with German-inspired food, giant pretzels, specialty beers, root beer floats, live Oktoberfest bands, lawn games, a braid bar, themed photo ops and plenty of fall vibes. Admission to the family-friendly celebration is included with your general admission zoo ticket. Food and drinks are available for purchase, so come for the animals, stay [...] Forget the usual museum stroll\u2014let\u2019s dance! LACMA is celebrating the Mid-Autumn Festival with a traditional lion dance accompanied by live music from the Immortals Lion Dance crew. The free performance takes place Sunday, September 20, at the David Geffen Galleries\u2019 Plaza Level, as part of the museum\u2019s free Third Weekends program and in celebration of its exhibition \u201cFashioning Chinese Women.\u201d No ticket required: Just show up and prepare to make your museum visit a considerably livelier one. [...] News\n Things to Do\n Food & Drink\n Culture\n Travel\n + Attractions\n  + Museums\n  + Hotels\n\nfacebooktwitterinstagramspotify\n\nPhotograph: Courtesy Ohana Festival\n\nPhotograph: Courtesy Ohana Festival\n\n# September 2026 events calendar for Los Angeles\n\nPlan your month with our September 2026 events calendar of the best activities, including free things to do, festivals and concerts\n\nFacebookTwitterPinterestEmailWhatsApp\n\nGillian Glover\n\nEdited by Gillian Glover\n\nThings to Do Editor, Los Angeles",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:17.823460Z",
+              "expires_at": "2026-09-14T22:00:17.823460Z",
+              "content_hash": "411cf4fef1642a8d62abbc7cb3d7084a65b92f80af02ed8d2cd339837234f573"
+            },
+            {
+              "id": "8f7021c9b4b80ef340aba849",
+              "url": "https://www.facebook.com/LACity/posts/september-is-in-full-swing-with-vibrant-cultural-expos-community-gatherings-and-/1532950422198922",
+              "title": "September is in full swing with vibrant cultural expos, community ...",
+              "text": "City of Los Angeles's post\nCity of Los Angeles\n19h  \u00b7\nSeptember is in full swing with vibrant cultural expos, community gatherings, and pet parades! \u2600\ufe0f Discover some of the top events happening around Los Angeles this weekend\u2014and one special event on Monday.\n5th Annual Deaf Latinos Expo\nSat, September 12, 2026, 11:00 AM \u2013 4:00 PM\n\ud83d\udccd Plaza de La Raza, 3540 N. Mission Rd., Los Angeles, CA 90031\n\ud83d\udcb2 Free (RSVP recommended)\nEast LA Parade & Festival\nSun, September 13, 2026, 10:00 AM \u2013 4:00 PM\n\ud83d\udccd E. C\u00e9sar E. Ch\u00e1vez Ave. & Mednik Ave., East Los Angeles, CA 90022\n\ud83d\udcb2 Free\nPico Union Pet Parade\nSat, September 12, 2026, 5:00 \u2013 9:00 PM\n\ud83d\udccd Alvarado Terrace Park, 1342 S. Alvarado St., Los Angeles, CA 90006\n\ud83d\udcb2 Free\nGoodfellas at Cinespia\nSat, September 12, 2026; doors open at 5:45 PM, movie begins at 7:30 PM\n\ud83d\udccd Hollywood Forever Cemetery, 6000 Santa Monica Blvd., Los Angeles, CA 90038\n\ud83d\udcb2 $31\n32nd Annual Festival of Philippine Arts & Culture\nSat, September 12, 2026, 10:00 AM \u2013 6:00 PM\n\ud83d\udccd Point Fermin Park, 807 West Paseo Del Mar, San Pedro, CA 90731\n\ud83d\udcb2 Free; RSVP recommended\n21st Annual LAWineFest\nSat, September 12, 2026, 2:00 \u2013 6:00 PM & Sun, September 13, 2026, 1:00 \u2013 5:00 PM\n\ud83d\udccd Los Angeles Equestrian Center, 480 W. Riverside Drive, Burbank, CA 91506\n\ud83d\udcb2 Ticketed; prices vary\nCaribbean Heritage Festival\nSat, September 12, 2026, 2:00 \u2013 7:00 PM\n\ud83d\udccd Baldwin Hills Crenshaw Plaza, 3650 W. Martin Luther King Jr. Blvd., Los Angeles, CA 90008\n\ud83d\udcb2 Free\nLos \u00c1ngeles Azules Square Unveiling\nMon, September 14, 2026, 9:00 AM \u2013 1:00 PM\n\ud83d\udccd Van Nuys Blvd. & Chase St., Panorama City, CA 91402\n\ud83d\udcb2 Free\n\n+5\n'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M16.0001 7.9996c0 4.418-3.5815 7.9996-7.9995 7.9996S.001 12.4176.001 7.9996 3.5825 0 8.0006 0C12.4186 0 16 3.5815 16 7.9996Z' fill='url(%23paint2_radial_15251_63610)' fill-opacity='.5'/%3E%3Cpath d='M7.3014 3.8662a.6974.6974 0 0 1 .6974-.6977c.6742 0 1.2207.5465 1.2207 1.2206v1.7464a.101.101 0 0 0 .101.101h1.7953c.992 0 1.7232.9273 1.4917 1.892l-.4572 1.9047a2.301 2.301 0 0 1-2.2374 1.764H6.9185a.5752.5752 0 0 1-.5752-.5752V7.7384c0-.4168.097-.8278.2834-1.2005l.2856-.5712a3.6878 3.6878 0 0 0 .3893-1.6509l-.0002-.4496ZM4.367 7a.767.767 0 0 0-.7669.767v3.2598a.767.767 0 0 0 .767.767h.767a.3835.3835 0 0 0 .3835-.3835V7.3835A.3835.3835 0 0 0 5.134 7h-.767Z' fill='%23fff'/%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(90 .0005 8) scale(7.99958)'%3E%3Cstop offset='.5618' stop-color='%230866FF' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%230866FF' stop-opacity='.1'/%3E%3C/radialGradient%3E%3CradialGradient id='paint2_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(45 -4.5257 10.9237) scale(10.1818)'%3E%3Cstop offset='.3143' stop-color='%2302ADFC'/%3E%3Cstop offset='1' stop-color='%2302ADFC' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.3989' y1='2.3999' x2='13.5983' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2302ADFC'/%3E%3Cstop offset='.5' stop-color='%230866FF'/%3E%3Cstop offset='1' stop-color='%232B7EFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E)\n'%3E%3Cpath d='M15.9963 8c0 4.4179-3.5811 7.9993-7.9986 7.9993-4.4176 0-7.9987-3.5814-7.9987-7.9992 0-4.4179 3.5811-7.9992 7.9987-7.9992 4.4175 0 7.9986 3.5813 7.9986 7.9992Z' fill='url(%23paint0_linear_15251_63610)'/%3E%3Cpath d='M15.9973 7.9992c0 4.4178-3.5811 7.9992-7.9987 7.9992C3.5811 15.9984 0 12.417 0 7.9992S3.5811 0 7.9986 0c4.4176 0 7.9987 3.5814 7.9987 7.9992Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M7.9996 5.9081c-.3528-.8845-1.1936-1.507-2.1748-1.507-1.4323 0-2.4254 1.328-2.4254 2.6797 0 2.2718 2.3938 4.0094 4.0816 5.1589.3168.2157.7205.2157 1.0373 0 1.6878-1.1495 4.0815-2.8871 4.0815-5.159 0-1.3517-.993-2.6796-2.4254-2.6796-.9811 0-1.822.6225-2.1748 1.507Z' fill='%23fff'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='matrix(0 7.9992 -7.99863 0 7.9986 7.9992)'%3E%3Cstop offset='.5637' stop-color='%23E11731' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23E11731' stop-opacity='.1'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.3986' y1='2.4007' x2='13.5975' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FF74AE'/%3E%3Cstop offset='.5001' stop-color='%23FA2E3E'/%3E%3Cstop offset='1' stop-color='%23FF5758'/%3E%3C/linearGradient%3E%3CclipPath id='clip0_15251_63610'%3E%3Cpath fill='%23fff' d='M-.001.0009h15.9992v15.9984H-.001z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E)\n'%3E%3Cpath d='M15.9953 7.9996c0 4.418-3.5816 7.9996-7.9996 7.9996S-.004 12.4176-.004 7.9996 3.5776 0 7.9957 0c4.418 0 7.9996 3.5815 7.9996 7.9996Z' fill='url(%23paint0_linear_15251_63610)'/%3E%3Cpath d='M15.9973 7.9992c0 4.4178-3.5811 7.9992-7.9987 7.9992C3.5811 15.9984 0 12.417 0 7.9992S3.5811 0 7.9986 0c4.4176 0 7.9987 3.5814 7.9987 7.9992Z' fill='url(%23paint1_radial_15251_63610)'/%3E%3Cpath d='M15.9953 7.9996c0 4.418-3.5816 7.9996-7.9996 7.9996S-.004 12.4176-.004 7.9996 3.5776 0 7.9957 0c4.418 0 7.9996 3.5815 7.9996 7.9996Z' fill='url(%23paint2_radial_15251_63610)' fill-opacity='.8'/%3E%3Cpath d='M12.5278 8.1957c.4057.1104.6772.4854.623.9024-.3379 2.6001-2.5167 4.9012-5.1542 4.9012s-4.8163-2.3011-5.1542-4.9012c-.0542-.417.2173-.792.623-.9024.8708-.237 2.5215-.596 4.5312-.596 2.0098 0 3.6605.359 4.5312.596Z' fill='%234B280E'/%3E%3Cpath d='M11.5809 12.3764c-.9328.9843-2.1948 1.6228-3.5841 1.6228-1.3892 0-2.6512-.6383-3.5839-1.6225a1.5425 1.5425 0 0 0-.016-.0174c.4475-1.0137 2.2-1.3599 3.5999-1.3599 1.4 0 3.1514.3468 3.5998 1.3599l-.0157.0171Z' fill='url(%23paint3_linear_15251_63610)'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.3049 5.8793c.1614-1.1485-.6387-2.2103-1.7872-2.3717l-.0979-.0138c-1.1484-.1614-2.2103.6388-2.3717 1.7872l-.0163.1164a.5.5 0 0 0 .9902.1392l.0163-.1164c.0846-.6016.6408-1.0207 1.2424-.9362l.0978.0138c.6016.0845 1.0207.6407.9362 1.2423l-.0164.1164a.5.5 0 0 0 .9903.1392l.0163-.1164ZM2.6902 5.8793c-.1614-1.1485.6387-2.2103 1.7872-2.3717l.0979-.0138c1.1484-.1614 2.2103.6388 2.3717 1.7872l.0164.1164a.5.5 0 1 1-.9903.1392l-.0163-.1164c-.0846-.6016-.6408-1.0207-1.2423-.9362l-.098.0138c-.6015.0845-1.0206.6407-.936 1.2423l.0163.1164a.5.5 0 0 1-.9902.1392l-.0164-.1164Z' fill='%231C1C1D'/%3E%3C/g%3E%3Cdefs%3E%3CradialGradient id='paint1_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='matrix(0 7.9992 -7.99863 0 7.9986 7.9992)'%3E%3Cstop offset='.5637' stop-color='%23FF5758' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23FF5758' stop-opacity='.1'/%3E%3C/radialGradient%3E%3CradialGradient id='paint2_radial_15251_63610' cx='0' cy='0' r='1' gradientUnits='userSpaceOnUse' gradientTransform='rotate(45 -4.5272 10.9202) scale(10.1818)'%3E%3Cstop stop-color='%23FFF287'/%3E%3Cstop offset='1' stop-color='%23FFF287' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='paint0_linear_15251_63610' x1='2.396' y1='2.3999' x2='13.5954' y2='13.5993' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FFF287'/%3E%3Cstop offset='1' stop-color='%23F68628'/%3E%3C/linearGradient%3E%3ClinearGradient id='paint3_linear_15251_63610' x1='5.1979' y1='10.7996' x2='5.245' y2='14.2452' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23FF60A4'/%3E%3Cstop offset='.2417' stop-color='%23FA2E3E'/%3E%3Cstop offset='1' stop-color='%23BC0A26'/%3E%3C/linearGradient%3E%3CclipPath id='clip0_15251_63610'%3E%3Cpath fill='%23fff' d='M-.002 0h16v15.9992h-16z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E)\nAll reactions:\n11\n2 comments\n4 shares\nMost relevant\nMary Perez LA Reyna\nthumbs up; supportive; thumbs up emoji; thumbs up gif; giving thumbs up; supportive gesture;",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:23.354731Z",
+              "expires_at": "2026-09-14T22:00:23.354731Z",
+              "content_hash": "a617c5a09a57b63d42a624a7586ec30b403b63ffcb4981f4f5d1c436fb9fa297"
+            },
+            {
+              "id": "101b25b16896b6216a2ea7a1",
+              "url": "https://festivalguidesandreviews.com/california-festivals",
+              "title": "2026 California Festival Guide - Festival Guides and Reviews",
+              "text": "9/26 \u2013 Saint Vincent de Paul Parish Fest and Car Show \u2013 Huntington Beach  \n9/26 \u2013June Lake Autumn Brew Festival \u2013 June Lake  \n9/26 \u2013 Kelseyville Pear Festival \u2013 Kelseyville  \n9/26 \u2013 Autry Museum of the American West Annual Block Party \u2013 Los Angeles  \n9/26 \u2013 Los Angeles Libros Festival \u2013 Los Angeles  \n9/26 \u2013 Monrovia Beer, Wine and Music Festival \u2013 Monrovia  \n9/26 \u2013 Moraga Pear and Wine Festival \u2013 Moraga  \n9/26 \u2013 Mountain House Multi-Cultural Celebration \u2013 Mountain House [...] 9/24-9/27 \u2013 Antelope Valley Fair I \u2013 Lancaster  \n9/24-9/27 \u2013 Westminster Fall Festival \u2013 Westminster  \n9/25 \u2013 Foods of Garden Grove \u2013 Garden Grove  \n9/25 \u2013 Irvine Mid-Autumn Festival \u2013 Irvine  \n9/25 \u2013 Milpitas Lantern Festival \u2013 Milpitas  \n9/25 \u2013 California Native American Day \u2013 San Bernardino  \n9/25 \u2013 Visalia Oktoberfest \u2013 Visalia  \n9/25-9/26 \u2013 Arroyo Grande Valley Harvest Festival and Parade \u2013 Arroyo Grande  \nWeekend continues below\u2026 [...] 9/19-9/20 \u2013 Millbrae Mid-Autumn Festival \u2013 Millbrae   \n9/19-9/20 \u2013 Modesto Greek Food Festival \u2013 Modesto  \n9/19-9/20 \u2013 Whale Rock Music and Arts Festival \u2013 Paso Robles  \n9/19-9/20 \u2013 Nocturnal Wonderland \u2013 San Bernardino  \nWeekend continues below\u2026",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:17.823460Z",
+              "expires_at": "2026-09-14T22:00:17.823460Z",
+              "content_hash": "9b79ab90a10e6714749ccd7508e318e9f34adc3d79a51e6423a54d8c678b02c6"
+            },
+            {
+              "id": "7d039035f51d11b9f64a6643",
+              "url": "https://www.discoverlosangeles.com/events",
+              "title": "Los Angeles Events Calendar for 2026, from Festivals to ...",
+              "text": "Music\n\n## Rodgers & Hammerstein\u2019s The Sound of Music Sing-A-Long\n\nSep 26, 2026   8PM - 10PM\n\nJon Batiste \n\nMusic\n\n## Jon Batiste\n\nSep 27, 2026   7:30PM - 9:30PM\n\nMain image for event titled Bruno Mars  \n\nMusic\n\n## Bruno Mars\n\nSep 30, 2026   7PM - 9PM\n\n\u27e8\n\n\u27e9 [...] Sep 13, 2026   1:25PM - 3:25PM\n\nLucy Dacus \n\nMusic\n\n## Lucy Dacus with the Hollywood Bowl Orchestra\n\nSep 13, 2026   7PM - 9PM\n\nSqueeze \n\n## Squeeze | Adam Ant | The English Beat\n\nSep 19, 2026   8PM - 10PM\n\nWynton Marsalis \n\nMusic\n\n## Jazz at Lincoln Center Orchestra with Wynton Marsalis\n\nSep 23, 2026   8PM - 10PM\n\nMain image for event titled Usher & Chris Brown \n\n## Usher & Chris Brown\n\nSep 25, 2026   7PM - 10PM\n\nRodgers & Hammerstein\u2019s The Sound of Music Sing-A-Long \n\nMusic [...] chargers\") \n\nSports\n\n## Los Angeles Chargers vs. Arizona Cardinals (SEASON OPENER)\")\n\nSep 13, 2026   1:25PM - 3:25PM\n\nSqueeze \n\n## Squeeze | Adam Ant | The English Beat\n\nSep 19, 2026   8PM - 10PM\n\nWynton Marsalis \n\n## Jazz at Lincoln Center Orchestra with Wynton Marsalis\n\nSep 23, 2026   8PM - 10PM\n\nMain image for event titled Usher & Chris Brown \n\n## Usher & Chris Brown\n\nSep 25, 2026   7PM - 10PM\n\nRodgers & Hammerstein\u2019s The Sound of Music Sing-A-Long",
+              "provider": "tavily",
+              "retrieved_at": "2026-09-13T22:00:17.823460Z",
+              "expires_at": "2026-09-14T22:00:17.823460Z",
+              "content_hash": "7178fdc700e1735ccd07e6d8125e5053485b4e666f0e8254cc3aaf29d792b685"
+            }
+          ],
+          "nodes": [
+            {
+              "id": "8a119809c2b87ce0abe84d1b",
+              "label": "Walks along Silver Lake Reservoir \ud83d\udc95 #discoverLA ...",
+              "kind": "source"
+            },
+            {
+              "id": "3b932053db19663edefebb0d",
+              "label": "Silver Lake Reservoir - Modern Hiker",
+              "kind": "source"
+            },
+            {
+              "id": "54da5d9afa3e88976850d427",
+              "label": "Silver Lake Reservoir Trail, California",
+              "kind": "source"
+            },
+            {
+              "id": "177afe8333712c7a66cb72f3",
+              "label": "Silver Lake Reservoir",
+              "kind": "source"
+            },
+            {
+              "id": "ac03a0c9f5ef0886484b993c",
+              "label": "Silver Lake Reservoir Photos",
+              "kind": "source"
+            },
+            {
+              "id": "514b72903ebb6dcb7df7d091",
+              "label": "Silver Lake Reservoir - Wikipedia",
+              "kind": "source"
+            },
+            {
+              "id": "2a6e781bdc32c996f011fc60",
+              "label": "Walking Around The Silver Lake Reservoir and Up the Mattachine Steps | L.A. On Foot #8",
+              "kind": "source"
+            },
+            {
+              "id": "5916dceede79915916a1bff3",
+              "label": "Silver",
+              "kind": "source"
+            },
+            {
+              "id": "c936edca65fa55ecbed5e4d1",
+              "label": "Sterling silver - Wikipedia",
+              "kind": "source"
+            },
+            {
+              "id": "a84743696cfea178b32efe6f",
+              "label": "22 art exhibitions in L.A. to look forward to in 2026",
+              "kind": "source"
+            },
+            {
+              "id": "a6671018dd1e27c59c859aa2",
+              "label": "Exhibitions in\u00a0Los Angeles - Exhibitions | GalleriesNow",
+              "kind": "source"
+            },
+            {
+              "id": "3cfc657761cc100843d424d2",
+              "label": "Art Exhibitions in Los Angeles during 2026 / 2027",
+              "kind": "source"
+            },
+            {
+              "id": "e7b4bf3114395fade099ea1f",
+              "label": "Contemporary art exhibitions and events in Los Angeles",
+              "kind": "source"
+            },
+            {
+              "id": "b95f2099e6b830381ba119b1",
+              "label": "LACMA | Los Angeles County Museum of Art, Week of ...",
+              "kind": "source"
+            },
+            {
+              "id": "c8bbdcc72ba34c895ecdbc3b",
+              "label": "Discover Food Festival Events & Activities in Los Angeles, CA | Eventbrite",
+              "kind": "source"
+            },
+            {
+              "id": "d7a9d5194f253fc8157a444b",
+              "label": "September 2026 Events Calendar for Los Angeles - Time Out",
+              "kind": "source"
+            },
+            {
+              "id": "8f7021c9b4b80ef340aba849",
+              "label": "September is in full swing with vibrant cultural expos, community ...",
+              "kind": "source"
+            },
+            {
+              "id": "101b25b16896b6216a2ea7a1",
+              "label": "2026 California Festival Guide - Festival Guides and Reviews",
+              "kind": "source"
+            },
+            {
+              "id": "7d039035f51d11b9f64a6643",
+              "label": "Los Angeles Events Calendar for 2026, from Festivals to ...",
+              "kind": "source"
+            },
+            {
+              "id": "7016fb2a85858ea68a6a1680",
+              "label": "Silver Lake Reservoir loop",
+              "kind": "entity"
+            },
+            {
+              "id": "49306b351d3f319e1d771b66",
+              "label": "East LA Parade & Festival",
+              "kind": "entity"
+            },
+            {
+              "id": "a8d12bd6d517afc75fd51cd9",
+              "label": "Lucy Dacus with the Hollywood Bowl Orchestra",
+              "kind": "entity"
+            }
+          ],
+          "edges": [
+            {
+              "source": "7016fb2a85858ea68a6a1680",
+              "target": "3b932053db19663edefebb0d",
+              "predicate": "serves as",
+              "value": "a 2-mile walk that takes around 45 minutes, making it a convenient afternoon outing",
+              "quote": "The Silver Lake Reservoir loop is the perfect jaunt for those looking for a short, fairly easy walk close to the heart of the city that still feels steeped in nature and history. At 2 miles, the loop should only take around 45 minutes, which makes it the perfect afternoon outing.",
+              "state": "supported",
+              "valid_until": "2026-09-14T21:54:35.951439Z"
+            },
+            {
+              "source": "49306b351d3f319e1d771b66",
+              "target": "8f7021c9b4b80ef340aba849",
+              "predicate": "takes place on",
+              "value": "September 13, 2026",
+              "quote": "Sun, September 13, 2026, 10:00 AM \u2013 4:00 PM",
+              "state": "stale",
+              "valid_until": "2026-09-13T16:00:00Z"
+            },
+            {
+              "source": "a8d12bd6d517afc75fd51cd9",
+              "target": "7d039035f51d11b9f64a6643",
+              "predicate": "performs on",
+              "value": "September 13, 2026",
+              "quote": "Lucy Dacus with the Hollywood Bowl Orchestra",
+              "state": "stale",
+              "valid_until": "2026-09-13T21:00:00Z"
+            }
+          ],
+          "built_at": "2026-09-13T22:01:57.403033Z"
+        },
+        "rejected": [
+          {
+            "id": "culture-lacma-deep-cuts-closing",
+            "title": "Closing Day Pause After LACMA Exhibition",
+            "reason": "Evidence is missing, stale or disputed"
+          },
+          {
+            "id": "culture-east-la-parade-and-festival",
+            "title": "Afternoon Coffee Stop Following the East LA Parade",
+            "reason": "Opportunity has expired"
+          },
+          {
+            "id": "culture-lucy-dacus-hollywood-bowl",
+            "title": "Pre-Concert Coffee Stop for Hollywood Bowl Guests",
+            "reason": "Opportunity has expired"
+          },
+          {
+            "id": "claim-0",
+            "title": "Deep Cuts: Block Printing Across Cultures",
+            "reason": "Excluded evidence: quote did not match its recorded source"
+          }
+        ]
+      }
+    }
+  },
+  "creatives": [
+    {
+      "file": "creatives/portrait-1.png",
+      "sha256": "dc2ba9977c2635c2ef0746b91e037349e0cf23645a4ca00c3e9f8f78841440f2",
+      "artifact": {
+        "job_id": "182dda74dc204d95affff2932da436c1",
+        "business_id": "aa80bfb295214deb8834e23c7354b873",
+        "brand_id": "d3caf2e9039846ff93748ac795beb2a0",
+        "format": "portrait",
+        "attempt": 1,
+        "width": 1080,
+        "height": 1920,
+        "sha256": "dc2ba9977c2635c2ef0746b91e037349e0cf23645a4ca00c3e9f8f78841440f2",
+        "brief": {
+          "headline": "After the Reservoir Loop, Take Your Time",
+          "subheading": "Unwind from your afternoon walk with rich espresso and silky steamed milk served in a warm ceramic cup.",
+          "cta": "Visit Us in Silver Lake",
+          "product_name": "Latte",
+          "offer_text": "",
+          "image_prompt": "A warm latte with delicate latte art served in a handcrafted speckled ceramic cup, resting on a rustic reclaimed wood table. Soft, dappled natural afternoon sunlight pours across the scene, creating gentle leafy shadows against a muted warm plaster wall. Beside the mug rests a small earthen bud vase holding a delicate dried flower. Natural textures, soothing earthy tones, peaceful cafe setting, absolutely no text, no branding, and no logos."
+        },
+        "verdict": {
+          "factuality": 10,
+          "brand_fidelity": 10,
+          "visual_quality": 10,
+          "legibility": 10,
+          "critical_issues": [],
+          "feedback": "Outstanding execution. The creative perfectly follows the brief, utilizing the exact requested headline, subheading, and CTA while staying completely true to the local Silver Lake Reservoir hook. The image beautifully mirrors the brand reference aesthetics with dappled sunlight, rustic wood textures, and handcrafted speckled ceramic latte art. Typography and color palette are impeccably aligned with brand guidelines.",
+          "detected_text": "Morrow Coffee\n\nAfter the Reservoir Loop, Take Your Time\n\nUnwind from your afternoon walk with rich espresso and silky steamed milk served in a warm ceramic cup.\n\nVisit Us in Silver Lake\nSilver Lake"
+        },
+        "expires_at": "2026-09-14T21:54:35.951439Z",
+        "decision": "approved",
+        "decision_note": "",
+        "decided_at": "2026-09-13T22:03:13.301980Z",
+        "replay": false
+      }
+    },
+    {
+      "file": "creatives/landscape-1.png",
+      "sha256": "9ed2d4d831c9b9e370db9c70bdb1a20766c0935e2f3b4b0c7fc5456da99fbb18",
+      "artifact": {
+        "job_id": "182dda74dc204d95affff2932da436c1",
+        "business_id": "aa80bfb295214deb8834e23c7354b873",
+        "brand_id": "d3caf2e9039846ff93748ac795beb2a0",
+        "format": "landscape",
+        "attempt": 1,
+        "width": 1920,
+        "height": 1080,
+        "sha256": "9ed2d4d831c9b9e370db9c70bdb1a20766c0935e2f3b4b0c7fc5456da99fbb18",
+        "brief": {
+          "headline": "After the Reservoir Loop, Take Your Time",
+          "subheading": "Unwind from your afternoon walk with rich espresso and silky steamed milk served in a warm ceramic cup.",
+          "cta": "Visit Us in Silver Lake",
+          "product_name": "Latte",
+          "offer_text": "",
+          "image_prompt": "A warm latte with delicate latte art served in a handcrafted speckled ceramic cup, resting on a rustic reclaimed wood table. Soft, dappled natural afternoon sunlight pours across the scene, creating gentle leafy shadows against a muted warm plaster wall. Beside the mug rests a small earthen bud vase holding a delicate dried flower. Natural textures, soothing earthy tones, peaceful cafe setting, absolutely no text, no branding, and no logos."
+        },
+        "verdict": {
+          "factuality": 10,
+          "brand_fidelity": 10,
+          "visual_quality": 10,
+          "legibility": 10,
+          "critical_issues": [],
+          "feedback": "Outstanding execution that adheres flawlessly to the brand guidelines, brief, and visual identity. The typography incorporates an elegant serif for the headline, colors match the brand's earthy deep green palette (#183d35), and the photography perfectly captures the dappled sunlight, handcrafted speckled ceramic mug, and tranquil artisanal atmosphere.",
+          "detected_text": "Morrow Coffee\nAfter the Reservoir Loop, Take Your Time\nUnwind from your afternoon walk with rich espresso and silky steamed milk served in a warm ceramic cup.\nVisit Us in Silver Lake\nSilver Lake"
+        },
+        "expires_at": "2026-09-14T21:54:35.951439Z",
+        "decision": "approved",
+        "decision_note": "",
+        "decided_at": "2026-09-13T22:03:11.911017Z",
+        "replay": false
+      }
+    }
+  ],
+  "usage": {
+    "model": 29,
+    "tool": 9,
+    "search": 4,
+    "extract": 4,
+    "image": 2
+  },
+  "events": [
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "chief_plan"
+      },
+      "timestamp": 1789336347.5633366
+    },
+    {
+      "type": "workflow_error",
+      "payload": {
+        "error": "ClientError",
+        "message": "Workflow failed; inspect private recordings"
+      },
+      "timestamp": 1789336352.6057816
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "chief_plan"
+      },
+      "timestamp": 1789336459.452621
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "chief_plan"
+      },
+      "timestamp": 1789336471.6275346
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "local_scout"
+      },
+      "timestamp": 1789336471.650564
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "local_scout",
+        "tool": "search_web"
+      },
+      "timestamp": 1789336473.140909
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "local_scout",
+        "tool": "extract_page"
+      },
+      "timestamp": 1789336475.9314985
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "local_scout",
+        "tool": "extract_page"
+      },
+      "timestamp": 1789336478.987665
+    },
+    {
+      "type": "workflow_error",
+      "payload": {
+        "error": "ClientError",
+        "message": "Workflow failed; inspect private recordings"
+      },
+      "timestamp": 1789336484.5787153
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "local_scout"
+      },
+      "timestamp": 1789336601.3070984
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "local_scout",
+        "tool": "search_web"
+      },
+      "timestamp": 1789336604.6436167
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "local_scout",
+        "tool": "extract_page"
+      },
+      "timestamp": 1789336607.5493102
+    },
+    {
+      "type": "workflow_error",
+      "payload": {
+        "error": "ClientError",
+        "message": "Workflow failed; inspect private recordings"
+      },
+      "timestamp": 1789336614.520703
+    },
+    {
+      "type": "workflow_error",
+      "payload": {
+        "error": "ClientError",
+        "message": "400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': \"schema at properties.candidates.items requires unspecified property 'title'\", 'status': 'INVALID_ARGUMENT'}}"
+      },
+      "timestamp": 1789336735.1669016
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "culture_scout"
+      },
+      "timestamp": 1789336811.9231572
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "culture_scout",
+        "tool": "search_web"
+      },
+      "timestamp": 1789336813.8344448
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "culture_scout",
+        "tool": "search_web"
+      },
+      "timestamp": 1789336817.7927158
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "culture_scout",
+        "tool": "extract_page"
+      },
+      "timestamp": 1789336821.4660277
+    },
+    {
+      "type": "tool_started",
+      "payload": {
+        "agent": "culture_scout",
+        "tool": "extract_page"
+      },
+      "timestamp": 1789336823.3333416
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "culture_scout"
+      },
+      "timestamp": 1789336838.4356637
+    },
+    {
+      "type": "workflow_error",
+      "payload": {
+        "error": "ValueError",
+        "message": "Claim must quote an available source verbatim"
+      },
+      "timestamp": 1789336838.4528463
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "chief_selection"
+      },
+      "timestamp": 1789336917.4838674
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "chief_selection"
+      },
+      "timestamp": 1789336922.2963085
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "campaign"
+      },
+      "timestamp": 1789336922.3272326
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "campaign"
+      },
+      "timestamp": 1789336922.3552454
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "creative_brief"
+      },
+      "timestamp": 1789336922.3944283
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "creative_brief"
+      },
+      "timestamp": 1789336932.701452
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "creative_landscape_1"
+      },
+      "timestamp": 1789336932.7535837
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "creative_landscape_1"
+      },
+      "timestamp": 1789336958.6556702
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "creative_portrait_1"
+      },
+      "timestamp": 1789336958.6968307
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "creative_portrait_1"
+      },
+      "timestamp": 1789336987.476745
+    },
+    {
+      "type": "stage_started",
+      "payload": {
+        "stage": "creative_result"
+      },
+      "timestamp": 1789336987.5514681
+    },
+    {
+      "type": "stage_completed",
+      "payload": {
+        "stage": "creative_result"
+      },
+      "timestamp": 1789336987.6499436
+    }
+  ]
+}

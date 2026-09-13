@@ -214,3 +214,50 @@ def test_unmatched_quote_is_excluded_without_stopping_campaign(campaign):
     assert result["selected"]["category"] == "evergreen"
     assert not result["graph"]["edges"]
     assert any("quote did not match" in item["reason"] for item in result["rejected"])
+
+
+def test_candidate_expires_with_its_earliest_supporting_claim():
+    now = datetime.now(UTC)
+    deadline = now + timedelta(minutes=10)
+    source = EvidenceSource(
+        id="s",
+        url="https://example.com/event",
+        title="Event",
+        text="The neighborhood event ends this afternoon.",
+        provider="tavily",
+        retrieved_at=now,
+        expires_at=now + timedelta(days=1),
+        content_hash="hash",
+    )
+    graph = build_graph(
+        [source],
+        [
+            GraphClaim(
+                subject="Event",
+                predicate="time",
+                value="afternoon",
+                source_id="s",
+                quote=source.text,
+                valid_until=deadline,
+            )
+        ],
+        now,
+    )
+    candidate = Candidate(
+        id="local",
+        category="local",
+        title="Coffee after the event",
+        angle="Stop for coffee",
+        product_name="Latte",
+        source_ids=["s"],
+        expires_at=now + timedelta(hours=2),
+        fit=8,
+        timeliness=8,
+    )
+    valid, _ = validate_candidates(
+        [candidate],
+        graph,
+        BusinessProfile(name="Cafe", city="LA", products=[Product(name="Latte")]),
+        now,
+    )
+    assert valid[0].expires_at == deadline
