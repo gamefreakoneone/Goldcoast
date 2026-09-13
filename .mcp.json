@@ -2,11 +2,34 @@
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
     },
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"]
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "strands-docs": {
+      "command": "conda",
+      "args": [
+        "run",
+        "--no-capture-output",
+        "-n",
+        "goldcoast",
+        "python",
+        "-m",
+        "uv",
+        "tool",
+        "run",
+        "--with",
+        "mcp<2",
+        "strands-agents-mcp-server==0.2.7"
+      ]
     }
   }
 }

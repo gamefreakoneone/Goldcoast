@@ -197,3 +197,26 @@ API configuration: `GOLDCOAST_API_CORS_ORIGINS` is a JSON array, default `["http
 - Server-Sent Events instead of WebSockets. Events flow one way from server to UI, and SSE keeps the API simpler.
 - Exactly two ad formats. Landscape for digital billboards, portrait for reels. Additional formats are a stretch goal, not a config knob.
 - Matching is tag overlap first, LLM re-rank second. A business with no overlapping tag can never be matched, even if the model suggests it. This keeps matches explainable.
+
+
+## Marketing pivot: additive Strands runtime (0009)
+
+`agents/runtime.py` introduces `AgentRuntime`, `ExecutionBudget`, and a metered
+Strands Model adapter. Strands 1.55.1 runs registered application tools through
+a real agent loop; a native Gemini structured-output request then validates
+the result. Both conversational and structured-output requests consume the
+shared model allowance. Gemini SDK and Strands automatic retries are disabled.
+
+Each invocation records the full typed request, schema/tool specifications,
+request digest, model ID, timestamp, tool results, provider response chunks,
+usage when supplied by the provider, latency, and final output or failure.
+Provider configuration and invocation internals are excluded. Recordings are
+written atomically before results leave the runtime. Replay requires an exact
+request digest and a completed recording, never constructs a model, and never
+runs tools. Missing/mismatched/failed recordings raise ReplayMissError.
+
+Budget reservations are serialized across threads and accept a durable reserve
+callback for spec 0010. Cancellation and the 100,000-character context limit
+are checked before subsequent requests. Tool dispatch is sequential within an
+agent; separate specialist runtimes can share one budget. Legacy pipelines and
+recording formats are unchanged by this additive integration.

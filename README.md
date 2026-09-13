@@ -7,6 +7,28 @@ three LA businesses, recorded replay, live events, human decisions, and approved
 exports. The React browser UI completes the demo with video highlights, an agent
 timeline, judged ad pairs, human review, match details, and approved downloads.
 
+## Marketing pivot implementation
+
+The next release turns local events and cultural topics into branded campaigns
+for onboarded food and drink businesses. Work starts with spec 0009: a Strands
+Agents 1.55.1 runtime using Gemini, explicitly registered tools, typed outputs,
+call budgets, cancellation, and request-validated offline replay. Existing
+Olympics commands and recordings remain supported during the migration.
+
+Installing the project with `pip install -e ".[dev]"` also installs
+`strands-agents[gemini]`. New runtime calls use `AgentRuntime.gemini(...)` with
+an explicitly configured Gemini model and the existing API key; do not hard-code
+credentials. `AgentRuntime(..., replay_dir=...)` needs no model or API key.
+Each runtime invocation records provider and tool activity under its supplied
+record directory. Use a shared `ExecutionBudget` across collaborating agents.
+
+The project MCP configuration also includes the official Strands documentation
+server. Install its launcher with `python -m pip install uv`. The server runs in
+an isolated environment with `mcp<2`, required by its published 0.2.7 release;
+this does not downgrade the application's MCP dependency. Reload your MCP client
+to discover `strands-docs`. This is developer documentation tooling, not an
+application runtime dependency.
+
 ## Setup
 
 ```powershell

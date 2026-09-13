@@ -17,6 +17,14 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 `docs/specs/demo-spec/` is a format reference and is not tracked here. Its `requirements.md` holds the project-level requirements and delivery order.
 
+## Pivot delivery
+
+| Spec | Feature | Status | Evidence | Notes |
+|---|---|---|---|---|
+| 0009 | Strands runtime | Completed | [Evidence](specs/0009-strands-runtime/status.md) | Strands 1.55.1; 8 runtime tests, 95 total tests pass; recorded tool execution and offline replay |
+
+Next in order: 0010 accounts and persistence; 0011 business and brand onboarding; 0012 discovery and knowledge graph; 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+
 ## Status Definitions
 
 - Completed: all tasks in the spec's `tasks.md` are checked, validation steps pass, and evidence is recorded in the spec's `status.md`.
