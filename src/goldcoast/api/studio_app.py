@@ -226,6 +226,9 @@ def create_app(settings: StudioSettings | None = None, sessions=None, verifier=N
             headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"},
         )
 
+    from goldcoast.api.brand_routes import router as brand_router
+
+    app.include_router(brand_router)
     return app
 
 

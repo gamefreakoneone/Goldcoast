@@ -25,7 +25,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0010 | Accounts and persistence | Completed | [Evidence](specs/0010-accounts-and-persistence/status.md) | OIDC, PostgreSQL, durable usage limits and jobs |
 
-Next in order: 0011 business and brand onboarding; 0012 discovery and knowledge graph; 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+| 0011 | Business and brand onboarding | Completed | [Evidence](specs/0011-business-and-brand-onboarding/status.md) | Private assets and editable visual brand kit |
+
+Next in order: 0012 discovery and knowledge graph; 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
 
 ## Status Definitions
 

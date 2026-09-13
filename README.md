@@ -262,3 +262,6 @@ Create `output/` first if needed. The pytest flags avoid Windows temporary-direc
 permission issues; do not run concurrent pytest processes sharing that directory.
 
 See [AGENTS.md](AGENTS.md) for working rules, [docs/FEATURE_STATUS.md](docs/FEATURE_STATUS.md) for feature progress, and [docs/DATA_REQUIREMENTS.md](docs/DATA_REQUIREMENTS.md) for production data requirements.
+
+
+The studio API now accepts business profiles at `/api/v2/business`, editable brand kits at `/api/v2/brand`, and multipart uploads at `/api/v2/assets` (`file`, `role`, `rights_confirmed`). Supported roles are logo, product, reference, guidelines (PDF), and font. Limits: 10 MB per file, 30 files and 100 MB per account. Images must be still PNG/JPEG/WebP below 16 megapixels. Uploading is free of model calls; brand analysis will run as a separately metered workflow.
