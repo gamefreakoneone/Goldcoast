@@ -109,7 +109,7 @@ def test_complete_workflow_and_provider_free_replay(campaign):
     job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "start")
     assert start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "start").id == job.id
     claimed = repo.claim("worker")
-    process_job(repo, assets, claimed, "worker", factory)
+    process_job(repo, assets, claimed, "worker", factory, creative_producer=None)
     finished = repo.job(tenant, job.id)
     assert finished.state == "completed"
     assert finished.counters == {"model": 4}
@@ -119,7 +119,7 @@ def test_complete_workflow_and_provider_free_replay(campaign):
     def forbidden(*args):
         pytest.fail("Replay constructed live providers")
 
-    process_job(repo, assets, repo.claim("replayer"), "replayer", forbidden)
+    process_job(repo, assets, repo.claim("replayer"), "replayer", forbidden, creative_producer=None)
     assert repo.job(tenant, replay.id).state == "completed"
     assert repo.job(tenant, replay.id).counters == {}
     assert repo.tenant(tenant).campaign_grants == 2
@@ -130,7 +130,7 @@ def test_interrupted_stage_is_not_reissued(campaign):
     job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "interrupted")
     job = repo.claim("worker")
     repo.checkpoint(tenant, job.id, "worker", {"chief_plan": {"state": "pending"}})
-    process_job(repo, assets, repo.job(tenant, job.id), "worker", factory)
+    process_job(repo, assets, repo.job(tenant, job.id), "worker", factory, creative_producer=None)
     assert repo.job(tenant, job.id).state == "failed"
     assert repo.job(tenant, job.id).counters == {}
 

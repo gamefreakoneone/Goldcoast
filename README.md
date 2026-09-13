@@ -277,3 +277,6 @@ python -m goldcoast.studio.worker
 ```
 
 Use `--once` to process at most one queued job. Daily starts use `POST /api/v2/workflows` with an `Idempotency-Key` header and `{ "mode": "live", "goal": "Bring neighbors in today" }`. Live work requires a confirmed profile with products, a confirmed brand kit, owner-granted allowance, and enabled global live controls. Default replay accepts a completed owned `replay_source`. `POST /api/v2/brand/analyze` reserves a separate brand-analysis job. Results and evidence are available under `/api/v2/runs/{id}/result` and `/graph`; progress uses the authenticated SSE endpoint. Short owned MP4 clips (up to 60 seconds and 10 MB) can be uploaded with role `video` and referenced using `video_asset_id`.
+
+
+Ad composition uses installed Chrome on Windows. On Linux, install the renderer with `python -m playwright install --with-deps chromium`; `GOLDCOAST_CHROMIUM_EXECUTABLE` can select an existing Chromium executable. The worker now generates both ad formats, judges final composites, and exposes review under `/api/v2/runs/{id}/creatives`. Submit versioned decisions to `/api/v2/creatives/{id}/decision`. `/api/v2/runs/{id}/export` downloads both approved passing formats with an evidence manifest. Changed business/brand versions or expired opportunities/offers block approval/export. Nothing publishes automatically.

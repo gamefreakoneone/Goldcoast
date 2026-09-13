@@ -240,3 +240,8 @@ Studio discovery records Tavily and optional Ticketmaster requests without crede
 ## Chief workflow (0013)
 
 Daily jobs capture business/brand versions, asset metadata and the business-local date. Chief planning, local scouting, cultural scouting and chief selection exchange typed outputs through the Strands runtime. Candidates must use owner-listed products and fresh, supported graph sources. Weak evidence produces a labeled evergreen option. Completed stage checkpoints are reusable; pending stages fail safely after interruption. Worker heartbeat renewals do not overwrite checkpoints. Replay copies an owned completed snapshot and constructs no providers. Brand jobs produce a separate unconfirmed draft; they never silently overwrite the active kit.
+
+
+## Studio creative production (0014)
+
+Studio ads reference authenticated business/brand snapshots, not Olympics seed entities. Actual owned reference image bytes accompany image requests. Escaped code-owned templates compose exact text, original logos and optional fonts in offline Chromium at 1920x1080 and 1080x1920. Judge verdicts cover the final composite. Each format has at most three image attempts, six total per campaign; factuality/legibility failures stop image retries early. Every exposed attempt has a typed verdict. Human approval and ZIP export require passing, current, unexpired assets. Export never publishes to an advertising network.

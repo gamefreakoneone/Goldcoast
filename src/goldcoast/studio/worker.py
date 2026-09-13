@@ -16,6 +16,7 @@ from goldcoast.settings import Settings
 from goldcoast.studio.assets import LocalAssetStore
 from goldcoast.studio.brand import BrandService
 from goldcoast.studio.config import StudioSettings
+from goldcoast.studio.creative import produce_creatives
 from goldcoast.studio.database import session_factory
 from goldcoast.studio.discovery import Discovery, ProviderCassette
 from goldcoast.studio.repository import Conflict, Repository
@@ -74,7 +75,9 @@ def live_providers(repo, assets, job, worker):
     return runtime, discovery, client, settings, reserve, root
 
 
-async def execute_job(repo, assets, job, worker, provider_factory=live_providers):
+async def execute_job(
+    repo, assets, job, worker, provider_factory=live_providers, creative_producer=produce_creatives
+):
     stages = Stages(repo, job, worker)
     if job.mode == "replay":
         source = repo.job(job.tenant_id, job.input["source"])
@@ -153,8 +156,15 @@ async def execute_job(repo, assets, job, worker, provider_factory=live_providers
         result = await plan_campaign(snapshot, job.input["goal"], runtime, discovery, stages, video)
         await stages.run("campaign", lambda: result)
 
+    if creative_producer is not None:
+        await creative_producer(
+            repo, assets, job, snapshot, result, runtime, client, settings, stages, root
+        )
 
-def process_job(repo, assets, job, worker, provider_factory=live_providers):
+
+def process_job(
+    repo, assets, job, worker, provider_factory=live_providers, creative_producer=produce_creatives
+):
     stop = threading.Event()
 
     def heartbeat():
@@ -167,7 +177,7 @@ def process_job(repo, assets, job, worker, provider_factory=live_providers):
     thread = threading.Thread(target=heartbeat, daemon=True)
     thread.start()
     try:
-        asyncio.run(execute_job(repo, assets, job, worker, provider_factory))
+        asyncio.run(execute_job(repo, assets, job, worker, provider_factory, creative_producer))
         repo.finish(job.tenant_id, job.id, "completed", worker)
     except Exception as exc:
         try:

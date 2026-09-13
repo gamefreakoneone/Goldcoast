@@ -19,6 +19,7 @@ dependencies = [
   "python-multipart>=0.0.20",
   "httpx",
   "pillow",
+  "playwright>=1.55,<2",
   "pydantic>=2",
   "python-dotenv",
   "sse-starlette",

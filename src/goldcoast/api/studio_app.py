@@ -176,8 +176,10 @@ def create_app(settings: StudioSettings | None = None, sessions=None, verifier=N
         )
 
     from goldcoast.api.brand_routes import router as brand_router
+    from goldcoast.api.creative_routes import router as creative_router
     from goldcoast.api.workflow_routes import router as workflow_router
 
+    app.include_router(creative_router)
     app.include_router(brand_router)
     app.include_router(workflow_router)
     return app
