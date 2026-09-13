@@ -13,7 +13,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 | 0005 | Ad quality judge | Completed | [Evidence](specs/0005-ad-quality-judge/status.md#evidence) | Real typo rejection and 6→5→7 regeneration; all 63 Python tests pass |
 | 0006 | Pipeline orchestration and run store | Completed | [Evidence](specs/0006-pipeline-orchestration-and-run-store/status.md#evidence) | Real run 20260912-230559-0d2470: 12 passing final ads; independent replay; 73 tests pass |
 | 0007 | API and live events | Completed | [Evidence](specs/0007-api-and-live-events/status.md#evidence) | API replay 20260912-235123-6424eb: 12 passing finals, SSE, approvals/export; 87 tests pass |
-| 0008 | Web UI and approval | Not started | | React/Vite player, timeline, gallery with scores, approve/reject |
+| 0008 | Web UI and approval | Completed | [Evidence](specs/0008-web-ui-and-approval/status.md#evidence) | Replay UI run 20260913-002142-60027e; 12 finals, 17 attempts; Playwright MCP screenshots, decisions/export, native SSE resume; 12 frontend tests pass |
 
 `docs/specs/demo-spec/` is a format reference and is not tracked here. Its `requirements.md` holds the project-level requirements and delivery order.
 

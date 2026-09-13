@@ -2,15 +2,15 @@
 
 ## Task List
 
-- [ ] Scaffold `web/` with Vite, React, TypeScript, Vitest, and a dev proxy to the API.
-- [ ] Write `web/src/api/types.ts` matching the Pydantic models field for field.
-- [ ] Implement `web/src/api/client.ts` including the `EventSource` helper with resume.
-- [ ] Implement `runReducer` and the provider in `web/src/state/runStore.ts`.
-- [ ] Implement `ClipPicker`, `VideoStage`, `AgentTimeline`, `AdGallery`, `AdCard`, `DetailDrawer`, and `ExportPanel`.
-- [ ] Implement `App.tsx` layout with a narrow-screen single-column fallback.
-- [ ] Copy the fixture run's `events.jsonl` into `web/src/test/fixtures/` and write reducer and gallery grouping unit tests.
-- [ ] Write one integration test with a mocked API that replays the fixture events and asserts the gallery renders every final ad with a verdict.
-- [ ] Update `README.md` with the frontend install and dev commands.
+- [x] Scaffold `web/` with Vite, React, TypeScript, Vitest, and a dev proxy to the API.
+- [x] Write `web/src/api/types.ts` matching the Pydantic models field for field.
+- [x] Implement `web/src/api/client.ts` including the `EventSource` helper with resume.
+- [x] Implement `runReducer` and the provider in `web/src/state/runStore.ts`.
+- [x] Implement `ClipPicker`, `VideoStage`, `AgentTimeline`, `AdGallery`, `AdCard`, `DetailDrawer`, and `ExportPanel`.
+- [x] Implement `App.tsx` layout with a narrow-screen single-column fallback.
+- [x] Copy the fixture run's `events.jsonl` into `web/src/test/fixtures/` and write reducer and gallery grouping unit tests.
+- [x] Write one integration test with a mocked API that replays the fixture events and asserts the gallery renders every final ad with a verdict.
+- [x] Update `README.md` with the frontend install and dev commands.
 
 ## Validation Steps
 

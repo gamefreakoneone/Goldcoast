@@ -4,7 +4,8 @@ Dynamic ad generation for the LA 2028 Olympics: an AI video agent spots hype mom
 
 The full agent pipeline and HTTP API are implemented, with Simone Biles's profile,
 three LA businesses, recorded replay, live events, human decisions, and approved
-exports. The browser UI is the remaining spec (0008).
+exports. The React browser UI completes the demo with video highlights, an agent
+timeline, judged ad pairs, human review, match details, and approved downloads.
 
 ## Setup
 
@@ -12,6 +13,7 @@ exports. The browser UI is the remaining spec (0008).
 conda env create -f environment.yml
 conda activate goldcoast
 pip install -e ".[dev]"
+pnpm --dir web install
 Copy-Item .env.example .env
 ```
 
@@ -148,8 +150,46 @@ Changing an approval and exporting again refreshes that directory.
 
 This is a single-process demo server. CORS defaults to `http://localhost:5173`;
 configure `GOLDCOAST_API_CORS_ORIGINS` as a JSON array and
-`GOLDCOAST_SAMPLE_CLIPS_DIR` to change the clip directory. The planned frontend
-command, `pnpm --dir web dev`, becomes available in spec 0008.
+`GOLDCOAST_SAMPLE_CLIPS_DIR` to change the clip directory.
+
+### Browser demo
+
+Start the replay API with the API demo commands above. In a second PowerShell
+terminal at the repository root:
+
+```powershell
+pnpm --dir web install
+pnpm --dir web dev
+```
+
+Open `http://localhost:5173`. Leave **Replay recording** checked, select
+`gymnastics_simone.mp4` and recording `20260912-230559-0d2470`, and click **Start
+replay**. Expect 3 moments, 6 briefs, 12 passing final ads, and 17 attempts.
+The video starts muted from zero, then pauses on the first detected best frame
+(122.5s). Moment buttons also select 41.0s and 91.5s. The frame beside the video
+comes from the recording. Replay works without the MP4, with a video placeholder.
+
+Follow the timeline or uncheck **Follow events** to inspect earlier hand-offs.
+Expand judged steps for all scores and regenerating steps for hints. Each business
+contains three distinct brief pairs, each with landscape and portrait ads. Cards
+show five criteria plus overall, pass/fail, judge notes, and every recorded attempt.
+Judged previews appear during the run; only final selections can be reviewed.
+Click **Why this match?** for the athlete, business, style, and discovery brief.
+
+Click **Approve**, or **Reject**, enter a reason and confirm. Decisions use reviewer
+`demo` and refetch the final selections. **Export approved** produces a manifest
+and downloadable PNG links. Changing a decision clears the displayed export;
+export again to refresh it. Judge scores are advisory and never auto-approve ads.
+
+The UI uses plain CSS modules, local system fonts, and only the existing API.
+Vite listens on port 5173 and proxies API/media requests to port 8000. Optional
+`VITE_API_BASE` overrides the API origin (set before starting Vite or building;
+configure API CORS for that UI origin). Native EventSource reconnects with
+`Last-Event-ID`; terminal events close it. A page refresh returns to the picker;
+start another replay for a fresh demo.
+
+If PowerShell blocks `pnpm.ps1`, use `pnpm.cmd` for the same commands. Node 20+
+is the project baseline; this UI was validated with Node 22.15.0 and pnpm 10.18.1.
 
 ## Validation
 
@@ -159,6 +199,9 @@ python -m goldcoast validate-seed
 pytest -p no:cacheprovider --basetemp output/pytest-tmp
 ruff check .
 ruff format --check .
+pnpm --dir web test
+pnpm --dir web lint
+pnpm --dir web build
 ```
 
 Create `output/` first if needed. The pytest flags avoid Windows temporary-directory
