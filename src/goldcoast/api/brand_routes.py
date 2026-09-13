@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import Response
 
-from goldcoast.api.studio_app import IdentityDep
+from goldcoast.api.studio_auth import IdentityDep
 from goldcoast.studio.brand import (
     AssetRole,
     BrandSave,

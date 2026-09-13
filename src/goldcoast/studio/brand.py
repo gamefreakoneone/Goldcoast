@@ -54,7 +54,7 @@ class BusinessProfile(StrictModel):
         return value
 
 
-AssetRole = Literal["logo", "product", "reference", "guidelines", "font"]
+AssetRole = Literal["logo", "product", "reference", "guidelines", "font", "video"]
 
 
 class AssetMetadata(StrictModel):
@@ -144,6 +144,34 @@ def validate_asset(raw, mime, role):
                 return content, "image/png", image.width, image.height
         except (UnidentifiedImageError, OSError, Image.DecompressionBombError):
             raise ValueError("Invalid image") from None
+    if role == "video" and mime == "video/mp4" and raw[4:8] == b"ftyp":
+        import json
+        import subprocess
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "clip.mp4"
+            path.write_bytes(raw)
+            result = subprocess.run(
+                [
+                    "ffprobe",
+                    "-v",
+                    "error",
+                    "-show_entries",
+                    "format=duration",
+                    "-of",
+                    "json",
+                    str(path),
+                ],
+                capture_output=True,
+                timeout=15,
+                check=True,
+            )
+            duration = float(json.loads(result.stdout)["format"]["duration"])
+            if not 0 < duration <= 60:
+                raise ValueError("Video clips must be 60 seconds or shorter")
+        return raw, mime, None, None
     if role == "guidelines" and mime == "application/pdf" and raw.startswith(b"%PDF-"):
         return raw, mime, None, None
     if role == "font" and raw[:4] in {b"wOFF", b"wOF2", b"OTTO", b"\x00\x01\x00\x00"}:
@@ -229,9 +257,13 @@ class BrandService:
             self.assets.put(tenant, row.id, raw)
             return row
 
-    def analyze(self, tenant, client, model_id):
-        rows = self.repo.list(tenant, "asset")
-        usable = [r for r in rows if r.data["role"] != "font"][:12]
+    def analyze(self, tenant, client, model_id, asset_ids=None):
+        rows = (
+            [self.repo.get(tenant, "asset", value) for value in asset_ids]
+            if asset_ids is not None
+            else self.repo.list(tenant, "asset")
+        )
+        usable = [r for r in rows if r.data["role"] not in {"font", "video"}][:12]
         if not any(r.data["mime"].startswith("image/") for r in usable):
             raise Conflict("Upload a visual reference before analyzing your brand")
         prompt = (

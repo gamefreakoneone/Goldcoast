@@ -230,6 +230,22 @@ class Repository:
                 row.lease_until = time.time() + lease_seconds
             return row
 
+    def renew(self, tenant_id, job_id, worker):
+        with self.sessions.begin() as session:
+            result = session.execute(
+                update(Job)
+                .where(
+                    Job.id == job_id,
+                    Job.tenant_id == tenant_id,
+                    Job.state == "running",
+                    Job.lease_owner == worker,
+                    Job.lease_until > time.time(),
+                )
+                .values(lease_until=time.time() + 120)
+            )
+            if not result.rowcount:
+                raise Conflict("Worker lease was lost")
+
     def checkpoint(self, tenant_id, job_id, worker, data):
         with self.sessions.begin() as s:
             result = s.execute(

@@ -235,3 +235,8 @@ Studio business profiles and brand kits are separate versioned resource document
 ## Evidence graph (0012)
 
 Studio discovery records Tavily and optional Ticketmaster requests without credentials. Exact completed requests are cached; replay has no live fallback. Extraction is restricted to public URLs discovered in the same workflow. Evidence is untrusted input. Typed graphs retain source URLs, content hashes, retrieval/expiry timestamps, exact supporting quotes, and conflicting values. Fresh supported claims may inform opportunities, but only owner-confirmed profiles establish business products and offers.
+
+
+## Chief workflow (0013)
+
+Daily jobs capture business/brand versions, asset metadata and the business-local date. Chief planning, local scouting, cultural scouting and chief selection exchange typed outputs through the Strands runtime. Candidates must use owner-listed products and fresh, supported graph sources. Weak evidence produces a labeled evergreen option. Completed stage checkpoints are reusable; pending stages fail safely after interruption. Worker heartbeat renewals do not overwrite checkpoints. Replay copies an owned completed snapshot and constructs no providers. Brand jobs produce a separate unconfirmed draft; they never silently overwrite the active kit.

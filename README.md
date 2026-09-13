@@ -268,3 +268,12 @@ The studio API now accepts business profiles at `/api/v2/business`, editable bra
 
 
 Studio discovery uses `TAVILY_API_KEY` for bounded basic search and page extraction. `TICKETMASTER_API_KEY` optionally adds structured local events; its absence is reported explicitly. Provider requests are recorded and cached, and incomplete requests never retry automatically. Graph claims retain citations, excerpts, conflicts and freshness. Tests remain offline.
+
+
+Start the marketing worker beside the studio API:
+
+```powershell
+python -m goldcoast.studio.worker
+```
+
+Use `--once` to process at most one queued job. Daily starts use `POST /api/v2/workflows` with an `Idempotency-Key` header and `{ "mode": "live", "goal": "Bring neighbors in today" }`. Live work requires a confirmed profile with products, a confirmed brand kit, owner-granted allowance, and enabled global live controls. Default replay accepts a completed owned `replay_source`. `POST /api/v2/brand/analyze` reserves a separate brand-analysis job. Results and evidence are available under `/api/v2/runs/{id}/result` and `/graph`; progress uses the authenticated SSE endpoint. Short owned MP4 clips (up to 60 seconds and 10 MB) can be uploaded with role `video` and referenced using `video_asset_id`.

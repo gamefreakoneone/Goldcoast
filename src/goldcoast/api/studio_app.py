@@ -2,58 +2,21 @@ import asyncio
 import json
 import time
 from contextlib import asynccontextmanager
-from dataclasses import dataclass
 from typing import Annotated
 
-import jwt
-from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select
 
+from goldcoast.api.studio_auth import IdentityDep, OwnerDep
+from goldcoast.api.studio_views import job_view
 from goldcoast.studio.assets import LocalAssetStore
-from goldcoast.studio.auth import Principal, TokenVerifier
+from goldcoast.studio.auth import TokenVerifier
 from goldcoast.studio.config import StudioSettings
 from goldcoast.studio.database import Controls, session_factory
 from goldcoast.studio.repository import TERMINAL, AccessError, Conflict, Repository
-
-bearer = HTTPBearer(auto_error=False)
-
-
-@dataclass
-class Identity:
-    tenant_id: str
-    principal: Principal
-
-
-def authenticated(
-    request: Request,
-    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
-) -> Identity:
-    if credentials is None:
-        raise HTTPException(401, "Sign in to continue", headers={"WWW-Authenticate": "Bearer"})
-    try:
-        principal = request.app.state.verifier.verify(credentials.credentials)
-    except (jwt.PyJWTError, ValueError):
-        raise HTTPException(401, "Invalid or expired access token") from None
-    tenant = request.app.state.repo.ensure_tenant(
-        principal.subject, principal.issuer, principal.name, principal.role
-    )
-    return Identity(tenant.id, principal)
-
-
-IdentityDep = Annotated[Identity, Depends(authenticated)]
-
-
-def owner(identity: IdentityDep):
-    if identity.principal.role != "owner":
-        raise HTTPException(403, "Owner access required")
-    return identity
-
-
-OwnerDep = Annotated[Identity, Depends(owner)]
 
 
 class GrantRequest(BaseModel):
@@ -64,20 +27,6 @@ class GrantRequest(BaseModel):
 
 class ControlRequest(GrantRequest):
     enabled: bool | None = None
-
-
-def job_view(row):
-    return {
-        "id": row.id,
-        "kind": row.kind,
-        "mode": row.mode,
-        "state": row.state,
-        "input": row.input,
-        "checkpoint": row.checkpoint,
-        "counters": row.counters,
-        "created_at": row.created_at,
-        "finished_at": row.finished_at,
-    }
 
 
 def create_app(settings: StudioSettings | None = None, sessions=None, verifier=None):
@@ -227,8 +176,10 @@ def create_app(settings: StudioSettings | None = None, sessions=None, verifier=N
         )
 
     from goldcoast.api.brand_routes import router as brand_router
+    from goldcoast.api.workflow_routes import router as workflow_router
 
     app.include_router(brand_router)
+    app.include_router(workflow_router)
     return app
 
 

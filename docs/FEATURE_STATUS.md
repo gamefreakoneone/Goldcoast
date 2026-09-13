@@ -29,7 +29,9 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0012 | Discovery and knowledge graph | Completed | [Evidence](specs/0012-discovery-and-knowledge-graph/status.md) | Tavily and cited graph |
 
-Next in order: 0013 chief marketing workflow; 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
+| 0013 | Chief marketing workflow | Completed | [Evidence](specs/0013-chief-marketing-workflow/status.md) | Daily agent orchestration |
+
+Next in order: 0014 branded creative; 0015 marketing workspace; 0016 adaptation and replay; 0017 hosted deployment; 0018 submission package.
 
 ## Status Definitions
 
