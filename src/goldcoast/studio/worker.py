@@ -7,7 +7,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from uuid import uuid4
 
-from google.genai import types
+from google.genai import errors, types
 from pydantic import ValidationError
 
 from goldcoast.agents.runtime import AgentRuntime, ExecutionBudget
@@ -21,6 +21,34 @@ from goldcoast.studio.database import session_factory
 from goldcoast.studio.discovery import Discovery, ProviderCassette
 from goldcoast.studio.repository import Conflict, Repository
 from goldcoast.studio.workflow import CampaignResult, Snapshot, Stages, VideoEvidence, plan_campaign
+
+
+def failure_message(exc):
+    if isinstance(exc, errors.APIError):
+        if exc.code == 400:
+            return (
+                "The AI provider rejected the analysis request. "
+                "Check the model configuration before retrying."
+            )
+        if exc.code in {401, 403}:
+            return "The AI provider denied access. The owner needs to check the server credentials."
+        if exc.code == 429:
+            return (
+                "The AI provider's rate limit or quota was reached. "
+                "Try later or ask the owner to check provider usage."
+            )
+        return (
+            "The AI provider could not complete the request. "
+            "Try again when the service is available."
+        )
+    if isinstance(exc, ValidationError):
+        return (
+            "The agent returned an incomplete or invalid response. "
+            "This workflow stopped safely; no automatic restart was made."
+        )
+    if isinstance(exc, (Conflict, ValueError)):
+        return str(exc)[:250]
+    return "Workflow failed; inspect private recordings"
 
 
 class MeteredClient:
@@ -221,12 +249,8 @@ def process_job(
                 "workflow_error",
                 {
                     "error": type(exc).__name__,
-                    "message": "The agent returned an incomplete or invalid response. "
-                    "This workflow stopped safely; no automatic restart was made."
-                    if isinstance(exc, ValidationError)
-                    else str(exc)[:250]
-                    if isinstance(exc, (Conflict, ValueError))
-                    else "Workflow failed; inspect private recordings",
+                    "message": failure_message(exc),
+                    "provider_status": exc.code if isinstance(exc, errors.APIError) else None,
                 },
             )
             repo.finish(job.tenant_id, job.id, "failed", worker)

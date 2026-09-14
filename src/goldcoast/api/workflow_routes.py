@@ -85,13 +85,13 @@ def save_schedule(body: ScheduleSave, request: Request, identity: IdentityDep):
 @router.get("/feed")
 def feed(request: Request, identity: IdentityDep, topic: str = ""):
     from goldcoast.studio.brand import BrandService
-    from goldcoast.studio.feed import current_feed
+    from goldcoast.studio.feed import latest_feed
 
     repo, assets = request.app.state.repo, request.app.state.assets
     if not BrandService(repo, assets).current(identity.tenant_id, "business"):
         return None
     snapshot = snapshot_business(repo, assets, identity.tenant_id, require_brand=False)
-    job = current_feed(repo, identity.tenant_id, snapshot, topic)
+    job = latest_feed(repo, identity.tenant_id, snapshot, topic)
     return job_view(job) if job else None
 
 

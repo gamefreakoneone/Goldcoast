@@ -86,14 +86,31 @@ def generation_schema(output_model):
                 "pattern",
                 "minLength",
                 "maxLength",
+                "minItems",
+                "maxItems",
+                "minimum",
+                "maximum",
+                "format",
             }
         }
 
+        guidance = []
         if "maxLength" in value:
-            result["description"] = (
-                result.get("description", "")
-                + f" Keep this field to at most {value['maxLength']} characters."
-            ).strip()
+            guidance.append(f"At most {value['maxLength']} characters.")
+        if "minLength" in value:
+            guidance.append(f"At least {value['minLength']} characters.")
+        if "maxItems" in value:
+            guidance.append(f"At most {value['maxItems']} items.")
+        if "minItems" in value:
+            guidance.append(f"At least {value['minItems']} items.")
+        if "minimum" in value:
+            guidance.append(f"Minimum value {value['minimum']}.")
+        if "maximum" in value:
+            guidance.append(f"Maximum value {value['maximum']}.")
+        if "format" in value:
+            guidance.append(f"Use {value['format']} format.")
+        if guidance:
+            result["description"] = " ".join([result.get("description", ""), *guidance]).strip()
         return result
 
     return simplify(schema)

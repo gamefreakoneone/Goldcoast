@@ -315,8 +315,25 @@ def test_compact_scout_schema_preserves_bounds_and_string_guidance():
     from goldcoast.studio.workflow import CompactScoutReport
 
     schema = generation_schema(CompactScoutReport)
-    assert schema["properties"]["claims"]["maxItems"] == 6
-    assert schema["properties"]["candidates"]["maxItems"] == 3
+    assert "At most 6 items" in schema["properties"]["claims"]["description"]
+    assert "At most 3 items" in schema["properties"]["candidates"]["description"]
     assert "600 characters" in schema["properties"]["summary"]["description"]
     quote = schema["properties"]["claims"]["items"]["properties"]["quote"]
     assert "240 characters" in quote["description"]
+
+
+def test_feed_provider_schema_is_portable_and_local_validation_stays_strict():
+    from pydantic import ValidationError
+
+    from goldcoast.agents.runtime import generation_schema
+    from goldcoast.studio.feed import CompactFeedReport
+
+    schema = generation_schema(CompactFeedReport)
+    serialized = json.dumps(schema)
+    for keyword in ["maxItems", "minItems", "maximum", "minimum", "format", "maxLength"]:
+        assert f'"{keyword}":' not in serialized
+    assert "At most 8 items" in schema["properties"]["claims"]["description"]
+    assert "At most 6 items" in schema["properties"]["ideas"]["description"]
+    assert CompactFeedReport.model_json_schema()["properties"]["claims"]["maxItems"] == 8
+    with pytest.raises(ValidationError):
+        CompactFeedReport.model_validate({"claims": [], "ideas": [{}] * 7})

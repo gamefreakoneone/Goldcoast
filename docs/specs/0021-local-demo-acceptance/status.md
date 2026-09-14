@@ -70,3 +70,30 @@ Validation on 2026-09-13:
 | `pnpm.cmd --dir web build` | Exit 0; Vite production build |
 
 Chrome flow: existing failed Today URL -> reload -> local SSO sign-in -> same failed campaign. Verified page identity, populated content, no framework overlay, no console errors, Failed stage label, and friendly error text. Restored the manager's original heat/cold-drinks brief and four-panel comic selection after reload; screenshot emitted through browser tooling. Two campaign allowances remain. The idle worker was restarted with the fix. No new paid campaign, grant mutation or provider validation request was issued for this repair. A successful new live creative-to-export acceptance remains outstanding as described above.
+
+
+## Your Feed INVALID_ARGUMENT repair and live verification
+
+User-reported feed `88eb285f5a4a4b9bb4156c7874d811d8` completed two Tavily searches, then failed during Gemini structured output with HTTP 400 INVALID_ARGUMENT (2 model calls total). The provider did not name a specific schema keyword. The stricter nested generation schema introduced in the prior repair was replaced with a portable structural schema; the replacement was accepted in the real validation below. Numeric, array, string-length and date limits remain explicit in descriptions and mandatory in local Pydantic validation. Compact feed generation now caps claims at eight short excerpts instead of inheriting the general 80-claim allowance. This supersedes the prior provider-side constraint strategy; TECHNICAL_DESIGN.md was updated deliberately.
+
+Safe worker errors now distinguish invalid requests, credential denial and rate/quota limits. Your Feed displays the recorded failure reason and connection errors. GET /feed returns the latest matching feed job even if running or failed, while start_feed still reuses only fresh completed feeds. Failed work is not mistaken for a valid cache hit.
+
+Live verification used one existing demo feed allowance, without replenishing account or global grants. Validation job `b70a0be660cf4fff966ea0e791bef4bf` reused the failed job's completed Tavily cassettes and completed successfully with counters `{"model": 2}` and zero new searches/extracts. It produced five ideas and seven sources: Gallery Pause with Matcha, Concert Night Energy Cold Brew, Smooth Jazz Warm-Up with Oat Latte, and two labeled evergreen notebook/tote ideas. The private agent and provider recordings remain under `output/studio/runs/dcce8d173adb5c65ab2a1f0c87a48751/b70a0be660cf4fff966ea0e791bef4bf/`.
+
+A second start_feed request returned that same completed job. Account allowance stayed 8 -> 8 and counters stayed `{"model": 2}`. The API and worker were restarted with corrected code. No campaign was started by this validation.
+
+Validation:
+
+| Command | Result |
+|---|---|
+| `python -m pytest tests/test_strands_runtime.py tests/test_studio_feed.py tests/test_studio_workflow.py -q` | 32 passed in 6.98s |
+| `python -m pytest -q` | 151 passed in 115.77s; one upstream deprecation warning |
+| `python -m ruff check .` | All checks passed |
+| `python -m ruff format --check .` | 227 files formatted |
+| `pnpm.cmd --dir web test --maxWorkers=1` | 22 passed across 8 files |
+| `pnpm.cmd --dir web lint` | Exit 0 |
+| `pnpm.cmd --dir web build` | Exit 0, production Vite bundle |
+
+Chrome validation used a separate local tab to preserve the user's open Brand library. Local SSO returned to /#/feed. The page rendered five ideas, source links, dates, neighborhood/broader/evergreen labels and 8 refreshes remaining. Use this idea opened Today with the exact matcha angle and Iced matcha selected; no generation was started. Returning to Your Feed loaded the same saved result. No blank page, framework overlay or console errors after loading. Screenshot emitted through browser tooling. The working feed tab was left available to the user.
+
+This repairs and verifies live feed discovery. The separate creative-to-export acceptance remains outstanding.

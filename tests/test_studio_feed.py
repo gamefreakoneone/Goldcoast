@@ -79,3 +79,32 @@ def test_past_event_is_not_recent_just_because_source_is_new(campaign):
     valid, rejected = validate_candidates([idea], build_graph([], []), snapshot.profile, now)
     assert not valid
     assert rejected[0]["reason"] == "Event date has passed"
+
+
+def test_failed_feed_remains_visible_after_reload_without_refresh(campaign):
+    from goldcoast.studio.feed import latest_feed
+
+    repo, assets, tenant, _, _ = campaign
+    repo.grant(tenant, 0, 0, feed=1)
+    repo.controls(feed=1)
+    job = start_feed(repo, assets, tenant, FeedRequest(), "failed-feed")
+    repo.claim("worker")
+    repo.finish(tenant, job.id, "failed", "worker")
+    snapshot = snapshot_business(repo, assets, tenant)
+    assert latest_feed(repo, tenant, snapshot, "").id == job.id
+    assert current_feed(repo, tenant, snapshot, "") is None
+    assert latest_feed(repo, tenant, snapshot, "different topic") is None
+    assert repo.tenant(tenant).feed_grants == 0
+    assert repo.job(tenant, job.id).counters == {}
+
+
+@pytest.mark.parametrize("code,phrase", [(400, "rejected"), (403, "denied access"), (429, "quota")])
+def test_provider_failure_messages_explain_cause_without_raw_payload(code, phrase):
+    from google.genai.errors import ClientError
+
+    from goldcoast.studio.worker import failure_message
+
+    error = ClientError(code, {"error": {"message": "private provider payload"}})
+    message = failure_message(error)
+    assert phrase in message
+    assert "private provider payload" not in message
