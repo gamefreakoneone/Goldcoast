@@ -17,6 +17,18 @@ it('shows not configured without connection actions', async () => {
   expect(screen.queryByRole('button', { name: 'Connect Telegram' })).not.toBeInTheDocument()
 })
 
+it('replaces loading with an actionable error and can retry after the API restarts', async () => {
+  mock.mockRejectedValue(new Error('Not Found'))
+  render(<TelegramPanel />)
+  expect(await screen.findByText('Telegram settings unavailable')).toBeVisible()
+  expect(screen.queryByText('Loading Telegram settings…')).not.toBeInTheDocument()
+  expect(screen.getByText(/Restart the Goldcoast API and worker/)).toBeVisible()
+  mock.mockImplementation(async path => path === '/notifications/config' ? { configured: true } : null)
+  await userEvent.click(screen.getByRole('button', { name: 'Retry Telegram settings' }))
+  expect(await screen.findByText('Not connected')).toBeVisible()
+  expect(screen.getByRole('button', { name: 'Connect Telegram' })).toBeEnabled()
+})
+
 it('connects through a deep link and polls until connected', async () => {
   let connected = false
   mock.mockImplementation(async (path) => {

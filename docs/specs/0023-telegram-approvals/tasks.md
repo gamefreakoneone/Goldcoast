@@ -9,6 +9,8 @@
 - [ ] Link real bot, receive saved previews, approve/reject and verify safe regeneration Conflict.
 - [x] Update shared design/README/ledger and commit 0023 separately.
 
+- [x] Fix stale-API loading error, add retry, restart services and verify actual demo Settings.
+
 ## Validation Steps
 
 ```powershell

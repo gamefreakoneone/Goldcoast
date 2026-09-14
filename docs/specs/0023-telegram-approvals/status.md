@@ -46,3 +46,17 @@ A failed or interrupted claimed action is not automatically retried. New explici
 ## Remaining manual acceptance
 
 After the pending credit/account answer, generate the one two-placement 0022 weather campaign and verify its evidence and zero-call replay. Connect the real bot from Settings on the chosen account, explicitly send that run's still-eligible saved creatives, approve one, reject another with a reason, and observe Review. Exercise regeneration only when a preflight guarantees no second credit can be consumed (or seek separate authorization). If images expire or no allowance is available, preserve the blocker; do not fake passing acceptance. 0021 and the legacy Olympics pipeline remain untouched.
+
+## Follow-up: stale running API and loading error
+
+The user's actual Settings page displayed Loading Telegram settings with Not Found. GET http://127.0.0.1:8001/openapi.json returned no notification routes: the API process predated 0023. Confirmed zero active jobs, then restarted only the identified studio API and worker. The running OpenAPI document now contains /notifications/config, /notifications, /notifications/telegram/link and /notifications/telegram. No credits were added or spent.
+
+TelegramPanel now exits loading on request failure, explains that missing routes require an API/worker restart, and offers Retry Telegram settings. A regression test covers failure -> retry -> Connect button.
+
+- `pnpm.cmd --dir web test --maxWorkers=1 src/test/telegram.test.tsx`: 5 passed, 10.10s.
+- `pnpm.cmd --dir web lint`: passed.
+- `pnpm.cmd --dir web build`: passed.
+- `git diff --check`: passed.
+- Actual local OIDC login as demo using existing private credentials, then Settings: Connect Telegram visible, loading count 0, Not Found count 0. No fixtures, no Telegram link mutation, no generation. Playwright script: C:/Users/amogh/AppData/Local/Temp/goldcoast-telegram-live-check.py. Screenshot visually inspected: C:/Users/amogh/AppData/Local/Temp/goldcoast-0023-qa/settings-live-fixed.png.
+
+Full campaign/phone-decision acceptance remains Blocked as above; this fixes access to the linking UI.
