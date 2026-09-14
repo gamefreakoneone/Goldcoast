@@ -47,7 +47,10 @@ def campaign(foundation):
 
 def factory(repo, assets, job, worker):
     now = datetime.now(UTC)
-    discovery = Discovery(ProviderCassette(assets.root / "provider-test", lambda _: None))
+    discovery = Discovery(
+        ProviderCassette(assets.root / "provider-test", lambda _: None),
+        transport=lambda *_: {"results": []},
+    )
     source = EvidenceSource(
         id="source",
         url="https://example.com/market",

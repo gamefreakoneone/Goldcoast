@@ -53,7 +53,16 @@ def result(job_id: str, request: Request, identity: IdentityDep):
         job.kind, "campaign"
     )
     step = job.checkpoint.get(key, {})
-    return step.get("output") if step.get("state") == "completed" else None
+    if step.get("state") != "completed":
+        return None
+    output = step.get("output")
+    if job.kind == "campaign" and output is not None:
+        signals = job.checkpoint.get("local_signals", {})
+        return {
+            **output,
+            "local_signals": signals.get("output") if signals.get("state") == "completed" else None,
+        }
+    return output
 
 
 @router.get("/runs/{job_id}/graph")

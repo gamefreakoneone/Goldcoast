@@ -190,6 +190,19 @@ async def execute_job(
         for source in events["sources"]:
             parsed = EvidenceSource.model_validate(source)
             discovery.sources[parsed.id] = parsed
+    signals = None
+    if job.input.get("creative_type") not in {"product", "testimonial"}:
+        signals = await stages.run(
+            "local_signals",
+            lambda: discovery.local_signals(
+                snapshot.profile.city, snapshot.profile.timezone, snapshot.local_date
+            ),
+        )
+        from goldcoast.studio.graph import EvidenceSource
+
+        for source in signals["sources"]:
+            parsed = EvidenceSource.model_validate(source)
+            discovery.sources[parsed.id] = parsed
     prior = stages.data.get("campaign", {})
     if prior.get("state") == "completed":
         result = CampaignResult.model_validate(prior["output"])
@@ -214,7 +227,7 @@ async def execute_job(
                     p for p in planning.profile.products if p.id == job.input["product_id"]
                 ]
             result = await plan_campaign(
-                planning, job.input["goal"], runtime, discovery, stages, video
+                planning, job.input["goal"], runtime, discovery, stages, video, signals
             )
         await stages.run("campaign", lambda: result)
 

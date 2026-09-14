@@ -39,7 +39,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0017 | Hosted deployment | Blocked | [Evidence](specs/0017-hosted-deployment/status.md) | Deferred by user until local acceptance testing |
 
-Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0022 submission package remains not started.
+Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0024 submission package remains not started.
 
 ## Status Definitions
 
@@ -60,4 +60,8 @@ When a feature's status changes, update this table and the spec's `status.md` an
 
 | 0021 | Populated local demo and live acceptance | Blocked | [Evidence](specs/0021-local-demo-acceptance/status.md) | Margin populated; feed verified live after schema repair; creative acceptance pending |
 
-| 0022 | Submission package | Not started | Pending local acceptance | Follows 0021; hosting remains deferred |
+| 0024 | Submission package | Not started | Pending local acceptance | Follows 0021; hosting remains deferred |
+
+| 0022 | Live signals | Blocked | [Evidence](specs/0022-live-signals/status.md) | Implemented and automated checks pass; zero Margin allowance blocks live acceptance |
+
+| 0023 | Telegram approvals | Not started | Pending 0022 | Owner decisions from phone |

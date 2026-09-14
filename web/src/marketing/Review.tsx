@@ -5,7 +5,7 @@ import { Icon, Notice, PageHeading, Status } from './ui'
 import type { Campaign, CreativeView, Graph, StudioEvent } from './types'
 
 const stageNames: Record<string, string> = {
-  chief_plan: 'The chief sets the direction', local_events: 'Checking the local calendar',
+  local_signals: "Checking today's weather", chief_plan: 'The chief sets the direction', local_events: 'Checking the local calendar',
   local_scout: 'Finding a local moment', culture_scout: 'Reading cultural signals',
   chief_selection: 'Choosing the strongest idea', campaign: 'The campaign direction is ready',
   creative_brief: 'Writing your creative brief', creative_result: 'Your creatives are ready for review',
@@ -38,13 +38,14 @@ function EvidenceMap({ graph }: { graph: Graph }) {
         return <article className="claim" key={index}><div className="claim-relation"><strong>{graph.nodes.find(n => n.id === edge.source)?.label}</strong><Icon name="arrow" size={18}/><span>{edge.predicate}: {edge.value}</span><Status good={edge.state === 'supported'}>{edge.state}</Status></div>
           <blockquote>{edge.quote}</blockquote>{source && <a href={source.url} target="_blank" rel="noreferrer">{source.title}<Icon name="arrow" size={15}/></a>}</article>
       })}</div></>}
-    <details className="all-sources"><summary>All source material</summary>{graph.sources.map(source => <article className="source" key={source.id}><a href={source.url} target="_blank" rel="noreferrer">{source.title}<Icon name="arrow" size={15}/></a><p className="small muted">Retrieved {new Date(source.retrieved_at).toLocaleString()} · {source.provider}</p><p>{source.text}</p></article>)}</details>
+    <details className="all-sources"><summary>All source material</summary>{graph.sources.map(source => <article className="source" key={source.id}><a href={source.url} target="_blank" rel="noreferrer">{source.title}<Icon name="arrow" size={15}/></a><p className="small muted">Retrieved {new Date(source.retrieved_at).toLocaleString()} · {source.provider === 'weather' ? 'Open-Meteo weather' : source.provider}</p><p>{source.text}</p></article>)}</details>
   </section>
 }
 
 function Thinking({ campaign }: { campaign: Campaign }) {
   return <><section className="panel decision-panel"><h2>{campaign.selected.title}</h2><p className="decision-rationale">{campaign.rationale}</p><p>{campaign.selected.angle}</p>
     {campaign.selected.risks.length > 0 && <p className="small muted">Considerations: {campaign.selected.risks.join(' · ')}</p>}
+    {campaign.local_signals && <div className="signals-row"><strong>Today's signals</strong>{campaign.local_signals.available ? campaign.local_signals.summary.map(signal => <Status key={signal} good>{signal}</Status>) : <span className="small muted">{campaign.local_signals.reason}</span>}</div>}
     <div className="table-wrap"><table><thead><tr><th>Opportunity</th><th>Product fit</th><th>Timing</th><th>Sources</th><th>Decision</th></tr></thead><tbody>{campaign.candidates.map(candidate => <tr key={candidate.id}><td><strong>{candidate.title}</strong><small>{candidate.product_name} · {candidate.category}</small></td><td>{candidate.fit}/10</td><td>{candidate.timeliness}/10</td><td>{candidate.source_ids.length}</td><td>{candidate.id === campaign.selected.id ? 'Selected' : 'Alternative'}</td></tr>)}</tbody></table></div>
     {campaign.rejected.length > 0 && <details><summary>Why other ideas were excluded</summary><ul>{campaign.rejected.map(item => <li key={item.id}><strong>{item.title}</strong>: {item.reason}</li>)}</ul></details>}
     </section><EvidenceMap graph={campaign.graph}/></>

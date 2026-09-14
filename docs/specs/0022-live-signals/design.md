@@ -1,0 +1,5 @@
+# Design
+
+Discovery.local_signals(city, timezone, local_date) returns a serialized SignalsResult with available, reason, summary, sources and claims. Geocode and forecast use ProviderCassette with tool reservations and no retries. Forecast keys include the snapshot date. Use profile timezone and require the forecast date to match. One weather EvidenceSource contains the exact canonical forecast URL, a human sentence and compact JSON. Four deterministic GraphClaims (forecast_high_c, forecast_low_c, rain_probability_pct, sky) quote that sentence and expire at business-local day end.
+
+Worker checkpoints local_signals after local_events and before campaign, restores sources, and passes summaries into all planner/scout/chief contexts. Deterministic claims survive filtering of invalid model claims. Result API adds local_signals without wrapping existing campaign fields. Review shows chips and labels weather sources Open-Meteo. Replay copies checkpoints unchanged. Feed is excluded; Margin already uses Los Angeles.

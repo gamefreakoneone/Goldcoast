@@ -48,7 +48,7 @@ class EvidenceSource(StrictModel):
     url: str
     title: str = Field(max_length=300)
     text: str = Field(max_length=8000)
-    provider: Literal["tavily", "ticketmaster", "video", "demo"]
+    provider: Literal["tavily", "ticketmaster", "video", "demo", "weather"]
     retrieved_at: AwareDatetime
     expires_at: AwareDatetime
     content_hash: str

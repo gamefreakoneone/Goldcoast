@@ -325,3 +325,7 @@ New live campaigns compose an Instagram post at 1080 x 1440 and an optional Stor
 If a final agent report is truncated or fails schema validation, the worker attempts one metered formatting correction using the same recorded research, without repeating search tools. A still-invalid scout contributes no claims; remaining verified research or a labeled evergreen idea can continue. Failed jobs remain in history and are never automatically restarted.
 
 Your Feed retains the latest matching job across reloads, including progress and failures. Provider errors distinguish rejected requests, denied access and provider quota/rate limits. Returning to a completed feed reads its saved ideas; explicit refresh reuses it for six hours without consuming another allowance.
+
+### Local weather signals
+
+Live timely campaigns check Open-Meteo daily weather for the business city and timezone, recording both requests for replay and showing cited weather in Review. Missing forecasts do not stop campaigns. No API key is required. The free endpoint is for non-commercial use; review https://open-meteo.com/en/docs before commercial deployment. Product/testimonial campaigns and feed refreshes skip weather.

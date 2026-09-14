@@ -46,7 +46,9 @@ export interface Candidate {
   product_name: string; source_ids: string[]; expires_at: string; fit: number;
   timeliness: number; risks: string[];
 }
+export interface Signals { available: boolean; reason: string; summary: string[]; sources: Source[]; claims: unknown[] }
 export interface Campaign {
+  local_signals?: Signals | null;
   candidates: Candidate[]; selected: Candidate; rationale: string; graph: Graph;
   rejected: { id: string; title: string; reason: string }[];
 }

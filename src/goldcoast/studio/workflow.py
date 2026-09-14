@@ -276,7 +276,7 @@ class Stages:
         return result
 
 
-async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None):
+async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None, signals=None):
     from datetime import timedelta
 
     now = datetime.now(UTC)
@@ -285,6 +285,7 @@ async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None):
         "date": str(snapshot.local_date),
         "goal": goal,
         "video_evidence": video,
+        "signals": signals["summary"] if signals else [],
     }
     plan = SearchPlan.model_validate(
         await stages.run(
@@ -293,7 +294,9 @@ async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None):
                 "chief_planner",
                 "Plan a campaign for this local business, date and city. Return two "
                 "local searches and two cultural searches. Prioritize timely reasons "
-                "to visit. Video cues are uncertain. Never invent business facts.",
+                "to visit. Video cues are uncertain. Never invent business facts. "
+                "If today's signals make a product timelier (heat, rain, cold), "
+                "prefer that angle and cite the signal source.",
                 context,
                 SearchPlan,
             ),
@@ -361,7 +364,10 @@ async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None):
     invalid_sources = {claim.source_id for claim in invalid}
     graph = build_graph(
         list(discovery.sources.values()),
-        [claim for claim in claims if claim.source_id not in invalid_sources][:80],
+        [GraphClaim.model_validate(c) for c in signals["claims"]]
+        + [claim for claim in claims if claim.source_id not in invalid_sources][:76]
+        if signals
+        else [claim for claim in claims if claim.source_id not in invalid_sources][:80],
         now,
     )
     candidates, rejected = validate_candidates(
