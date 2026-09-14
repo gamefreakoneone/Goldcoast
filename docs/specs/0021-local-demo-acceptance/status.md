@@ -45,3 +45,28 @@ All real calls used isolated test tenant `9841245a4c1f5f50a9fdf987351b63f3`; the
 4. Automatic approval review rejected granting another isolated campaign allowance plus one shared allowance and starting a retry, because this expanded the originally bounded smoke test. No rejected mutation executed and no retry was queued. The user was asked for approval; it remains pending. A future attempt must retain the existing six-image ceiling and record all calls, then inspect dimensions/legibility, approve/export passing outputs and verify free replay before marking this spec complete.
 
 Live testimonial transcription has not been tested against a user video. Timestamp/excerpt review, quote traceability and revocation are covered by offline tests. No fabricated testimonial was seeded.
+
+
+## User-reported ScoutReport truncation repair
+
+Failed demo job `345ef41f77a745c18c6e2f40e844231e` used 7 model calls, 2 searches and 1 extract. Its local scout recording contains `finish_reason: MAX_TOKENS` and 32,410 characters of incomplete JSON. The generation adapter had removed array/numeric bounds and string-length guidance; the scout inherited an 80-claim limit. Increasing the token limit alone did not address the oversized report.
+
+- Kept supported Gemini array/numeric/date constraints; unsupported string-length keywords become field descriptions while Pydantic validation remains authoritative. Reference: [Gemini structured-output schema support](https://ai.google.dev/gemini-api/docs/generate-content/structured-output?hl=en#json_schema_support).
+- Added generation-only compact scout reports: six short claims, 600-character summary, 240-character exact quote, three candidates. Existing historical ScoutReport contracts remain readable.
+- Recognize MAX_TOKENS before parsing, retaining the provider response in private recordings. Permit only one metered final-format correction with the same conversation. Do not repeat agent tool execution; budget exhaustion propagates before another model call.
+- If final scout output is still invalid, exclude its claims, emit a visible research warning and continue with remaining validated ideas or the existing labeled evergreen fallback.
+- Failed stages now persist `failed`; legacy pending stages in failed runs also display Failed. Historical ValidationError payloads show a readable message rather than raw model JSON. The shared runtime/stage invariants are noted in TECHNICAL_DESIGN.md.
+
+Validation on 2026-09-13:
+
+| Command | Result |
+|---|---|
+| `python -m pytest tests/test_strands_runtime.py tests/test_studio_workflow.py tests/test_studio_social.py tests/test_studio_replay.py -q` | 31 passed in 15.89s |
+| `python -m pytest -q` | 146 passed in 149.39s; one upstream deprecation warning |
+| `python -m ruff check .` | All checks passed |
+| `python -m ruff format --check .` | 227 files formatted |
+| `pnpm.cmd --dir web test --maxWorkers=1` | 21 passed, 8 files |
+| `pnpm.cmd --dir web lint` | Exit 0 |
+| `pnpm.cmd --dir web build` | Exit 0; Vite production build |
+
+Chrome flow: existing failed Today URL -> reload -> local SSO sign-in -> same failed campaign. Verified page identity, populated content, no framework overlay, no console errors, Failed stage label, and friendly error text. Restored the manager's original heat/cold-drinks brief and four-panel comic selection after reload; screenshot emitted through browser tooling. Two campaign allowances remain. The idle worker was restarted with the fix. No new paid campaign, grant mutation or provider validation request was issued for this repair. A successful new live creative-to-export acceptance remains outstanding as described above.

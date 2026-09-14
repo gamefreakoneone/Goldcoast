@@ -321,3 +321,5 @@ Photo and inspiration provenance is in `data/margin_demo/sources.json`. Margin b
 For resource-constrained Windows test runs use `pnpm --dir web test --maxWorkers=1`. Browser automation file transfers require the ChatGPT Chrome extension's Allow access to file URLs setting; ordinary manual drag/drop does not depend on that extension setting.
 
 New live campaigns compose an Instagram post at 1080 x 1440 and an optional Story image at 1080 x 1920. Comics are a single four-panel image; testimonial posts use manager-reviewed exact quotes. Edited video Reels are deferred. Historical landscape/portrait replay remains available. See spec 0021 status for live acceptance results and remaining checks.
+
+If a final agent report is truncated or fails schema validation, the worker attempts one metered formatting correction using the same recorded research, without repeating search tools. A still-invalid scout contributes no claims; remaining verified research or a labeled evergreen idea can continue. Failed jobs remain in history and are never automatically restarted.

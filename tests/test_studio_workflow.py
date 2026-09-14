@@ -261,3 +261,54 @@ def test_candidate_expires_with_its_earliest_supporting_claim():
         now,
     )
     assert valid[0].expires_at == deadline
+
+
+def test_invalid_scout_reports_fall_back_without_using_their_claims(campaign):
+    from goldcoast.agents.runtime import StructuredOutputTruncated
+
+    repo, assets, tenant, _, _ = campaign
+    job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "truncated-scouts")
+
+    def invalid_factory(*args):
+        runtime, discovery, client, settings, reserve, root = factory(*args)
+        original = runtime.run
+
+        async def run(name, instructions, payload, output, tools=None):
+            result = await original(name, instructions, payload, output, tools)
+            if name.endswith("_scout"):
+                raise StructuredOutputTruncated("Repeatedly truncated report")
+            if name == "chief_marketer":
+                result.candidate_id = "evergreen-product"
+            return result
+
+        runtime.run = run
+        return runtime, discovery, client, settings, reserve, root
+
+    process_job(
+        repo, assets, repo.claim("worker"), "worker", invalid_factory, creative_producer=None
+    )
+    finished = repo.job(tenant, job.id)
+    assert finished.state == "completed"
+    result = finished.checkpoint["campaign"]["output"]
+    assert result["selected"]["category"] == "evergreen"
+    assert not result["graph"]["edges"]
+    assert len([e for e in repo.events(tenant, job.id) if e.type == "research_unavailable"]) == 2
+
+
+def test_stage_failure_is_persisted_and_not_reissued(campaign):
+    repo, assets, tenant, _, _ = campaign
+    job = start_campaign(repo, assets, tenant, WorkflowStart(mode="live"), "failed-stage")
+    job = repo.claim("worker")
+    stages = Stages(repo, job, "worker")
+
+    def fail():
+        raise ValueError("Bad output")
+
+    with pytest.raises(ValueError):
+        asyncio.run(stages.run("local_scout", fail))
+    saved = repo.job(tenant, job.id)
+    assert saved.checkpoint["local_scout"]["state"] == "failed"
+    with pytest.raises(Conflict, match="not repeated"):
+        asyncio.run(
+            Stages(repo, saved, "worker").run("local_scout", lambda: pytest.fail("Repeated"))
+        )

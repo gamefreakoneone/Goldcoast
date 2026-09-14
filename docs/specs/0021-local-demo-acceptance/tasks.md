@@ -9,6 +9,8 @@
 - [ ] Obtain approval for one additional isolated live campaign attempt.
 - [ ] Finish live creative generation, judge, approval/export and zero-call social replay acceptance.
 
+- [x] Repair user-reported ScoutReport truncation and verify bounded recovery, failure persistence and Chrome display.
+
 ## Validation Steps
 
 Run full pytest, Ruff check/format check, pnpm frontend test --maxWorkers=1, lint and build. Test sample loader idempotency and non-overwrite. Inspect populated Today/library/feed in Chrome, run one capped live campaign from fresh discovery, verify judge and approval/export and replay with zero counters. Record provider counters, artifact dimensions and paths without secrets.

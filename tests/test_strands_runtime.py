@@ -242,3 +242,81 @@ async def test_runtime_restart_does_not_overwrite_recording(tmp_path):
     await runtime.run("sum", "Add numbers", {"left": 2, "right": 3}, Answer, tools=[add])
     assert json.loads((tmp_path / "sum_0001.json").read_text()) == {"prior": True}
     assert (tmp_path / "sum_0002.json").is_file()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("limit,succeeds", [(4, True), (3, False)])
+async def test_truncated_formatting_retries_once_without_repeating_tools(tmp_path, limit, succeeds):
+    from goldcoast.agents.runtime import StructuredOutputTruncated
+
+    class TruncatedModel(ScriptedModel):
+        formatting_calls = 0
+
+        async def structured_output(self, output_model, *args, **kwargs):
+            self.calls += 1
+            self.formatting_calls += 1
+            if self.formatting_calls == 1:
+                raise StructuredOutputTruncated("MAX_TOKENS")
+            yield {"output": output_model(total=5)}
+
+    calls = []
+    model = TruncatedModel()
+    runtime = AgentRuntime(tmp_path, model=model, budget=ExecutionBudget(model_calls=limit))
+    if succeeds:
+        answer = await runtime.run("math", "Calculate", {}, Answer, [make_tool(calls)])
+        assert answer.total == 5
+        assert model.formatting_calls == 2
+    else:
+        with pytest.raises(ExecutionStopped, match="budget"):
+            await runtime.run("math", "Calculate", {}, Answer, [make_tool(calls)])
+        assert model.formatting_calls == 1
+    assert calls == [(2, 3)]
+    assert runtime.budget.used == {"model": limit, "tool": 1}
+    record = json.loads((tmp_path / "math_0001.json").read_text())
+    assert sum(e["type"] == "structured_output_retry" for e in record["events"]) == 1
+
+
+@pytest.mark.asyncio
+async def test_gemini_max_tokens_is_recorded_before_json_parsing(monkeypatch):
+    from types import SimpleNamespace
+
+    from google.genai import types
+
+    from goldcoast.agents.runtime import StructuredOutputTruncated, UsageGeminiModel
+
+    async def generate_content(**request):
+        return types.GenerateContentResponse(
+            candidates=[
+                types.Candidate(
+                    finish_reason="MAX_TOKENS",
+                    content=types.Content(parts=[types.Part(text='{"summary":"' + "x" * 32400)]),
+                )
+            ]
+        )
+
+    model = UsageGeminiModel(model_id="offline", client_args={"api_key": "offline"})
+    monkeypatch.setattr(
+        model,
+        "_get_client",
+        lambda: SimpleNamespace(
+            aio=SimpleNamespace(models=SimpleNamespace(generate_content=generate_content))
+        ),
+    )
+    events = []
+    with pytest.raises(StructuredOutputTruncated):
+        async for event in model.structured_output(Answer, []):
+            events.append(event)
+    assert len(events) == 1
+    assert events[0]["provider_response"]["candidates"][0]["finish_reason"] == "MAX_TOKENS"
+
+
+def test_compact_scout_schema_preserves_bounds_and_string_guidance():
+    from goldcoast.agents.runtime import generation_schema
+    from goldcoast.studio.workflow import CompactScoutReport
+
+    schema = generation_schema(CompactScoutReport)
+    assert schema["properties"]["claims"]["maxItems"] == 6
+    assert schema["properties"]["candidates"]["maxItems"] == 3
+    assert "600 characters" in schema["properties"]["summary"]["description"]
+    quote = schema["properties"]["claims"]["items"]["properties"]["quote"]
+    assert "240 characters" in quote["description"]

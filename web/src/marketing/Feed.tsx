@@ -11,9 +11,10 @@ const stageTitle = (name: string) => ({ chief_plan: 'Understanding your brief', 
 export function WorkflowProgress({ id, onReview }: { id: string | null; onReview?: () => void }) {
   const { run, events, error } = useRun(id)
   return <section className="panel workflow-intro" aria-live="polite"><h2>The workflow</h2>{error && <Notice>{error}</Notice>}{run ? <><Status good={run.state === 'completed'}>{run.state === 'completed' ? 'Ready for review' : run.state}</Status>
-    {Object.entries(run.checkpoint).map(([name, stage], i) => <div className="workflow-row" key={name}><span>{i + 1}</span><div><h3>{stageTitle(name)}</h3><p>{stage.state === 'completed' ? 'Completed' : 'In progress'}</p></div></div>)}
+    {Object.entries(run.checkpoint).map(([name, stage], i) => <div className="workflow-row" key={name}><span>{i + 1}</span><div><h3>{stageTitle(name)}</h3><p>{stage.state === 'completed' ? 'Completed' : stage.state === 'failed' || run.state === 'failed' ? 'Failed' : run.state === 'cancelled' ? 'Stopped' : 'In progress'}</p></div></div>)}
     {!Object.keys(run.checkpoint).length && <p>Waiting for the worker to begin.</p>}
-    {events.filter(e => e.type === 'workflow_error').map(e => <Notice key={e.id}>{String(e.payload.message ?? 'Workflow failed')}</Notice>)}
+    {events.filter(e => e.type === 'workflow_error').map(e => <Notice key={e.id}>{e.payload.error === 'ValidationError' ? 'The agent returned an incomplete or invalid response. This workflow stopped safely; no automatic restart was made.' : String(e.payload.message ?? 'Workflow failed')}</Notice>)}
+    {events.filter(e => e.type === 'research_unavailable').map(e => <Notice key={e.id} tone="info">{String(e.payload.message)}</Notice>)}
     {run.state === 'completed' && onReview && <button className="primary" onClick={onReview}>Review results</button>}
   </> : <p>Start a workflow to see research, creative production and quality checks here.</p>}</section>
 }

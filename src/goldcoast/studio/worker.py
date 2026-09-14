@@ -8,6 +8,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from google.genai import types
+from pydantic import ValidationError
 
 from goldcoast.agents.runtime import AgentRuntime, ExecutionBudget
 from goldcoast.llm.client import GeminiClient
@@ -220,7 +221,10 @@ def process_job(
                 "workflow_error",
                 {
                     "error": type(exc).__name__,
-                    "message": str(exc)[:250]
+                    "message": "The agent returned an incomplete or invalid response. "
+                    "This workflow stopped safely; no automatic restart was made."
+                    if isinstance(exc, ValidationError)
+                    else str(exc)[:250]
                     if isinstance(exc, (Conflict, ValueError))
                     else "Workflow failed; inspect private recordings",
                 },
