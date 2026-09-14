@@ -61,7 +61,7 @@ When a feature's status changes, update this table and the spec's `status.md` an
 | 0021 | Populated local demo and live acceptance | Blocked | [Evidence](specs/0021-local-demo-acceptance/status.md) | Margin populated; feed verified live after schema repair; creative acceptance pending |
 
 
-| 0022 | Live signals | Blocked | [Evidence](specs/0022-live-signals/status.md) | Implemented; live evidence/replay acceptance pending. Owner top-up restored five Margin credits during 0023 follow-up |
+| 0022 | Live signals | Blocked | [Evidence](specs/0022-live-signals/status.md) | Explicit creative influence and original-weather reuse added; 197 Python/30 UI tests pass; original two-placement/replay acceptance pending |
 
 | 0023 | Telegram approvals | Blocked | [Evidence](specs/0023-telegram-approvals/status.md) | 196 Python/30 UI tests pass; bot linked and command menu live; phone preview/decision acceptance awaits 0022 live run |
 

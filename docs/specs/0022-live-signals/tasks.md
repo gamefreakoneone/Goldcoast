@@ -1,5 +1,10 @@
 # Tasks
 
+- [x] Pass typed weather to both directors and require new brief influence explanations.
+- [x] Restore saved weather for regeneration without new requests.
+- [x] Display influence and historical missing-explanation state in Review.
+- [x] Record follow-up validation evidence.
+
 - [x] Freeze contracts and write spec.
 - [x] Implement weather requests, evidence, workflow, API and UI.
 - [x] Author offline request, failure, expiry, planning, replay and UI tests.

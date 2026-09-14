@@ -1,5 +1,7 @@
 # TECHNICAL_DESIGN.md
 
+0022 creative weather direction: persisted CreativeBrief.weather_influence is optional for historical compatibility; GeneratedCreativeBrief requires WeatherInfluence(influenced: bool, rationale: nonempty string up to 700 characters). Both directors receive validated SignalsResult directly. Regenerated jobs carry the original local_signals output and restore it without fetching a new forecast. Missing original signals stay unavailable. Review never infers influence for old briefs.
+
 Telegram command extension (0023): /start without a code, /commands, /help and /commnads provide free help. /campaign [brief] uses the uniquely linked tenant's start_campaign path and telegram-campaign:<update_id> durable idempotency key. It consumes one grant and obeys existing profile, allowance and active-job safeguards. /status and /credits expose only that linked account's information. Ambiguous links refuse account commands. The worker registers the native menu once on startup with isolated transport failure. Brand library cards omit the source attribution link; stored provenance is retained.
 
 ## Architecture Summary

@@ -641,6 +641,9 @@ def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, socia
             assert name == ("social_director" if social else "creative_director")
             assert context["owner_feedback"] == "Use warmer lighting"
             assert "preserving verified facts" in instructions
+            assert "local_signals" in context and context["local_signals"]["available"] is False
+            assert "weather_influence" in output.model_json_schema()["required"]
+            assert "stronger selected idea" in instructions
             return bot.artifact.brief
 
     class Client:

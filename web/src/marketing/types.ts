@@ -60,7 +60,7 @@ export interface Creative {
   decided_via?: 'studio' | 'telegram';
   job_id: string; business_id: string; brand_id: string; format: 'landscape' | 'portrait' | 'post' | 'story';
   attempt: number; width: number; height: number; sha256: string;
-  brief: { headline: string; subheading: string; cta: string; product_name: string; offer_text: string; image_prompt: string; caption?: string; creative_type?: string; quote?: string; attribution?: string };
+  brief: { headline: string; subheading: string; cta: string; product_name: string; offer_text: string; image_prompt: string; caption?: string; creative_type?: string; quote?: string; attribution?: string; weather_influence?: { influenced: boolean; rationale: string } | null };
   verdict: Verdict; expires_at: string; decision: 'pending' | 'approved' | 'rejected';
   decision_note: string; decided_at: string | null; replay: boolean;
 }

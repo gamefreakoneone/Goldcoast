@@ -194,8 +194,19 @@ async def execute_job(
     if job.input.get("creative_type") not in {"product", "testimonial"}:
         signals = await stages.run(
             "local_signals",
-            lambda: discovery.local_signals(
-                snapshot.profile.city, snapshot.profile.timezone, snapshot.local_date
+            lambda: (
+                job.input.get("local_signals")
+                or {
+                    "available": False,
+                    "reason": "Weather was not recorded for the original campaign",
+                    "summary": [],
+                    "sources": [],
+                    "claims": [],
+                }
+                if job.input.get("regenerate_from")
+                else discovery.local_signals(
+                    snapshot.profile.city, snapshot.profile.timezone, snapshot.local_date
+                )
             ),
         )
         from goldcoast.studio.graph import EvidenceSource

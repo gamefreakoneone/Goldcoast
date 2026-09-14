@@ -178,6 +178,7 @@ def start_campaign(repo, assets, tenant, body, key):
             "selected_campaign": campaign.model_dump(mode="json"),
             "regenerate_from": source.id,
             "owner_feedback": body.owner_feedback,
+            "local_signals": source.checkpoint.get("local_signals", {}).get("output"),
             **{
                 k: source.input[k]
                 for k in ("creative_type", "include_story", "product_id", "testimonial")

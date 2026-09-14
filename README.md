@@ -1,5 +1,7 @@
 # Goldcoast
 
+Review → The thinking explains whether recorded weather influenced newly generated ads and why. A stronger campaign angle or owner brief can take precedence. Older ads show that weather influence was not recorded. Feedback revisions reuse their original campaign's weather evidence rather than silently switching forecasts.
+
 ## Marketing studio (default UI)
 
 Goldcoast now helps independent cafes, bakeries, restaurants, and bars turn timely local context into branded ads. Upload product photos, past ads, and brand guidelines; review the inferred brand kit; then start a daily workflow. Strands agents research with Tavily, retain cited evidence in PostgreSQL, select a real-product opportunity, generate two formats from actual visual references, and judge each final composition before human approval.

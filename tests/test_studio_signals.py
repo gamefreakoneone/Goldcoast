@@ -190,6 +190,57 @@ def test_workflow_retains_signals_and_replays_without_providers(campaign):
     copied = repo.job(tenant, replay.id)
     assert copied.state == "completed" and copied.counters == {}
     assert copied.checkpoint["local_signals"] == finished.checkpoint["local_signals"]
+    regenerated = start_campaign(
+        repo,
+        assets,
+        tenant,
+        WorkflowStart(mode="live", regenerate_from=job.id, owner_feedback="Cooler imagery"),
+        "weather-regeneration",
+    )
+
+    def saved_providers(*args):
+        values = factory(*args)
+        values[1].local_signals = lambda *_: pytest.fail("Regeneration fetched fresh weather")
+        return values
+
+    process_job(
+        repo,
+        assets,
+        repo.claim("revision"),
+        "revision",
+        saved_providers,
+        creative_producer=None,
+    )
+    revised = repo.job(tenant, regenerated.id)
+    assert revised.state == "completed"
+    assert revised.checkpoint["local_signals"] == finished.checkpoint["local_signals"]
+    assert revised.counters == {}
+
+
+def test_weather_brief_contract_and_historical_compatibility():
+    from types import SimpleNamespace
+
+    from pydantic import ValidationError
+
+    from goldcoast.studio.creative import CreativeBrief, GeneratedCreativeBrief, creative_signals
+
+    old = dict(
+        headline="Pause",
+        subheading="A cool latte",
+        cta="Visit today",
+        product_name="Latte",
+        image_prompt="A latte",
+    )
+    assert CreativeBrief.model_validate(old).weather_influence is None
+    with pytest.raises(ValidationError):
+        GeneratedCreativeBrief.model_validate(old)
+    current = GeneratedCreativeBrief.model_validate(
+        {**old, "weather_influence": {"influenced": True, "rationale": "Cold drink for a warm day"}}
+    )
+    assert current.weather_influence.influenced
+    signals = SignalsResult(available=True, summary=["High 34 C"])
+    stages = SimpleNamespace(data={"local_signals": {"output": signals.model_dump()}})
+    assert creative_signals(stages) == signals.model_dump(mode="json")
 
 
 def test_signals_api_is_additive_and_graph_route_stays_compatible(campaign):
