@@ -18,7 +18,7 @@ from goldcoast.studio.compositor import SIZES, render_composite
 from goldcoast.studio.database import Resource, Tenant
 from goldcoast.studio.discovery import SignalsResult
 from goldcoast.studio.repository import AccessError, Conflict
-from goldcoast.studio.workflow import Snapshot
+from goldcoast.studio.workflow import Snapshot, VideoEvidence
 
 
 class ComicPanel(StrictModel):
@@ -46,6 +46,11 @@ def creative_signals(stages):
     return SignalsResult.model_validate(
         value or {"available": False, "reason": "Weather was not collected for this campaign"}
     ).model_dump(mode="json")
+
+
+def creative_video(stages):
+    value = stages.data.get("video_evidence", {}).get("output")
+    return VideoEvidence.model_validate(value).model_dump(mode="json") if value else None
 
 
 class CreativeBrief(StrictModel):
@@ -119,7 +124,7 @@ JUDGE_RUBRIC = (
 )
 
 
-def judge_prompt(snapshot, brief, campaign, testimonial=None):
+def judge_prompt(snapshot, brief, campaign, testimonial=None, video=None):
     return JUDGE_RUBRIC + json.dumps(
         {
             "business": snapshot.profile.model_dump(mode="json"),
@@ -128,6 +133,7 @@ def judge_prompt(snapshot, brief, campaign, testimonial=None):
             "selected": campaign.selected.model_dump(mode="json"),
             "evidence": campaign.graph.model_dump(mode="json"),
             "testimonial": testimonial,
+            "campaign_video": video,
         }
     )
 
@@ -359,6 +365,7 @@ async def produce_creatives(
                     "business": snapshot.profile.model_dump(mode="json"),
                     "owner_feedback": job.input.get("owner_feedback", ""),
                     "local_signals": creative_signals(stages),
+                    "campaign_video": creative_video(stages),
                     "brand": snapshot.brand.model_dump(mode="json"),
                     "selected": campaign.selected.model_dump(mode="json"),
                     "graph": campaign.graph.model_dump(mode="json"),
@@ -378,16 +385,27 @@ async def produce_creatives(
             ),
         )
     kit = snapshot.brand
+    video = creative_video(stages)
+    video_id = video["frame_asset_id"] if video else None
     reference_ids = list(
         dict.fromkeys(
             kit.reference_asset_ids
             + [r["id"] for r in snapshot.assets if r["data"]["role"] == "product"]
         )
-    )[:6]
-    references = [
+    )[: 5 if video_id else 6]
+    references = (
+        [
+            "SELECTED CAMPAIGN VIDEO FRAME - use as the hero when it supports the selected idea",
+            types.Part.from_bytes(data=assets.get(job.tenant_id, video_id), mime_type="image/png"),
+        ]
+        if video_id
+        else []
+    ) + [
         types.Part.from_bytes(data=assets.get(job.tenant_id, asset_id), mime_type="image/png")
         for asset_id in reference_ids
     ]
+    if video_id:
+        reference_ids.insert(0, video_id)
     logo = assets.get(job.tenant_id, kit.logo_asset_id) if kit.logo_asset_id else None
     font = assets.get(job.tenant_id, kit.font_asset_id) if kit.font_asset_id else None
     service = CreativeService(repo, assets)
@@ -407,6 +425,7 @@ async def produce_creatives(
                     + "\n"
                     + "Create a photograph without text, logos, people or endorsements. "
                     "Match the uploaded product appearance and brand reference style. "
+                    "Use the selected campaign-video frame as the visual foundation when supplied. "
                     + brief.image_prompt
                     + "\nBrand direction: "
                     + kit.image_direction
@@ -437,7 +456,7 @@ async def produce_creatives(
                     "studio_judge_" + format,
                     settings.judge_model,
                     [
-                        judge_prompt(snapshot, brief, campaign),
+                        judge_prompt(snapshot, brief, campaign, video=video),
                         types.Part.from_bytes(data=raw, mime_type="image/png"),
                         *references,
                     ],

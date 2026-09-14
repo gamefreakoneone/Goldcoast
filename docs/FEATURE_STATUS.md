@@ -39,7 +39,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0017 | Hosted deployment | Blocked | [Evidence](specs/0017-hosted-deployment/status.md) | Deferred by user until local acceptance testing |
 
-Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0024 submission package remains not started.
+Local acceptance testing is active. 0017 hosting is explicitly deferred by the user; 0025 submission package remains not started.
 
 ## Status Definitions
 
@@ -65,4 +65,6 @@ When a feature's status changes, update this table and the spec's `status.md` an
 
 | 0023 | Telegram approvals | Blocked | [Evidence](specs/0023-telegram-approvals/status.md) | Continuity and judge follow-up verified: 200 Python/34 UI tests, six live judge checks, actual desktop/mobile revisions; original full manual acceptance sequence remains unchecked |
 
-| 0024 | Submission package | Not started | Pending local acceptance | Follows 0021; hosting remains deferred |
+| 0024 | Campaign videos | Completed | [Evidence](specs/0024-campaign-videos/status.md) | Named MP4 inputs, selected frames and current discovery replace the testimonial-facing workflow; 206 Python/38 UI tests pass |
+
+| 0025 | Submission package | Not started | Pending local acceptance | Follows local acceptance; hosting remains deferred |

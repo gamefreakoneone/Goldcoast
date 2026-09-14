@@ -1,5 +1,6 @@
 import html
 import json
+import re
 import secrets
 import string
 import threading
@@ -23,6 +24,36 @@ from goldcoast.studio.workflow import Snapshot, WorkflowStart, start_campaign
 
 class TelegramError(RuntimeError):
     pass
+
+
+def campaign_video(repo, tenant, brief):
+    folded = brief.casefold()
+    rows = [row for row in repo.list(tenant, "asset") if row.data.get("role") == "video"]
+    titles = {}
+    for row in rows:
+        title = str(row.data.get("title") or "").strip()
+        if title and title.casefold() in folded:
+            titles.setdefault(title.casefold(), []).append(row)
+    if titles:
+        longest = max(len(title) for title in titles)
+        matches = [row for title, found in titles.items() if len(title) == longest for row in found]
+        if len(matches) == 1:
+            return matches[0]
+        raise Conflict("More than one campaign video has that name. Rename one in Brand library.")
+    if "video" not in folded:
+        return None
+    if not rows:
+        raise Conflict(
+            "Upload and name a campaign video in Brand library first. No credit was used."
+        )
+    latest = re.search(
+        r"\b(latest|last|newest)\s+video\b|\bvideo\s+(i|we)\s+(just\s+)?uploaded\b|\bmy\s+video\b",
+        folded,
+    )
+    if latest or len(rows) == 1:
+        return rows[0]
+    names = ", ".join((row.data.get("title") or row.data["filename"]) for row in rows[:3])
+    raise Conflict(f"Name the campaign video in your brief. Recent videos: {names}.")
 
 
 class TelegramClient:
@@ -753,6 +784,7 @@ class NotificationService:
                 chat_id,
                 "Goldcoast creates ads for your business and brings them here for review.\n"
                 "/campaign [brief] — Generate a campaign using 1 credit.\n"
+                "Mention a named campaign video or say 'the video I just uploaded' to use it.\n"
                 "/status — Latest campaign progress.\n"
                 "/credits — Available campaign credits.\n"
                 "/commands — Show this help.\n\n"
@@ -798,19 +830,39 @@ class NotificationService:
             text = "Keep your campaign brief within 1500 characters. No credit was used."
         else:
             try:
+                video = campaign_video(self.repo, row.tenant_id, brief)
                 job = start_campaign(
                     self.repo,
                     self.assets,
                     row.tenant_id,
-                    WorkflowStart(mode="live", goal=brief or "Bring more neighbors in today"),
+                    WorkflowStart(
+                        mode="live",
+                        goal=brief or "Bring more neighbors in today",
+                        video_asset_id=video.id if video else None,
+                    ),
                     key="telegram-campaign:" + str(update_id),
                     started_via="telegram",
                 )
+                selected_video = (
+                    f" with {video.data.get('title') or video.data['filename']}" if video else ""
+                )
                 text = (
-                    "Campaign queued using 1 credit. Finished previews will arrive here.\n"
+                    "Campaign queued using 1 credit"
+                    + selected_video
+                    + ". Finished previews will arrive here.\n"
                     + review_link(self.settings, job.id)
                 )
-            except (Conflict, AccessError, ValueError):
+            except Conflict as exc:
+                text = (
+                    str(exc)
+                    if "video" in str(exc).casefold()
+                    else (
+                        "Campaign could not start. Check your confirmed business and brand, "
+                        "available credits, and any active workflow in Goldcoast. "
+                        "Use /status and /credits."
+                    )
+                )
+            except (AccessError, ValueError):
                 text = (
                     "Campaign could not start. Check your confirmed business and brand, "
                     "available credits, and any active workflow in Goldcoast. "

@@ -74,6 +74,8 @@ AssetRole = Literal["logo", "product", "reference", "guidelines", "font", "video
 class AssetMetadata(StrictModel):
     business_id: str
     filename: str = Field(max_length=150)
+    title: str = Field(default="", max_length=100)
+    description: str = Field(default="", max_length=500)
     role: AssetRole
     product_id: str | None = None
     marketing_kind: Literal["owned", "inspiration"] = "owned"
@@ -89,6 +91,8 @@ class AssetMetadata(StrictModel):
 class AssetEdit(StrictModel):
     version: int = Field(ge=1)
     role: AssetRole
+    title: str | None = Field(default=None, max_length=100)
+    description: str | None = Field(default=None, max_length=500)
     product_id: str | None = None
     marketing_kind: Literal["owned", "inspiration"] = "owned"
     source_url: HttpUrl | None = None
@@ -244,13 +248,19 @@ class BrandService:
                 raise ValueError("Select an uploaded font")
         return self.save(tenant, "brand", kit, body.version)
 
-    def classification(self, tenant, role, product_id, marketing_kind, source_url):
+    def classification(
+        self, tenant, role, product_id, marketing_kind, source_url, title="", description=""
+    ):
         profile = self.current(tenant, "business")
         if not profile:
             raise Conflict("Save your business profile first")
         products = BusinessProfile.model_validate(profile.data).products
-        if product_id and (role != "product" or product_id not in {p.id for p in products}):
-            raise ValueError("Choose a product from this business for product photos")
+        if product_id and (
+            role not in {"product", "video"} or product_id not in {p.id for p in products}
+        ):
+            raise ValueError("Choose a product from this business for product photos or videos")
+        if role == "video" and (not title.strip() or not description.strip()):
+            raise ValueError("Give each campaign video a name and description")
         if marketing_kind == "inspiration" and (role != "reference" or not source_url):
             raise ValueError(
                 "External inspiration requires a source URL and marketing material category"
@@ -259,12 +269,21 @@ class BrandService:
     def edit_asset(self, tenant, asset_id, body):
         row = self.repo.get(tenant, "asset", asset_id)
         self.classification(
-            tenant, body.role, body.product_id, body.marketing_kind, body.source_url
+            tenant,
+            body.role,
+            body.product_id,
+            body.marketing_kind,
+            body.source_url,
+            body.title if body.title is not None else row.data.get("title", ""),
+            body.description if body.description is not None else row.data.get("description", ""),
         )
         validate_asset(self.assets.get(tenant, asset_id), row.data["mime"], body.role)
-        metadata = AssetMetadata.model_validate(
-            {**row.data, **body.model_dump(exclude={"version"}, mode="json")}
-        )
+        changes = body.model_dump(exclude={"version"}, mode="json")
+        if body.title is None:
+            changes.pop("title")
+        if body.description is None:
+            changes.pop("description")
+        metadata = AssetMetadata.model_validate({**row.data, **changes})
         return self.repo.put(
             tenant, "asset", metadata.model_dump(mode="json"), asset_id, body.version
         )
@@ -280,17 +299,23 @@ class BrandService:
         product_id=None,
         marketing_kind="owned",
         source_url=None,
+        title="",
+        description="",
     ):
         if not rights:
             raise ValueError("Confirm you have permission to use this material")
         profile = self.current(tenant, "business")
         if profile is None:
             raise Conflict("Save your business profile first")
-        self.classification(tenant, role, product_id, marketing_kind, source_url)
+        self.classification(
+            tenant, role, product_id, marketing_kind, source_url, title, description
+        )
         raw, mime, width, height = validate_asset(raw, mime, role)
         metadata = AssetMetadata(
             business_id=profile.id,
             filename=filename[:150],
+            title=title,
+            description=description,
             role=role,
             product_id=product_id,
             marketing_kind=marketing_kind,

@@ -19,6 +19,7 @@ from goldcoast.studio.creative import (
     GeneratedCreativeBrief,
     JudgedVerdict,
     creative_signals,
+    creative_video,
     judge_prompt,
     validate_brief,
 )
@@ -231,6 +232,7 @@ async def produce_social(
                         "requested": requested,
                         "owner_feedback": job.input.get("owner_feedback", ""),
                         "local_signals": creative_signals(stages),
+                        "campaign_video": creative_video(stages),
                         "correction": correction,
                         "testimonial": testimonial,
                         "goal": job.input["goal"],
@@ -257,11 +259,26 @@ async def produce_social(
     )
     product_rows, style_rows = reference_assets(snapshot, product_id)
     references, reference_ids = [], []
+    video = creative_video(stages)
+    if video:
+        frame_id = video["frame_asset_id"]
+        references.extend(
+            [
+                "SELECTED CAMPAIGN VIDEO FRAME - use as the hero when it supports "
+                "the selected idea",
+                types.Part.from_bytes(
+                    data=assets.get(job.tenant_id, frame_id), mime_type="image/png"
+                ),
+            ]
+        )
+        reference_ids.append(frame_id)
     for label, rows in [
         ("PRODUCT APPEARANCE - preserve the selected product", product_rows),
         ("VISUAL STYLE ONLY - no copied logos or claims", style_rows),
     ]:
         for row in rows:
+            if len(reference_ids) >= 6:
+                break
             references.extend(
                 [
                     label,
@@ -286,7 +303,10 @@ async def produce_social(
                     + brief.panels[index].scene
                 )
             else:
-                prompt += "\nProduct photograph: no text or logos. Preserve product appearance."
+                prompt += (
+                    "\nProduct photograph: no text or logos. Preserve product appearance. "
+                    "Use the campaign-video frame as the visual foundation when supplied."
+                )
             continuity = (
                 [types.Part.from_bytes(data=pictures[0], mime_type="image/png")] if pictures else []
             )
@@ -329,7 +349,7 @@ async def produce_social(
                     "social_judge_" + placement,
                     settings.judge_model,
                     [
-                        judge_prompt(snapshot, brief, campaign, testimonial),
+                        judge_prompt(snapshot, brief, campaign, testimonial, video),
                         types.Part.from_bytes(data=raw, mime_type="image/png"),
                         *references,
                     ],

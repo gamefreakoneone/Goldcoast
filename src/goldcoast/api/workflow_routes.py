@@ -122,9 +122,13 @@ def result(job_id: str, request: Request, identity: IdentityDep):
     output = step.get("output")
     if job.kind == "campaign" and output is not None:
         signals = job.checkpoint.get("local_signals", {})
+        video = job.checkpoint.get("video_evidence", {})
         return {
             **output,
             "local_signals": signals.get("output") if signals.get("state") == "completed" else None,
+            "video_evidence": video.get("output")
+            if video.get("state") == "completed"
+            else output.get("video_evidence"),
         }
     return output
 

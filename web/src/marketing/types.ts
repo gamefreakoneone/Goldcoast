@@ -15,6 +15,7 @@ export interface Brand {
 export type AssetRole = 'logo' | 'product' | 'reference' | 'guidelines' | 'font' | 'video' | 'testimonial'
 export interface Asset {
   business_id: string; filename: string; role: AssetRole; mime: string; size: number;
+  title?: string; description?: string;
   product_id?: string | null; marketing_kind?: 'owned' | 'inspiration'; source_url?: string | null;
   sha256: string; width: number | null; height: number | null; rights_confirmed: true;
 }
@@ -28,7 +29,7 @@ export interface Run {
   started_via?: 'studio' | 'telegram';
   id: string; kind: 'campaign' | 'brand' | 'feed' | 'testimonial'; mode: 'live' | 'replay';
   state: 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
-  input: { creative_type?: string; include_story?: boolean; goal?: string; source?: string; regenerate_from?: string; owner_feedback?: string; snapshot?: { profile: Business } };
+  input: { creative_type?: string; include_story?: boolean; goal?: string; source?: string; regenerate_from?: string; owner_feedback?: string; video_asset_id?: string | null; snapshot?: { profile: Business } };
   checkpoint: Record<string, { state: string; output?: unknown }>;
   counters: Record<string, number>; created_at: number; finished_at: number | null;
 }
@@ -51,8 +52,14 @@ export interface Signals { available: boolean; reason: string; summary: string[]
 export interface Revision { id: string; parent_id: string | null; state: Run['state']; created_at: number; started_via: 'studio' | 'telegram' }
 export interface Campaign {
   local_signals?: Signals | null;
+  video_evidence?: VideoEvidence | null;
   candidates: Candidate[]; selected: Candidate; rationale: string; graph: Graph;
   rejected: { id: string; title: string; reason: string }[];
+}
+export interface VideoEvidence {
+  asset_id?: string; title?: string; description?: string; product_id?: string | null;
+  subject?: string; observations: string; search_queries: string[]; uncertainty: string;
+  best_frame_s?: number; frame_reason?: string; frame_asset_id?: string;
 }
 export interface Verdict {
   rubric_version?: string | null;

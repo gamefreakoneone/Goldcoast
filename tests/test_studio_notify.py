@@ -626,7 +626,7 @@ def test_rejecting_an_expired_creative_alerts_without_prompt(bot):
 def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, social):
     from goldcoast.studio.compositor import SIZES
     from goldcoast.studio.creative import produce_creatives
-    from goldcoast.studio.workflow import CampaignResult, Stages
+    from goldcoast.studio.workflow import CampaignResult, Stages, VideoEvidence
 
     payload = {**bot.job.input, "owner_feedback": "Use warmer lighting"}
     if not social:
@@ -636,6 +636,25 @@ def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, socia
     snapshot = Snapshot.model_validate(job.input["snapshot"])
     result = CampaignResult.model_validate(bot.job.checkpoint["campaign"]["output"])
     stages = Stages(bot.repo, job, "producer")
+    frame = bot.repo.put(
+        bot.tenant,
+        "campaign_frame",
+        {"job_id": job.id, "source_asset_id": "source-video", "mime": "image/png"},
+    )
+    bot.assets.put(bot.tenant, frame.id, png())
+    video = VideoEvidence(
+        asset_id="source-video",
+        title="Boba launch",
+        description="A finished boba tea on the counter.",
+        subject="Boba tea",
+        observations="The complete drink is centered.",
+        search_queries=["Los Angeles boba today"],
+        uncertainty="Flavor is not visible.",
+        best_frame_s=1.5,
+        frame_reason="The full cup is clear.",
+        frame_asset_id=frame.id,
+    ).model_dump(mode="json")
+    stages.data["video_evidence"] = {"state": "completed", "output": video}
     images = []
 
     class Runtime:
@@ -644,6 +663,7 @@ def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, socia
             assert context["owner_feedback"] == "Use warmer lighting"
             assert "preserving verified facts" in instructions
             assert "local_signals" in context and context["local_signals"]["available"] is False
+            assert context["campaign_video"] == video
             assert "weather_influence" in output.model_json_schema()["required"]
             assert "stronger selected idea" in instructions
             return bot.artifact.brief
@@ -652,6 +672,8 @@ def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, socia
         judges = 0
 
         def generate_image(self, stage, model, parts, config, output_path, input_refs):
+            assert frame.id in input_refs
+            assert any(isinstance(part, str) and "CAMPAIGN VIDEO FRAME" in part for part in parts)
             images.append((stage, parts[0]))
             output_path.parent.mkdir(exist_ok=True, parents=True)
             output_path.write_bytes(png())
@@ -665,6 +687,7 @@ def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, socia
             context = json.loads(args[2][0].split("Context: ", 1)[1])
             assert context["brand"] == snapshot.brand.model_dump(mode="json")
             assert context["selected"] == result.selected.model_dump(mode="json")
+            assert context["campaign_video"] == video
             assert args[2][1].inline_data.mime_type == "image/png"
             assert "score_reasons" in args[3].response_json_schema["required"]
             verdict = bot.artifact.verdict.model_copy(

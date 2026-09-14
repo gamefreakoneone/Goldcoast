@@ -6,11 +6,11 @@ import { Icon, Notice, PageHeading, Status } from './ui'
 import type { Campaign, CreativeView, Graph, Revision, StudioEvent } from './types'
 
 const stageNames: Record<string, string> = {
-  local_signals: "Checking today's weather", chief_plan: 'The chief sets the direction', local_events: 'Checking the local calendar',
+  video_evidence: 'Finding the strongest video frame', local_signals: "Checking today's weather", chief_plan: 'The chief sets the direction', local_events: 'Checking the local calendar',
   local_scout: 'Finding a local moment', culture_scout: 'Reading cultural signals',
   chief_selection: 'Choosing the strongest idea', campaign: 'The campaign direction is ready',
   creative_brief: 'Writing your creative brief', creative_result: 'Your creatives are ready for review',
-  brand_analysis: 'Learning your visual direction', video_evidence: 'Reading your video cues',
+  brand_analysis: 'Learning your visual direction',
 }
 
 export function Activity({ events }: { events: StudioEvent[] }) {
@@ -50,6 +50,12 @@ function Thinking({ campaign }: { campaign: Campaign }) {
     <div className="table-wrap"><table><thead><tr><th>Opportunity</th><th>Product fit</th><th>Timing</th><th>Sources</th><th>Decision</th></tr></thead><tbody>{campaign.candidates.map(candidate => <tr key={candidate.id}><td><strong>{candidate.title}</strong><small>{candidate.product_name} · {candidate.category}</small></td><td>{candidate.fit}/10</td><td>{candidate.timeliness}/10</td><td>{candidate.source_ids.length}</td><td>{candidate.id === campaign.selected.id ? 'Selected' : 'Alternative'}</td></tr>)}</tbody></table></div>
     {campaign.rejected.length > 0 && <details><summary>Why other ideas were excluded</summary><ul>{campaign.rejected.map(item => <li key={item.id}><strong>{item.title}</strong>: {item.reason}</li>)}</ul></details>}
     </section><EvidenceMap graph={campaign.graph}/></>
+}
+
+function CampaignVideo({ campaign, runId }: { campaign: Campaign; runId: string }) {
+  const video = campaign.video_evidence
+  if (!video) return null
+  return <section className="panel campaign-video-evidence"><div><span className="eyebrow">Campaign video</span><h2>{video.title || 'Uploaded campaign video'}</h2><p>{video.description || 'No owner description was recorded for this historical video.'}</p><dl><div><dt>Chosen moment</dt><dd>{video.best_frame_s === undefined ? 'Not recorded' : `${video.best_frame_s.toFixed(1)} seconds`}</dd></div><div><dt>Why this frame</dt><dd>{video.frame_reason || 'A frame reason was not recorded.'}</dd></div><div><dt>What the agent saw</dt><dd>{video.observations}</dd></div></dl></div>{video.frame_asset_id ? <PrivateImage path={`/runs/${runId}/video-frame`} alt={`Selected frame from ${video.title || 'campaign video'}`}/> : <div className="media-placeholder">Best frame was not preserved for this historical campaign.</div>}</section>
 }
 
 function CreativeCard({ creative, ready, onChanged }: { creative: CreativeView; ready: boolean; onChanged: () => void }) {
@@ -110,6 +116,7 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
       {latestRevision && latestRevision.id !== id && <p><a href={`#/review/${latestRevision.id}`}>View latest revision</a></p>}
       {revisions.map((revision, index) => <p key={revision.id}><a href={`#/review/${revision.id}`} aria-current={revision.id === id ? 'page' : undefined}>{index === 0 ? 'Original' : `Revision ${index}`} · {revision.state}{revision.started_via === 'telegram' ? ' · Via phone' : ''}{revision.id === id ? ' · Viewing' : ''}</a></p>)}
     </nav></section>}
+    {campaign && <CampaignVideo campaign={campaign} runId={id}/>}
     {run?.state === 'failed' && <Notice>The workflow stopped. Check Activity for the reason. Paid work will not retry automatically.</Notice>}
     {run?.state === 'cancelled' && <Notice tone="info">This workflow was cancelled.</Notice>}
     <div className="review-toolbar"><div className="segmented tabs">{[['creatives', 'Creatives'], ['thinking', 'The thinking'], ['activity', 'Activity']].map(([value, label]) => <button key={value} className={selectedTab === value ? 'selected' : ''} onClick={() => setTab(value)}>{label}</button>)}</div>

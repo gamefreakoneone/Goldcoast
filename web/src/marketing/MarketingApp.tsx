@@ -10,7 +10,6 @@ import { PrivateImage } from './hooks'
 import { useVisiblePolling } from './polling'
 
 import { ReviewPage } from './Review'
-import { QuotePicker } from './Testimonials'
 import { Feed, WorkflowProgress, type IdeaSelection } from './Feed'
 import { SchedulePanel } from './SchedulePanel'
 import { TelegramPanel } from './TelegramPanel'
@@ -51,7 +50,6 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
   const [creativeType, setCreativeType] = useState('auto')
   const [includeStory, setIncludeStory] = useState(false)
   const [product, setProduct] = useState('')
-  const [quote, setQuote] = useState('')
 
   const [busy, setBusy] = useState(false)
 
@@ -71,7 +69,7 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
 
     try {
 
-      const run = mode === 'replay' && replaySource === 'sample' ? await api<Run>('/replays/sample', {}) : await api<Run>('/workflows', { mode, goal: goal.trim() || 'Bring more neighbors in today', video_asset_id: video || null, replay_source: mode === 'replay' ? replaySource : null, feed_job_id: selection?.jobId ?? null, idea_id: selection?.idea.id ?? null, product_id: product || selection?.idea.product_id || null, creative_type: creativeType, include_story: includeStory, testimonial_id: quote.split(':')[0] || null, quote_id: quote.split(':')[1] || null })
+      const run = mode === 'replay' && replaySource === 'sample' ? await api<Run>('/replays/sample', {}) : await api<Run>('/workflows', { mode, goal: goal.trim() || 'Bring more neighbors in today', video_asset_id: video || null, replay_source: mode === 'replay' ? replaySource : null, feed_job_id: selection?.jobId ?? null, idea_id: selection?.idea.id ?? null, product_id: product || selection?.idea.product_id || null, creative_type: creativeType, include_story: includeStory })
 
       await refresh(); navigate('today', run.id)
 
@@ -80,6 +78,8 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
   }
 
   const pictures = data.assets.filter(a => a.data.role === 'product').slice(0, 2)
+  const videos = data.assets.filter(a => a.data.role === 'video')
+  const selectedVideo = videos.find(asset => asset.id === video)
 
   return <><PageHeading title="Your daily marketing desk.">Turn what’s happening nearby into a reason to stop by.</PageHeading>{error && <Notice>{error}</Notice>}
 
@@ -93,12 +93,12 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
 
       {mode === 'replay' && !recorded.length && <p className="small muted replay-empty">Try the recorded example now, or upload your own brand material to create a live campaign.</p>}
 
-      {mode === 'live' && data.assets.some(a => a.data.role === 'video') && <label className="replay-select">Optional video context<select value={video} onChange={e => setVideo(e.target.value)}><option value="">Let the agents discover today’s context</option>{data.assets.filter(a => a.data.role === 'video').map(a => <option key={a.id} value={a.id}>{a.data.filename}</option>)}</select></label>}
+      {mode === 'live' && <div className="campaign-video-select"><label>Campaign video <span className="optional">Optional</span><select value={video} onChange={e => { const asset = videos.find(item => item.id === e.target.value); setVideo(e.target.value); if (asset?.data.product_id) setProduct(asset.data.product_id) }}><option value="">Create from current topics without a video</option>{videos.map(a => <option key={a.id} value={a.id}>{a.data.title || a.data.filename}</option>)}</select></label>{selectedVideo ? <p className="small muted">The video agent will choose its strongest frame. {selectedVideo.data.description}</p> : !videos.length ? <p className="small muted">Upload and name an MP4 in <a href="#/brand">Brand library</a> to build a campaign around it.</p> : null}</div>}
 
-      {mode === 'live' && <div className="form-grid"><label>Creative type<select value={creativeType} onChange={e => setCreativeType(e.target.value)}><option value="auto">Choose for me</option><option value="product">Product spotlight</option><option value="timely">Timely promotion</option><option value="comic">Four-panel comic</option><option value="testimonial">Testimonial quote</option></select></label><label>Product<select value={product || selection?.idea.product_id || ''} disabled={Boolean(selection)} onChange={e => setProduct(e.target.value)}><option value="">Let the agent choose</option>{data.business?.data.products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label><label className="checkbox"><input type="checkbox" checked={includeStory} onChange={e => setIncludeStory(e.target.checked)}/>Also make a vertical Story image</label>{creativeType === 'testimonial' && <QuotePicker value={quote} onChange={setQuote}/>}</div>}
+      {mode === 'live' && <div className="form-grid"><label>Creative type<select value={creativeType} onChange={e => setCreativeType(e.target.value)}><option value="auto">Choose for me</option><option value="product">Product spotlight</option><option value="timely">Timely promotion</option><option value="comic">Four-panel comic</option></select></label><label>Product<select value={product || selection?.idea.product_id || ''} disabled={Boolean(selection)} onChange={e => setProduct(e.target.value)}><option value="">Let the agent choose</option>{data.business?.data.products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label><label className="checkbox"><input type="checkbox" checked={includeStory} onChange={e => setIncludeStory(e.target.checked)}/>Also make a vertical Story image</label></div>}
       <div className="brief-actions"><div className="mode-controls"><div className="segmented"><button type="button" className={mode === 'replay' ? 'selected' : ''} onClick={() => setMode('replay')}>Replay</button><button type="button" className={mode === 'live' ? 'selected' : ''} onClick={() => setMode('live')}>Live</button></div><span className="small muted">{mode === 'replay' ? 'No API usage' : `Uses 1 campaign · ${data.usage.campaign_remaining} left`}</span></div>
 
-        <button className="primary start-button" disabled={busy || (mode === 'live' ? !liveAllowed || (creativeType === 'testimonial' && !quote) : !replaySource)}>{busy ? 'Starting...' : mode === 'replay' && replaySource === 'sample' ? 'Try recorded example' : 'Start today’s workflow'}<Icon name="arrow" size={20}/></button></div>
+        <button className="primary start-button" disabled={busy || (mode === 'live' ? !liveAllowed : !replaySource)}>{busy ? 'Starting...' : mode === 'replay' && replaySource === 'sample' ? 'Try recorded example' : 'Start today’s workflow'}<Icon name="arrow" size={20}/></button></div>
 
       {mode === 'live' && !liveAllowed && <p className="small muted">{!ready ? 'Confirm your business and brand kit to start.' : !data.usage.live_enabled ? 'Live generation is paused by the owner.' : data.usage.active_job ? 'A live workflow is already active.' : 'Ask the owner for a live campaign allowance.'}</p>}
 
@@ -133,7 +133,6 @@ function SettingsPage({ data, refresh }: { data: Data; refresh: () => Promise<vo
 
   const [brand, setBrand] = useState(1)
   const [feedGrant, setFeedGrant] = useState(1)
-  const [testimonialGrant, setTestimonialGrant] = useState(1)
 
   const [busy, setBusy] = useState(false)
 
@@ -155,11 +154,11 @@ function SettingsPage({ data, refresh }: { data: Data; refresh: () => Promise<vo
 
     <div className="settings-grid"><section className="panel"><h2>Your account</h2><dl className="settings-list"><div><dt>Name</dt><dd>{data.user.name}</dd></div><div><dt>Access</dt><dd>{data.user.role}</dd></div><div><dt>Account ID</dt><dd><code>{data.user.id}</code></dd></div></dl><p className="small muted">Share your account ID with the owner to request a live allowance.</p></section>
 
-      <section className="panel"><h2>Your live allowance</h2><dl className="settings-list"><div><dt>Campaigns remaining</dt><dd>{data.usage.campaign_remaining}</dd></div><div><dt>Brand analyses remaining</dt><dd>{data.usage.brand_remaining}</dd></div><div><dt>Feed refreshes remaining</dt><dd>{data.usage.feed_remaining ?? 0}</dd></div><div><dt>Testimonial analyses remaining</dt><dd>{data.usage.testimonial_remaining ?? 0}</dd></div><div><dt>Live generation</dt><dd>{data.usage.live_enabled ? 'Enabled' : 'Paused'}</dd></div></dl><p className="small muted">Replays use no API credits. One live workflow can run at a time.</p></section></div>
+      <section className="panel"><h2>Your live allowance</h2><dl className="settings-list"><div><dt>Campaigns remaining</dt><dd>{data.usage.campaign_remaining}</dd></div><div><dt>Brand analyses remaining</dt><dd>{data.usage.brand_remaining}</dd></div><div><dt>Feed refreshes remaining</dt><dd>{data.usage.feed_remaining ?? 0}</dd></div><div><dt>Live generation</dt><dd>{data.usage.live_enabled ? 'Enabled' : 'Paused'}</dd></div></dl><p className="small muted">Campaign-video analysis is included in a campaign. Replays use no API credits.</p></section></div>
 
-    <TelegramPanel/><SchedulePanel timezone={data.business?.data.timezone ?? 'your business timezone'}/>{data.user.role === 'owner' && <section className="panel owner-controls"><h2>Owner controls</h2><div className="settings-grid"><div><h3>Shared live budget</h3><p>{data.usage.global_campaign_remaining} campaigns · {data.usage.global_brand_remaining} brand analyses remaining</p><button className={data.usage.live_enabled ? 'danger' : 'primary'} disabled={busy} onClick={() => void act('/admin/controls', { enabled: !data.usage.live_enabled })}>{data.usage.live_enabled ? 'Pause all live generation' : 'Enable live generation'}</button><p className="small muted">Pausing blocks the next provider call in every live workflow.</p><button className="text-button" disabled={busy} onClick={() => void act('/admin/controls', { campaign: 1, brand: 1, feed: 1, testimonial: 1 })}>Add 1 to each shared allowance</button></div>
+    <TelegramPanel/><SchedulePanel timezone={data.business?.data.timezone ?? 'your business timezone'}/>{data.user.role === 'owner' && <section className="panel owner-controls"><h2>Owner controls</h2><div className="settings-grid"><div><h3>Shared live budget</h3><p>{data.usage.global_campaign_remaining} campaigns · {data.usage.global_brand_remaining} brand analyses remaining</p><button className={data.usage.live_enabled ? 'danger' : 'primary'} disabled={busy} onClick={() => void act('/admin/controls', { enabled: !data.usage.live_enabled })}>{data.usage.live_enabled ? 'Pause all live generation' : 'Enable live generation'}</button><p className="small muted">Pausing blocks the next provider call in every live workflow.</p><button className="text-button" disabled={busy} onClick={() => void act('/admin/controls', { campaign: 1, brand: 1, feed: 1 })}>Add 1 to each shared allowance</button></div>
 
-      <form onSubmit={e => { e.preventDefault(); void act(`/admin/grants/${tenant}`, { campaign, brand, feed: feedGrant, testimonial: testimonialGrant }) }}><h3>Grant account usage</h3><label>Account ID<input required pattern="[a-f0-9]{32}" value={tenant} onChange={e => setTenant(e.target.value)}/></label><div className="form-grid"><label>Campaigns<input type="number" min={0} max={100} value={campaign} onChange={e => setCampaign(Number(e.target.value))}/></label><label>Brand analyses<input type="number" min={0} max={100} value={brand} onChange={e => setBrand(Number(e.target.value))}/></label><label>Feed refreshes<input type="number" min={0} max={100} value={feedGrant} onChange={e => setFeedGrant(Number(e.target.value))}/></label><label>Testimonial analyses<input type="number" min={0} max={100} value={testimonialGrant} onChange={e => setTestimonialGrant(Number(e.target.value))}/></label></div><button className="primary" disabled={busy}>Grant allowance</button></form></div></section>}
+      <form onSubmit={e => { e.preventDefault(); void act(`/admin/grants/${tenant}`, { campaign, brand, feed: feedGrant }) }}><h3>Grant account usage</h3><label>Account ID<input required pattern="[a-f0-9]{32}" value={tenant} onChange={e => setTenant(e.target.value)}/></label><div className="form-grid"><label>Campaigns<input type="number" min={0} max={100} value={campaign} onChange={e => setCampaign(Number(e.target.value))}/></label><label>Brand analyses<input type="number" min={0} max={100} value={brand} onChange={e => setBrand(Number(e.target.value))}/></label><label>Feed refreshes<input type="number" min={0} max={100} value={feedGrant} onChange={e => setFeedGrant(Number(e.target.value))}/></label></div><button className="primary" disabled={busy}>Grant allowance</button></form></div></section>}
 
   </>
 

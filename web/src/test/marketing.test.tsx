@@ -56,6 +56,37 @@ describe('marketing workspace', () => {
     expect(screen.getByText('Confirm your business and brand kit to start.')).toBeVisible()
   })
 
+  it('removes testimonial creation and allowance controls from the workspace', async () => {
+    render(<MarketingApp />)
+    await screen.findByRole('heading', { name: 'Your daily marketing desk.' })
+    await userEvent.click(screen.getByRole('button', { name: 'Brand library' }))
+    expect(screen.getByRole('heading', { name: 'Campaign videos' })).toBeVisible()
+    expect(screen.queryByText('Customer voices')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
+    expect(screen.queryByText('Testimonial analyses remaining')).not.toBeInTheDocument()
+  })
+
+  it('starts a live campaign from a named campaign video without testimonial controls', async () => {
+    const readyBusiness = { id: 'b'.repeat(32), version: 1, data: { name: 'Cafe', category: 'cafe' as const, city: 'LA', neighborhood: '', address: '', timezone: 'America/Los_Angeles', website: null, description: '', hours: '', products: [{ id: 'boba', name: 'Boba tea', description: '', price: '' }], offers: [], audience: '', confirmed: true } }
+    const original = mockApi.getMockImplementation()!
+    mockApi.mockImplementation(async (path, body) => {
+      if (path === '/business') return readyBusiness
+      if (path === '/brand') return { id: 'k', version: 1, data: { palette: ['#123456', '#ffffff'], voice: 'Warm', typography: 'serif', layout: '', image_direction: '', prohibited: [], reference_asset_ids: ['photo'], logo_asset_id: null, font_asset_id: null, uncertainty: [], confirmed: true } }
+      if (path === '/assets') return [{ id: 'video', version: 1, data: { business_id: readyBusiness.id, filename: 'boba.mp4', title: 'Limited Edition Boba Tea', description: 'A fresh boba tea being poured.', role: 'video', product_id: 'boba', mime: 'video/mp4', size: 5, sha256: 'hash', width: null, height: null, rights_confirmed: true } }]
+      if (path === '/usage') return { campaign_remaining: 5, brand_remaining: 1, live_enabled: true, active_job: null, global_campaign_remaining: 5, global_brand_remaining: 1 }
+      if (path === '/workflows') return { id: '1'.repeat(32), kind: 'campaign', mode: 'live', state: 'queued', input: body, checkpoint: {}, counters: {}, created_at: 1, finished_at: null }
+      return original(path, body)
+    })
+    render(<MarketingApp />)
+    await screen.findByRole('heading', { name: 'Your daily marketing desk.' })
+    await userEvent.click(screen.getByRole('button', { name: 'Live' }))
+    expect(screen.queryByText('Testimonial quote')).not.toBeInTheDocument()
+    await userEvent.selectOptions(screen.getByLabelText(/Campaign video/), 'video')
+    expect(screen.getByText(/video agent will choose its strongest frame/i)).toBeVisible()
+    await userEvent.click(screen.getByRole('button', { name: /Start today/ }))
+    await waitFor(() => expect(mockApi).toHaveBeenCalledWith('/workflows', expect.objectContaining({ video_asset_id: 'video', product_id: 'boba', creative_type: 'auto' })))
+  })
+
   it('uses the restored return route after sign-in completes', async () => {
     vi.mocked(initializeSession).mockImplementationOnce(async () => {
       history.replaceState({}, '', '/#/brand')

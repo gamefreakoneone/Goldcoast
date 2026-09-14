@@ -32,6 +32,22 @@ def content(creative_id: str, request: Request, identity: IdentityDep):
     )
 
 
+@router.get("/runs/{job_id}/video-frame")
+def video_frame(job_id: str, request: Request, identity: IdentityDep):
+    job = request.app.state.repo.job(identity.tenant_id, job_id)
+    stage = job.checkpoint.get("video_evidence", {})
+    evidence = stage.get("output") if stage.get("state") == "completed" else None
+    if not evidence or not evidence.get("frame_asset_id"):
+        return Response(status_code=404)
+    frame_id = evidence["frame_asset_id"]
+    request.app.state.repo.get(identity.tenant_id, "campaign_frame", frame_id)
+    return Response(
+        request.app.state.assets.get(identity.tenant_id, frame_id),
+        media_type="image/png",
+        headers={"Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff"},
+    )
+
+
 @router.get("/runs/{job_id}/export")
 def export(job_id: str, request: Request, identity: IdentityDep):
     return Response(

@@ -7,7 +7,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from uuid import uuid4
 
-from google.genai import errors, types
+from google.genai import errors
 from pydantic import ValidationError
 
 from goldcoast.agents.runtime import AgentRuntime, ExecutionBudget
@@ -150,31 +150,17 @@ async def execute_job(
         return
     video = None
     if job.input.get("video_asset_id"):
-
-        def analyze_video():
-            asset_id = job.input["video_asset_id"]
-            repo.get(job.tenant_id, "asset", asset_id)
-            reserve("video")
-            record = client.generate(
-                "studio_video",
-                settings.video_model,
-                [
-                    "Describe visible activity, products, readable text and local cultural cues. "
-                    "Propose search queries to verify context. Do not infer identity, nationality, "
-                    "personal preferences or endorsements from appearance.",
-                    types.Part.from_bytes(
-                        data=assets.get(job.tenant_id, asset_id), mime_type="video/mp4"
-                    ),
-                ],
-                types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    response_json_schema=VideoEvidence.model_json_schema(),
-                ),
-                input_refs=[asset_id],
+        if job.input.get("video_evidence"):
+            video = await stages.run(
+                "video_evidence", lambda: VideoEvidence.model_validate(job.input["video_evidence"])
             )
-            return VideoEvidence.model_validate_json(record.response_text)
+        else:
+            from goldcoast.studio.video import analyze_campaign_video
 
-        video = await stages.run("video_evidence", analyze_video)
+            video = await stages.run(
+                "video_evidence",
+                lambda: analyze_campaign_video(repo, assets, job, client, settings, reserve),
+            )
     if discovery.ticketmaster_key:
         now = datetime.now(UTC)
         events = await stages.run(
@@ -239,6 +225,10 @@ async def execute_job(
                 ]
             result = await plan_campaign(
                 planning, job.input["goal"], runtime, discovery, stages, video, signals
+            )
+        if video:
+            result = result.model_copy(
+                update={"video_evidence": VideoEvidence.model_validate(video)}
             )
         await stages.run("campaign", lambda: result)
 

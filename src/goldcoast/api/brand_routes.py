@@ -70,6 +70,8 @@ async def upload(
     product_id: Annotated[str | None, Form()] = None,
     marketing_kind: Annotated[str, Form()] = "owned",
     source_url: Annotated[str | None, Form()] = None,
+    title: Annotated[str, Form()] = "",
+    description: Annotated[str, Form()] = "",
 ):
     raw = await file.read(10 * 1024 * 1024 + 1)
     await file.close()
@@ -84,6 +86,8 @@ async def upload(
             product_id,
             marketing_kind,
             source_url,
+            title,
+            description,
         )
         return resource_view(row)
     except ValueError as exc:
