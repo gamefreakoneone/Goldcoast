@@ -1,5 +1,7 @@
 # 0023 Telegram approvals
 
+Continuity and quality follow-up: visible authenticated websites discover remotely started campaigns every three seconds and on focus. Each generation stays a separate campaign, with Via phone labels and linked parent/original/latest revisions. Feedback stays visible on its own revision; decisions and exports are never transferred. New origin metadata is server-controlled; old Telegram prefixes remain recognizable without rewriting stored inputs. Both producers use one anchored judge rubric with per-score reasons and retain historical verdicts. Validate at most six live judge-only calls against two saved ads and four deliberately flawed local copies; no new ads or campaign credits.
+
 Owner follow-up: top up Demo Reviewer and the shared campaign allowance to at least five without resetting usage history. Add a native menu: free /start, /commands (/help and /commnads aliases), /status and /credits; /campaign [brief] queues one metered live campaign. Preserve linking and decisions. Remove Source attribution from Brand library cards while retaining stored source metadata.
 
 Linked owners receive passing final campaign previews and can approve, reject with an optional reason, or explicitly regenerate with feedback. Phone decisions use the same versioned creative service as Review. Nothing publishes. Disabled/unlinked/replay jobs never send. Telegram outages cannot fail campaigns. Secrets never reach recordings, events, API responses or delegated work.

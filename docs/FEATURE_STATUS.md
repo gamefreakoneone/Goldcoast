@@ -63,6 +63,6 @@ When a feature's status changes, update this table and the spec's `status.md` an
 
 | 0022 | Live signals | Blocked | [Evidence](specs/0022-live-signals/status.md) | Explicit creative influence and original-weather reuse added; 197 Python/30 UI tests pass; original two-placement/replay acceptance pending |
 
-| 0023 | Telegram approvals | Blocked | [Evidence](specs/0023-telegram-approvals/status.md) | 196 Python/30 UI tests pass; bot linked and command menu live; phone preview/decision acceptance awaits 0022 live run |
+| 0023 | Telegram approvals | Blocked | [Evidence](specs/0023-telegram-approvals/status.md) | Continuity and judge follow-up verified: 200 Python/34 UI tests, six live judge checks, actual desktop/mobile revisions; original full manual acceptance sequence remains unchecked |
 
 | 0024 | Submission package | Not started | Pending local acceptance | Follows 0021; hosting remains deferred |

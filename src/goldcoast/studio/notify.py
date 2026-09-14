@@ -718,7 +718,7 @@ class NotificationService:
                     )
             else:
                 try:
-                    start_campaign(
+                    regenerated = start_campaign(
                         self.repo,
                         self.assets,
                         row.tenant_id,
@@ -726,11 +726,13 @@ class NotificationService:
                             mode="live", regenerate_from=pending.job_id, owner_feedback=note
                         ),
                         key="telegram:" + str(update_id),
+                        started_via="telegram",
                     )
                     left = self.repo.tenant(row.tenant_id).campaign_grants
                     text = (
                         f"Regenerating with your note. Uses 1 campaign credit; {left} left. "
-                        "You will get the new version here."
+                        "You will get the new version here.\n"
+                        + review_link(self.settings, regenerated.id)
                     )
                 except (Conflict, AccessError) as exc:
                     text = str(exc) if isinstance(exc, Conflict) else "Campaign is unavailable"
@@ -802,6 +804,7 @@ class NotificationService:
                     row.tenant_id,
                     WorkflowStart(mode="live", goal=brief or "Bring more neighbors in today"),
                     key="telegram-campaign:" + str(update_id),
+                    started_via="telegram",
                 )
                 text = (
                     "Campaign queued using 1 credit. Finished previews will arrive here.\n"

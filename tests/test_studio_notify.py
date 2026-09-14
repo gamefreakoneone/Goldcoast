@@ -6,7 +6,7 @@ from types import SimpleNamespace
 
 import httpx
 import pytest
-from test_studio_creative import png
+from test_studio_creative import judged_json, png
 from test_studio_foundation import foundation as foundation
 from test_studio_workflow import campaign as campaign
 from test_studio_workflow import factory
@@ -356,6 +356,8 @@ def test_regeneration_reuses_contract_and_consumes_one_grant(bot):
     jobs = bot.repo.jobs(bot.tenant)
     new = next(j for j in jobs if j.id != bot.job.id)
     assert new.input["regenerate_from"] == bot.job.id
+    assert new.input["started_via"] == "telegram"
+    assert any(new.id in call[1].get("text", "") for call in bot.calls if call[0] == "sendMessage")
     assert new.input["owner_feedback"] == "Use warmer colors"
     assert new.input["selected_campaign"] == bot.job.checkpoint["campaign"]["output"]
     assert new.input["snapshot"] == bot.job.input["snapshot"]
@@ -657,10 +659,18 @@ def test_directors_and_refinement_receive_owner_feedback(bot, monkeypatch, socia
 
         def generate(self, *args, **kwargs):
             self.judges += 1
+            from goldcoast.studio.creative import JUDGE_RUBRIC
+
+            assert args[2][0].startswith(JUDGE_RUBRIC)
+            context = json.loads(args[2][0].split("Context: ", 1)[1])
+            assert context["brand"] == snapshot.brand.model_dump(mode="json")
+            assert context["selected"] == result.selected.model_dump(mode="json")
+            assert args[2][1].inline_data.mime_type == "image/png"
+            assert "score_reasons" in args[3].response_json_schema["required"]
             verdict = bot.artifact.verdict.model_copy(
                 update={"visual_quality": 5 if self.judges == 1 else 8}
             )
-            return SimpleNamespace(response_text=verdict.model_dump_json())
+            return SimpleNamespace(response_text=judged_json(verdict))
 
     async def render(profile, kit, brief, background, placement, logo, font):
         return png(SIZES[placement])

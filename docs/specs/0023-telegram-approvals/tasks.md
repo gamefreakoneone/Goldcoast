@@ -1,5 +1,12 @@
 # Tasks
 
+- [x] Implement visible idle discovery, server origin metadata and historical phone labels.
+- [x] Implement tenant-scoped linked revisions, feedback display and Telegram revision links.
+- [x] Share anchored judge rubric and require new per-score reasons with historical compatibility.
+- [x] Author continuity, polling, producer context and verdict contract tests.
+- [x] Run six bounded real judge evaluations; record results and independent provider usage.
+- [x] Verify actual website at desktop/mobile sizes and record final validation evidence.
+
 - [x] Freeze typed contracts, UI behavior and spec.
 - [x] Implement transport, linking, poller, receipts and offset migration.
 - [x] Implement notifications, shared decisions, regeneration and feedback.

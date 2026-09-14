@@ -3,6 +3,7 @@ import io
 import pytest
 from PIL import Image
 from pydantic import ValidationError
+from test_studio_creative import judged_json
 from test_studio_foundation import foundation as foundation
 from test_studio_workflow import campaign as campaign
 
@@ -184,7 +185,7 @@ def test_social_pipeline_reuses_art_for_story_and_exports_caption(campaign, kind
                 feedback="Pass",
                 detected_text=brief.headline,
             )
-            return SimpleNamespace(response_text=verdict.model_dump_json())
+            return SimpleNamespace(response_text=judged_json(verdict))
 
     client = Client()
     stages = Stages(repo, job, "worker")

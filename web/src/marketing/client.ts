@@ -22,8 +22,9 @@ export async function authenticatedFetch(path: string, init: RequestInit = {}) {
   return response
 }
 
-export async function api<T>(path: string, body?: unknown, method = body === undefined ? 'GET' : 'POST') {
-  const response = await authenticatedFetch(path, body === undefined ? {} : {
+export async function api<T>(path: string, body?: unknown, method = body === undefined ? 'GET' : 'POST', signal?: AbortSignal) {
+  const response = await authenticatedFetch(path, body === undefined ? { signal } : {
+    signal,
     method, headers: { 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID() },
     body: JSON.stringify(body),
   })

@@ -126,7 +126,11 @@ def snapshot_business(repo, assets, tenant, require_brand=True):
     )
 
 
-def start_campaign(repo, assets, tenant, body, key):
+def start_campaign(
+    repo, assets, tenant, body, key, *, started_via: Literal["studio", "telegram"] = "studio"
+):
+    if started_via not in {"studio", "telegram"}:
+        raise ValueError("Invalid campaign origin")
     if body.regenerate_from:
         if body.mode != "live" or any(
             (
@@ -185,6 +189,7 @@ def start_campaign(repo, assets, tenant, body, key):
                 if k in source.input
             },
         }
+        payload["started_via"] = started_via
         return repo.create_job(tenant, "campaign", "live", key, payload)
     if body.owner_feedback:
         raise Conflict("Owner feedback requires a campaign to regenerate")
@@ -234,6 +239,7 @@ def start_campaign(repo, assets, tenant, body, key):
             payload["selected_campaign"] = selected_idea(
                 repo, tenant, snapshot, body.feed_job_id, body.idea_id
             ).model_dump(mode="json")
+    payload["started_via"] = started_via
     return repo.create_job(tenant, "campaign", body.mode, key, payload)
 
 

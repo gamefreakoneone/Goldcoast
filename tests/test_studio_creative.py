@@ -34,6 +34,21 @@ from goldcoast.studio.workflow import (
 )
 
 
+def judged_json(verdict):
+    return CreativeVerdict.model_validate(
+        {
+            **verdict.model_dump(),
+            "rubric_version": "2026-09-v1",
+            "score_reasons": {
+                "factuality": "The depicted latte matches the verified product.",
+                "brand_fidelity": "The supplied logo and brand palette are retained.",
+                "visual_quality": "Lighting and composition are assessed against the reference.",
+                "legibility": "Headline and CTA are readable without clipping.",
+            },
+        }
+    ).model_dump_json()
+
+
 def png(size=(64, 64)):
     stream = io.BytesIO()
     Image.new("RGB", size, "#234235").save(stream, format="PNG")
@@ -103,7 +118,7 @@ async def produce(campaign, always_fail=False):
                 feedback="Improve lighting",
                 detected_text="Your daily pause",
             )
-            return SimpleNamespace(response_text=verdict.model_dump_json())
+            return SimpleNamespace(response_text=judged_json(verdict))
 
     client = Client()
 

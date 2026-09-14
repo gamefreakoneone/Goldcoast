@@ -1,6 +1,57 @@
 # Status: 0023 Telegram approvals
 
-Blocked: implementation and automated validation complete; full phone preview/decision acceptance still awaits the 0022 live campaign. The owner has now linked Demo Reviewer and requested a five-credit top-up, completed below. Earlier zero-allowance and missing-link blockers are resolved. No campaign was generated during this follow-up.
+The continuity/weather-direction/judge-calibration follow-up is implemented and verified. Overall spec remains Blocked for the previously specified two-placement/replay and full phone reject/Skip/conflict manual acceptance sequence. The owner has now generated an original and Telegram revision, and the revision's existing phone approval is visible on the website. No campaign was generated during this follow-up; account and shared allowance remained at three.
+
+## 2026-09-14 continuity and judge calibration evidence
+
+Campaign history discovers remote jobs while idle, visibly marks phone origin, and Review exposes tenant-scoped original/parent/latest links without replacing the current version. The original 3089976d103d43469a82640bf94f4436 originated in the website; revision 6d67369c467645be88a6a1cae76ac6a1 used historical key telegram:362103744 and now displays Via phone and its saved feedback. Historical inputs/digests/decisions were not rewritten. Shared design, README, requirements and design document the new server-controlled metadata and typed revisions API.
+
+Both producers now use the same 2026-09-v1 anchored rubric and full brand/brief/selected/evidence context, requiring typed per-criterion explanations. Existing scores remain unchanged. The calibration samples below are a bounded check, not a claim that all possible defects will be detected.
+
+### Automated validation
+
+- `C:/Users/amogh/anaconda3/envs/goldcoast/python.exe -m pytest tests/test_studio_notify.py tests/test_studio_continuity.py -q`: 36 passed, one existing Starlette/AnyIO warning, 35.46s.
+- `C:/Users/amogh/anaconda3/envs/goldcoast/python.exe -m pytest -q`: 200 passed, same warning, 185.63s.
+- `C:/Users/amogh/anaconda3/envs/goldcoast/python.exe -m ruff check .`: All checks passed.
+- `C:/Users/amogh/anaconda3/envs/goldcoast/python.exe -m ruff format --check .`: 241 files already formatted.
+- `pnpm.cmd --dir web test --maxWorkers=1`: 34 tests / 12 files passed, 85.36s, including idle discovery, coalesced focus, hide/unmount abort, revision links, unchanged original decision and judge reasons.
+- `pnpm.cmd --dir web lint`: passed (tsc and eslint).
+- `pnpm.cmd --dir web build`: passed, 57 modules, 3.19s.
+- `C:/Users/amogh/anaconda3/envs/goldcoast/Scripts/alembic.exe upgrade head`: exit 0. No migration was needed; schema remains 0023_telegram_offset.
+- `git -c safe.directory=C:/Users/amogh/Desktop/Goldcoast diff --check`: passed.
+
+Development checks caught an accidental extra argument in the social director call and a stale UI test heading; both were fixed before final validation. Test fixture verdicts now satisfy the new required schema; old artifact fixtures continue exercising historical compatibility. No remaining failures are hidden by the reported passing reruns.
+
+### Six real judge-only evaluations
+
+Exact preparation command:
+
+```powershell
+C:/Users/amogh/anaconda3/envs/goldcoast/python.exe scripts/calibrate_studio_judge.py --tenant dcce8d173adb5c65ab2a1f0c87a48751 --creatives b219460daa934cd1ac3da7038e346160 7ecb0a39d12e40cd9981c2c5dcf038f6 --directory C:/Users/amogh/AppData/Local/Temp/goldcoast-judge-calibration-20260914
+```
+
+Output: prepared_cases=6, provider_calls=0. Inspected both originals and all four altered copies before sending. Repeated the exact command once with `--live`. Model: gemini-3.8-flash. Output: attempts=6, passed=true. Six durable attempt markers and six result files were verified; no extra calls or retries occurred.
+
+| Case | Facts | Brand | Visuals | Legibility | Result |
+|---|---:|---:|---:|---:|---|
+| Saved original | 10 | 10 | 10 | 10 | Accepted |
+| Unsupported free-coffee banner | 4 | 6 | 6 | 9 | Rejected: invented offer |
+| Matcha image replacing advertised cold brew | 4 | 6 | 6 | 10 | Rejected: wrong product |
+| Clipped essential headline | 9 | 8 | 5 | 3 | Rejected: unreadable headline |
+| Near-invisible copy | 9 | 5 | 5 | 2 | Rejected: inadequate contrast |
+| Saved feedback revision | 10 | 8 | 8 | 10 | Accepted; duplicate headline/hierarchy weakness explained |
+
+Each negative case named the intended critical defect and scored the affected criterion below seven. The original still earned four tens; no score distribution was forced. Independent provider usage: 100,341 prompt tokens, 2,439 output tokens, 5,484 thinking tokens, 108,264 total tokens; summed call latency 51,820ms. Records and full per-score explanations are in the private calibration directory's report.json, cases.json and recordings/. This is a separate judge evaluation, with no repo.create_job call and no grant mutation. Campaign and shared allowance were three before and after.
+
+### Actual rendered verification
+
+After verifying zero queued/running jobs, restarted only the identified local API (29844 -> 38776) and worker (4928 -> 61500), hidden. The first browser attempt found localhost:5173 stopped (ERR_CONNECTION_REFUSED); started the frontend at its existing address via `pnpm.cmd --dir web dev --host localhost --port 5173 --strictPort`, hidden launcher PID 59452. No application repair was required for that stopped service.
+
+`C:/Users/amogh/anaconda3/envs/goldcoast/python.exe C:/Users/amogh/AppData/Local/Temp/goldcoast-continuity-check.py` used installed Python Playwright/headless Chrome because the Browser plugin is unavailable. Actual OIDC login used existing local demo credentials without printing them; no API fixtures, generation, decision writes or token exposure.
+
+Interaction: Campaigns -> original row Open -> View latest revision -> saved feedback and parent link -> The thinking -> historical weather notice and signals -> Creatives at mobile width. Viewports: 1440x1100 and 390x844. Result: revision_links=true, phone_label=1, feedback_visible=true, historical_weather_notice=true, image_loaded=true, page_errors=[], horizontal_overflow=false. URL matched the saved revision; title Goldcoast - Local discovery studio; meaningful content, no framework overlay. Initially captured the mobile image during loading; reran while explicitly waiting for img.creative-preview and confirmed loaded pixels.
+
+Screenshots visually inspected in C:/Users/amogh/AppData/Local/Temp/goldcoast-continuity-qa/: campaigns-desktop.png, revision-desktop.png, revision-mobile.png, weather-historical-desktop.png. The last also verifies the original planner rationale explicitly cited the 29.3 C high when preferring cold brew over a croissant. Old briefs correctly show that explicit creative influence was not recorded; old scores remain unchanged. New per-score UI is covered with fixture verdicts; calibration did not overwrite historical app records.
 
 ## Owner-requested bot commands and demo cleanup
 

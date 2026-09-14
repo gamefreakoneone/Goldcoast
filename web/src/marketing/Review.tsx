@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { api, downloadCampaign } from './client'
 import { PrivateImage, useRun } from './hooks'
+import { useVisiblePolling } from './polling'
 import { Icon, Notice, PageHeading, Status } from './ui'
-import type { Campaign, CreativeView, Graph, StudioEvent } from './types'
+import type { Campaign, CreativeView, Graph, Revision, StudioEvent } from './types'
 
 const stageNames: Record<string, string> = {
   local_signals: "Checking today's weather", chief_plan: 'The chief sets the direction', local_events: 'Checking the local calendar',
@@ -66,6 +67,7 @@ function CreativeCard({ creative, ready, onChanged }: { creative: CreativeView; 
     <div className="scores">{[['Facts', data.verdict.factuality], ['Brand', data.verdict.brand_fidelity], ['Visuals', data.verdict.visual_quality], ['Readability', data.verdict.legibility]].map(([label, score]) => <div key={label}><span>{label}</span><strong>{score}/10</strong></div>)}</div>
     {data.brief.caption && <details open><summary>Caption</summary><p>{data.brief.caption}</p></details>}
     <p className="judge-feedback">{data.verdict.feedback}</p>
+    {data.verdict.score_reasons && <details><summary>Why these scores - {data.verdict.rubric_version}</summary>{Object.entries(data.verdict.score_reasons).map(([criterion, reason]) => <p key={criterion}><strong>{criterion.replace(/_/g, ' ')}: </strong>{reason}</p>)}</details>}
     {data.verdict.critical_issues.length > 0 && <Notice>{data.verdict.critical_issues.join(' · ')}</Notice>}
     {creative.stale && <Notice>This ad is out of date. Start a new workflow before approving or downloading it.</Notice>}
     {error && <Notice>{error}</Notice>}
@@ -81,6 +83,15 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
   const [error, setError] = useState('')
   const [downloading, setDownloading] = useState(false)
   const run = state.run
+  const [family, setFamily] = useState<{ id: string; revisions: Revision[] } | null>(null)
+  const refreshRevisions = useCallback(async (signal: AbortSignal) => {
+    const revisions = await api<Revision[]>(`/runs/${id}/revisions`, undefined, 'GET', signal)
+    if (!signal.aborted) setFamily({ id, revisions: Array.isArray(revisions) ? revisions : [] })
+  }, [id])
+  useVisiblePolling(refreshRevisions)
+  const revisions = family?.id === id ? family.revisions : []
+  const current = revisions.find(revision => revision.id === id)
+  const latestRevision = revisions.at(-1)
   const campaign = state.result && 'selected' in state.result ? state.result : null
   const selectedTab = tab ?? (run?.state === 'completed' ? 'creatives' : 'activity')
   const formats = run?.input.creative_type ? (run.input.include_story ? ['post', 'story'] : ['post']) : ['landscape', 'portrait']
@@ -91,6 +102,14 @@ export function ReviewPage({ id, onNew, onChanged }: { id: string; onNew: () => 
   return <><PageHeading title={run?.state === 'completed' ? 'Made for your neighborhood.' : 'Your agents are on it.'}>{run?.state === 'completed' ? 'Your ads are ready. Take a look before they go anywhere.' : 'Follow the thinking, the sources, and the work as it happens.'}</PageHeading>
     {run?.mode === 'replay' && <Notice tone="info">Historical demonstration{campaign ? ` - recorded ${new Date(campaign.graph.built_at).toLocaleDateString()}` : ''}. Sources and ads reflect the original run, not current conditions. Review decisions apply only to this replay. No API credits are used.</Notice>}
     {(error || state.error) && <Notice>{error || state.error}</Notice>}
+    {run?.started_via === 'telegram' && <Status good>Via phone</Status>}
+    {run?.input.owner_feedback && <section className="panel"><h2>Requested changes</h2><p>{run.input.owner_feedback}</p></section>}
+    {revisions.length > 1 && <section className="panel"><h2>Campaign revisions</h2><nav aria-label="Campaign revisions">
+      {current?.parent_id && <p><a href={`#/review/${current.parent_id}`}>View parent campaign</a></p>}
+      {revisions[0]?.id !== id && <p><a href={`#/review/${revisions[0].id}`}>View original campaign</a></p>}
+      {latestRevision && latestRevision.id !== id && <p><a href={`#/review/${latestRevision.id}`}>View latest revision</a></p>}
+      {revisions.map((revision, index) => <p key={revision.id}><a href={`#/review/${revision.id}`} aria-current={revision.id === id ? 'page' : undefined}>{index === 0 ? 'Original' : `Revision ${index}`} · {revision.state}{revision.started_via === 'telegram' ? ' · Via phone' : ''}{revision.id === id ? ' · Viewing' : ''}</a></p>)}
+    </nav></section>}
     {run?.state === 'failed' && <Notice>The workflow stopped. Check Activity for the reason. Paid work will not retry automatically.</Notice>}
     {run?.state === 'cancelled' && <Notice tone="info">This workflow was cancelled.</Notice>}
     <div className="review-toolbar"><div className="segmented tabs">{[['creatives', 'Creatives'], ['thinking', 'The thinking'], ['activity', 'Activity']].map(([value, label]) => <button key={value} className={selectedTab === value ? 'selected' : ''} onClick={() => setTab(value)}>{label}</button>)}</div>

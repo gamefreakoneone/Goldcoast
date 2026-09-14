@@ -193,6 +193,32 @@ class Repository:
                 )
             )
 
+    def campaign_family(self, tenant_id, job_id):
+        self.job(tenant_id, job_id)
+        with self.sessions() as session:
+            rows = list(
+                session.scalars(
+                    select(Job).where(Job.tenant_id == tenant_id, Job.kind == "campaign")
+                )
+            )
+        by_id = {row.id: row for row in rows}
+        if job_id not in by_id:
+            return []
+        root, seen = job_id, set()
+        while root not in seen:
+            seen.add(root)
+            parent = by_id[root].input.get("regenerate_from")
+            if parent not in by_id or parent in seen:
+                break
+            root = parent
+        family = {root}
+        while True:
+            children = {row.id for row in rows if row.input.get("regenerate_from") in family}
+            if children <= family:
+                break
+            family |= children
+        return sorted((by_id[key] for key in family), key=lambda row: (row.created_at, row.id))
+
     def reserve_call(self, tenant_id, job_id, kind, worker=None):
         if kind not in LIMITS:
             raise ValueError("Unknown provider allowance")

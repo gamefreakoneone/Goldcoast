@@ -1,5 +1,11 @@
 # Goldcoast
 
+Campaigns created or revised on Telegram appear automatically while the website is visible, labeled **Via phone**. Review links the original, parent and latest revision, and displays the revision's requested changes. Each version keeps its own images and approval decisions; viewing an old version does not silently switch you to a newer one.
+
+New ads include **Why these scores** with criterion-specific judge explanations and rubric version 2026-09-v1. Historical scores remain unchanged. Scores are anchored rather than forced downward: 7 acceptable, 8 strong, 9 excellent and 10 with no identifiable defect in that criterion. Any critical issue blocks approval.
+
+Judge calibration: `python scripts/calibrate_studio_judge.py --tenant <tenant-id> --creatives <saved-post-id> <saved-post-id> --directory <new-private-directory>` prepares six local cases with no provider calls. Inspect the images, then use the same command with `--live` only with an authorized six-call provider budget. The directory pins inputs and records attempts/results; rerunning never retries an ambiguous attempted call. This uses model quota, not campaign credits, and does not create or alter ads in the campaign library.
+
 Review → The thinking explains whether recorded weather influenced newly generated ads and why. A stronger campaign angle or owner brief can take precedence. Older ads show that weather influence was not recorded. Feedback revisions reuse their original campaign's weather evidence rather than silently switching forecasts.
 
 ## Marketing studio (default UI)

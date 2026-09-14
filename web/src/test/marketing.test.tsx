@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import MarketingApp from '../marketing/MarketingApp'
@@ -29,6 +29,22 @@ beforeEach(() => {
 })
 
 describe('marketing workspace', () => {
+  it('discovers a phone campaign while idle without reloading the website', async () => {
+    vi.useFakeTimers()
+    const initial = mockApi.getMockImplementation()!
+    let phone = false
+    mockApi.mockImplementation(async (path, ...args) => path === '/runs' && phone ? [{ id: 'phone', kind: 'campaign', mode: 'live', state: 'completed', started_via: 'telegram', input: { goal: 'Cold brew from my phone' }, created_at: 1 }] : initial(path, ...args))
+    const view = render(<MarketingApp />)
+    await act(async () => { await Promise.resolve() })
+    fireEvent.click(screen.getByRole('button', { name: 'Campaigns' }))
+    expect(screen.queryByText('Cold brew from my phone')).not.toBeInTheDocument()
+    phone = true
+    await act(async () => { await vi.advanceTimersByTimeAsync(3000) })
+    expect(screen.getByText('Cold brew from my phone')).toBeVisible()
+    expect(screen.getByText(/Via phone/)).toBeVisible()
+    view.unmount()
+    vi.useRealTimers()
+  })
   it('starts in replay and does not silently start paid work', async () => {
     render(<MarketingApp />)
     await screen.findByRole('heading', { name: 'Your daily marketing desk.' })

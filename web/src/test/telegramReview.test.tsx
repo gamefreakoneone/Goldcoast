@@ -35,3 +35,29 @@ it('labels a phone decision in Review', async () => {
   expect(await screen.findByText('Decided on Telegram')).toBeVisible()
   expect(screen.getByRole('button', { name: 'Approved' })).toBeDisabled()
 })
+
+it('links the latest phone revision without replacing the original ad', async () => {
+  const family = [
+    { id: 'run', parent_id: null, state: 'completed', created_at: 0, started_via: 'studio' },
+    { id: 'revision', parent_id: 'run', state: 'completed', created_at: 1, started_via: 'telegram' },
+  ]
+  vi.mocked(api).mockImplementation(async path => path.endsWith('/revisions') ? family : path.endsWith('/creatives') ? [creative] : path.endsWith('/result') ? null : run)
+  render(<ReviewPage id="run" onChanged={vi.fn()} onNew={vi.fn()} />)
+  expect(await screen.findByRole('link', { name: 'View latest revision' })).toHaveAttribute('href', '#/review/revision')
+  expect(screen.getByRole('link', { name: /Original.*Viewing/ })).toHaveAttribute('href', '#/review/run')
+  expect(screen.getByRole('link', { name: /Revision 1.*Via phone/ })).toBeVisible()
+  expect(await screen.findByRole('button', { name: 'Approved' })).toBeDisabled()
+})
+
+it('shows revision feedback and criterion-specific judge reasons', async () => {
+  const revised = { ...run, started_via: 'telegram' as const, input: { ...run.input, owner_feedback: 'Use warmer light', regenerate_from: 'parent' } }
+  const judged = structuredClone(creative)
+  judged.data.verdict.rubric_version = '2026-09-v1'
+  judged.data.verdict.score_reasons = { factuality: 'The cold brew matches its reference.', brand_fidelity: 'The correct logo appears.', visual_quality: 'The cup edge is distorted.', legibility: 'The CTA has clear contrast.' }
+  vi.mocked(api).mockImplementation(async path => path.endsWith('/revisions') ? [] : path.endsWith('/creatives') ? [judged] : path.endsWith('/result') ? null : revised)
+  render(<ReviewPage id="run" onChanged={vi.fn()} onNew={vi.fn()} />)
+  expect(await screen.findByText('Use warmer light')).toBeVisible()
+  expect(screen.getByText('Via phone')).toBeVisible()
+  screen.getByText(/Why these scores.*2026-09-v1/).click()
+  expect(screen.getByText('The cup edge is distorted.')).toBeVisible()
+})

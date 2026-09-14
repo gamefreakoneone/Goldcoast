@@ -1,5 +1,4 @@
 import io
-import json
 import os
 from datetime import UTC, datetime, time, timedelta
 from pathlib import Path
@@ -18,7 +17,9 @@ from goldcoast.studio.creative import (
     CreativeService,
     CreativeVerdict,
     GeneratedCreativeBrief,
+    JudgedVerdict,
     creative_signals,
+    judge_prompt,
     validate_brief,
 )
 from goldcoast.studio.graph import build_graph
@@ -328,31 +329,17 @@ async def produce_social(
                     "social_judge_" + placement,
                     settings.judge_model,
                     [
-                        "Judge this final post: factuality, product identity, visual "
-                        "brand fidelity, "
-                        "readability and clipping. For comics check four-panel continuity "
-                        "and punchline. "
-                        "For testimonials check exact approved quote and attribution; no invented "
-                        "endorsement. Reject copied third-party logos and unsupported claims. "
-                        "Critical issues prevent approval. Context: "
-                        + json.dumps(
-                            {
-                                "brief": brief.model_dump(),
-                                "business": snapshot.profile.model_dump(mode="json"),
-                                "evidence": campaign.graph.model_dump(mode="json"),
-                                "testimonial": testimonial,
-                            }
-                        ),
+                        judge_prompt(snapshot, brief, campaign, testimonial),
                         types.Part.from_bytes(data=raw, mime_type="image/png"),
                         *references,
                     ],
                     types.GenerateContentConfig(
                         response_mime_type="application/json",
-                        response_json_schema=CreativeVerdict.model_json_schema(),
+                        response_json_schema=JudgedVerdict.model_json_schema(),
                     ),
                     input_refs=reference_ids + [str(path)],
                 )
-                verdict = CreativeVerdict.model_validate_json(record.response_text)
+                verdict = JudgedVerdict.model_validate_json(record.response_text)
                 width, height = SIZES[placement]
                 artifact = CreativeArtifact(
                     job_id=job.id,

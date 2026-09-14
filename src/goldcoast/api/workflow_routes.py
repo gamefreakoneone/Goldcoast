@@ -1,10 +1,10 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Header, HTTPException, Request
 
 from goldcoast.api.studio_auth import IdentityDep
-from goldcoast.api.studio_views import job_view
-from goldcoast.studio.brand import resource_view
+from goldcoast.api.studio_views import job_view, started_via
+from goldcoast.studio.brand import StrictModel, resource_view
 from goldcoast.studio.feed import FeedRequest
 from goldcoast.studio.notify import (
     NotificationConfig,
@@ -19,6 +19,32 @@ from goldcoast.studio.workflow import WorkflowStart, snapshot_business, start_ca
 
 router = APIRouter(prefix="/api/v2")
 KeyDep = Annotated[str, Header(alias="Idempotency-Key", min_length=1, max_length=128)]
+
+
+class RevisionSummary(StrictModel):
+    id: str
+    parent_id: str | None
+    state: Literal["queued", "running", "completed", "failed", "cancelled"]
+    created_at: float
+    started_via: Literal["studio", "telegram"]
+
+
+@router.get("/runs/{job_id}/revisions", response_model=list[RevisionSummary])
+def revisions(job_id: str, request: Request, identity: IdentityDep):
+    rows = request.app.state.repo.campaign_family(identity.tenant_id, job_id)
+    owned = {row.id for row in rows}
+    return [
+        {
+            "id": row.id,
+            "parent_id": row.input.get("regenerate_from")
+            if row.input.get("regenerate_from") in owned
+            else None,
+            "state": row.state,
+            "created_at": row.created_at,
+            "started_via": started_via(row),
+        }
+        for row in rows
+    ]
 
 
 def notifications_service(request):

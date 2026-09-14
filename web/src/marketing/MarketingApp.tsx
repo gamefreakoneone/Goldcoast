@@ -7,6 +7,7 @@ import { api } from './client'
 import { BrandPage, BusinessPage } from './BrandBusiness'
 
 import { PrivateImage } from './hooks'
+import { useVisiblePolling } from './polling'
 
 import { ReviewPage } from './Review'
 import { QuotePicker } from './Testimonials'
@@ -118,7 +119,7 @@ function Today({ data, navigate, refresh, selection, onUse, runId, clearSelectio
 
 function History({ runs, open }: { runs: Run[]; open: (run: Run) => void }) {
 
-  return <><PageHeading title="Your campaign shelf.">Every idea, decision, and finished creative, in one place.</PageHeading><section className="panel history-panel"><h2>Past workflows</h2>{runs.length ? <div className="table-wrap"><table><thead><tr><th>Workflow</th><th>Started</th><th>Mode</th><th>Status</th><th/></tr></thead><tbody>{runs.map(run => <tr key={run.id}><td><strong>{run.kind === 'brand' ? 'Brand analysis' : run.input.goal || 'Daily campaign'}</strong><small>{run.id.slice(0, 8)}</small></td><td>{new Date(run.created_at * 1000).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</td><td>{run.mode}</td><td><Status good={run.state === 'completed'}>{run.state}</Status></td><td><button className="text-button" onClick={() => open(run)}>Open<Icon name="arrow" size={17}/></button></td></tr>)}</tbody></table></div> : <p className="empty-note">Your first workflow will appear here. Start with your business and brand library.</p>}</section></>
+  return <><PageHeading title="Your campaign shelf.">Every idea, decision, and finished creative, in one place.</PageHeading><section className="panel history-panel"><h2>Past workflows</h2>{runs.length ? <div className="table-wrap"><table><thead><tr><th>Workflow</th><th>Started</th><th>Mode</th><th>Status</th><th/></tr></thead><tbody>{runs.map(run => <tr key={run.id}><td><strong>{run.kind === 'brand' ? 'Brand analysis' : run.input.goal || 'Daily campaign'}</strong><small>{run.id.slice(0, 8)}{run.started_via === 'telegram' && ' - Via phone'}{run.input.regenerate_from && ' - Feedback revision'}</small></td><td>{new Date(run.created_at * 1000).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</td><td>{run.mode}</td><td><Status good={run.state === 'completed'}>{run.state}</Status></td><td><button className="text-button" onClick={() => open(run)}>Open<Icon name="arrow" size={17}/></button></td></tr>)}</tbody></table></div> : <p className="empty-note">Your first workflow will appear here. Start with your business and brand library.</p>}</section></>
 
 }
 
@@ -183,10 +184,12 @@ export default function MarketingApp() {
   const [analysisId, setAnalysisId] = useState<string | null>(null)
 
   const requestNumber = useRef(0)
+  const runRequestNumber = useRef(0)
 
   const refresh = useCallback(async () => {
 
     const number = ++requestNumber.current
+    const runNumber = ++runRequestNumber.current
 
     const [user, usage, business, brand, assets, runs] = await Promise.all([
 
@@ -196,7 +199,7 @@ export default function MarketingApp() {
 
     ])
 
-    if (number === requestNumber.current) setData({ user, usage, business, brand, assets, runs })
+    if (number === requestNumber.current) setData(previous => ({ user, business, brand, assets, usage: runNumber === runRequestNumber.current || !previous ? usage : previous.usage, runs: runNumber === runRequestNumber.current || !previous ? runs : previous.runs }))
 
   }, [])
 
@@ -204,9 +207,15 @@ export default function MarketingApp() {
 
   useEffect(() => { if (logged) { setLoading(true); refresh().catch(reason => setError(reason.message)).finally(() => setLoading(false)) } }, [logged, refresh])
 
-  const active = data?.runs.some(run => ['queued', 'running'].includes(run.state)) ?? false
-
-  useEffect(() => { if (!active) return; const timer = setInterval(() => { void refresh().catch(() => undefined) }, 3000); return () => clearInterval(timer) }, [active, refresh])
+  const refreshRuns = useCallback(async (signal: AbortSignal) => {
+    const number = ++runRequestNumber.current
+    const [runs, usage] = await Promise.all([
+      api<Run[]>('/runs', undefined, 'GET', signal), api<Usage>('/usage', undefined, 'GET', signal),
+    ])
+    if (!signal.aborted && number === runRequestNumber.current) setData(previous => previous ? { ...previous, runs, usage } : previous)
+  }, [])
+  useVisiblePolling(refreshRuns, logged && data !== null)
+  useEffect(() => () => { requestNumber.current++; runRequestNumber.current++ }, [logged])
 
   useEffect(() => { const update = () => setRoute(currentRoute()); window.addEventListener('popstate', update); window.addEventListener('hashchange', update); return () => { window.removeEventListener('popstate', update); window.removeEventListener('hashchange', update) } }, [])
 
