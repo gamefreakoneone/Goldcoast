@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select, update
 
 from goldcoast.api.studio_app import create_app
+from goldcoast.studio.admin import set_allowance
 from goldcoast.studio.assets import LocalAssetStore
 from goldcoast.studio.auth import TokenVerifier
 from goldcoast.studio.config import StudioSettings
@@ -143,24 +144,25 @@ def test_signed_jwt_auth_and_owner_routes(foundation):
         response = client.get("/api/v2/me", headers=token())
         assert response.status_code == 200
         tenant_id = response.json()["id"]
-        assert (
-            client.post(
-                "/api/v2/admin/controls", headers=token(), json={"enabled": True}
-            ).status_code
-            == 403
-        )
-        owner = token("owner", ["goldcoast-owner"])
-        assert (
-            client.post("/api/v2/admin/controls", headers=owner, json={"enabled": True}).status_code
-            == 200
-        )
-        assert (
-            client.post(
-                f"/api/v2/admin/grants/{tenant_id}", headers=owner, json={"campaign": 1}
-            ).status_code
-            == 200
-        )
-        assert client.get("/api/v2/usage", headers=token()).json()["campaign_remaining"] == 1
+        for headers in [
+            token(),
+            token("owner", ["goldcoast-owner"]),
+            token("judge", ["goldcoast-demo"]),
+            {},
+        ]:
+            assert (
+                client.post(
+                    "/api/v2/admin/controls", headers=headers, json={"enabled": True}
+                ).status_code
+                == 404
+            )
+            assert (
+                client.post(
+                    f"/api/v2/admin/grants/{tenant_id}", headers=headers, json={"campaign": 5}
+                ).status_code
+                == 404
+            )
+        assert client.get("/api/v2/usage", headers=token()).json()["campaign_remaining"] == 0
         assert client.get("/runs").status_code == 404
     with sessions() as s:
         assert s.scalar(select(Tenant).where(Tenant.id == tenant_id)).role == "business"
@@ -185,3 +187,34 @@ def test_cognito_requires_access_token_and_matching_client():
     for changes in [{"token_use": "id"}, {"client_id": "wrong"}]:
         with pytest.raises(jwt.InvalidTokenError):
             verifier.verify(jwt.encode({**claims, **changes}, key, algorithm="RS256"))
+
+
+def test_exact_allowances_preserve_other_users_and_shared_budget(foundation):
+    _, _, repo, first, second = foundation
+    values = dict(campaigns=5, brand_analyses=5, feed_refreshes=5)
+    for _ in range(2):
+        result = set_allowance(repo.sessions, first.id, values)
+        assert result["after"] == values
+    assert repo.tenant(second.id).campaign_grants == 0
+    assert repo.controls().campaign_grants == 3
+    assert not repo.controls().live_enabled
+    set_allowance(repo.sessions, first.id, {"campaigns": 0})
+    assert repo.tenant(first.id).brand_grants == 5
+    assert repo.tenant(first.id).campaign_grants == 0
+    set_allowance(repo.sessions, None, values)
+    assert repo.controls().feed_grants == 5
+    assert not repo.controls().live_enabled
+
+
+def test_invalid_changes_are_atomic_and_roles_do_not_bypass_limits(foundation):
+    settings, _, repo, first, _ = foundation
+    for values in ({"campaigns": -1}, {"campaigns": 5, "feed_refreshes": -1}, {}):
+        with pytest.raises(ValueError):
+            set_allowance(repo.sessions, first.id, values)
+    with pytest.raises(ValueError):
+        set_allowance(repo.sessions, "missing", {"campaigns": 5})
+    for role in ("owner", "demo"):
+        user = repo.ensure_tenant(role, settings.issuer, role, role)
+        set_allowance(repo.sessions, user.id, {"campaigns": 5})
+        assert repo.tenant(user.id).campaign_grants == 5
+    assert repo.tenant(first.id).campaign_grants == 0

@@ -1,5 +1,7 @@
 # TECHNICAL_DESIGN.md
 
+0017 hosted demo (2026-09-14): single Lightsail host with private Compose API/worker/PostgreSQL and Caddy HTTPS replaces the unimplemented ECS/CDK proposal. Existing LocalAssetStore shares persistent storage with the worker; database and recordings survive image replacement. Cognito issuer/client are explicit (us-east-1 identity, us-west-2 compute). Public API/model contracts unchanged. See infra/lightsail/README.md for operations and limits.
+
 0023 continuity: internal start_campaign(..., started_via=studio|telegram) persists server-derived origin; WorkflowStart rejects this field. Run views normalize old Telegram prefixes without modifying inputs/digests. Authenticated GET /runs/{job_id}/revisions returns chronological tenant-scoped RevisionSummary(id,parent_id,state,created_at,started_via) for the original and descendants. Revision pages preserve independent decisions, assets and feedback. Visible idle polling and focus refresh discover external jobs; no automatic navigation replaces the current review.
 
 0023 judging: historical CreativeVerdict accepts missing rubric_version/score_reasons. New JudgedVerdict requires 2026-09-v1 and ScoreReasons for all four criteria. Both producers use shared anchored instructions and full brief/business/brand/selected/evidence context. Passing still requires every criterion >=7 and no critical issues. Live calibration is a separate bounded, recorded judge-only activity; it never creates jobs or consumes campaign grants.

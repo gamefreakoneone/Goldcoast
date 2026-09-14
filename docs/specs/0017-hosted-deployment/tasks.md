@@ -1,21 +1,29 @@
 # Tasks: hosted deployment
 
-- [x] Read requirements/design and official AWS/CDK documentation.
-- [ ] Implement hosted storage/config/readiness and production container.
-- [ ] Implement CDK infrastructure with private data/origins and Cognito.
-- [ ] Add deployment/invitation/migration helpers and cost/teardown runbook.
-- [ ] Validate storage/auth configuration tests, CDK synthesis assertions, Docker build and provider-free container replay.
-- [ ] Review exact target account and costs; deploy when credentials/authorization available.
-- [ ] Verify live HTTPS login/replay/export, record evidence and commit.
+- [x] Re-plan for the selected Lightsail instance and Cognito pool.
+- [x] Add nonroot app image, frontend/gateway image, persistent private Compose services and migrations.
+- [x] Add private idempotent config, transfer bundle, deploy script and backup/restore runbook.
+- [x] Validate config/bundle tests, Compose parsing, shell syntax and existing auth/replay checks.
+- [x] Validate Docker builds, Chromium and provider-free replay in Linux containers.
+- [x] Transfer/start on existing server; verify public HTTPS, health, login configuration and offline Linux smoke test.
+- [ ] Verify actual Cognito login, judge isolation, hosted SSE, approvals/export in browser.
+- [ ] Verify restart persistence, restoration and memory; separately test bounded live generation.
+- [ ] Record final evidence and commit spec 0017 separately.
 
 ## Validation Steps
 
-`python -m pytest tests/test_studio_hosting.py -q`
+From repository root:
 
-`python -m pytest infra/aws/tests -q`
+```text
+python -m pytest tests/test_studio_hosting.py tests/test_studio_foundation.py tests/test_studio_replay.py -q
+python -m ruff check infra/lightsail tests/test_studio_hosting.py
+python -m ruff format --check infra/lightsail tests/test_studio_hosting.py
+python infra/lightsail/bundle.py
+bash -n infra/lightsail/deploy.sh
+bash -n infra/lightsail/backup.sh
+```
 
-`python infra/aws/app.py` (synthesis only; never creates resources)
+With throwaway nonsecret env variables run docker compose -f infra/lightsail/compose.yaml config --quiet. Build app/gateway Dockerfile targets. On server run deploy.sh and the runbook acceptance checks. Record actual commands/results; Windows tests do not substitute for Linux or public acceptance.
 
-`docker build -f infra/aws/Dockerfile -t goldcoast-studio:local .`
-
-Run container health/packaged replay checks with no provider keys and inspect that .env/local output are absent. Run Python/frontend lint/build checks appropriate to changes. For live deployment, authenticate selected profile, inspect boto3 STS identity and cost preview, bootstrap/deploy CDK, upload only required secrets, migrate, start services, create password-protected reviewer account without sending email, then use Chrome HTTPS login/sample replay/approval/export. Record exact commands/outcomes. If blocked by missing AWS credentials, record the observed blocker and complete unaffected submission work.
+- [x] Validate server-only allowance CLI, removal of HTTP administration and settings controls.
+- [x] Deploy administration update and provision separate judge identity with 5/5/5 allowances.

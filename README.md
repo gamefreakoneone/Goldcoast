@@ -1,5 +1,7 @@
 # Goldcoast
 
+Hosted demo setup uses a single Lightsail server with Docker Compose, Caddy HTTPS and invitation-only Cognito. See [the Lightsail runbook](infra/lightsail/README.md) for packaging, installation, backup and recovery. Deployment validation is tracked in spec 0017; a configured server is not yet a verified live application.
+
 Campaigns created or revised on Telegram appear automatically while the website is visible, labeled **Via phone**. Review links the original, parent and latest revision, and displays the revision's requested changes. Each version keeps its own images and approval decisions; viewing an old version does not silently switch you to a newer one.
 
 New ads include **Why these scores** with criterion-specific judge explanations and rubric version 2026-09-v1. Historical scores remain unchanged. Scores are anchored rather than forced downward: 7 acceptable, 8 strong, 9 excellent and 10 with no identifiable defect in that criterion. Any critical issue blocks approval.
@@ -361,3 +363,5 @@ Run exactly one `python -m goldcoast.studio.worker` process locally: its daemon 
 Telegram sends and update receipts use conservative at-most-once delivery: an ambiguous network failure or process crash is not automatically resent. A claimed update interrupted by a crash may need a new explicit owner action in the studio. Telegram outages do not change campaign outcomes. Replay sends no Telegram messages and uses no provider credits. The developer acceptance budget for specs 0022/0023 is one live campaign total; reuse its saved eligible creatives for Telegram checks.
 
 If Telegram Settings reports missing routes or Not Found after an update, restart both the studio API on port 8001 and the marketing worker, then refresh Settings or click Retry Telegram settings. Restarting Vite alone does not load new backend routes.
+
+Hosted allowance administration is server-only: see [usage CLI commands](infra/lightsail/README.md#server-only-allowance-administration). Website accounts cannot grant credits or toggle shared live mode.

@@ -1,2 +1,3 @@
 
 data/studio_demo/** -text
+infra/lightsail/*.sh text eol=lf

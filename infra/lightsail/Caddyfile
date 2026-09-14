@@ -1,0 +1,15 @@
+{$GOLDCOAST_DOMAIN} {
+    request_body {
+        max_size 12MB
+    }
+    @backend path /api/v2 /api/v2/* /health
+    handle @backend {
+        reverse_proxy api:8001 {
+            flush_interval -1
+        }
+    }
+    handle {
+        root * /srv
+        file_server
+    }
+}

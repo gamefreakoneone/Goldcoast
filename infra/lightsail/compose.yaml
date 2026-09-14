@@ -1,0 +1,116 @@
+name: goldcoast-hosted
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-environment: &environment
+  GOLDCOAST_DATABASE_URL: postgresql+psycopg://goldcoast:${GOLDCOAST_DB_PASSWORD:?Run configure.py}@postgres:5432/goldcoast
+  GOLDCOAST_ASSET_ROOT: /app/output/studio/assets
+  GOLDCOAST_STUDIO_RUN_ROOT: /app/output/studio/runs
+  GOLDCOAST_AUTH_PROVIDER: cognito
+  GOLDCOAST_FRONTEND_ORIGIN: https://${GOLDCOAST_DOMAIN:?Run configure.py}
+  GOLDCOAST_OIDC_ISSUER: ${GOLDCOAST_OIDC_ISSUER:?Run configure.py}
+  GOLDCOAST_OIDC_JWKS_URL: ${GOLDCOAST_OIDC_ISSUER}/.well-known/jwks.json
+  GOLDCOAST_OIDC_CLIENT_ID: ${GOLDCOAST_OIDC_CLIENT_ID:?Run configure.py}
+  GOLDCOAST_OIDC_AUTH_URL: ${GOLDCOAST_COGNITO_DOMAIN:?Run configure.py}/oauth2/authorize
+  GOLDCOAST_OIDC_TOKEN_URL: ${GOLDCOAST_COGNITO_DOMAIN}/oauth2/token
+  GOLDCOAST_OIDC_LOGOUT_URL: ${GOLDCOAST_COGNITO_DOMAIN}/logout
+  telegram_token: ${telegram_token:-}
+  telegram_bot_link: ${telegram_bot_link:-}
+
+x-app: &app
+  image: goldcoast-studio:lightsail
+  build:
+    context: ../..
+    dockerfile: infra/lightsail/Dockerfile
+    target: app
+  environment: *environment
+  volumes:
+    - studio-data:/app/output/studio
+  init: true
+  logging: *logging
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: goldcoast
+      POSTGRES_DB: goldcoast
+      POSTGRES_PASSWORD: ${GOLDCOAST_DB_PASSWORD:?Run configure.py}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U goldcoast -d goldcoast"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    logging: *logging
+
+  migrate:
+    <<: *app
+    command: [alembic, upgrade, head]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    <<: *app
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; from sqlalchemy import create_engine, text; from goldcoast.studio.config import StudioSettings; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=5); c=create_engine(StudioSettings.from_env().database_url).connect(); c.execute(text('SELECT 1')); c.close()"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+    restart: unless-stopped
+
+  worker:
+    <<: *app
+    command: [python, -m, goldcoast.studio.worker]
+    environment:
+      <<: *environment
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+      TICKETMASTER_API_KEY: ${TICKETMASTER_API_KEY:-}
+      GOLDCOAST_VIDEO_MODEL: ${GOLDCOAST_VIDEO_MODEL:-replace-with-video-model-id}
+      GOLDCOAST_IMAGE_MODEL: ${GOLDCOAST_IMAGE_MODEL:-replace-with-image-model-id}
+      GOLDCOAST_JUDGE_MODEL: ${GOLDCOAST_JUDGE_MODEL:-replace-with-judge-model-id}
+    shm_size: 256mb
+    stop_grace_period: 60s
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  gateway:
+    image: goldcoast-web:lightsail
+    build:
+      context: ../..
+      dockerfile: infra/lightsail/Dockerfile
+      target: gateway
+    environment:
+      GOLDCOAST_DOMAIN: ${GOLDCOAST_DOMAIN:?Run configure.py}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  postgres-data:
+  studio-data:
+  caddy-data:
+  caddy-config:

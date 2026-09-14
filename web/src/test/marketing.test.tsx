@@ -64,6 +64,9 @@ describe('marketing workspace', () => {
     expect(screen.queryByText('Customer voices')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
     expect(screen.queryByText('Testimonial analyses remaining')).not.toBeInTheDocument()
+    expect(screen.queryByText('Owner controls')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Grant allowance' })).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Your live allowance' })).toBeVisible()
   })
 
   it('starts a live campaign from a named campaign video without testimonial controls', async () => {

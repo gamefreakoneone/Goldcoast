@@ -125,40 +125,14 @@ function History({ runs, open }: { runs: Run[]; open: (run: Run) => void }) {
 
 
 
-function SettingsPage({ data, refresh }: { data: Data; refresh: () => Promise<void> }) {
+function SettingsPage({ data }: { data: Data }) {
+  return <><PageHeading title="A little control goes a long way.">Manage your account and keep live usage intentional.</PageHeading>
 
-  const [tenant, setTenant] = useState(data.user.id)
-
-  const [campaign, setCampaign] = useState(1)
-
-  const [brand, setBrand] = useState(1)
-  const [feedGrant, setFeedGrant] = useState(1)
-
-  const [busy, setBusy] = useState(false)
-
-  const [error, setError] = useState('')
-
-  const [notice, setNotice] = useState('')
-
-  const act = async (path: string, body: unknown) => {
-
-    setBusy(true); setError(''); setNotice('')
-
-    try { await api(path, body); await refresh(); setNotice('Settings updated.') }
-
-    catch (reason) { setError(reason instanceof Error ? reason.message : String(reason)) } finally { setBusy(false) }
-
-  }
-
-  return <><PageHeading title="A little control goes a long way.">Manage your account and keep live usage intentional.</PageHeading>{error && <Notice>{error}</Notice>}{notice && <Notice tone="success">{notice}</Notice>}
-
-    <div className="settings-grid"><section className="panel"><h2>Your account</h2><dl className="settings-list"><div><dt>Name</dt><dd>{data.user.name}</dd></div><div><dt>Access</dt><dd>{data.user.role}</dd></div><div><dt>Account ID</dt><dd><code>{data.user.id}</code></dd></div></dl><p className="small muted">Share your account ID with the owner to request a live allowance.</p></section>
+    <div className="settings-grid"><section className="panel"><h2>Your account</h2><dl className="settings-list"><div><dt>Name</dt><dd>{data.user.name}</dd></div><div><dt>Access</dt><dd>{data.user.role}</dd></div><div><dt>Account ID</dt><dd><code>{data.user.id}</code></dd></div></dl><p className="small muted">Share your account ID with the operator to request a live allowance.</p></section>
 
       <section className="panel"><h2>Your live allowance</h2><dl className="settings-list"><div><dt>Campaigns remaining</dt><dd>{data.usage.campaign_remaining}</dd></div><div><dt>Brand analyses remaining</dt><dd>{data.usage.brand_remaining}</dd></div><div><dt>Feed refreshes remaining</dt><dd>{data.usage.feed_remaining ?? 0}</dd></div><div><dt>Live generation</dt><dd>{data.usage.live_enabled ? 'Enabled' : 'Paused'}</dd></div></dl><p className="small muted">Campaign-video analysis is included in a campaign. Replays use no API credits.</p></section></div>
 
-    <TelegramPanel/><SchedulePanel timezone={data.business?.data.timezone ?? 'your business timezone'}/>{data.user.role === 'owner' && <section className="panel owner-controls"><h2>Owner controls</h2><div className="settings-grid"><div><h3>Shared live budget</h3><p>{data.usage.global_campaign_remaining} campaigns · {data.usage.global_brand_remaining} brand analyses remaining</p><button className={data.usage.live_enabled ? 'danger' : 'primary'} disabled={busy} onClick={() => void act('/admin/controls', { enabled: !data.usage.live_enabled })}>{data.usage.live_enabled ? 'Pause all live generation' : 'Enable live generation'}</button><p className="small muted">Pausing blocks the next provider call in every live workflow.</p><button className="text-button" disabled={busy} onClick={() => void act('/admin/controls', { campaign: 1, brand: 1, feed: 1 })}>Add 1 to each shared allowance</button></div>
-
-      <form onSubmit={e => { e.preventDefault(); void act(`/admin/grants/${tenant}`, { campaign, brand, feed: feedGrant }) }}><h3>Grant account usage</h3><label>Account ID<input required pattern="[a-f0-9]{32}" value={tenant} onChange={e => setTenant(e.target.value)}/></label><div className="form-grid"><label>Campaigns<input type="number" min={0} max={100} value={campaign} onChange={e => setCampaign(Number(e.target.value))}/></label><label>Brand analyses<input type="number" min={0} max={100} value={brand} onChange={e => setBrand(Number(e.target.value))}/></label><label>Feed refreshes<input type="number" min={0} max={100} value={feedGrant} onChange={e => setFeedGrant(Number(e.target.value))}/></label></div><button className="primary" disabled={busy}>Grant allowance</button></form></div></section>}
+    <TelegramPanel/><SchedulePanel timezone={data.business?.data.timezone ?? 'your business timezone'}/>
 
   </>
 
@@ -250,7 +224,7 @@ export default function MarketingApp() {
 
       {route.page === 'campaigns' && <History runs={data.runs.filter(r => r.kind === 'campaign' || r.kind === 'brand')} open={run => { if (run.kind === 'brand') { setAnalysisId(run.id); navigate('brand') } else navigate('review', run.id) }}/>} 
 
-      {route.page === 'settings' && <SettingsPage data={data} refresh={refresh}/>}
+      {route.page === 'settings' && <SettingsPage data={data}/>}
 
       {route.page === 'review' && (route.id ? <ReviewPage key={route.id} id={route.id} onNew={() => navigate('today')} onChanged={refresh}/> : <Notice>Select a campaign from your history.</Notice>)}
 
