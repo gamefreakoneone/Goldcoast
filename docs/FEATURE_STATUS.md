@@ -37,7 +37,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0016 | Adaptation and replay | Completed | [Evidence](specs/0016-adaptation-and-replay/status.md) | Free historical demo and opt-in scheduling |
 
-| 0017 | Hosted deployment | In progress | [Evidence](specs/0017-hosted-deployment/status.md) | Lightsail deployed; credit CLI, judge 5/5/5 and upload validation deployed; remaining acceptance checks |
+| 0017 | Hosted deployment | In progress | [Evidence](specs/0017-hosted-deployment/status.md) | Lightsail deployed; credit CLI, uploads and video subject/frame fix deployed; remaining acceptance checks |
 
 Local acceptance testing is active. the user resumed 0017 hosting on Lightsail; 0025 submission package remains not started.
 

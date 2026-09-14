@@ -365,3 +365,5 @@ Telegram sends and update receipts use conservative at-most-once delivery: an am
 If Telegram Settings reports missing routes or Not Found after an update, restart both the studio API on port 8001 and the marketing worker, then refresh Settings or click Retry Telegram settings. Restarting Vite alone does not load new backend routes.
 
 Hosted allowance administration is server-only: see [usage CLI commands](infra/lightsail/README.md#server-only-allowance-administration). Website accounts cannot grant credits or toggle shared live mode.
+
+Campaign videos: select the uploaded clip when starting a campaign. Product and Auto video posts use its chosen frame directly and retain its named product; linking a catalog product is optional. Without a video, Product mode requires a product selection when the catalog has multiple items.

@@ -179,8 +179,19 @@ def start_campaign(
         if saved.get("state") != "completed":
             raise Conflict("Original campaign direction is unavailable")
         campaign = CampaignResult.model_validate(saved["output"])
+        validation_profile = snapshot.profile.model_copy(deep=True)
+        if campaign.video_evidence and source.input.get("video_asset_id"):
+            from goldcoast.studio.video import video_snapshot
+
+            video_profile = video_snapshot(
+                snapshot, campaign.video_evidence, source.input.get("product_id")
+            ).profile
+            known_ids = {p.id for p in validation_profile.products}
+            validation_profile.products.extend(
+                p for p in video_profile.products if p.id not in known_ids
+            )
         valid, _ = validate_candidates(
-            [campaign.selected], campaign.graph, snapshot.profile, datetime.now(UTC)
+            [campaign.selected], campaign.graph, validation_profile, datetime.now(UTC)
         )
         if not valid:
             raise Conflict("This idea has expired; start a fresh campaign in the studio.")
@@ -241,6 +252,13 @@ def start_campaign(
         }
     else:
         snapshot = snapshot_business(repo, assets, tenant)
+        if (
+            body.creative_type in {"product", "testimonial"}
+            and not body.product_id
+            and not body.video_asset_id
+            and len(snapshot.profile.products) != 1
+        ):
+            raise Conflict("Choose a product or campaign video before starting a product post")
         if body.product_id and body.product_id not in {p.id for p in snapshot.profile.products}:
             raise Conflict("Choose a product from this business")
         video_product_id = None
@@ -494,7 +512,7 @@ async def plan_campaign(snapshot, goal, runtime, discovery, stages, video=None, 
             Candidate(
                 id="evergreen-product",
                 category="evergreen",
-                title=product.name + " at " + snapshot.profile.name,
+                title=(product.name + " at " + snapshot.profile.name)[:100],
                 angle="An everyday invitation to enjoy "
                 + product.name
                 + ". No external event claim.",

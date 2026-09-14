@@ -6,7 +6,7 @@ from pathlib import Path
 from google.genai import types
 
 from goldcoast.media.frames import extract_frame
-from goldcoast.studio.brand import AssetMetadata
+from goldcoast.studio.brand import AssetMetadata, Product
 from goldcoast.studio.workflow import VideoAnalysis, VideoEvidence
 
 
@@ -95,3 +95,20 @@ def analyze_campaign_video(repo, assets, job, client, settings, reserve):
         product_id=metadata.product_id,
         frame_asset_id=frame.id,
     )
+
+
+def video_snapshot(snapshot, evidence, requested_product_id=None):
+    video = VideoEvidence.model_validate(evidence)
+    selected = snapshot.model_copy(deep=True)
+    product_id = requested_product_id or video.product_id
+    if product_id:
+        products = [p for p in selected.profile.products if p.id == product_id]
+        if not products:
+            raise ValueError("The campaign video's linked product is no longer available")
+        selected.profile.products = products
+    else:
+        selected.profile.products = [
+            Product(id="video-" + video.asset_id, name=video.title, description=video.description)
+        ]
+        selected.profile.offers = []
+    return selected

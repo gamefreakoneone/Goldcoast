@@ -285,3 +285,154 @@ def test_telegram_campaign_uses_latest_video_once(bot):
     assert bot.repo.tenant(bot.tenant).campaign_grants == before - 1
     bot.service.command(message, 777)
     assert bot.repo.tenant(bot.tenant).campaign_grants == before - 1
+
+
+@pytest.mark.parametrize("creative_type", ["product", "auto"])
+def test_unlinked_video_keeps_named_drink_and_exact_frame(campaign, monkeypatch, creative_type):
+    import io
+
+    from PIL import Image, ImageChops, ImageOps
+    from test_studio_creative import judged_json
+
+    from goldcoast.studio.creative import CreativeBrief, CreativeVerdict
+    from goldcoast.studio.workflow import ChiefDecision
+
+    repo, assets, tenant, _, _ = campaign
+    title = "Limited Edition Ganesh Chaturthi Boba Drink"
+    video = add_video(repo, assets, tenant, title)
+    frame = io.BytesIO()
+    Image.linear_gradient("L").resize((720, 1280)).convert("RGB").save(frame, format="PNG")
+    raw = frame.getvalue()
+    monkeypatch.setattr("goldcoast.studio.video.frame_bytes", lambda *_: raw)
+    job = start_campaign(
+        repo,
+        assets,
+        tenant,
+        WorkflowStart(
+            mode="live",
+            creative_type=creative_type,
+            video_asset_id=video.id,
+            goal="Feature our Ganesh Chaturthi boba for Indian students near USC",
+        ),
+        "video-subject",
+    )
+    seen = []
+
+    def providers(repo, assets, job, worker):
+        runtime, discovery, _, _, reserve, root = factory(repo, assets, job, worker)
+        original = runtime.run
+
+        async def run(name, instructions, payload, output, tools=None):
+            if name == "social_director":
+                assert payload["idea"]["product_name"] == title
+                assert [p["name"] for p in payload["business"]["products"]] == [title]
+                assert "Indian students" in payload["goal"]
+                assert payload["requested"] == "product"
+                return CreativeBrief(
+                    headline="A festive boba break",
+                    subheading="Indian students near USC, meet our Ganesh Chaturthi boba.",
+                    cta="Stop by today",
+                    product_name=title,
+                    image_prompt="Pink boba",
+                    creative_type="product",
+                    caption="A Ganesh Chaturthi boba break for Indian students near USC.",
+                )
+            if name == "chief_marketer":
+                return ChiefDecision(
+                    candidate_id="evergreen-product", rationale="Keep the named video drink"
+                )
+            return await original(name, instructions, payload, output, tools)
+
+        runtime.run = run
+
+        class Client:
+            def generate_image(self, *args, **kwargs):
+                pytest.fail("A photo post must use the selected frame without image generation")
+
+            def generate(self, stage, *args, **kwargs):
+                seen.append(stage)
+                if stage == "studio_video":
+                    return SimpleNamespace(
+                        response_text=VideoAnalysis(
+                            subject="Pink boba",
+                            observations="A pink drink in a clear cup",
+                            uncertainty="No flavor verified",
+                            best_frame_s=1,
+                            frame_reason="The cup is fully visible",
+                        ).model_dump_json()
+                    )
+                return SimpleNamespace(
+                    response_text=judged_json(
+                        CreativeVerdict(
+                            factuality=9,
+                            brand_fidelity=9,
+                            visual_quality=9,
+                            legibility=9,
+                            feedback="Pass",
+                            detected_text="A festive boba break",
+                        )
+                    )
+                )
+
+        return (
+            runtime,
+            discovery,
+            Client(),
+            SimpleNamespace(video_model="fixture", judge_model="fixture"),
+            reserve,
+            root,
+        )
+
+    process_job(repo, assets, repo.claim("worker"), "worker", providers)
+    finished = repo.job(tenant, job.id)
+    assert finished.state == "completed", repo.events(tenant, job.id)[-1].payload
+    assert finished.checkpoint["campaign"]["output"]["selected"]["product_name"] == title
+    assert seen == ["studio_video", "social_judge_post"]
+    saved = repo.list(tenant, "creative")[0]
+    rendered = Image.open(io.BytesIO(assets.get(tenant, saved.id))).convert("RGB")
+    expected = ImageOps.contain(Image.open(io.BytesIO(raw)).convert("RGB"), (560, 1136))
+    hero = rendered.crop((52, 144, 52 + expected.width, 144 + expected.height))
+    assert ImageChops.difference(hero, expected).getbbox() is None
+    assert repo.list(tenant, "business")[0].data["products"][0]["name"] == "Iced latte"
+    assert not any(key.startswith("illustration") for key in finished.checkpoint)
+
+    normal_revision = start_campaign(
+        repo,
+        assets,
+        tenant,
+        WorkflowStart(mode="live", regenerate_from=job.id, owner_feedback="Keep the same boba"),
+        "normal-video-revision",
+    )
+    process_job(repo, assets, repo.claim("normal-repair"), "normal-repair", providers)
+    assert repo.job(tenant, normal_revision.id).state == "completed"
+
+    from copy import deepcopy
+
+    from goldcoast.studio.database import Job
+
+    with repo.sessions.begin() as session:
+        old = session.get(Job, job.id)
+        checkpoint = deepcopy(old.checkpoint)
+        checkpoint["campaign"]["output"]["selected"]["product_name"] = "Iced latte"
+        checkpoint["campaign"]["output"]["selected"]["product_id"] = old.input["snapshot"][
+            "profile"
+        ]["products"][0]["id"]
+        old.checkpoint = checkpoint
+    revision = start_campaign(
+        repo,
+        assets,
+        tenant,
+        WorkflowStart(
+            mode="live", regenerate_from=job.id, owner_feedback="Use the boba video, not latte"
+        ),
+        "repair-old-video",
+    )
+    process_job(repo, assets, repo.claim("repair"), "repair", providers)
+    revised = repo.job(tenant, revision.id)
+    assert revised.state == "completed"
+    assert revised.checkpoint["campaign"]["output"]["selected"]["product_name"] == title
+    assert (
+        revised.checkpoint["video_evidence"]["output"]
+        == finished.checkpoint["video_evidence"]["output"]
+    )
+    assert seen == ["studio_video", "social_judge_post", "social_judge_post", "social_judge_post"]

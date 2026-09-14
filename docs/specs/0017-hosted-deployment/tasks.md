@@ -29,3 +29,5 @@ With throwaway nonsecret env variables run docker compose -f infra/lightsail/com
 - [x] Deploy administration update and provision separate judge identity with 5/5/5 allowances.
 
 - [x] Verify and deploy actionable campaign-video upload validation with empty-description, whitespace and successful-upload regression coverage.
+
+- [x] Verify and deploy video subject/frame preservation; validate the reported local campaign correction.

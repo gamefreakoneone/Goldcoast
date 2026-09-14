@@ -28,9 +28,12 @@ from goldcoast.studio.workflow import CampaignResult, Candidate
 
 
 def product_campaign(snapshot, product_id):
-    product = next(
-        (p for p in snapshot.profile.products if p.id == product_id), snapshot.profile.products[0]
-    )
+    products = snapshot.profile.products
+    product = next((p for p in products if p.id == product_id), None)
+    if product is None:
+        if product_id or len(products) != 1:
+            raise ValueError("Select the product or campaign video to feature in this post")
+        product = products[0]
     idea = Candidate(
         id="product-spotlight",
         category="evergreen",
@@ -107,7 +110,9 @@ def draw_text(draw, text, box, color, max_size=64, min_size=24, typography="sans
     raise ValueError("Creative text does not fit the readable layout; shorten the copy")
 
 
-def render_social(profile, kit, brief, pictures, placement, logo=None, font=None):
+def render_social(
+    profile, kit, brief, pictures, placement, logo=None, font=None, preserve_picture=False
+):
     width, height = SIZES[placement]
     canvas = Image.new("RGB", (width, height), kit.palette[1])
     draw = ImageDraw.Draw(canvas)
@@ -156,14 +161,36 @@ def render_social(profile, kit, brief, pictures, placement, logo=None, font=None
         image_top = top + 92
         image_height = int((footer - image_top) * 0.52)
         with Image.open(io.BytesIO(pictures[0])) as source:
-            canvas.paste(ImageOps.fit(source.convert("RGB"), (976, image_height)), (52, image_top))
-        copy_top = image_top + image_height + 26
-        draw_text(draw, brief.headline, (52, copy_top, 976, 170), ink, 72, 36, kit.typography, font)
+            portrait_frame = preserve_picture and source.height > source.width
+            if portrait_frame:
+                photo = ImageOps.contain(source.convert("RGB"), (560, footer - image_top - 28))
+                canvas.paste(photo, (52, image_top))
+            elif preserve_picture:
+                photo = ImageOps.contain(source.convert("RGB"), (976, image_height))
+                canvas.paste(photo, (52 + (976 - photo.width) // 2, image_top))
+            else:
+                canvas.paste(
+                    ImageOps.fit(source.convert("RGB"), (976, image_height)), (52, image_top)
+                )
+        copy_top = image_top + 20 if portrait_frame else image_top + image_height + 26
+        copy_left, copy_width = (640, 388) if portrait_frame else (52, 976)
+        headline_height = 300 if portrait_frame else 170
+        draw_text(
+            draw,
+            brief.headline,
+            (copy_left, copy_top, copy_width, headline_height),
+            ink,
+            64 if portrait_frame else 72,
+            32,
+            kit.typography,
+            font,
+        )
         body = f'"{brief.quote}" - {brief.attribution}' if brief.quote else brief.subheading
+        body_top = copy_top + headline_height + 20
         draw_text(
             draw,
             body,
-            (52, copy_top + 180, 976, footer - copy_top - 190),
+            (copy_left, body_top, copy_width, footer - body_top - 10),
             ink,
             36,
             26,
@@ -200,6 +227,10 @@ async def produce_social(
     repo, assets, job, snapshot, campaign, runtime, client, settings, stages, root
 ):
     requested = job.input["creative_type"]
+    video = creative_video(stages)
+    if video and requested == "auto":
+        requested = "product"
+    use_video_frame = bool(video and requested in {"product", "timely"})
     testimonial = job.input.get("testimonial")
 
     async def direct_brief():
@@ -208,7 +239,11 @@ async def produce_social(
             try:
                 return await runtime.run(
                     "social_director",
-                    "Write a concise Instagram post for the selected real catalog product. "
+                    "Write a concise Instagram post for the selected owner-supplied product. "
+                    "The goal specifies the intended audience and occasion; preserve them. "
+                    "For a campaign video, feature its named subject, not another catalog item. "
+                    "The extracted frame will be used directly for photo posts. Do not invent "
+                    "ingredients or assert unverified festival dates. "
                     "Use the requested creative_type; auto may choose product, timely or comic. "
                     "No invented offers, endorsements, prices or partnerships. Never "
                     "copy another brand logo. "
@@ -259,7 +294,6 @@ async def produce_social(
     )
     product_rows, style_rows = reference_assets(snapshot, product_id)
     references, reference_ids = [], []
-    video = creative_video(stages)
     if video:
         frame_id = video["frame_asset_id"]
         references.extend(
@@ -272,6 +306,8 @@ async def produce_social(
             ]
         )
         reference_ids.append(frame_id)
+    if use_video_frame:
+        product_rows, style_rows = [], []
     for label, rows in [
         ("PRODUCT APPEARANCE - preserve the selected product", product_rows),
         ("VISUAL STYLE ONLY - no copied logos or claims", style_rows),
@@ -292,7 +328,9 @@ async def produce_social(
     logo = assets.get(job.tenant_id, kit.logo_asset_id) if kit.logo_asset_id else None
     font = assets.get(job.tenant_id, kit.font_asset_id) if kit.font_asset_id else None
     pictures = []
-    count = 4 if brief.creative_type == "comic" else 1
+    if use_video_frame:
+        pictures.append(assets.get(job.tenant_id, video["frame_asset_id"]))
+    count = 0 if use_video_frame else (4 if brief.creative_type == "comic" else 1)
     for index in range(count):
 
         def illustration(index=index):
@@ -342,7 +380,16 @@ async def produce_social(
         for attempt in range(1, 4):
 
             def compose_and_judge(placement=placement, attempt=attempt):
-                raw = render_social(snapshot.profile, kit, brief, pictures, placement, logo, font)
+                raw = render_social(
+                    snapshot.profile,
+                    kit,
+                    brief,
+                    pictures,
+                    placement,
+                    logo,
+                    font,
+                    preserve_picture=use_video_frame,
+                )
                 path = root / f"{placement}-{attempt}-composite.png"
                 write_bytes(path, raw)
                 record = client.generate(
@@ -382,7 +429,8 @@ async def produce_social(
                 completed.append(saved["id"])
                 break
             if (
-                placement == "story"
+                use_video_frame
+                or placement == "story"
                 or attempt == 3
                 or verdict.factuality < 7
                 or verdict.legibility < 7

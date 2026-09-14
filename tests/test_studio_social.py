@@ -212,3 +212,33 @@ def test_social_pipeline_reuses_art_for_story_and_exports_caption(campaign, kind
     with zipfile.ZipFile(io.BytesIO(service.export(tenant, job.id))) as archive:
         assert set(archive.namelist()) == {"post.png", "story.png", "caption.txt", "manifest.json"}
         assert archive.read("caption.txt").decode() == brief.caption
+
+
+def test_product_post_does_not_silently_choose_first_catalog_item(campaign):
+    from goldcoast.studio.brand import Product
+
+    repo, assets, tenant, _, _ = campaign
+    snapshot = snapshot_business(repo, assets, tenant)
+    snapshot.profile.products.append(Product(id="boba", name="Ganesh Chaturthi Boba"))
+    with pytest.raises(ValueError, match="Select the product"):
+        product_campaign(snapshot, None)
+    with pytest.raises(ValueError, match="Select the product"):
+        product_campaign(snapshot, "missing")
+    assert product_campaign(snapshot, "boba").selected.product_name == "Ganesh Chaturthi Boba"
+
+    from goldcoast.studio.brand import BrandService
+    from goldcoast.studio.workflow import WorkflowStart, start_campaign
+
+    service = BrandService(repo, assets)
+    current = service.current(tenant, "business")
+    service.save(tenant, "business", snapshot.profile, current.version)
+    before = repo.tenant(tenant).campaign_grants
+    with pytest.raises(Conflict, match="Choose a product"):
+        start_campaign(
+            repo,
+            assets,
+            tenant,
+            WorkflowStart(mode="live", creative_type="product"),
+            "missing-selection",
+        )
+    assert repo.tenant(tenant).campaign_grants == before

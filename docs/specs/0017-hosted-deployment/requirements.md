@@ -9,3 +9,5 @@ Do not claim a working public site until actual HTTPS, Cognito login, replay, ap
 Usage administration must be server-only for every role. Remove credit-changing HTTP routes and owner controls. Provide exact per-account remaining limits, shared limits and a live switch through a CLI. Judge allocation is 5 campaigns, 5 brand analyses and 5 feed refreshes; identity must not receive owner membership.
 
 Hosted upload validation must identify missing campaign-video details, avoid marking incomplete files Ready, and guide users to the missing field without bypassing metadata or rights requirements.
+
+Video campaigns must retain the explicitly linked product or, for unlinked clips, the owner-supplied video title/description as the campaign subject. Product/Auto photo posts must compose the extracted frame directly, never replace it with a generated catalog product. Generic Product mode with multiple products must require an explicit selection.

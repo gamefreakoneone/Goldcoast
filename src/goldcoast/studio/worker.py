@@ -161,6 +161,10 @@ async def execute_job(
                 "video_evidence",
                 lambda: analyze_campaign_video(repo, assets, job, client, settings, reserve),
             )
+    if video:
+        from goldcoast.studio.video import video_snapshot
+
+        snapshot = video_snapshot(snapshot, video, job.input.get("product_id"))
     if discovery.ticketmaster_key:
         now = datetime.now(UTC)
         events = await stages.run(
@@ -212,7 +216,14 @@ async def execute_job(
                 [result.selected], result.graph, snapshot.profile, datetime.now(UTC)
             )
             if not valid:
-                raise Conflict("Selected idea expired before generation; refresh the feed")
+                if video and result.selected.product_name not in {
+                    p.name for p in snapshot.profile.products
+                }:
+                    from goldcoast.studio.social import product_campaign
+
+                    result = product_campaign(snapshot, snapshot.profile.products[0].id)
+                else:
+                    raise Conflict("Selected idea expired before generation; refresh the feed")
         elif job.input.get("creative_type") in {"product", "testimonial"}:
             from goldcoast.studio.social import product_campaign
 
