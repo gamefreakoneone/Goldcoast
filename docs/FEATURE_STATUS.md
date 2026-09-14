@@ -39,7 +39,7 @@ Project ledger for Goldcoast. Check this file before starting work. Specs are ex
 
 | 0017 | Hosted deployment | In progress | [Evidence](specs/0017-hosted-deployment/status.md) | Lightsail deployed; credit CLI, uploads and video subject/frame fix deployed; remaining acceptance checks |
 
-Local acceptance testing is active. the user resumed 0017 hosting on Lightsail; 0025 submission package remains not started.
+Local acceptance testing is active. the user resumed 0017 hosting on Lightsail; 0025 submission documentation is complete; user testing and the remaining hosting acceptance continue.
 
 ## Status Definitions
 
@@ -67,4 +67,4 @@ When a feature's status changes, update this table and the spec's `status.md` an
 
 | 0024 | Campaign videos | Completed | [Evidence](specs/0024-campaign-videos/status.md) | Named MP4 inputs, selected frames and current discovery replace the testimonial-facing workflow; 206 Python/38 UI tests pass |
 
-| 0025 | Submission package | Not started | Pending local acceptance | Follows local acceptance; hosting is underway |
+| 0025 | Submission package | Completed | [Evidence](specs/0025-submission-package/status.md) | README, architecture, four real screenshots and linked guides validated; GitHub publication and hosting acceptance remain separate |
