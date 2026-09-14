@@ -30,6 +30,8 @@ class WorkflowStart(StrictModel):
     include_story: bool = False
     testimonial_id: str | None = None
     quote_id: str | None = None
+    regenerate_from: str | None = None
+    owner_feedback: str = Field(default="", max_length=500)
 
 
 class Snapshot(StrictModel):
@@ -125,6 +127,66 @@ def snapshot_business(repo, assets, tenant, require_brand=True):
 
 
 def start_campaign(repo, assets, tenant, body, key):
+    if body.regenerate_from:
+        if body.mode != "live" or any(
+            (
+                body.replay_source,
+                body.feed_job_id,
+                body.idea_id,
+                body.video_asset_id,
+                body.product_id,
+                body.testimonial_id,
+                body.quote_id,
+            )
+        ):
+            raise Conflict("Regeneration requires live mode and the original campaign options")
+        source = repo.job(tenant, body.regenerate_from)
+        if source.kind != "campaign" or source.state != "completed":
+            raise Conflict("Regeneration requires a completed campaign")
+        snapshot = Snapshot.model_validate(source.input["snapshot"])
+        current = snapshot_business(repo, assets, tenant)
+        if (
+            current.business_id,
+            current.business_version,
+            current.brand_id,
+            current.brand_version,
+        ) != (
+            snapshot.business_id,
+            snapshot.business_version,
+            snapshot.brand_id,
+            snapshot.brand_version,
+        ):
+            raise Conflict("Business or brand changed; start a new campaign")
+        saved = source.checkpoint.get("campaign", {})
+        if saved.get("state") != "completed":
+            raise Conflict("Original campaign direction is unavailable")
+        campaign = CampaignResult.model_validate(saved["output"])
+        valid, _ = validate_candidates(
+            [campaign.selected], campaign.graph, snapshot.profile, datetime.now(UTC)
+        )
+        if not valid:
+            raise Conflict("This idea has expired; start a fresh campaign in the studio.")
+        if source.input.get("testimonial"):
+            from goldcoast.studio.testimonials import approved_quote
+
+            quote = source.input["testimonial"]
+            if approved_quote(repo, tenant, quote["testimonial_id"], quote["quote_id"]) != quote:
+                raise Conflict("Testimonial changed; start a new campaign")
+        payload = {
+            "snapshot": source.input["snapshot"],
+            "goal": source.input["goal"],
+            "selected_campaign": campaign.model_dump(mode="json"),
+            "regenerate_from": source.id,
+            "owner_feedback": body.owner_feedback,
+            **{
+                k: source.input[k]
+                for k in ("creative_type", "include_story", "product_id", "testimonial")
+                if k in source.input
+            },
+        }
+        return repo.create_job(tenant, "campaign", "live", key, payload)
+    if body.owner_feedback:
+        raise Conflict("Owner feedback requires a campaign to regenerate")
     if body.mode == "replay":
         if not body.replay_source:
             raise Conflict("Select a completed campaign to replay")

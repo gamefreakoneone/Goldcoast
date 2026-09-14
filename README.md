@@ -329,3 +329,11 @@ Your Feed retains the latest matching job across reloads, including progress and
 ### Local weather signals
 
 Live timely campaigns check Open-Meteo daily weather for the business city and timezone, recording both requests for replay and showing cited weather in Review. Missing forecasts do not stop campaigns. No API key is required. The free endpoint is for non-commercial use; review https://open-meteo.com/en/docs before commercial deployment. Product/testimonial campaigns and feed refreshes skip weather.
+
+### Telegram approvals
+
+Create a bot with BotFather and put its token in `.env` as `telegram_token` and its `https://t.me/<bot>` link as `telegram_bot_link` (exact lowercase names). Run `alembic upgrade head`, restart the studio API and worker, then open Settings > Telegram approvals > Connect Telegram. Open the deep link and press Start in Telegram, or send the displayed `/start <code>` message to the bot within ten minutes. Settings confirms the connection; the toggle pauses notifications and Disconnect revokes the link and pending prompts. An empty token disables Telegram. Never share the token or put it in recordings.
+
+Run exactly one `python -m goldcoast.studio.worker` process locally: its daemon poller persists the bot update offset. Passing campaign previews arrive after completion, with Approve, Reject and Regenerate buttons. Telegram compresses previews; the export ZIP retains full-resolution files. Reject asks for a reason using ForceReply and a separate Skip button. Regenerate explicitly uses one campaign credit and reuses the original unexpired idea with your note; changed business/brand versions require a fresh campaign. Review refreshes phone decisions and labels them "Decided on Telegram". Nothing publishes.
+
+Telegram sends and update receipts use conservative at-most-once delivery: an ambiguous network failure or process crash is not automatically resent. A claimed update interrupted by a crash may need a new explicit owner action in the studio. Telegram outages do not change campaign outcomes. Replay sends no Telegram messages and uses no provider credits. The developer acceptance budget for specs 0022/0023 is one live campaign total; reuse its saved eligible creatives for Telegram checks.

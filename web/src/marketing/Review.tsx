@@ -13,7 +13,7 @@ const stageNames: Record<string, string> = {
 }
 
 export function Activity({ events }: { events: StudioEvent[] }) {
-  const visible = events.filter(e => e.type.startsWith('stage_') || e.type === 'recorded_stage' || e.type === 'workflow_error' || e.type === 'workflow_replayed' || e.type.startsWith('run_') || e.type === 'tool_started')
+  const visible = events.filter(e => e.type.startsWith('stage_') || e.type === 'recorded_stage' || e.type === 'workflow_error' || e.type === 'workflow_replayed' || e.type.startsWith('run_') || e.type === 'tool_started' || e.type.startsWith('notification_'))
   return <section className="panel activity-panel"><h2>Agent activity</h2>{!visible.length && <p className="empty-note">Waiting for the worker to pick up this workflow…</p>}
     <ol className="activity-list">{visible.map(event => {
       const stage = String(event.payload.stage ?? '')
@@ -21,7 +21,7 @@ export function Activity({ events }: { events: StudioEvent[] }) {
       const complete = event.type === 'stage_completed' || event.type === 'run_completed'
       return <li key={event.id}><span className={`activity-mark ${complete ? 'done' : ''}`}>{complete ? <Icon name="check" size={16}/> : <span/>}</span>
         <div><strong>{event.type === 'workflow_error' ? 'The workflow stopped' : event.type === 'workflow_replayed' ? 'Recorded workflow loaded' : event.type === 'tool_started' ? 'Checking a source' : label || event.type.replace(/_/g, ' ')}</strong>
-          <p>{event.type === 'workflow_error' ? String(event.payload.message) : event.type === 'stage_started' ? 'In progress' : event.type === 'recorded_stage' ? 'Recorded step ? no live call' : event.type === 'stage_completed' ? 'Completed' : String(event.payload.tool ?? '')}</p></div>
+          <p>{event.type === 'workflow_error' ? String(event.payload.message) : event.type === 'stage_started' ? 'In progress' : event.type === 'recorded_stage' ? 'Recorded step ? no live call' : event.type === 'stage_completed' ? 'Completed' : String(event.payload.error ?? event.payload.tool ?? '')}</p></div>
         <time>{new Date(event.timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</time></li>
     })}</ol></section>
 }
@@ -70,6 +70,7 @@ function CreativeCard({ creative, ready, onChanged }: { creative: CreativeView; 
     {creative.stale && <Notice>This ad is out of date. Start a new workflow before approving or downloading it.</Notice>}
     {error && <Notice>{error}</Notice>}
     <div className="review-actions"><button className="primary" disabled={busy || !ready || !creative.passed || creative.stale || data.decision === 'approved'} onClick={() => void decide('approved')}>{data.decision === 'approved' ? 'Approved' : 'Approve ad'}</button><button className="secondary" disabled={busy || data.decision === 'rejected'} onClick={() => void decide('rejected')}>{data.decision === 'rejected' ? 'Rejected' : 'Reject'}</button><Status good={data.decision === 'approved'}>{data.decision === 'pending' ? 'Awaiting your review' : data.decision}</Status></div>
+    {data.decided_via === 'telegram' && data.decision !== 'pending' && <p className="small muted">Decided on Telegram</p>}
     <details className="feedback-input"><summary>Add review feedback</summary><label>Feedback<textarea maxLength={500} value={note} onChange={e => setNote(e.target.value)}/></label></details>
   </article>
 }

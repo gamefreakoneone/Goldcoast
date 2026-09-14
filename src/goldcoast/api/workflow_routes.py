@@ -6,12 +6,50 @@ from goldcoast.api.studio_auth import IdentityDep
 from goldcoast.api.studio_views import job_view
 from goldcoast.studio.brand import resource_view
 from goldcoast.studio.feed import FeedRequest
+from goldcoast.studio.notify import (
+    NotificationConfig,
+    NotificationSave,
+    NotificationService,
+    NotificationView,
+    TelegramLinkView,
+)
 from goldcoast.studio.schedule import ScheduleSave, ScheduleService
 from goldcoast.studio.testimonials import TestimonialSave, TestimonialStart
 from goldcoast.studio.workflow import WorkflowStart, snapshot_business, start_campaign
 
 router = APIRouter(prefix="/api/v2")
 KeyDep = Annotated[str, Header(alias="Idempotency-Key", min_length=1, max_length=128)]
+
+
+def notifications_service(request):
+    state = request.app.state
+    return NotificationService(state.repo, state.assets, state.settings)
+
+
+@router.get("/notifications/config", response_model=NotificationConfig)
+def notifications_config(request: Request, identity: IdentityDep):
+    return NotificationConfig(configured=notifications_service(request).configured)
+
+
+@router.get("/notifications", response_model=NotificationView | None)
+def notifications(request: Request, identity: IdentityDep):
+    return notifications_service(request).view(identity.tenant_id)
+
+
+@router.post("/notifications/telegram/link", response_model=TelegramLinkView)
+def telegram_link(request: Request, identity: IdentityDep):
+    return notifications_service(request).link(identity.tenant_id)
+
+
+@router.delete("/notifications/telegram")
+def telegram_unlink(request: Request, identity: IdentityDep):
+    notifications_service(request).unlink(identity.tenant_id)
+    return {"unlinked": True}
+
+
+@router.put("/notifications", response_model=NotificationView)
+def notifications_save(body: NotificationSave, request: Request, identity: IdentityDep):
+    return notifications_service(request).toggle(identity.tenant_id, body.enabled)
 
 
 @router.post("/workflows", status_code=202)

@@ -34,7 +34,12 @@ export function useRun(id: string | null) {
     if (!id) return
     let active = true
     let timer: ReturnType<typeof setTimeout>
+    let loading = false
+    let eventCursor = '-1'
+    const controller = new AbortController()
     const load = async () => {
+      if (loading || !active) return
+      loading = true
       try {
         const [next, output, images] = await Promise.all([
           api<Run>(`/runs/${id}`), api<Campaign | Brand | null>(`/runs/${id}/result`),
@@ -42,13 +47,21 @@ export function useRun(id: string | null) {
         ])
         if (!active) return
         setRun(next); setResult(output); setCreatives(images); setError('')
+        if (terminal(next)) await streamEvents(id, event => {
+          eventCursor = event.id
+          if (active) setEvents(previous => previous.some(e => e.id === event.id) ? previous : [...previous, event].sort((a, b) => Number(a.id) - Number(b.id)).slice(-500))
+        }, controller.signal, eventCursor)
         if (!terminal(next)) timer = setTimeout(load, 2000)
+        else if (next.kind === 'campaign') timer = setTimeout(pollVisible, 3000)
       } catch (reason) {
         if (active) { setError(String(reason instanceof Error ? reason.message : reason)); timer = setTimeout(load, 4000) }
-      }
+      } finally { loading = false }
     }
+    const pollVisible = () => { if (!active) return; if (document.visibilityState === 'visible') void load(); else timer = setTimeout(pollVisible, 3000) }
     void load()
-    return () => { active = false; clearTimeout(timer) }
+    const focus = () => { clearTimeout(timer); void load() }
+    window.addEventListener('focus', focus)
+    return () => { active = false; clearTimeout(timer); controller.abort(); window.removeEventListener('focus', focus) }
   }, [id, revision])
   useEffect(() => {
     if (!id) return

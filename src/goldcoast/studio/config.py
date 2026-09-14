@@ -16,6 +16,8 @@ class StudioSettings(BaseModel):
     token_url: str = "http://localhost:8080/realms/goldcoast/protocol/openid-connect/token"
     logout_url: str = "http://localhost:8080/realms/goldcoast/protocol/openid-connect/logout"
     frontend_origin: str = "http://localhost:5173"
+    telegram_token: str = Field(default="", repr=False, exclude=True)
+    telegram_bot_link: str = ""
 
     @classmethod
     def from_env(cls):
@@ -45,6 +47,8 @@ class StudioSettings(BaseModel):
             "token_url": "GOLDCOAST_OIDC_TOKEN_URL",
             "logout_url": "GOLDCOAST_OIDC_LOGOUT_URL",
             "frontend_origin": "GOLDCOAST_FRONTEND_ORIGIN",
+            "telegram_token": "telegram_token",
+            "telegram_bot_link": "telegram_bot_link",
         }
         return cls(
             database_url=url, **{k: os.environ[v] for k, v in mapping.items() if v in os.environ}

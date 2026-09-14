@@ -207,11 +207,7 @@ async def execute_job(
     if prior.get("state") == "completed":
         result = CampaignResult.model_validate(prior["output"])
     else:
-        if job.input.get("creative_type") in {"product", "testimonial"}:
-            from goldcoast.studio.social import product_campaign
-
-            result = product_campaign(snapshot, job.input.get("product_id"))
-        elif job.input.get("selected_campaign"):
+        if job.input.get("selected_campaign"):
             result = CampaignResult.model_validate(job.input["selected_campaign"])
             from goldcoast.studio.workflow import validate_candidates
 
@@ -220,6 +216,10 @@ async def execute_job(
             )
             if not valid:
                 raise Conflict("Selected idea expired before generation; refresh the feed")
+        elif job.input.get("creative_type") in {"product", "testimonial"}:
+            from goldcoast.studio.social import product_campaign
+
+            result = product_campaign(snapshot, job.input.get("product_id"))
         else:
             planning = snapshot.model_copy(deep=True)
             if job.input.get("product_id"):
@@ -254,6 +254,9 @@ def process_job(
     try:
         asyncio.run(execute_job(repo, assets, job, worker, provider_factory, creative_producer))
         repo.finish(job.tenant_id, job.id, "completed", worker)
+        from goldcoast.studio.notify import notify_finished
+
+        notify_finished(repo, assets, repo.job(job.tenant_id, job.id))
     except Exception as exc:
         try:
             repo.emit(
@@ -267,6 +270,9 @@ def process_job(
                 },
             )
             repo.finish(job.tenant_id, job.id, "failed", worker)
+            from goldcoast.studio.notify import notify_finished
+
+            notify_finished(repo, assets, repo.job(job.tenant_id, job.id), failure_message(exc))
         except Conflict:
             pass
     finally:
@@ -284,7 +290,16 @@ def main():
     engine, sessions = session_factory(settings.database_url)
     repo, assets = Repository(sessions), LocalAssetStore(settings.asset_root)
     worker = uuid4().hex
+    from goldcoast.studio.notify import NotificationService, TelegramPoller
     from goldcoast.studio.schedule import ScheduleService
+
+    poller = (
+        TelegramPoller(NotificationService(repo, assets, settings))
+        if settings.telegram_token
+        else None
+    )
+    if poller:
+        poller.start()
 
     next_schedule_check = 0
     try:
@@ -300,6 +315,9 @@ def main():
             if not job:
                 time.sleep(2)
     finally:
+        if poller:
+            poller.stop()
+            poller.join(timeout=35)
         engine.dispose()
 
 

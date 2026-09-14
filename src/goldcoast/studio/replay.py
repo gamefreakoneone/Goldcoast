@@ -124,6 +124,7 @@ def replay_job(repo, assets, job, worker):
                 "decision": "pending",
                 "decision_note": "",
                 "decided_at": None,
+                "decided_via": "studio",
                 "replay": True,
             }
         )

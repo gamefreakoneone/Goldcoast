@@ -27,7 +27,7 @@ export interface Usage {
 export interface Run {
   id: string; kind: 'campaign' | 'brand' | 'feed' | 'testimonial'; mode: 'live' | 'replay';
   state: 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
-  input: { creative_type?: string; include_story?: boolean; goal?: string; source?: string; snapshot?: { profile: Business } };
+  input: { creative_type?: string; include_story?: boolean; goal?: string; source?: string; regenerate_from?: string; owner_feedback?: string; snapshot?: { profile: Business } };
   checkpoint: Record<string, { state: string; output?: unknown }>;
   counters: Record<string, number>; created_at: number; finished_at: number | null;
 }
@@ -57,6 +57,7 @@ export interface Verdict {
   critical_issues: string[]; feedback: string; detected_text: string;
 }
 export interface Creative {
+  decided_via?: 'studio' | 'telegram';
   job_id: string; business_id: string; brand_id: string; format: 'landscape' | 'portrait' | 'post' | 'story';
   attempt: number; width: number; height: number; sha256: string;
   brief: { headline: string; subheading: string; cta: string; product_name: string; offer_text: string; image_prompt: string; caption?: string; creative_type?: string; quote?: string; attribution?: string };
@@ -68,3 +69,5 @@ export interface StudioEvent { id: string; type: string; timestamp: number; payl
 export const terminal = (run: Run) => ['completed', 'failed', 'cancelled'].includes(run.state)
 
 export interface FeedResult { ideas: Candidate[]; graph: Graph; retrieved_at: string; expires_at: string; rejected: { id: string; reason: string }[] }
+export interface NotificationConnection { channel: 'telegram'; chat_id: number; chat_title: string; linked_at: string; enabled: boolean }
+export interface TelegramLink { code: string; deep_link: string }

@@ -84,6 +84,7 @@ class Controls(Base):
     __tablename__ = "studio_controls"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
     live_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    telegram_offset: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     campaign_grants: Mapped[int] = mapped_column(Integer, default=3)
     brand_grants: Mapped[int] = mapped_column(Integer, default=3)
 

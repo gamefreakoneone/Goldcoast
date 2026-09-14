@@ -70,6 +70,7 @@ class CreativeArtifact(StrictModel):
     decision: Literal["pending", "approved", "rejected"] = "pending"
     decision_note: str = Field(default="", max_length=500)
     decided_at: AwareDatetime | None = None
+    decided_via: Literal["studio", "telegram"] = "studio"
     replay: bool = False
 
 
@@ -164,7 +165,7 @@ class CreativeService:
             if row.data["job_id"] == job_id
         ]
 
-    def decide(self, tenant, creative_id, body):
+    def decide(self, tenant, creative_id, body, via: Literal["studio", "telegram"] = "studio"):
         with self.repo.sessions.begin() as session:
             session.execute(
                 select(Tenant).where(Tenant.id == tenant).with_for_update()
@@ -183,7 +184,9 @@ class CreativeService:
             if row.version != body.version:
                 raise Conflict("Creative changed; reload before reviewing")
             artifact = CreativeArtifact.model_validate(row.data)
-            if body.decision == "approved":
+            if via == "telegram" and artifact.decision != "pending":
+                raise Conflict("Creative was already reviewed")
+            if body.decision == "approved" or via == "telegram":
                 job = self.repo.job(tenant, artifact.job_id)
                 if (
                     job.state != "completed"
@@ -193,6 +196,7 @@ class CreativeService:
                     raise Conflict("Only completed, passing, current creatives can be approved")
             artifact.decision, artifact.decision_note = body.decision, body.note
             artifact.decided_at = datetime.now(UTC)
+            artifact.decided_via = via
             row.data, row.version = artifact.model_dump(mode="json"), row.version + 1
             return resource_view(row)
 
@@ -271,9 +275,12 @@ async def produce_creatives(
                 "Write an ad brief for the selected real product in the business voice. "
                 "Copy only current owner-confirmed offers exactly, or leave empty. No "
                 "invented claims, endorsements, prices or partnerships. Describe food "
-                "imagery without text/logos, matching the uploaded references.",
+                "imagery without text/logos, matching the uploaded references. "
+                "Apply owner_feedback as requested changes, while preserving verified facts, "
+                "product identity and brand restrictions.",
                 {
                     "business": snapshot.profile.model_dump(mode="json"),
+                    "owner_feedback": job.input.get("owner_feedback", ""),
                     "brand": snapshot.brand.model_dump(mode="json"),
                     "selected": campaign.selected.model_dump(mode="json"),
                     "graph": campaign.graph.model_dump(mode="json"),
@@ -317,7 +324,10 @@ async def produce_creatives(
                 format=format, attempt=attempt, width=width, height=height, feedback=feedback
             ):
                 prompt = (
-                    "Create a photograph without text, logos, people or endorsements. "
+                    "Owner feedback (preserve verified facts): "
+                    + job.input.get("owner_feedback", "")
+                    + "\n"
+                    + "Create a photograph without text, logos, people or endorsements. "
                     "Match the uploaded product appearance and brand reference style. "
                     + brief.image_prompt
                     + "\nBrand direction: "
@@ -396,4 +406,5 @@ async def produce_creatives(
                 break
             feedback = artifact.verdict.feedback + " " + "; ".join(artifact.verdict.critical_issues)
     await stages.run("creative_result", lambda: {"passing_creative_ids": completed})
+    await stages.run("notification_ready", lambda: {"creative_ids": completed})
     return completed
