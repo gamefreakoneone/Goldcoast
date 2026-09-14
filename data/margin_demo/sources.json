@@ -1,0 +1,90 @@
+[
+  {
+    "file": "matcha.jpg",
+    "source_url": "https://www.pexels.com/photo/a-glass-of-matcha-latte-8004562/",
+    "download_url": "https://images.pexels.com/photos/8004562/pexels-photo-8004562.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "license": "https://www.pexels.com/license/",
+    "purpose": "Fictional product illustration; not a photo of a real Margin store",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "latte.jpg",
+    "source_url": "https://www.pexels.com/photo/cup-of-latte-coffee-17075308/",
+    "download_url": "https://images.pexels.com/photos/17075308/pexels-photo-17075308.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "license": "https://www.pexels.com/license/",
+    "purpose": "Fictional product illustration; not a photo of a real Margin store",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "cold-brew.jpg",
+    "source_url": "https://www.pexels.com/photo/refreshing-iced-cold-brew-coffee-in-glass-36447680/",
+    "download_url": "https://images.pexels.com/photos/36447680/pexels-photo-36447680.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "license": "https://www.pexels.com/license/",
+    "purpose": "Fictional product illustration; not a photo of a real Margin store",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "croissant.jpg",
+    "source_url": "https://www.pexels.com/photo/croissant-with-butter-1510684/",
+    "download_url": "https://images.pexels.com/photos/1510684/pexels-photo-1510684.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "license": "https://www.pexels.com/license/",
+    "purpose": "Fictional product illustration; not a photo of a real Margin store",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "tote.jpg",
+    "source_url": "https://www.pexels.com/photo/plain-tote-bag-9869067/",
+    "download_url": "https://images.pexels.com/photos/9869067/pexels-photo-9869067.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "license": "https://www.pexels.com/license/",
+    "purpose": "Fictional product illustration; not a photo of a real Margin store",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "notebook.jpg",
+    "source_url": "https://www.pexels.com/photo/pencil-on-notebook-in-close-up-photography-8099479/",
+    "download_url": "https://images.pexels.com/photos/8099479/pexels-photo-8099479.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "license": "https://www.pexels.com/license/",
+    "purpose": "Fictional product illustration; not a photo of a real Margin store",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "chamberlain-inspiration.png",
+    "source_url": "https://chamberlaincoffee.com/",
+    "download_url": "https://cdn.sanity.io/images/otip2849/production/c12ad21f1c6dacacbc57e42273280b0e693a34b0-1600x2400.png?auto=format&fit=max&q=90&w=800",
+    "license": "Copyright remains with original brand; external inspiration only, not owned marketing or a stock license",
+    "purpose": "Attributed private visual reference, never directly exported as Margin creative",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "oatly-inspiration.webp",
+    "source_url": "https://www.oatly.com/en-gb/things-we-do/initiatives/dairydeal",
+    "download_url": "https://a.storyblok.com/f/107921/1920x1080/55ab0fc464/dairy_deal_london_shoreditch_1920x1080px.jpg/m/1920x0/filters:quality(75):format(webp)",
+    "license": "Copyright remains with original brand; external inspiration only, not owned marketing or a stock license",
+    "purpose": "Attributed private visual reference, never directly exported as Margin creative",
+    "retrieved_at": "2026-09-13"
+  },
+  {
+    "file": "margin-logo.png",
+    "creator": "Goldcoast project / original fictional Margin demo branding",
+    "purpose": "Original demo brand material; post photography credited separately in this manifest",
+    "created_at": "2026-09-13"
+  },
+  {
+    "file": "brand-guidelines.pdf",
+    "creator": "Goldcoast project / original fictional Margin demo branding",
+    "purpose": "Original demo brand material; post photography credited separately in this manifest",
+    "created_at": "2026-09-13"
+  },
+  {
+    "file": "margin-matcha-post.png",
+    "creator": "Goldcoast project / original fictional Margin demo branding",
+    "purpose": "Original demo brand material; post photography credited separately in this manifest",
+    "created_at": "2026-09-13"
+  },
+  {
+    "file": "margin-notebook-post.png",
+    "creator": "Goldcoast project / original fictional Margin demo branding",
+    "purpose": "Original demo brand material; post photography credited separately in this manifest",
+    "created_at": "2026-09-13"
+  }
+]

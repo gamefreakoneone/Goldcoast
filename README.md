@@ -307,3 +307,17 @@ The committed sample in `data/studio_demo` contains real recorded Tavily/Gemini 
 ### Daily studio updates
 
 After updating, run `alembic upgrade head` in the goldcoast environment before restarting the studio API and worker. Your Feed uses a separate owner-granted allowance; opening it never searches automatically. Cached feeds last six hours. New uploads are staged and individually categorized before submission.
+
+### Local Margin demo
+
+The local demo account is preloaded with fictional Margin Cafe & Goods near USC Village. Sign in at http://localhost:5173 with username `demo` and the password stored in `.env` as `GOLDCOAST_LOCAL_DEMO_PASSWORD`. Choose Live on Today to use the server-side Gemini/Tavily keys, or Replay for zero provider calls. Nothing is published automatically.
+
+To populate another **empty local demo account**, run `python -m goldcoast.studio.demo_setup --tenant <account-id>` after `alembic upgrade head`. This is idempotent: it preserves existing businesses and never replenishes allowances on a repeated run. Defaults are 3 campaigns, 2 brand analyses, 10 feed refreshes and 2 testimonial analyses. The owner can grant more in Settings; both the account and shared allowance must have capacity. Scheduling remains off.
+
+Test flow: inspect Business and Brand library; stage mixed files, set per-file categories and product links, confirm permission, and upload. On Your Feed choose a topic or Find ideas for me, then Use this idea. Today accepts a specific brief or agent choice, product, creative type and optional Story image. Follow progress inline and Review results. Approve each requested output to download images plus caption. For testimonial quotes, upload a short MP4 under Testimonials in Brand library, transcribe, review against the video and approve exact excerpts before selecting them on Today.
+
+Photo and inspiration provenance is in `data/margin_demo/sources.json`. Margin branding is original demo material; the USC address is a neighborhood anchor, not an actual storefront claim. External campaign references retain their original attribution.
+
+For resource-constrained Windows test runs use `pnpm --dir web test --maxWorkers=1`. Browser automation file transfers require the ChatGPT Chrome extension's Allow access to file URLs setting; ordinary manual drag/drop does not depend on that extension setting.
+
+New live campaigns compose an Instagram post at 1080 x 1440 and an optional Story image at 1080 x 1920. Comics are a single four-panel image; testimonial posts use manager-reviewed exact quotes. Edited video Reels are deferred. Historical landscape/portrait replay remains available. See spec 0021 status for live acceptance results and remaining checks.

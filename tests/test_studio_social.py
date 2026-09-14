@@ -157,7 +157,13 @@ def test_social_pipeline_reuses_art_for_story_and_exports_caption(campaign, kind
     )
 
     class Runtime:
+        calls = 0
+
         async def run(self, *args):
+            self.calls += 1
+            if self.calls == 1:
+                CreativeBrief.model_validate({**brief.model_dump(), "cta": "Too long " * 8})
+            assert "schema errors" in args[2]["correction"]
             return brief
 
     class Client:

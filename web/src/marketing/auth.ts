@@ -47,7 +47,7 @@ export async function signIn() {
   const verifier = randomString()
   const state = randomString()
   const redirect = location.origin + location.pathname
-  sessionStorage.setItem(pendingKey, JSON.stringify({ verifier, state, redirect, created: Date.now() }))
+  sessionStorage.setItem(pendingKey, JSON.stringify({ verifier, state, redirect, route: location.hash, created: Date.now() }))
   const url = new URL(config.authorization_endpoint)
   url.search = new URLSearchParams({ client_id: config.client_id, response_type: 'code',
     scope: 'openid profile', redirect_uri: redirect, state,
@@ -72,6 +72,9 @@ export function initializeSession() {
     if (params.has('iss') && params.get('iss') !== config.issuer) throw new Error('Unexpected sign-in provider.')
     await exchange(new URLSearchParams({ grant_type: 'authorization_code', client_id: config.client_id,
       code: params.get('code')!, redirect_uri: pending.redirect, code_verifier: pending.verifier }))
+    if (typeof pending.route === 'string' && /^#\/(today|brand|business|feed|campaigns|settings|review)(\/[a-f0-9]{32})?$/.test(pending.route)) {
+      history.replaceState({}, '', location.pathname + pending.route)
+    }
     return true
   })()
   return initialization

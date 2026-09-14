@@ -199,7 +199,7 @@ export default function MarketingApp() {
 
   }, [])
 
-  useEffect(() => { initializeSession().then(setLogged).catch(reason => setError(reason.message)).finally(() => setLoading(false)) }, [])
+  useEffect(() => { initializeSession().then(value => { setLogged(value); setRoute(currentRoute()) }).catch(reason => setError(reason.message)).finally(() => setLoading(false)) }, [])
 
   useEffect(() => { if (logged) { setLoading(true); refresh().catch(reason => setError(reason.message)).finally(() => setLoading(false)) } }, [logged, refresh])
 

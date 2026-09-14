@@ -1,0 +1,3 @@
+# Design
+
+Ship a source manifest and six licensed product photos plus original Margin logo, guidelines and two past marketing images. External campaign images remain labeled inspiration. Provide idempotent python -m goldcoast.studio.demo_setup --tenant ID, restricted to demo accounts and localhost database. Refuse overwriting an existing business; a setup marker prevents grant replenishment on restart/repeat. Use an isolated smoke-test tenant for real acceptance so the user keeps the full trial allowance. Live calls remain server-side and recorded. Export the successful campaign and verify replay with zero calls. Keep hosting blocked.

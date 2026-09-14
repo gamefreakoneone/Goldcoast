@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import MarketingApp from '../marketing/MarketingApp'
 import { api } from '../marketing/client'
+import { initializeSession } from '../marketing/auth'
 import type { Business, Resource } from '../marketing/types'
 
 vi.mock('../marketing/auth', () => ({ initializeSession: vi.fn(async () => true), signIn: vi.fn(), signOut: vi.fn() }))
@@ -37,6 +38,16 @@ describe('marketing workspace', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Live' }))
     expect(screen.getByRole('button', { name: /Start today/ })).toBeDisabled()
     expect(screen.getByText('Confirm your business and brand kit to start.')).toBeVisible()
+  })
+
+  it('uses the restored return route after sign-in completes', async () => {
+    vi.mocked(initializeSession).mockImplementationOnce(async () => {
+      history.replaceState({}, '', '/#/brand')
+      return true
+    })
+    render(<MarketingApp />)
+    await screen.findByRole('heading', { name: 'Your brand, without the prompt.' })
+    expect(screen.queryByRole('heading', { name: 'Your daily marketing desk.' })).not.toBeInTheDocument()
   })
 
   it('saves real typed business details with an expected version', async () => {

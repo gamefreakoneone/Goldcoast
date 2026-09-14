@@ -57,3 +57,7 @@ When a feature's status changes, update this table and the spec's `status.md` an
 | 0019 | Discovery feed and inline workflow | Completed | [Evidence](specs/0019-discovery-feed/status.md) | Cited local ideas |
 
 | 0020 | Social creatives and testimonial quotes | Completed | [Evidence](specs/0020-social-creatives/status.md) | Instagram posts and reviewed quotes |
+
+| 0021 | Populated local demo and live acceptance | Blocked | [Evidence](specs/0021-local-demo-acceptance/status.md) | Margin populated; final live retry awaits approval |
+
+| 0022 | Submission package | Not started | Pending local acceptance | Follows 0021; hosting remains deferred |

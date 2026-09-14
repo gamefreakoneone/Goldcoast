@@ -65,6 +65,7 @@ def live_providers(repo, assets, job, worker):
         budget=ExecutionBudget(reserve=reserve),
         emit=emit,
     )
+    runtime.model.update_config(params={"max_output_tokens": 8192, "temperature": 0.2})
     discovery = Discovery(
         ProviderCassette(root / "providers", reserve),
         os.getenv("TAVILY_API_KEY"),
