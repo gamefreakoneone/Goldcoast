@@ -27,3 +27,5 @@ With throwaway nonsecret env variables run docker compose -f infra/lightsail/com
 
 - [x] Validate server-only allowance CLI, removal of HTTP administration and settings controls.
 - [x] Deploy administration update and provision separate judge identity with 5/5/5 allowances.
+
+- [x] Verify and deploy actionable campaign-video upload validation with empty-description, whitespace and successful-upload regression coverage.

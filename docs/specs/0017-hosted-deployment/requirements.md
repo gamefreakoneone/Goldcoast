@@ -7,3 +7,5 @@ Run frontend, studio API, exactly one worker and PostgreSQL on the same host. Se
 Do not claim a working public site until actual HTTPS, Cognito login, replay, approval/export and restart persistence pass. Record exact validation commands/results and remaining live checks.
 
 Usage administration must be server-only for every role. Remove credit-changing HTTP routes and owner controls. Provide exact per-account remaining limits, shared limits and a live switch through a CLI. Judge allocation is 5 campaigns, 5 brand analyses and 5 feed refreshes; identity must not receive owner membership.
+
+Hosted upload validation must identify missing campaign-video details, avoid marking incomplete files Ready, and guide users to the missing field without bypassing metadata or rights requirements.

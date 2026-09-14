@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { api, authenticatedFetch } from './client'
 import { PrivateImage } from './hooks'
 import type { Asset, AssetRole, Business, Resource } from './types'
@@ -31,9 +31,10 @@ function PrivateVideo({ asset }: { asset: Resource<Asset> }) {
 }
 
 function ClassificationFields({ value, products, change, disabled = false }: { value: Classification; products: Business['products']; change: (value: Classification) => void; disabled?: boolean }) {
+  const fieldId = useId()
   return <fieldset disabled={disabled} className="asset-classification"><label>Category<select value={value.role} onChange={e => change(initial(e.target.value as AssetRole))}>{visibleRoles.map(key => <option key={key} value={key}>{roles[key]}</option>)}</select></label>
     {(value.role === 'product' || value.role === 'video') && <label>Product <span className="optional">Optional</span><select value={value.product_id ?? ''} onChange={e => change({ ...value, product_id: e.target.value || null })}><option value="">No product selected</option>{products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>}
-    {value.role === 'video' && <><label>Video name<input required maxLength={100} value={value.title} onChange={e => change({ ...value, title: e.target.value })} placeholder="Limited Edition Boba Tea"/></label><label>What does this video show?<textarea required maxLength={500} value={value.description} onChange={e => change({ ...value, description: e.target.value })} placeholder="A close-up pour and finished cup available today."/></label><p className="small muted">Products and limited-time offers must also be confirmed on the Business page.</p></>}
+    {value.role === 'video' && <><label>Video name<input required data-video-detail aria-invalid={!value.title.trim()} aria-describedby={!value.title.trim() ? `${fieldId}-title` : undefined} maxLength={100} value={value.title} onChange={e => change({ ...value, title: e.target.value })} placeholder="Enter a video name"/></label>{!value.title.trim() && <p id={`${fieldId}-title`} className="small">Enter a video name to upload this file.</p>}<label>What does this video show?<textarea required data-video-detail aria-invalid={!value.description.trim()} aria-describedby={!value.description.trim() ? `${fieldId}-description` : undefined} maxLength={500} value={value.description} onChange={e => change({ ...value, description: e.target.value })} placeholder="Describe what appears in your video"/></label>{!value.description.trim() && <p id={`${fieldId}-description`} className="small">Enter a description to upload this file. Example: A close-up pour and finished cup.</p>}<p className="small muted">Products and limited-time offers must also be confirmed on the Business page.</p></>}
     {value.role === 'reference' && <><label>Material belongs to<select value={value.marketing_kind} onChange={e => change({ ...value, marketing_kind: e.target.value as Classification['marketing_kind'] })}><option value="owned">Our past marketing</option><option value="inspiration">External inspiration</option></select></label>{value.marketing_kind === 'inspiration' && <label>Source URL<input type="url" required value={value.source_url ?? ''} onChange={e => change({ ...value, source_url: e.target.value || null })}/></label>}</>}
   </fieldset>
 }
@@ -61,7 +62,7 @@ export function AssetLibrary({ assets, business, onSaved, referenceIds, onRefere
   const stage = (files: FileList | null) => { if (files) setQueue(old => [...old, ...Array.from(files).map(file => ({ ...initial(file.type === 'application/pdf' ? 'guidelines' : file.type === 'video/mp4' ? 'video' : category), id: crypto.randomUUID(), file, status: 'Ready', error: '' }))]) }
   const update = (id: string, value: Partial<Staged>) => setQueue(old => old.map(item => item.id === id ? { ...item, ...value } : item))
   const upload = async () => {
-    if (!rights || !business || busy) return
+    if (!rights || !business || busy || incompleteVideo) return
     setBusy(true)
     for (const item of queue.filter(q => q.status !== 'Uploaded')) {
       update(item.id, { status: 'Uploading', error: '' })
@@ -82,13 +83,18 @@ export function AssetLibrary({ assets, business, onSaved, referenceIds, onRefere
     <label>New file category<select value={category} onChange={e => setCategory(e.target.value as AssetRole)}>{visibleRoles.map(key => <option key={key} value={key}>{roles[key]}</option>)}</select></label>
     <div className="upload-zone" onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); if (!busy) stage(e.dataTransfer.files) }}><h3>Drop your files here</h3><p>Review categories before uploading. Photos, PDFs, fonts and short videos.</p><label className="primary file-picker">Choose files<input type="file" multiple disabled={busy} accept="image/png,image/jpeg,image/webp,application/pdf,.woff,.woff2,.ttf,.otf,video/mp4" onChange={e => { stage(e.target.files); e.target.value = '' }}/></label></div>
     <p className="small muted">10 MB per file · 30 files per library · MP4 videos up to 60 seconds</p>
-    {queue.length > 0 && <section><div className="section-header"><h3>Ready to organize ({queue.length})</h3><button type="button" className="text-button" disabled={busy} onClick={() => setQueue(old => old.map(q => q.status === 'Uploaded' ? q : { ...q, ...initial(category) }))}>Apply category to pending files</button></div><div className="asset-grid">{queue.map(item => <article className="asset-tile" key={item.id}><FilePreview file={item.file}/><h3>{item.file.name}</h3><ClassificationFields value={item} products={products} change={value => update(item.id, value)} disabled={busy || item.status === 'Uploaded'}/><p role="status">{item.status}</p>{item.error && <p role="alert">{item.error}</p>}<button type="button" className="text-button" disabled={busy} onClick={() => setQueue(old => old.filter(q => q.id !== item.id))}>Remove from queue</button></article>)}</div>
+    {queue.length > 0 && <form noValidate onSubmit={event => {
+      event.preventDefault()
+      const missing = Array.from(event.currentTarget.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-video-detail]:enabled')).find(field => !field.value.trim())
+      if (missing) { missing.focus(); return }
+      void upload()
+    }}><div className="section-header"><h3>Ready to organize ({queue.length})</h3><button type="button" className="text-button" disabled={busy} onClick={() => setQueue(old => old.map(q => q.status === 'Uploaded' ? q : { ...q, ...initial(category) }))}>Apply category to pending files</button></div><div className="asset-grid">{queue.map(item => <article className="asset-tile" key={item.id}><FilePreview file={item.file}/><h3>{item.file.name}</h3><ClassificationFields value={item} products={products} change={value => update(item.id, value)} disabled={busy || item.status === 'Uploaded'}/><p role="status">{item.status === 'Ready' && item.role === 'video' && (!item.title.trim() || !item.description.trim()) ? 'Needs video details' : item.status}</p>{item.error && <p role="alert">{item.error}</p>}<button type="button" className="text-button" disabled={busy} onClick={() => setQueue(old => old.filter(q => q.id !== item.id))}>Remove from queue</button></article>)}</div>
       <label className="checkbox"><input type="checkbox" checked={rights} onChange={e => setRights(e.target.checked)}/>I have permission to use this material.</label>
       {!business && <p><a href="#/business">Save your business details</a> before uploading. Your staged files stay here until you leave this page.</p>}
       {!rights && <p className="small muted">Confirm permission to enable upload.</p>}
-      {incompleteVideo && <p className="small muted">Name and describe every campaign video before uploading.</p>}
-      <button type="button" className="primary" disabled={busy || !business || !rights || incompleteVideo || queue.every(q => q.status === 'Uploaded')} onClick={() => void upload()}>{busy ? 'Uploading...' : 'Upload pending files / retry failures'}</button>
-    </section>}
+      {incompleteVideo && <p className="small muted">Complete the missing video details above. Upload will take you to the first empty field.</p>}
+      <button type="submit" className="primary" disabled={busy || !business || !rights || queue.every(q => q.status === 'Uploaded')}>{busy ? 'Uploading...' : 'Upload pending files / retry failures'}</button>
+    </form>}
     {groups.map(([title, included]) => <section className="form-section" key={title}><h3>{title}</h3><div className="asset-grid">{assets.filter(a => included.includes(a.data.role)).map(asset => <AssetCard key={`${asset.id}-${asset.version}`} asset={asset} products={products} onSaved={onSaved} selected={referenceIds.includes(asset.id)} onSelect={checked => onReferences(checked ? [...referenceIds, asset.id] : referenceIds.filter(id => id !== asset.id))}/>)}</div>{!assets.some(a => included.includes(a.data.role)) && <p className="small muted">No {title.toLowerCase()} yet.</p>}</section>)}
   </div>
 }

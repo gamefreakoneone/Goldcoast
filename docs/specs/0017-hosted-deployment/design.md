@@ -13,3 +13,5 @@ bundle.py packages tracked application/frontend/migration/replay plus deployment
 Validate config idempotence, secret exclusion, bundle bytes, Compose parsing, shell syntax, Docker build, nonroot renderer/replay, existing auth/replay tests and frontend build. Live acceptance needs user SSH/login: HTTPS, password change, roles, replay/SSE/approval/export, reboot persistence, resource usage and restoration. Manual backups/operator monitoring; no HA claim. Stopping Lightsail does not end charges.
 
 python -m goldcoast.studio.admin manages the existing database directly using row-locked transactions. set-user and set-shared replace specified remaining balances, preserving omitted fields; neither enables live mode. Cognito remains responsible for identities. HTTP grants and controls routes are removed, including for owners. No database migration is required.
+
+Staged uploads use a form with explicit trimmed-video-field validation and focus the first incomplete field on submit. Inline associated descriptions distinguish required input from placeholder examples. Upload remains gated on saved business, permission and complete metadata.
