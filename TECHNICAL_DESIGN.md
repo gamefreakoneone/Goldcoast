@@ -1,5 +1,7 @@
 # TECHNICAL_DESIGN.md
 
+Telegram command extension (0023): /start without a code, /commands, /help and /commnads provide free help. /campaign [brief] uses the uniquely linked tenant's start_campaign path and telegram-campaign:<update_id> durable idempotency key. It consumes one grant and obeys existing profile, allowance and active-job safeguards. /status and /credits expose only that linked account's information. Ambiguous links refuse account commands. The worker registers the native menu once on startup with isolated transport failure. Brand library cards omit the source attribution link; stored provenance is retained.
+
 ## Architecture Summary
 
 Goldcoast is a staged pipeline of agents that turns a hype moment in Olympics footage into approved local-business ads. Each stage consumes and produces typed Pydantic models, emits events to a run-scoped event bus, and persists its artifacts to the run directory.

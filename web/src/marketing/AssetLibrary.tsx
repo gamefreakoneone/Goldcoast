@@ -29,7 +29,6 @@ function AssetCard({ asset, products, onSaved, selected, onSelect }: { asset: Re
   return <article className="asset-tile">
     {asset.data.mime.startsWith('image/') ? <PrivateImage path={`/assets/${asset.id}/content`} alt={asset.data.filename}/> : <div className="document-tile">{roles[asset.data.role]}</div>}
     <h3>{asset.data.filename}</h3><p className="small">{asset.data.role === 'reference' ? (asset.data.marketing_kind === 'inspiration' ? 'External inspiration' : 'Our past marketing') : roles[asset.data.role]}{asset.data.role === 'product' ? ` · ${products.find(p => p.id === asset.data.product_id)?.name ?? 'Unassigned'}` : ''}</p>
-    {asset.data.source_url && <a href={asset.data.source_url} target="_blank" rel="noreferrer">Source attribution</a>}
     {asset.data.role === 'reference' && <label className="checkbox small"><input type="checkbox" checked={selected} onChange={e => onSelect(e.target.checked)}/>Use for visual style</label>}
     <details><summary>Edit classification</summary><ClassificationFields value={value} products={products} change={setValue} disabled={busy}/><button type="button" className="text-button" disabled={busy} onClick={() => void save()}>Save classification</button>{error && <p role="alert">{error}</p>}</details>
   </article>

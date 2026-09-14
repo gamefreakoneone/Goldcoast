@@ -161,6 +161,66 @@ def callback(bot, data, update_id=10, chat=42, message_id=100):
     }
 
 
+def command(bot, text, update_id=500, chat=42):
+    bot.service.handle({"update_id": update_id, "message": {"chat": {"id": chat}, "text": text}})
+    return bot.calls[-1][1]["text"]
+
+
+@pytest.mark.parametrize("text", ["/start", "/commands", "/commnads", "/help"])
+def test_command_help_is_free_and_available_before_linking(bot, text):
+    before = bot.repo.tenant(bot.tenant).campaign_grants
+    assert "/campaign" in command(bot, text, chat=99)
+    assert bot.repo.tenant(bot.tenant).campaign_grants == before
+
+
+def test_campaign_command_reuses_update_key_and_preserves_brief(bot):
+    before = bot.repo.tenant(bot.tenant).campaign_grants
+    assert "queued" in command(bot, "/campaign Feature our iced latte")
+    assert "queued" in command(bot, "/campaign Feature our iced latte")
+    assert bot.repo.tenant(bot.tenant).campaign_grants == before - 1
+    jobs = [job for job in bot.repo.jobs(bot.tenant) if job.id != bot.job.id]
+    assert len(jobs) == 1
+    assert jobs[0].input["goal"] == "Feature our iced latte"
+    assert jobs[0].mode == "live"
+    assert "could not start" in command(bot, "/campaign Another", update_id=501)
+    assert bot.repo.tenant(bot.tenant).campaign_grants == before - 1
+
+
+def test_command_status_credits_and_tenant_isolation(bot):
+    before = bot.repo.tenant(bot.tenant).campaign_grants
+    assert "completed" in command(bot, "/status")
+    assert bot.job.id in command(bot, "/status")
+    assert f"Campaign credits: {before}" in command(bot, "/credits")
+    assert "Connect exactly one" in command(bot, "/campaign", chat=99)
+    assert "1500" in command(bot, "/campaign " + "x" * 1501)
+    assert bot.repo.tenant(bot.tenant).campaign_grants == before
+
+
+def test_campaign_command_disabled_or_depleted_does_not_start(bot):
+    bot.service.toggle(bot.tenant, False)
+    assert "Enable Telegram" in command(bot, "/campaign")
+    bot.service.toggle(bot.tenant, True)
+    with bot.repo.sessions.begin() as session:
+        session.get(Tenant, bot.tenant).campaign_grants = 0
+    assert "could not start" in command(bot, "/campaign")
+    assert len(bot.repo.jobs(bot.tenant)) == 1
+
+
+def test_native_command_menu_transport(bot):
+    bot.service.client.set_commands()
+    method, payload, timeout = bot.calls[-1]
+    assert method == "setMyCommands"
+    assert [item["command"] for item in payload["commands"]] == [
+        "start",
+        "commands",
+        "campaign",
+        "status",
+        "credits",
+    ]
+    assert "1 credit" in payload["commands"][2]["description"]
+    assert timeout["read"] == 10
+
+
 def reply(bot, prompt, note, update_id=11, chat=42):
     return {
         "update_id": update_id,

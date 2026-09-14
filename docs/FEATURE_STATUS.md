@@ -61,8 +61,8 @@ When a feature's status changes, update this table and the spec's `status.md` an
 | 0021 | Populated local demo and live acceptance | Blocked | [Evidence](specs/0021-local-demo-acceptance/status.md) | Margin populated; feed verified live after schema repair; creative acceptance pending |
 
 
-| 0022 | Live signals | Blocked | [Evidence](specs/0022-live-signals/status.md) | Implemented and automated checks pass; zero Margin allowance blocks live acceptance |
+| 0022 | Live signals | Blocked | [Evidence](specs/0022-live-signals/status.md) | Implemented; live evidence/replay acceptance pending. Owner top-up restored five Margin credits during 0023 follow-up |
 
-| 0023 | Telegram approvals | Blocked | [Evidence](specs/0023-telegram-approvals/status.md) | Implemented; 188 Python/29 UI tests pass; real-bot acceptance awaits owner connection and 0022 live run |
+| 0023 | Telegram approvals | Blocked | [Evidence](specs/0023-telegram-approvals/status.md) | 196 Python/30 UI tests pass; bot linked and command menu live; phone preview/decision acceptance awaits 0022 live run |
 
 | 0024 | Submission package | Not started | Pending local acceptance | Follows 0021; hosting remains deferred |

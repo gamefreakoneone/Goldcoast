@@ -13,6 +13,11 @@
 
 ## Validation Steps
 
+- [x] Implement native menu and free help/status/credits plus idempotent metered /campaign.
+- [x] Top up actual Demo Reviewer and shared campaign allowance to five.
+- [x] Remove Source attribution link from Brand library cards.
+- [x] Validate command extension and record runtime evidence.
+
 ```powershell
 python -m pytest -q
 python -m ruff check .

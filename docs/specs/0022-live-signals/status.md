@@ -1,6 +1,6 @@
 # Status: 0022 Live signals
 
-Blocked: implementation and automated validation complete; live acceptance awaits authorization to add one credit to the intended Margin account. Both local Margin tenants have zero campaign_grants. No live campaign or grant mutation was performed.
+Blocked: implementation and automated validation complete; live campaign evidence and replay acceptance remain pending. During the owner's 0023 follow-up, Demo Reviewer and the shared budget were topped up to five campaign grants as explicitly requested, resolving the earlier allowance blocker. No weather campaign was generated in that follow-up. Historical evidence below describes the original zero-credit state.
 
 ## Evidence
 

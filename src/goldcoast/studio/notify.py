@@ -54,6 +54,23 @@ class TelegramClient:
             polling=True,
         )
 
+    def set_commands(self):
+        return self._call(
+            "setMyCommands",
+            {
+                "commands": [
+                    {"command": "start", "description": "Welcome and connection help"},
+                    {"command": "commands", "description": "Show available commands"},
+                    {
+                        "command": "campaign",
+                        "description": "Generate a campaign (1 credit); optional brief",
+                    },
+                    {"command": "status", "description": "Check your latest campaign"},
+                    {"command": "credits", "description": "Check campaign credits"},
+                ]
+            },
+        )
+
     def send_message(self, chat_id, text, reply_markup=None):
         payload = {"chat_id": chat_id, "text": text[:4096]}
         if reply_markup is not None:
@@ -721,6 +738,83 @@ class NotificationService:
             self._pending(row.tenant_id, pending, True)
             return
 
+    def command(self, message, update_id):
+        parts = message["text"].strip().split(maxsplit=1)
+        command = parts[0].split("@")[0].lower()
+        brief = parts[1].strip() if len(parts) > 1 else ""
+        chat_id = message["chat"]["id"]
+        if command == "/start" and brief:
+            self.connect(message, update_id)
+            return
+        if command in {"/start", "/commands", "/commnads", "/help"}:
+            self.client.send_message(
+                chat_id,
+                "Goldcoast creates ads for your business and brings them here for review.\n"
+                "/campaign [brief] — Generate a campaign using 1 credit.\n"
+                "/status — Latest campaign progress.\n"
+                "/credits — Available campaign credits.\n"
+                "/commands — Show this help.\n\n"
+                "First connect this chat from Goldcoast → Settings → Telegram approvals. "
+                "Keep the local worker running. Approve, reject, or request changes using "
+                "the buttons on finished previews. Approval does not publish an ad.",
+            )
+            return
+        if command not in {"/campaign", "/status", "/credits"}:
+            self.client.send_message(chat_id, "Unknown command. Try /commands.")
+            return
+        with self.repo.sessions() as session:
+            rows = list(session.scalars(select(Resource).where(Resource.kind == "notifications")))
+        linked = [row for row in rows if row.data.get("chat_id") == chat_id]
+        if len(linked) != 1:
+            self.client.send_message(
+                chat_id,
+                "Connect exactly one Goldcoast account to this chat "
+                "in Settings → Telegram approvals. "
+                "If multiple accounts are linked, disconnect the extra accounts first.",
+            )
+            return
+        row = linked[0]
+        tenant = self.repo.tenant(row.tenant_id)
+        controls = self.repo.controls()
+        if command == "/credits":
+            text = (
+                f"Campaign credits: {tenant.campaign_grants}. "
+                f"Shared budget: {controls.campaign_grants}. "
+                f"Live generation: {'enabled' if controls.live_enabled else 'disabled'}. "
+                "Each /campaign uses 1 credit."
+            )
+        elif command == "/status":
+            jobs = [job for job in self.repo.jobs(row.tenant_id) if job.kind == "campaign"]
+            text = (
+                f"Latest campaign: {jobs[0].state}.\n{review_link(self.settings, jobs[0].id)}"
+                if jobs
+                else "No campaigns yet. Use /campaign to create one (1 credit)."
+            )
+        elif not row.data.get("enabled", True):
+            text = "Enable Telegram approvals in Goldcoast Settings before starting a campaign."
+        elif len(brief) > 1500:
+            text = "Keep your campaign brief within 1500 characters. No credit was used."
+        else:
+            try:
+                job = start_campaign(
+                    self.repo,
+                    self.assets,
+                    row.tenant_id,
+                    WorkflowStart(mode="live", goal=brief or "Bring more neighbors in today"),
+                    key="telegram-campaign:" + str(update_id),
+                )
+                text = (
+                    "Campaign queued using 1 credit. Finished previews will arrive here.\n"
+                    + review_link(self.settings, job.id)
+                )
+            except (Conflict, AccessError, ValueError):
+                text = (
+                    "Campaign could not start. Check your confirmed business and brand, "
+                    "available credits, and any active workflow in Goldcoast. "
+                    "Use /status and /credits."
+                )
+        self.client.send_message(chat_id, text)
+
     def handle(self, update):
         if not self.configured:
             return
@@ -728,8 +822,8 @@ class NotificationService:
             self.callback(update["callback_query"], update["update_id"])
         elif "message" in update:
             message = update["message"]
-            if message.get("text", "").split(" ")[0].split("@")[0] == "/start":
-                self.connect(message, update["update_id"])
+            if message.get("text", "").strip().startswith("/"):
+                self.command(message, update["update_id"])
             elif "reply_to_message" in message:
                 self.reply(message, update["update_id"])
 
@@ -778,6 +872,8 @@ class TelegramPoller(threading.Thread):
                 offset = controls.telegram_offset
 
     def run(self):
+        with suppress(TelegramError):
+            self.service.client.set_commands()
         while not self.stop_event.is_set():
             try:
                 self.tick()

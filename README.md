@@ -332,6 +332,16 @@ Live timely campaigns check Open-Meteo daily weather for the business city and t
 
 ### Telegram approvals
 
+Once linked, use the bot's command menu or type:
+
+- `/start` or `/commands`: free help (`/help` and `/commnads` also work).
+- `/credits`: account and shared campaign allowance.
+- `/status`: latest campaign state and Review link.
+- `/campaign`: create an automatic campaign using **one credit**.
+- `/campaign Promote our iced latte this afternoon`: create a campaign with your brief, using **one credit**.
+
+Keep the local marketing worker running to process commands and generate ads. `/start` alone never spends a credit. Campaigns require confirmed business/brand setup, available allowance, enabled Telegram approvals and no conflicting active workflow. Finished previews arrive with decision buttons; nothing publishes automatically. The native menu is registered when the worker starts. If a chat is linked to multiple Goldcoast accounts, disconnect extras before using account commands.
+
 Create a bot with BotFather and put its token in `.env` as `telegram_token` and its `https://t.me/<bot>` link as `telegram_bot_link` (exact lowercase names). Run `alembic upgrade head`, restart the studio API and worker, then open Settings > Telegram approvals > Connect Telegram. Open the deep link and press Start in Telegram, or send the displayed `/start <code>` message to the bot within ten minutes. Settings confirms the connection; the toggle pauses notifications and Disconnect revokes the link and pending prompts. An empty token disables Telegram. Never share the token or put it in recordings.
 
 Run exactly one `python -m goldcoast.studio.worker` process locally: its daemon poller persists the bot update offset. Passing campaign previews arrive after completion, with Approve, Reject and Regenerate buttons. Telegram compresses previews; the export ZIP retains full-resolution files. Reject asks for a reason using ForceReply and a separate Skip button. Regenerate explicitly uses one campaign credit and reuses the original unexpired idea with your note; changed business/brand versions require a fresh campaign. Review refreshes phone decisions and labels them "Decided on Telegram". Nothing publishes.
